@@ -17,22 +17,22 @@ import {Badge} from "../ui/badge";
 
 export default function RootHeader() {
   return (
-    <div className="w-full bg-black h-10 flex items-center justify-between">
+    <div className="w-full bg-black h-8 flex items-center justify-between">
       <div className="flex items-center pl-3">
         <Button className="rounded-full size-3 bg-green-500" size="icon" />
         <div className="ml-14 flex items-center space-x-2">
           <Badge className="bg-pink-500 text-white px-1 rounded">PP</Badge>
-          <p className="text-white text-sm">PVD's portfolio</p>
+          <p className="text-white text-xs">PVD's portfolio</p>
         </div>
         <div className="ml-10 flex items-center space-x-2">
           <GitBranch className="text-white size-4" />
-          <p className="text-white text-sm">v0.1</p>
+          <p className="text-white text-xs">v0.1</p>
         </div>
       </div>
       <div className="flex items-center space-x-2 pr-1">
         <div className="flex mr-32 items-center space-x-2">
           <FileUser className="size-4" />
-          <p className="text-white text-sm">My CV</p>
+          <p className="text-white text-xs">My CV</p>
           <Button
             className="size-6 text-center cursor-pointer bg-pink-500 hover:bg-pink-600"
             size="icon"

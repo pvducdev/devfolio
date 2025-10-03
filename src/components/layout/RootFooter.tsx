@@ -1,11 +1,11 @@
-import { Gitlab } from "@/components/ui/svgs/gitlab";
-import { Linkedin } from "@/components/ui/svgs/linkedin";
+import {Gitlab} from "@/components/ui/svgs/gitlab";
+import {Linkedin} from "@/components/ui/svgs/linkedin";
 
-import { Badge } from "../ui/badge";
+import {Badge} from "../ui/badge";
 
 export default function RootFooter() {
   return (
-    <div className="w-full h-7 border-t bg-gray-100 justify-between items-center flex px-3">
+    <div className="w-full h-6 border-t bg-gray-100 justify-between items-center flex px-3">
       <small className="text-xs leading-none text-muted-foreground">
         Home &gt; Welcome
       </small>
