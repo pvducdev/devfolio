@@ -9,22 +9,22 @@ import {
     CommandSeparator,
     CommandShortcut,
 } from "@/components/ui/command.tsx";
+import {useKeyboardShortcut} from "@/hooks/useEvent.ts";
 import {Calculator, Calendar, CreditCard, Search, Settings, Smile, User,} from "lucide-react";
 import * as React from "react";
 
 export default function AppSearch() {
   const [open, setOpen] = React.useState(false);
 
-  React.useEffect(() => {
-    const down = (e: KeyboardEvent) => {
-      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault();
-        setOpen((open) => !open);
-      }
-    };
-    document.addEventListener("keydown", down);
-    return () => document.removeEventListener("keydown", down);
-  }, []);
+  useKeyboardShortcut(
+    "k",
+    () => {
+      setOpen((open) => !open);
+    },
+    {
+      meta: true,
+    },
+  );
 
   return (
     <>
