@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as RootLayoutRouteImport } from './routes/_root-layout'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiAssistantRouteImport } from './routes/api/assistant'
 import { Route as RootLayoutWelcomeRouteImport } from './routes/_root-layout/welcome'
 
 const RootLayoutRoute = RootLayoutRouteImport.update({
@@ -22,6 +23,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAssistantRoute = ApiAssistantRouteImport.update({
+  id: '/api/assistant',
+  path: '/api/assistant',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RootLayoutWelcomeRoute = RootLayoutWelcomeRouteImport.update({
   id: '/welcome',
   path: '/welcome',
@@ -31,28 +37,37 @@ const RootLayoutWelcomeRoute = RootLayoutWelcomeRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/welcome': typeof RootLayoutWelcomeRoute
+  '/api/assistant': typeof ApiAssistantRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/welcome': typeof RootLayoutWelcomeRoute
+  '/api/assistant': typeof ApiAssistantRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_root-layout': typeof RootLayoutRouteWithChildren
   '/_root-layout/welcome': typeof RootLayoutWelcomeRoute
+  '/api/assistant': typeof ApiAssistantRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/welcome'
+  fullPaths: '/' | '/welcome' | '/api/assistant'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/welcome'
-  id: '__root__' | '/' | '/_root-layout' | '/_root-layout/welcome'
+  to: '/' | '/welcome' | '/api/assistant'
+  id:
+    | '__root__'
+    | '/'
+    | '/_root-layout'
+    | '/_root-layout/welcome'
+    | '/api/assistant'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   RootLayoutRoute: typeof RootLayoutRouteWithChildren
+  ApiAssistantRoute: typeof ApiAssistantRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -69,6 +84,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/assistant': {
+      id: '/api/assistant'
+      path: '/api/assistant'
+      fullPath: '/api/assistant'
+      preLoaderRoute: typeof ApiAssistantRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_root-layout/welcome': {
@@ -96,6 +118,7 @@ const RootLayoutRouteWithChildren = RootLayoutRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   RootLayoutRoute: RootLayoutRouteWithChildren,
+  ApiAssistantRoute: ApiAssistantRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

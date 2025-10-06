@@ -4,9 +4,10 @@ import AiInput from "@/components/ai/input.tsx";
 import AiResponse from "@/components/ai/response.tsx";
 import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 import {cn} from "@/lib/utils.ts";
+import {useState} from "react";
 
 export default function AiContainer() {
-  const response = "";
+  const [response, setResponse] = useState<string>("");
 
   const hasResponse = !!response;
 
@@ -18,6 +19,34 @@ export default function AiContainer() {
         "What tech does D like most?",
       ];
 
+  const sendMessage = async (message: string) => {
+    const trimmedMessage = message.trim();
+    if (!trimmedMessage) return "";
+
+    try {
+      const res = await fetch("/api/assistant", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: trimmedMessage }),
+      });
+
+      if (!res.ok) {
+        return `Error: ${res.statusText}`;
+      }
+
+      const data = await res.json();
+      setResponse(data);
+
+      return "";
+    } catch (err) {
+      if (err instanceof Error) {
+        return err.message;
+      }
+
+      return "Failed to send message.";
+    }
+  };
+
   return (
     <div className="size-full overflow-hidden">
       <AiHeader />
@@ -26,8 +55,12 @@ export default function AiContainer() {
       >
         <AiResponse response={response} />
       </ScrollArea>
-      <AiSuggestions suggestions={suggestions} />
-      <AiInput />
+      <AiSuggestions suggestions={suggestions} onClick={sendMessage} />
+      <AiInput
+        onSubmit={(_, formData) =>
+          sendMessage(formData.get("message") as string)
+        }
+      />
     </div>
   );
 }
