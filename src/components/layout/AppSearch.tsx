@@ -9,7 +9,7 @@ import {
     CommandSeparator,
     CommandShortcut,
 } from "@/components/ui/command.tsx";
-import {useKeyboardShortcut} from "@/hooks/useEvent.ts";
+import {useKeyboardShortcut} from "@/hooks/useKeyboard.ts";
 import {Calculator, Calendar, CreditCard, Search, Settings, Smile, User,} from "lucide-react";
 import * as React from "react";
 
