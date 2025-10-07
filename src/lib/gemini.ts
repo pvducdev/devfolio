@@ -1,5 +1,5 @@
+import { GoogleGenAI } from "@google/genai";
 import geminiSystemPrompt from "@/config/gemini-system-prompt.txt?raw";
-import {GoogleGenAI} from "@google/genai";
 
 const client = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY,

@@ -1,6 +1,6 @@
-import {generateMessage} from "@/lib/gemini";
-import {createFileRoute} from "@tanstack/react-router";
-import {json} from "@tanstack/react-start";
+import { createFileRoute } from "@tanstack/react-router";
+import { json } from "@tanstack/react-start";
+import { generateMessage } from "@/lib/gemini";
 
 export const Route = createFileRoute("/api/assistant")({
   server: {

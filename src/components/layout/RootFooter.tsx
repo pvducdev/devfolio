@@ -1,7 +1,7 @@
-import {Gitlab} from "@/components/ui/svgs/gitlab";
-import {Linkedin} from "@/components/ui/svgs/linkedin";
+import { Gitlab } from "@/components/ui/svgs/gitlab";
+import { Linkedin } from "@/components/ui/svgs/linkedin";
 
-import {Badge} from "../ui/badge";
+import { Badge } from "../ui/badge";
 
 export default function RootFooter() {
   return (

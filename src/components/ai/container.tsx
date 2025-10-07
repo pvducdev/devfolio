@@ -1,10 +1,10 @@
-import AiSuggestions from "@/components/ai/Suggestions.tsx";
+import { useState } from "react";
 import AiHeader from "@/components/ai/header.tsx";
 import AiInput from "@/components/ai/input.tsx";
 import AiResponse from "@/components/ai/response.tsx";
-import {ScrollArea} from "@/components/ui/scroll-area.tsx";
-import {cn} from "@/lib/utils.ts";
-import {useState} from "react";
+import AiSuggestions from "@/components/ai/Suggestions.tsx";
+import { ScrollArea } from "@/components/ui/scroll-area.tsx";
+import { cn } from "@/lib/utils.ts";
 
 export default function AiContainer() {
   const [response, setResponse] = useState<string>("");

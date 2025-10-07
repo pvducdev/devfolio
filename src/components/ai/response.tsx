@@ -1,5 +1,5 @@
-import {Response} from "@/components/ai-elements/response.tsx";
-import {Dog} from "lucide-react";
+import { Dog } from "lucide-react";
+import { Response } from "@/components/ai-elements/response.tsx";
 
 type AiResponseProps = {
   response: string;

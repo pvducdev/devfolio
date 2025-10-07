@@ -1,19 +1,17 @@
-import {Download, FileUser, GitBranch, Settings} from "lucide-react";
-
-import {Button} from "@/components/ui/button";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuGroup,
-    DropdownMenuItem,
-    DropdownMenuSeparator,
-    DropdownMenuShortcut,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-
+import { Download, FileUser, GitBranch, Settings } from "lucide-react";
 import ButtonWithTooltip from "@/components/common/ButtonWithTooltip.tsx";
 import AppSearch from "@/components/layout/AppSearch.tsx";
-import {Badge} from "../ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Badge } from "../ui/badge";
 
 export default function RootHeader() {
   return (

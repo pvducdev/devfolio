@@ -1,5 +1,5 @@
-import {Button} from "@/components/ui/button.tsx";
-import {X} from "lucide-react";
+import { X } from "lucide-react";
+import { Button } from "@/components/ui/button.tsx";
 
 type AiHeaderProps = {
   title?: string;

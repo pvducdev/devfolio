@@ -1,17 +1,25 @@
+import {
+  Calculator,
+  Calendar,
+  CreditCard,
+  Search,
+  Settings,
+  Smile,
+  User,
+} from "lucide-react";
+import * as React from "react";
 import ButtonWithTooltip from "@/components/common/ButtonWithTooltip.tsx";
 import {
-    CommandDialog,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
-    CommandSeparator,
-    CommandShortcut,
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
 } from "@/components/ui/command.tsx";
-import {useKeyboardShortcut} from "@/hooks/useKeyboard.ts";
-import {Calculator, Calendar, CreditCard, Search, Settings, Smile, User,} from "lucide-react";
-import * as React from "react";
+import { useKeyboardShortcut } from "@/hooks/useKeyboard.ts";
 
 export default function AppSearch() {
   const [open, setOpen] = React.useState(false);

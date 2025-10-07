@@ -1,5 +1,5 @@
-import {Textarea} from "@/components/ui/textarea.tsx";
 import * as React from "react";
+import { Textarea } from "@/components/ui/textarea.tsx";
 
 type AiInputProps = {
   placeholder?: string;

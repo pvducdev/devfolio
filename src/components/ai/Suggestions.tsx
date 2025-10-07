@@ -1,5 +1,5 @@
-import {Button} from "@/components/ui/button.tsx";
 import * as React from "react";
+import { Button } from "@/components/ui/button.tsx";
 
 type AiSuggestionsProps = {
   suggestions: string[];

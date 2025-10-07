@@ -1,10 +1,10 @@
+import type * as React from "react";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import type * as React from "react";
 
 type ButtonWithTooltipProps = React.ComponentProps<typeof Button> & {
   tooltip?: React.ReactNode;

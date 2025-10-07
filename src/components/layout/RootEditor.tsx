@@ -1,6 +1,10 @@
-import AiContainer from "@/components/ai/container.tsx";
-import {ResizableHandle, ResizablePanel, ResizablePanelGroup,} from "@/components/ui/resizable.tsx";
 import type * as React from "react";
+import AiContainer from "@/components/ai/container.tsx";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable.tsx";
 
 export default function RootEditor({ children }: React.PropsWithChildren) {
   return (
