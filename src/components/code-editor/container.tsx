@@ -27,7 +27,7 @@ export default function CodeEditorContainer() {
   };
 
   return (
-    <div className="w-full overflow-auto min-h-dvh">
+    <div className="w-full overflow-auto h-full">
       <Tabs
         value={activeTab}
         onValueChange={setActiveTab}
