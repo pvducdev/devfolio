@@ -4,14 +4,15 @@ import AiInput from "@/components/ai/input.tsx";
 import AiResponse from "@/components/ai/response.tsx";
 import AiSuggestions from "@/components/ai/Suggestions.tsx";
 import { ScrollArea } from "@/components/ui/scroll-area.tsx";
+import generateAssistantResponseFn from "@/fn/generateAssistantResponse.ts";
 import { cn } from "@/lib/utils.ts";
 
 export default function AiContainer() {
-  const [response, setResponse] = useState<string>("");
+  const [messages, setMessages] = useState<string>("");
 
-  const hasResponse = !!response;
+  const hasMessage = !!messages;
 
-  const suggestions = hasResponse
+  const suggestions = hasMessage
     ? []
     : [
         "What’s D’s specialty?",
@@ -19,31 +20,24 @@ export default function AiContainer() {
         "What tech does D like most?",
       ];
 
-  const sendMessage = async (message: string) => {
-    const trimmedMessage = message.trim();
-    if (!trimmedMessage) return "";
+  const clearMessages = () => {
+    setMessages("");
+  };
 
+  const sendMessage = async (message: string): Promise<string> => {
     try {
-      const res = await fetch("/api/assistant", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: trimmedMessage }),
+      const handler = generateAssistantResponseFn({
+        data: { prompt: message },
       });
 
-      if (!res.ok) {
-        return `Error: ${res.statusText}`;
+      for await (const msg of await handler) {
+        const chunk = msg;
+        setMessages((prev) => prev + chunk);
       }
-
-      const data = await res.json();
-      setResponse(data);
 
       return "";
     } catch (err) {
-      if (err instanceof Error) {
-        return err.message;
-      }
-
-      return "Failed to send message.";
+      return (err as Error)?.message || "Failed to send message.";
     }
   };
 
@@ -51,15 +45,22 @@ export default function AiContainer() {
     <div className="size-full overflow-hidden">
       <AiHeader />
       <ScrollArea
-        className={cn("w-full p-2", hasResponse ? "h-[80vh]" : "h-[60vh]")}
+        className={cn("w-full p-2", hasMessage ? "h-[80vh]" : "h-[60vh]")}
       >
-        <AiResponse response={response} />
+        <AiResponse response={messages} />
       </ScrollArea>
-      <AiSuggestions suggestions={suggestions} onClick={sendMessage} />
+      <AiSuggestions
+        suggestions={suggestions}
+        onClick={(msg) => {
+          clearMessages();
+          return sendMessage(msg);
+        }}
+      />
       <AiInput
-        onSubmit={(_, formData) =>
-          sendMessage(formData.get("message") as string)
-        }
+        onSubmit={(_, formData) => {
+          clearMessages();
+          return sendMessage(formData.get("message") as string);
+        }}
       />
     </div>
   );

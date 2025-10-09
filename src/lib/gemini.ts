@@ -1,18 +1,20 @@
 import { GoogleGenAI } from "@google/genai";
+import { createServerOnlyFn } from "@tanstack/react-start";
 import geminiSystemPrompt from "@/config/gemini-system-prompt.txt?raw";
 
-const client = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY,
-});
+const getClient = createServerOnlyFn(
+  () =>
+    new GoogleGenAI({
+      apiKey: process.env.GEMINI_API_KEY,
+    }),
+);
 
-export const generateMessage = async (prompt: string) => {
-  const response = await client.models.generateContent({
+export const generateMessage = createServerOnlyFn(async (prompt: string) => {
+  return getClient().models.generateContentStream({
     contents: prompt,
     model: "gemini-2.5-flash-lite",
     config: {
       systemInstruction: geminiSystemPrompt,
     },
   });
-
-  return response.text;
-};
+});
