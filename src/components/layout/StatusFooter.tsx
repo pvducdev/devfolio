@@ -3,9 +3,9 @@ import { Linkedin } from "@/components/ui/svgs/linkedin";
 
 import { Badge } from "../ui/badge";
 
-export default function RootFooter() {
+export default function StatusFooter() {
   return (
-    <div className="w-full h-6 border-t bg-gray-100 justify-between items-center flex px-3">
+    <footer className="w-full h-6 border-t bg-gray-100 justify-between items-center flex px-3">
       <small className="text-xs leading-none text-muted-foreground">
         Home &gt; Welcome
       </small>
@@ -24,6 +24,6 @@ export default function RootFooter() {
           Open to work
         </Badge>
       </div>
-    </div>
+    </footer>
   );
 }

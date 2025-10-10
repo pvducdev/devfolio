@@ -42,10 +42,13 @@ export default function AiContainer() {
   };
 
   return (
-    <div className="size-full overflow-hidden">
+    <div className="size-full overflow-hidden grid grid-rows-[auto_1fr_auto_auto]">
       <AiHeader />
       <ScrollArea
-        className={cn("w-full p-2", hasMessage ? "h-[80vh]" : "h-[60vh]")}
+        className={cn(
+          "w-full p-2",
+          hasMessage ? "h-[calc(100vh-166px)]" : "h-[calc(100vh-300px)]",
+        )}
       >
         <AiResponse response={messages} />
       </ScrollArea>

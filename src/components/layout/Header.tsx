@@ -13,9 +13,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "../ui/badge";
 
-export default function RootHeader() {
+export default function Header() {
   return (
-    <div className="w-full bg-black h-8 flex items-center justify-between">
+    <header className="w-full bg-black h-8 flex items-center justify-between">
       <div className="flex items-center pl-3">
         <Button className="rounded-full size-3 bg-green-500" size="icon" />
         <div className="ml-14 flex items-center space-x-2">
@@ -79,6 +79,6 @@ export default function RootHeader() {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-    </div>
+    </header>
   );
 }
