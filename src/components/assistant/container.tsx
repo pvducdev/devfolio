@@ -1,13 +1,13 @@
 import { useState } from "react";
-import AiHeader from "@/components/ai/header.tsx";
-import AiInput from "@/components/ai/input.tsx";
-import AiResponse from "@/components/ai/response.tsx";
-import AiSuggestions from "@/components/ai/suggestions.tsx";
+import Header from "@/components/assistant/header.tsx";
+import Input from "@/components/assistant/input.tsx";
+import Response from "@/components/assistant/response.tsx";
+import Suggestions from "@/components/assistant/suggestions.tsx";
 import { ScrollArea } from "@/components/ui/scroll-area.tsx";
 import generateAssistantResponseFn from "@/fn/generate-assistant-response.ts";
 import { cn } from "@/lib/utils.ts";
 
-export default function AiContainer() {
+export default function AssistantContainer() {
   const [messages, setMessages] = useState<string>("");
 
   const hasMessage = !!messages;
@@ -43,23 +43,23 @@ export default function AiContainer() {
 
   return (
     <div className="grid size-full grid-rows-[auto_1fr_auto_auto] overflow-hidden">
-      <AiHeader />
+      <Header />
       <ScrollArea
         className={cn(
           "w-full p-2",
           hasMessage ? "h-[calc(100vh-166px)]" : "h-[calc(100vh-300px)]"
         )}
       >
-        <AiResponse response={messages} />
+        <Response response={messages} />
       </ScrollArea>
-      <AiSuggestions
+      <Suggestions
         onClick={(msg) => {
           clearMessages();
           return sendMessage(msg);
         }}
         suggestions={suggestions}
       />
-      <AiInput
+      <Input
         onSubmit={(_, formData) => {
           clearMessages();
           return sendMessage(formData.get("message") as string);

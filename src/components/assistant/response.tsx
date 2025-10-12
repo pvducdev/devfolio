@@ -4,7 +4,7 @@ import { Response } from "@/components/ai-elements/response.tsx";
 type AiResponseProps = {
   response: string;
 };
-export default function AiResponse({ response }: AiResponseProps) {
+export default function AssistantResponse({ response }: AiResponseProps) {
   if (!response) {
     return (
       <div className="relative mt-20 flex min-h-40 w-full flex-col items-center rounded-md border border-pink-400 p-6 text-center font-mono text-gray-200 text-sm">

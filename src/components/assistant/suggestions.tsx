@@ -6,7 +6,7 @@ type AiSuggestionsProps = {
   onClick: (suggestion: string) => Promise<string>;
 };
 
-export default function AiSuggestions({
+export default function AssistantSuggestions({
   suggestions = [],
   onClick,
 }: AiSuggestionsProps) {

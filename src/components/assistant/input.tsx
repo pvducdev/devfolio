@@ -6,7 +6,7 @@ type AiInputProps = {
   onSubmit: (state: string, formData: FormData) => string | Promise<string>;
 };
 
-export default function AiInput({
+export default function AssistantInput({
   placeholder = "Feel free to ask...",
   onSubmit,
 }: AiInputProps) {
