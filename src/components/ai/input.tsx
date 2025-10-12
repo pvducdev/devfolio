@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useActionState, type KeyboardEvent } from "react";
 import { Textarea } from "@/components/ui/textarea.tsx";
 
 type AiInputProps = {
@@ -10,12 +10,12 @@ export default function AiInput({
   placeholder = "Feel free to ask...",
   onSubmit,
 }: AiInputProps) {
-  const [errMessage, formAction, isPending] = React.useActionState(
+  const [errMessage, formAction, isPending] = useActionState(
     onSubmit,
     ""
   );
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       const form = e.currentTarget.form;

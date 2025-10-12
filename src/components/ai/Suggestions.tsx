@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useTransition } from "react";
 import { Button } from "@/components/ui/button.tsx";
 
 type AiSuggestionsProps = {
@@ -10,7 +10,7 @@ export default function AiSuggestions({
   suggestions = [],
   onClick,
 }: AiSuggestionsProps) {
-  const [isPending, startTransition] = React.useTransition();
+  const [isPending, startTransition] = useTransition();
 
   if (!suggestions.length) {
     return null;
