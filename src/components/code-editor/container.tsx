@@ -42,16 +42,18 @@ export default function CodeEditorContainer() {
             >
               {tab.label}
               <Button
+                asChild
                 className="size-4 rounded-full opacity-0 transition-opacity hover:bg-gray-100 group-hover:opacity-100 group-data-[state=active]:opacity-100"
-                onPointerDown={(e) => {
-                  e.stopPropagation();
-                  e.preventDefault();
-                  closeTab(tab.id);
-                }}
                 size="icon"
                 variant="ghost"
               >
-                <X className="size-3" />
+                <span
+                  onPointerDown={() => {
+                    closeTab(tab.id);
+                  }}
+                >
+                  <X className="size-3" />
+                </span>
               </Button>
             </TabsTrigger>
           ))}
