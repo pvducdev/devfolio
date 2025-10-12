@@ -1,8 +1,8 @@
 import type * as React from "react";
 import AiContainer from "@/components/ai/container.tsx";
-import ActivitiesBar from "@/components/layout/ActivitiesBar.tsx";
-import Header from "@/components/layout/Header.tsx";
-import StatusFooter from "@/components/layout/StatusFooter.tsx";
+import ActivitiesBar from "@/components/layout/activities-bar.tsx";
+import Header from "@/components/layout/header.tsx";
+import StatusFooter from "@/components/layout/status-footer.tsx";
 import {
   ResizableHandle,
   ResizablePanel,

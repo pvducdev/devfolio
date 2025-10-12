@@ -1,6 +1,6 @@
 import { Download, FileUser, GitBranch, Settings } from "lucide-react";
-import ButtonWithTooltip from "@/components/common/ButtonWithTooltip.tsx";
-import AppSearch from "@/components/layout/AppSearch.tsx";
+import ButtonWithTooltip from "@/components/common/button-with-tooltip.tsx";
+import AppSearch from "@/components/layout/app-search.tsx";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,

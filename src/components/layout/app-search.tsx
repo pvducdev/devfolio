@@ -7,8 +7,8 @@ import {
   Smile,
   User,
 } from "lucide-react";
-import * as React from "react";
-import ButtonWithTooltip from "@/components/common/ButtonWithTooltip.tsx";
+import { useState } from "react";
+import ButtonWithTooltip from "@/components/common/button-with-tooltip.tsx";
 import {
   CommandDialog,
   CommandEmpty,
@@ -19,10 +19,10 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from "@/components/ui/command.tsx";
-import { useKeyboardShortcut } from "@/hooks/useKeyboard.ts";
+import { useKeyboardShortcut } from "@/hooks/use-keyboard.ts";
 
 export default function AppSearch() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   useKeyboardShortcut(
     "k",

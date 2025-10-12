@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import CodeEditorContainer from "@/components/code-editor/container.tsx";
-import Container from "@/components/layout/Container.tsx";
+import Container from "@/components/layout/container.tsx";
 
 export const Route = createFileRoute("/_root-layout")({
   component: RouteComponent,

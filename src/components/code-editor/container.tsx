@@ -1,10 +1,10 @@
 import { X } from "lucide-react";
-import * as React from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button.tsx";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function CodeEditorContainer() {
-  const [tabs, setTabs] = React.useState([
+  const [tabs, setTabs] = useState([
     { id: "1", label: "Account", content: "Account settings and preferences" },
     { id: "2", label: "Password", content: "Change your password here" },
     {
@@ -13,7 +13,7 @@ export default function CodeEditorContainer() {
       content: "Manage notification settings",
     },
   ]);
-  const [activeTab, setActiveTab] = React.useState("1");
+  const [activeTab, setActiveTab] = useState("1");
 
   const closeTab = (tabId: string) => {
     const newTabs = tabs.filter((tab) => tab.id !== tabId);

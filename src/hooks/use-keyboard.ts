@@ -119,8 +119,7 @@ function keyMatches(event: KeyboardEvent, matcher: ProcessedMatcher): boolean {
     return event.key === matcher.key || event.code === matcher.key;
   }
 
-  for (let i = 0; i < matcher.keys.length; i++) {
-    const key = matcher.keys[i];
+  for (const key of matcher.keys) {
     if (event.key === key || event.code === key) {
       return true;
     }

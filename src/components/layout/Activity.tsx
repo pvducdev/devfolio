@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import ButtonWithTooltip from "@/components/common/ButtonWithTooltip.tsx";
+import ButtonWithTooltip from "@/components/common/button-with-tooltip.tsx";
 import type { Activity as TActivity } from "@/config/routes.tsx";
 
 type ActivityProps = {

@@ -2,9 +2,9 @@ import { useState } from "react";
 import AiHeader from "@/components/ai/header.tsx";
 import AiInput from "@/components/ai/input.tsx";
 import AiResponse from "@/components/ai/response.tsx";
-import AiSuggestions from "@/components/ai/Suggestions.tsx";
+import AiSuggestions from "@/components/ai/suggestions.tsx";
 import { ScrollArea } from "@/components/ui/scroll-area.tsx";
-import generateAssistantResponseFn from "@/fn/generateAssistantResponse.ts";
+import generateAssistantResponseFn from "@/fn/generate-assistant-response.ts";
 import { cn } from "@/lib/utils.ts";
 
 export default function AiContainer() {

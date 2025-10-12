@@ -1,4 +1,4 @@
-import Activity from "@/components/layout/Activity.tsx";
+import Activity from "@/components/layout/activity.tsx";
 import { activities } from "@/config/routes.tsx";
 
 export default function ActivitiesBar() {
