@@ -5,8 +5,8 @@ import { Badge } from "../ui/badge";
 
 export default function StatusFooter() {
   return (
-    <footer className="w-full h-6 border-t bg-gray-100 justify-between items-center flex px-3">
-      <small className="text-xs leading-none text-muted-foreground">
+    <footer className="flex h-6 w-full items-center justify-between border-t bg-gray-100 px-3">
+      <small className="text-muted-foreground text-xs leading-none">
         Home &gt; Welcome
       </small>
       <div className="flex items-center space-x-4">
@@ -14,11 +14,11 @@ export default function StatusFooter() {
           <Gitlab className="size-3 text-muted-foreground [&>path]:fill-current" />
           <Linkedin className="size-3 text-muted-foreground [&>path]:fill-current" />
         </div>
-        <small className="text-xs leading-none text-muted-foreground">
+        <small className="text-muted-foreground text-xs leading-none">
           TPHCM, Vietnam
         </small>
         <Badge
-          className="text-green-500 border-green-500 rounded-full"
+          className="rounded-full border-green-500 text-green-500"
           variant="outline"
         >
           Open to work

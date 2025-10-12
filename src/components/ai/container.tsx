@@ -2,9 +2,9 @@ import { useState } from "react";
 import AiHeader from "@/components/ai/header.tsx";
 import AiInput from "@/components/ai/input.tsx";
 import AiResponse from "@/components/ai/response.tsx";
-import AiSuggestions from "@/components/ai/Suggestions.tsx";
+import AiSuggestions from "@/components/ai/suggestions.tsx";
 import { ScrollArea } from "@/components/ui/scroll-area.tsx";
-import generateAssistantResponseFn from "@/fn/generateAssistantResponse.ts";
+import generateAssistantResponseFn from "@/fn/generate-assistant-response.ts";
 import { cn } from "@/lib/utils.ts";
 
 export default function AiContainer() {
@@ -42,22 +42,22 @@ export default function AiContainer() {
   };
 
   return (
-    <div className="size-full overflow-hidden grid grid-rows-[auto_1fr_auto_auto]">
+    <div className="grid size-full grid-rows-[auto_1fr_auto_auto] overflow-hidden">
       <AiHeader />
       <ScrollArea
         className={cn(
           "w-full p-2",
-          hasMessage ? "h-[calc(100vh-166px)]" : "h-[calc(100vh-300px)]",
+          hasMessage ? "h-[calc(100vh-166px)]" : "h-[calc(100vh-300px)]"
         )}
       >
         <AiResponse response={messages} />
       </ScrollArea>
       <AiSuggestions
-        suggestions={suggestions}
         onClick={(msg) => {
           clearMessages();
           return sendMessage(msg);
         }}
+        suggestions={suggestions}
       />
       <AiInput
         onSubmit={(_, formData) => {

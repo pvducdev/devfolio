@@ -7,8 +7,8 @@ import {
   Smile,
   User,
 } from "lucide-react";
-import * as React from "react";
-import ButtonWithTooltip from "@/components/common/ButtonWithTooltip.tsx";
+import { useState } from "react";
+import ButtonWithTooltip from "@/components/common/button-with-tooltip.tsx";
 import {
   CommandDialog,
   CommandEmpty,
@@ -19,27 +19,29 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from "@/components/ui/command.tsx";
-import { useKeyboardShortcut } from "@/hooks/useKeyboard.ts";
+import { useKeyboardShortcut } from "@/hooks/use-keyboard.ts";
 
 export default function AppSearch() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   useKeyboardShortcut(
     "k",
     () => {
-      setOpen((open) => !open);
+      setOpen((o) => !o);
     },
     {
       meta: true,
-    },
+    }
   );
 
   return (
     <>
       <ButtonWithTooltip
+        className="size-7 cursor-pointer hover:bg-white/20"
+        onClick={() => {
+          setOpen((o) => !o);
+        }}
         size="icon"
-        variant="ghost"
-        className="size-7 hover:bg-white/20 cursor-pointer"
         tooltip={
           <div className="flex items-center space-x-1">
             <span>Search</span>
@@ -48,13 +50,11 @@ export default function AppSearch() {
             </span>
           </div>
         }
-        onClick={() => {
-          setOpen((open) => !open);
-        }}
+        variant="ghost"
       >
-        <Search className="text-white size-4" />
+        <Search className="size-4 text-white" />
       </ButtonWithTooltip>
-      <CommandDialog open={open} onOpenChange={setOpen}>
+      <CommandDialog onOpenChange={setOpen} open={open}>
         <CommandInput placeholder="Type a command or search..." />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>

@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import ButtonWithTooltip from "@/components/common/ButtonWithTooltip.tsx";
+import ButtonWithTooltip from "@/components/common/button-with-tooltip.tsx";
 import type { Activity as TActivity } from "@/config/routes.tsx";
 
 type ActivityProps = {
@@ -11,12 +11,12 @@ export default function Activity({ data }: ActivityProps) {
 
   return (
     <ButtonWithTooltip
+      asChild
       className="size-7"
       size="icon"
-      variant="ghost"
       tooltip={data.name}
       tooltipProps={{ side: "right" }}
-      asChild
+      variant="ghost"
     >
       <Link to={data.path}>
         <Icon />

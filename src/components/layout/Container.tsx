@@ -1,8 +1,8 @@
 import type * as React from "react";
 import AiContainer from "@/components/ai/container.tsx";
-import ActivitiesBar from "@/components/layout/ActivitiesBar.tsx";
-import Header from "@/components/layout/Header.tsx";
-import StatusFooter from "@/components/layout/StatusFooter.tsx";
+import ActivitiesBar from "@/components/layout/activities-bar.tsx";
+import Header from "@/components/layout/header.tsx";
+import StatusFooter from "@/components/layout/status-footer.tsx";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -11,9 +11,9 @@ import {
 
 export default function Container({ children }: React.PropsWithChildren) {
   return (
-    <div className="rounded-2xl size-full bg-white overflow-hidden grid grid-rows-[auto_1fr_auto]">
+    <div className="grid size-full grid-rows-[auto_1fr_auto] overflow-hidden rounded-2xl bg-white">
       <Header />
-      <div className="h-full flex overflow-hidden">
+      <div className="flex h-full overflow-hidden">
         <ActivitiesBar />
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel defaultSize={25}>One</ResizablePanel>

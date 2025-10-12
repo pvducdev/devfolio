@@ -1,6 +1,6 @@
 import { Download, FileUser, GitBranch, Settings } from "lucide-react";
-import ButtonWithTooltip from "@/components/common/ButtonWithTooltip.tsx";
-import AppSearch from "@/components/layout/AppSearch.tsx";
+import ButtonWithTooltip from "@/components/common/button-with-tooltip.tsx";
+import AppSearch from "@/components/layout/app-search.tsx";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -15,33 +15,33 @@ import { Badge } from "../ui/badge";
 
 export default function Header() {
   return (
-    <header className="w-full bg-black h-8 flex items-center justify-between">
+    <header className="flex h-8 w-full items-center justify-between bg-black">
       <div className="flex items-center pl-3">
-        <Button className="rounded-full size-3 bg-green-500" size="icon" />
+        <Button className="size-3 rounded-full bg-green-500" size="icon" />
         <div className="ml-14 flex items-center space-x-2">
-          <Badge className="bg-pink-500 text-white px-1 rounded">PP</Badge>
+          <Badge className="rounded bg-pink-500 px-1 text-white">PP</Badge>
           <p className="text-white text-xs">PVD's portfolio</p>
         </div>
         <div className="ml-10 flex items-center space-x-2">
-          <GitBranch className="text-white size-4" />
+          <GitBranch className="size-4 text-white" />
           <p className="text-white text-xs">v0.1</p>
         </div>
       </div>
       <div className="flex items-center space-x-2 pr-1">
-        <div className="flex mr-32 items-center space-x-2">
+        <div className="mr-32 flex items-center space-x-2">
           <FileUser className="size-4" />
           <p className="text-white text-xs">My CV</p>
           <Button
-            className="size-6 text-center cursor-pointer bg-pink-500 hover:bg-pink-600"
+            className="size-6 cursor-pointer bg-pink-500 text-center hover:bg-pink-600"
             size="icon"
           >
             <Download className="size-3" />
           </Button>
         </div>
         <Button
+          className="size-7 cursor-pointer hover:bg-transparent"
           size="icon"
           variant="ghost"
-          className="size-7 hover:bg-transparent cursor-pointer"
         >
           <div className="size-5 rounded-full bg-pink-200" />
         </Button>
@@ -49,15 +49,15 @@ export default function Header() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <ButtonWithTooltip
+              className="size-7 cursor-pointer hover:bg-white/20"
               size="icon"
-              variant="ghost"
-              className="size-7 hover:bg-white/20 cursor-pointer"
               tooltip="Settings"
+              variant="ghost"
             >
-              <Settings className="text-white size-4" />
+              <Settings className="size-4 text-white" />
             </ButtonWithTooltip>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56" align="end">
+          <DropdownMenuContent align="end" className="w-56">
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 Profile
