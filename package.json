@@ -10,7 +10,9 @@
     "test": "vitest run",
     "format": "biome format",
     "lint": "biome lint",
-    "check": "biome check"
+    "check": "ultracite check",
+    "fix": "ultracite fix",
+    "doctor": "ultracite doctor"
   },
   "dependencies": {
     "@google/genai": "^1.22.0",

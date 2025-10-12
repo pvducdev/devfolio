@@ -4,33 +4,33 @@ type KeyMatcher = string | string[] | ((event: KeyboardEvent) => boolean);
 
 type KeyboardEventType = "keydown" | "keyup" | "keypress";
 
-interface Modifiers {
+type Modifiers = {
   ctrl?: boolean;
   shift?: boolean;
   alt?: boolean;
   meta?: boolean;
-}
+};
 
-interface BaseOptions {
+type BaseOptions = {
   target?: Window | Document | HTMLElement | null;
   eventType?: KeyboardEventType;
   enabled?: boolean;
-}
+};
 
-interface EventBehaviorOptions {
+type EventBehaviorOptions = {
   preventDefault?: boolean;
   stopPropagation?: boolean;
-}
+};
 
-interface FilterOptions {
+type FilterOptions = {
   ignoreElements?: string[];
   onlyFromElements?: string[];
-}
+};
 
-interface ModifierOptions {
+type ModifierOptions = {
   modifiers?: Modifiers;
   strictModifiers?: boolean;
-}
+};
 
 type UseKeyPressOptions = BaseOptions &
   EventBehaviorOptions &
@@ -50,12 +50,14 @@ function isGlobalTarget(target: unknown): boolean {
 function shouldIgnoreEvent(
   event: KeyboardEvent,
   ignoreElements?: string[],
-  onlyFromElements?: string[],
+  onlyFromElements?: string[]
 ): boolean {
   const target = event.target as HTMLElement;
   const tagName = target?.tagName;
 
-  if (!tagName) return false;
+  if (!tagName) {
+    return false;
+  }
 
   if (onlyFromElements && onlyFromElements.length > 0) {
     return !onlyFromElements.includes(tagName);
@@ -68,9 +70,11 @@ function shouldIgnoreEvent(
 function modifiersMatch(
   event: KeyboardEvent,
   modifiers?: Modifiers,
-  strict: boolean = true,
+  strict = true
 ): boolean {
-  if (!modifiers) return true;
+  if (!modifiers) {
+    return true;
+  }
 
   const { ctrl, shift, alt, meta } = modifiers;
 
@@ -127,7 +131,7 @@ function keyMatches(event: KeyboardEvent, matcher: ProcessedMatcher): boolean {
 export function useKeyPress(
   keyMatcher: KeyMatcher,
   handler: KeyPressHandler,
-  options: UseKeyPressOptions = {},
+  options: UseKeyPressOptions = {}
 ): void {
   const {
     target = getDefaultTarget(),
@@ -143,7 +147,7 @@ export function useKeyPress(
 
   const processedMatcher = useMemo(
     () => processMatcher(keyMatcher),
-    [keyMatcher],
+    [keyMatcher]
   );
 
   const configRef = useRef({
@@ -169,12 +173,12 @@ export function useKeyPress(
   const onKeyPress = useEffectEvent((event: KeyboardEvent) => {
     const config = configRef.current;
 
-    if (target && isGlobalTarget(target)) {
-      if (
-        shouldIgnoreEvent(event, config.ignoreElements, config.onlyFromElements)
-      ) {
-        return;
-      }
+    if (
+      target &&
+      isGlobalTarget(target) &&
+      shouldIgnoreEvent(event, config.ignoreElements, config.onlyFromElements)
+    ) {
+      return;
     }
 
     if (!modifiersMatch(event, config.modifiers, config.strictModifiers)) {
@@ -196,7 +200,7 @@ export function useKeyPress(
   });
 
   useEffect(() => {
-    if (!enabled || !target) {
+    if (!(enabled && target)) {
       return;
     }
 
@@ -214,7 +218,7 @@ export function useKeyPress(
 
 export function useKeyState(
   keyMatcher: KeyMatcher,
-  options: Omit<UseKeyPressOptions, "eventType"> = {},
+  options: Omit<UseKeyPressOptions, "eventType"> = {}
 ): boolean {
   const [isPressed, setIsPressed] = useState(false);
 
@@ -235,7 +239,7 @@ export function useKeyboardShortcut(
   key: string,
   handler: KeyPressHandler,
   modifiers: Modifiers,
-  options?: Omit<UseKeyPressOptions, "modifiers">,
+  options?: Omit<UseKeyPressOptions, "modifiers">
 ): void {
   useKeyPress(key, handler, {
     ...options,

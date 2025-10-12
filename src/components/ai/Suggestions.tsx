@@ -12,22 +12,24 @@ export default function AiSuggestions({
 }: AiSuggestionsProps) {
   const [isPending, startTransition] = React.useTransition();
 
-  if (!suggestions.length) return null;
+  if (!suggestions.length) {
+    return null;
+  }
 
   return (
     <div className="flex flex-col space-y-2 px-1 py-2">
       {suggestions.map((sug) => (
         <Button
-          variant="outline"
           className="w-full text-pretty"
           disabled={isPending}
-          size="sm"
           key={sug}
           onClick={() => {
             startTransition(async () => {
               await onClick(sug);
             });
           }}
+          size="sm"
+          variant="outline"
         >
           {sug}
         </Button>

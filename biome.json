@@ -40,7 +40,5 @@
       "quoteStyle": "double"
     }
   },
-  "extends": [
-    "ultracite"
-  ]
+  "extends": ["ultracite"]
 }

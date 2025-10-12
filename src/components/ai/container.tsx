@@ -42,22 +42,22 @@ export default function AiContainer() {
   };
 
   return (
-    <div className="size-full overflow-hidden grid grid-rows-[auto_1fr_auto_auto]">
+    <div className="grid size-full grid-rows-[auto_1fr_auto_auto] overflow-hidden">
       <AiHeader />
       <ScrollArea
         className={cn(
           "w-full p-2",
-          hasMessage ? "h-[calc(100vh-166px)]" : "h-[calc(100vh-300px)]",
+          hasMessage ? "h-[calc(100vh-166px)]" : "h-[calc(100vh-300px)]"
         )}
       >
         <AiResponse response={messages} />
       </ScrollArea>
       <AiSuggestions
-        suggestions={suggestions}
         onClick={(msg) => {
           clearMessages();
           return sendMessage(msg);
         }}
+        suggestions={suggestions}
       />
       <AiInput
         onSubmit={(_, formData) => {

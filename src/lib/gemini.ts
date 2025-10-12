@@ -6,15 +6,15 @@ const getClient = createServerOnlyFn(
   () =>
     new GoogleGenAI({
       apiKey: process.env.GEMINI_API_KEY,
-    }),
+    })
 );
 
-export const generateMessage = createServerOnlyFn(async (prompt: string) => {
-  return getClient().models.generateContentStream({
+export const generateMessage = createServerOnlyFn(async (prompt: string) =>
+  getClient().models.generateContentStream({
     contents: prompt,
     model: "gemini-2.5-flash-lite",
     config: {
       systemInstruction: geminiSystemPrompt,
     },
-  });
-});
+  })
+);

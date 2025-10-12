@@ -12,28 +12,30 @@ export default function AiInput({
 }: AiInputProps) {
   const [errMessage, formAction, isPending] = React.useActionState(
     onSubmit,
-    "",
+    ""
   );
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       const form = e.currentTarget.form;
-      if (form) form.requestSubmit();
+      if (form) {
+        form.requestSubmit();
+      }
     }
   };
 
   return (
-    <form action={formAction} className="p-1 space-y-1">
+    <form action={formAction} className="space-y-1 p-1">
       <Textarea
-        name="message"
-        disabled={isPending}
-        onKeyDown={handleKeyDown}
         className="resize-none"
+        disabled={isPending}
+        name="message"
+        onKeyDown={handleKeyDown}
         placeholder={placeholder}
       />
       {errMessage && (
-        <p className="text-red-500 text-xs text-pretty">{errMessage}</p>
+        <p className="text-pretty text-red-500 text-xs">{errMessage}</p>
       )}
     </form>
   );

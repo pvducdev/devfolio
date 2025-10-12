@@ -3,7 +3,7 @@ import { activities } from "@/config/routes.tsx";
 
 export default function ActivitiesBar() {
   return (
-    <aside className="w-8 h-full bg-gray-100 border-r flex flex-col space-y-2 p-0.5 items-center">
+    <aside className="flex h-full w-8 flex-col items-center space-y-2 border-r bg-gray-100 p-0.5">
       {activities.map((act) => (
         <Activity data={act} key={act.name} />
       ))}

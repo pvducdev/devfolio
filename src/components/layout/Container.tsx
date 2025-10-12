@@ -11,9 +11,9 @@ import {
 
 export default function Container({ children }: React.PropsWithChildren) {
   return (
-    <div className="rounded-2xl size-full bg-white overflow-hidden grid grid-rows-[auto_1fr_auto]">
+    <div className="grid size-full grid-rows-[auto_1fr_auto] overflow-hidden rounded-2xl bg-white">
       <Header />
-      <div className="h-full flex overflow-hidden">
+      <div className="flex h-full overflow-hidden">
         <ActivitiesBar />
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel defaultSize={25}>One</ResizablePanel>
