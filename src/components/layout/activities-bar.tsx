@@ -4,8 +4,8 @@ import { activities } from "@/config/routes.tsx";
 import { useSidebarStore } from "@/store/sidebar.ts";
 
 export default function ActivitiesBar() {
-  const [activeView, onChangeActiveView] = useSidebarStore(
-    useShallow((state) => [state.activeView, state.onChangeActiveView])
+  const [activeView, toggleActiveView] = useSidebarStore(
+    useShallow((state) => [state.activeView, state.toggleActiveView])
   );
 
   return (
@@ -16,7 +16,7 @@ export default function ActivitiesBar() {
           data={act}
           key={act.name}
           onClick={(values) => {
-            onChangeActiveView(act.key !== activeView ? values.key : undefined);
+            toggleActiveView(values.key);
           }}
         />
       ))}
