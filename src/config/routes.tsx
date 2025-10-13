@@ -3,27 +3,23 @@ import { CodeXml, GitCommitVertical, PanelsTopLeft, User } from "lucide-react";
 export const activities = [
   {
     name: "About me",
-    path: "/about",
+    key: "about",
     icon: User,
-    hasSidebar: true,
   },
   {
     name: "Experience",
-    path: "/experience",
+    key: "experience",
     icon: GitCommitVertical,
-    hasSidebar: true,
   },
   {
     name: "Skills",
-    path: "/skills",
+    key: "skills",
     icon: CodeXml,
-    hasSidebar: true,
   },
   {
     name: "Projects",
-    path: "/projects",
+    key: "projects",
     icon: PanelsTopLeft,
-    hasSidebar: true,
   },
 ];
 

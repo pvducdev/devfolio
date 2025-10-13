@@ -1,4 +1,4 @@
-import type * as React from "react";
+import type { ComponentProps, ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -6,10 +6,12 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-type ButtonWithTooltipProps = React.ComponentProps<typeof Button> & {
-  tooltip?: React.ReactNode;
-  tooltipProps?: React.ComponentProps<typeof TooltipContent> &
-    Pick<React.ComponentProps<typeof Tooltip>, "delayDuration">;
+type TooltipProps = ComponentProps<typeof TooltipContent> &
+  Pick<ComponentProps<typeof Tooltip>, "delayDuration">;
+
+type ButtonWithTooltipProps = ComponentProps<typeof Button> & {
+  tooltip?: ReactNode;
+  tooltipProps?: TooltipProps;
 };
 
 export default function ButtonWithTooltip({
