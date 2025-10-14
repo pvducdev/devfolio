@@ -1,5 +1,6 @@
 import { X } from "lucide-react";
 import { useState } from "react";
+import PortfolioWelcome from "@/components/layout/welcome.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -28,46 +29,52 @@ export default function CodeEditorContainer() {
 
   return (
     <div className="h-full w-full overflow-auto">
-      <Tabs
-        className="w-full gap-0"
-        onValueChange={setActiveTab}
-        value={activeTab}
-      >
-        <TabsList className="w-full flex-1 justify-start space-x-0.5 rounded-none border-b bg-transparent">
-          {tabs.map((tab) => (
-            <TabsTrigger
-              className="group relative flex flex-initial items-center rounded-md p-1 text-xs hover:bg-neutral-100 data-[state=active]:border data-[state=active]:border-neutral-200 data-[state=active]:bg-neutral-50 data-[state=active]:shadow-none"
-              key={tab.id}
-              value={tab.id}
-            >
-              {tab.label}
-              <Button
-                asChild
-                className="size-4 rounded-full opacity-0 transition-opacity hover:bg-gray-100 group-hover:opacity-100 group-data-[state=active]:opacity-100"
-                size="icon"
-                variant="ghost"
+      {tabs && tabs.length > 0 ? (
+        <Tabs
+          className="w-full gap-0"
+          onValueChange={setActiveTab}
+          value={activeTab}
+        >
+          <TabsList className="w-full flex-1 justify-start space-x-0.5 rounded-none border-b bg-transparent">
+            {tabs.map((tab) => (
+              <TabsTrigger
+                className="group relative flex flex-initial items-center rounded-md p-1 text-xs hover:bg-neutral-100 data-[state=active]:border data-[state=active]:border-neutral-200 data-[state=active]:bg-neutral-50 data-[state=active]:shadow-none"
+                key={tab.id}
+                value={tab.id}
               >
-                <span
-                  onPointerDown={() => {
-                    closeTab(tab.id);
-                  }}
+                {tab.label}
+                <Button
+                  asChild
+                  className="size-4 rounded-full opacity-0 transition-opacity hover:bg-gray-100 group-hover:opacity-100 group-data-[state=active]:opacity-100"
+                  size="icon"
+                  variant="ghost"
                 >
-                  <X className="size-3" />
-                </span>
-              </Button>
-            </TabsTrigger>
-          ))}
-        </TabsList>
+                  <span
+                    onPointerDown={() => {
+                      closeTab(tab.id);
+                    }}
+                  >
+                    <X className="size-3" />
+                  </span>
+                </Button>
+              </TabsTrigger>
+            ))}
+          </TabsList>
 
-        {tabs.map((tab) => (
-          <TabsContent className="" key={tab.id} value={tab.id}>
-            <div className="h-full p-6">
-              <h3 className="mb-2 font-semibold text-lg">{tab.label}</h3>
-              <p className="text-gray-600 dark:text-gray-400">{tab.content}</p>
-            </div>
-          </TabsContent>
-        ))}
-      </Tabs>
+          {tabs.map((tab) => (
+            <TabsContent className="" key={tab.id} value={tab.id}>
+              <div className="h-full p-6">
+                <h3 className="mb-2 font-semibold text-lg">{tab.label}</h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  {tab.content}
+                </p>
+              </div>
+            </TabsContent>
+          ))}
+        </Tabs>
+      ) : (
+        <PortfolioWelcome />
+      )}
     </div>
   );
 }
