@@ -19,7 +19,7 @@ export default function Header() {
       <div className="flex items-center pl-3">
         <Button className="size-3 rounded-full bg-green-500" size="icon" />
         <div className="ml-14 flex items-center space-x-2">
-          <Badge className="rounded bg-pink-500 px-1 text-white">PP</Badge>
+          <Badge className="rounded bg-primary px-1 text-white">PP</Badge>
           <p className="text-white text-xs">PVD's portfolio</p>
         </div>
         <div className="ml-10 flex items-center space-x-2">
@@ -32,7 +32,7 @@ export default function Header() {
           <FileUser className="size-4" />
           <p className="text-white text-xs">My CV</p>
           <Button
-            className="size-6 cursor-pointer bg-pink-500 text-center hover:bg-pink-600"
+            className="size-6 cursor-pointer bg-primary text-center hover:bg-primary/80"
             size="icon"
           >
             <Download className="size-3" />
