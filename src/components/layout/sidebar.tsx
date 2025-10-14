@@ -1,6 +1,7 @@
+import { Suspense } from "react";
 import { useShallow } from "zustand/react/shallow";
-import About from "@/components/sidebar/about.tsx";
 import { ResizableHandle, ResizablePanel } from "@/components/ui/resizable.tsx";
+import { activities } from "@/config/routes.tsx";
 import { useSidebarStore } from "@/store/sidebar.ts";
 
 export default function Sidebar() {
@@ -8,17 +9,25 @@ export default function Sidebar() {
     useShallow((state) => ({ activeView: state.activeView, size: state.size }))
   );
 
-  switch (activeView) {
-    case "about":
-      return (
-        <>
-          <ResizablePanel defaultSize={size}>
-            <About />
-          </ResizablePanel>
-          <ResizableHandle />
-        </>
-      );
-    default:
-      return null;
+  const Component = activities.find((a) => a.key === activeView)?.sidebar;
+
+  if (!Component) {
+    return null;
   }
+
+  return (
+    <>
+      <ResizablePanel
+        className="overflow-auto"
+        defaultSize={size}
+        id="sidebar"
+        order={1}
+      >
+        <Suspense fallback={<p className="mx-auto">Loading...</p>}>
+          <Component />
+        </Suspense>
+      </ResizablePanel>
+      <ResizableHandle />
+    </>
+  );
 }

@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-const key = "sidebar";
+const storeKey = "sidebar";
 
 export type SidebarState = {
   size: number;
@@ -23,12 +23,12 @@ export const useSidebarStore = create<SidebarState & SidebarActions>()(
       },
       toggleActiveView: (v) => {
         set((state) => ({
-          activeView: state.activeView === key ? undefined : v,
+          activeView: state.activeView === v ? undefined : v,
         }));
       },
     }),
     {
-      name: key,
+      name: storeKey,
     }
   )
 );

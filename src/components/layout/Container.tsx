@@ -16,13 +16,13 @@ export default function Container() {
       <Header />
       <div className="flex h-full overflow-hidden">
         <ActivitiesBar />
-        <ResizablePanelGroup direction="horizontal">
+        <ResizablePanelGroup autoSaveId="conditional" direction="horizontal">
           <Sidebar />
-          <ResizablePanel>
+          <ResizablePanel id="code-editor" order={2}>
             <CodeEditorContainer />
           </ResizablePanel>
           <ResizableHandle />
-          <ResizablePanel defaultSize={25}>
+          <ResizablePanel defaultSize={25} id="panel" order={3}>
             <AiContainer />
           </ResizablePanel>
         </ResizablePanelGroup>
