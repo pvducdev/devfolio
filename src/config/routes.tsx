@@ -12,7 +12,7 @@ export const activities = [
     name: "Experience",
     key: "experience",
     icon: GitCommitVertical,
-    sidebar: null,
+    sidebar: lazy(() => import("@/components/sidebar/work-experiences")),
   },
   {
     name: "Skills",

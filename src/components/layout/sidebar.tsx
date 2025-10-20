@@ -18,7 +18,7 @@ export default function Sidebar() {
   return (
     <>
       <ResizablePanel
-        className="overflow-auto"
+        className="overflow-auto!"
         defaultSize={size}
         id="sidebar"
         order={1}
