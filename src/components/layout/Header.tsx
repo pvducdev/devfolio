@@ -15,12 +15,14 @@ import { Badge } from "../ui/badge";
 
 export default function Header() {
   return (
-    <header className="flex h-8 w-full items-center justify-between bg-black">
+    <header className="flex h-8 w-full items-center justify-between bg-sidebar-foreground">
       <div className="flex items-center pl-3">
         <Button className="size-3 rounded-full bg-green-500" size="icon" />
         <div className="ml-14 flex items-center space-x-2">
-          <Badge className="rounded bg-primary px-1 text-white">PP</Badge>
-          <p className="text-white text-xs">PVD's portfolio</p>
+          <Badge className="rounded bg-primary px-1 text-primary-foreground hover:bg-primary/90">
+            PP
+          </Badge>
+          <p className="text-xs">PVD's portfolio</p>
         </div>
         <div className="ml-10 flex items-center space-x-2">
           <GitBranch className="size-4 text-white" />

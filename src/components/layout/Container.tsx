@@ -12,7 +12,7 @@ import StatusFooter from "./status-footer.tsx";
 
 export default function Container() {
   return (
-    <div className="grid size-full grid-rows-[auto_1fr_auto] overflow-hidden rounded-2xl bg-white">
+    <div className="grid size-full grid-rows-[auto_1fr_auto] overflow-hidden rounded-2xl bg-background">
       <Header />
       <div className="flex h-full overflow-hidden">
         <ActivitiesBar />
