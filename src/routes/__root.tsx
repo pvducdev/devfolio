@@ -24,26 +24,6 @@ export const Route = createRootRoute({
         href: appCss,
       },
     ],
-    scripts: [
-      {
-        //TODO: find better solution
-        children: `
-            (function() {
-              try {
-              
-                const stored = localStorage.getItem('theme');
-                if (stored) {
-                  const parsed = JSON.parse(stored);
-                  const theme = parsed.state?.theme || parsed.theme;
-                  if (theme) {
-                    document.documentElement.setAttribute('data-theme', theme);
-                  }
-                }
-              } catch (e) {}
-            })();
-          `,
-      },
-    ],
   }),
 
   shellComponent: RootDocument,
