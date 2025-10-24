@@ -1,9 +1,9 @@
-import { Palette } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Check, Palette } from "lucide-react";
+import { useState } from "react";
+import { useShallow } from "zustand/react/shallow";
 import { Button } from "@/components/ui/button.tsx";
 import {
   Command,
-  CommandEmpty,
   CommandGroup,
   CommandItem,
   CommandList,
@@ -13,19 +13,15 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover.tsx";
-
-const THEMES = ["bubblegum", "mocha-mousse"];
+import { THEMES } from "@/config/theme.ts";
+import { cn } from "@/lib/utils.ts";
+import { useThemeStore } from "@/store/theme.ts";
 
 export default function ThemeSwitcher() {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
-
-  useEffect(() => {
-    const body = document.querySelector("body");
-    if (body) {
-      body.setAttribute("data-theme", value);
-    }
-  }, [value]);
+  const [theme, setTheme] = useThemeStore(
+    useShallow((state) => [state.theme, state.setTheme])
+  );
 
   return (
     <Popover onOpenChange={setOpen} open={open}>
@@ -37,24 +33,31 @@ export default function ThemeSwitcher() {
           variant="ghost"
         >
           <Palette className="size-4" />
-          {value ? THEMES.find((theme) => theme === value) : "Select theme..."}
+          {theme
+            ? THEMES.find((t) => t.value === theme)?.name
+            : "Select theme..."}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-48 p-0">
         <Command>
           <CommandList>
-            <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
-              {THEMES.map((theme) => (
+              {THEMES.map((t) => (
                 <CommandItem
-                  key={theme}
+                  key={t.value}
                   onSelect={(v) => {
-                    setValue(v);
+                    setTheme(v);
                     setOpen(false);
                   }}
-                  value={theme}
+                  value={t.value}
                 >
-                  {theme}
+                  {t.name}
+                  <Check
+                    className={cn(
+                      "ml-auto text-primary",
+                      theme === t.value ? "opacity-100" : "opacity-0"
+                    )}
+                  />
                 </CommandItem>
               ))}
             </CommandGroup>

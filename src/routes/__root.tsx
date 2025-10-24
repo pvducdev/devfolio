@@ -15,13 +15,33 @@ export const Route = createRootRoute({
         content: "width=device-width, initial-scale=1",
       },
       {
-        title: "TanStack Start Starter",
+        title: "PVD Portfolio",
       },
     ],
     links: [
       {
         rel: "stylesheet",
         href: appCss,
+      },
+    ],
+    scripts: [
+      {
+        //TODO: find better solution
+        children: `
+            (function() {
+              try {
+              
+                const stored = localStorage.getItem('theme');
+                if (stored) {
+                  const parsed = JSON.parse(stored);
+                  const theme = parsed.state?.theme || parsed.theme;
+                  if (theme) {
+                    document.documentElement.setAttribute('data-theme', theme);
+                  }
+                }
+              } catch (e) {}
+            })();
+          `,
       },
     ],
   }),

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Header from "@/components/assistant/header.tsx";
 import Input from "@/components/assistant/input.tsx";
-import Response from "@/components/assistant/response.tsx";
+import AssistantResponse from "@/components/assistant/response.tsx";
 import Suggestions from "@/components/assistant/suggestions.tsx";
 import { ScrollArea } from "@/components/ui/scroll-area.tsx";
 import generateAssistantResponseFn from "@/fn/generate-assistant-response.ts";
@@ -50,7 +50,7 @@ export default function AssistantContainer() {
           hasMessage ? "h-[calc(100vh-166px)]" : "h-[calc(100vh-300px)]"
         )}
       >
-        <Response response={messages} />
+        <AssistantResponse response={messages} />
       </ScrollArea>
       <Suggestions
         onClick={(msg) => {

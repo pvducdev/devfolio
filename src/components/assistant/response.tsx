@@ -1,9 +1,11 @@
+import { ClientOnly } from "@tanstack/react-router";
 import { Dog } from "lucide-react";
 import { Response } from "@/components/ai-elements/response.tsx";
 
 type AiResponseProps = {
   response: string;
 };
+
 export default function AssistantResponse({ response }: AiResponseProps) {
   if (!response) {
     return (
@@ -17,5 +19,9 @@ export default function AssistantResponse({ response }: AiResponseProps) {
     );
   }
 
-  return <Response>{response}</Response>;
+  return (
+    <ClientOnly>
+      <Response>{response}</Response>
+    </ClientOnly>
+  );
 }
