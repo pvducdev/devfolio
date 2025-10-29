@@ -15,26 +15,26 @@ import { Badge } from "../ui/badge";
 
 export default function Header() {
   return (
-    <header className="flex h-8 w-full items-center justify-between bg-sidebar-foreground">
+    <header className="flex h-8 w-full items-center justify-between bg-sidebar">
       <div className="flex items-center pl-3">
         <Button className="size-3 rounded-full bg-green-500" size="icon" />
         <div className="ml-14 flex items-center space-x-2">
           <Badge className="rounded bg-primary px-1 text-primary-foreground hover:bg-primary/90">
             PP
           </Badge>
-          <p className="text-xs">PVD's portfolio</p>
+          <p className="font-medium text-xs">PVD's portfolio</p>
         </div>
         <div className="ml-10 flex items-center space-x-2">
-          <GitBranch className="size-4 text-white" />
-          <p className="text-white text-xs">v0.1</p>
+          <GitBranch className="size-4" />
+          <p className="font-medium text-xs">v0.1</p>
         </div>
       </div>
       <div className="flex items-center space-x-2 pr-1">
         <div className="mr-32 flex items-center space-x-2">
           <FileUser className="size-4" />
-          <p className="text-white text-xs">My CV</p>
+          <p className="text-xs">My CV</p>
           <Button
-            className="size-6 cursor-pointer bg-primary text-center hover:bg-primary/80"
+            className="size-6 cursor-pointer bg-primary text-center text-primary-foreground hover:bg-primary/80"
             size="icon"
           >
             <Download className="size-3" />
@@ -56,7 +56,7 @@ export default function Header() {
               tooltip="Settings"
               variant="ghost"
             >
-              <Settings className="size-4 text-white" />
+              <Settings className="size-4" />
             </ButtonWithTooltip>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">

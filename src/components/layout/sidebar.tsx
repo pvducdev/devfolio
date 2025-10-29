@@ -18,7 +18,7 @@ export default function Sidebar() {
   return (
     <>
       <ResizablePanel
-        className="overflow-auto!"
+        className="overflow-auto! rounded-xl bg-background"
         defaultSize={size}
         id="sidebar"
         order={1}
@@ -27,7 +27,7 @@ export default function Sidebar() {
           <Component />
         </Suspense>
       </ResizablePanel>
-      <ResizableHandle />
+      <ResizableHandle className="w-1.5 bg-transparent" />
     </>
   );
 }

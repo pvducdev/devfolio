@@ -28,7 +28,7 @@ export default function ThemeSwitcher() {
       <PopoverTrigger asChild>
         <Button
           aria-expanded={open}
-          className="h-[22px] px-1.5 py-px text-center text-xs"
+          className="h-[22px] px-1.5 py-px text-center text-muted-foreground text-xs"
           role="combobox"
           variant="ghost"
         >

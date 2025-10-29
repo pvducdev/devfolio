@@ -12,17 +12,26 @@ import StatusFooter from "./status-footer.tsx";
 
 export default function Container() {
   return (
-    <div className="grid size-full grid-rows-[auto_1fr_auto] overflow-hidden rounded-2xl bg-background">
+    <div className="grid size-full grid-rows-[auto_1fr_auto] overflow-hidden rounded-2xl bg-sidebar">
       <Header />
       <div className="flex h-full overflow-hidden">
         <ActivitiesBar />
         <ResizablePanelGroup autoSaveId="conditional" direction="horizontal">
           <Sidebar />
-          <ResizablePanel id="code-editor" order={2}>
+          <ResizablePanel
+            className="rounded-xl bg-background"
+            id="code-editor"
+            order={2}
+          >
             <CodeEditorContainer />
           </ResizablePanel>
-          <ResizableHandle />
-          <ResizablePanel defaultSize={25} id="panel" order={3}>
+          <ResizableHandle className="w-1.5 bg-transparent" />
+          <ResizablePanel
+            className="rounded-xl bg-background"
+            defaultSize={25}
+            id="panel"
+            order={3}
+          >
             <AiContainer />
           </ResizablePanel>
         </ResizablePanelGroup>

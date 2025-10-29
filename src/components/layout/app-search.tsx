@@ -52,7 +52,7 @@ export default function AppSearch() {
         }
         variant="ghost"
       >
-        <Search className="size-4 text-white" />
+        <Search className="size-4" />
       </ButtonWithTooltip>
       <CommandDialog onOpenChange={setOpen} open={open}>
         <CommandInput placeholder="Type a command or search..." />

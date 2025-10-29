@@ -5,7 +5,7 @@ import { Linkedin } from "@/components/ui/svgs/linkedin";
 
 export default function PortfolioWelcome() {
   return (
-    <div className="flex h-screen flex-col items-center justify-center bg-[#fafafa] px-4 font-sans text-[#1e1e1e]">
+    <div className="flex h-screen flex-col items-center justify-center px-4 font-sans">
       <div className="w-full max-w-md text-center">
         <h1 className="mb-3 font-semibold text-4xl tracking-tight">
           Welcome to <span className="text-primary">D’s Portfolio</span>

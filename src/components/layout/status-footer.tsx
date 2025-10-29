@@ -5,7 +5,7 @@ import { Badge } from "../ui/badge";
 
 export default function StatusFooter() {
   return (
-    <footer className="flex h-6 w-full items-center justify-between border-t bg-gray-100 px-3">
+    <footer className="flex h-6 w-full items-center justify-between bg-sidebar px-3">
       <small className="text-muted-foreground text-xs leading-none">
         Home &gt; Welcome
       </small>
@@ -19,7 +19,7 @@ export default function StatusFooter() {
           TPHCM, Vietnam
         </small>
         <Badge
-          className="rounded-full border-green-500 text-green-500"
+          className="rounded-full border-green-500! text-green-500"
           variant="outline"
         >
           Open to work

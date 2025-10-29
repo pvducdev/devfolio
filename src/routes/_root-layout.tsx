@@ -19,7 +19,7 @@ function RouteComponent() {
   });
 
   return (
-    <div className="h-screen w-screen overflow-hidden bg-blue-100 p-1">
+    <div className="h-screen w-screen overflow-hidden bg-primary-foreground p-1">
       <Container />
     </div>
   );

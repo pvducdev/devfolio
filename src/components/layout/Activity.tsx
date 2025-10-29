@@ -12,7 +12,7 @@ export default function Activity({ active, data, onClick }: ActivityProps) {
 
   return (
     <ButtonWithTooltip
-      className="size-7"
+      className="size-7 border-none"
       onClick={() => {
         onClick(data);
       }}

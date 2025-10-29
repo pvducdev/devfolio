@@ -9,7 +9,7 @@ export default function ActivitiesBar() {
   );
 
   return (
-    <aside className="flex h-full w-8 flex-col items-center space-y-2 border-r bg-gray-100 p-0.5">
+    <aside className="flex h-full w-8 flex-col items-center space-y-2 bg-sidebar p-0.5">
       {activities.map((act) => (
         <Activity
           active={act.key === activeView}
