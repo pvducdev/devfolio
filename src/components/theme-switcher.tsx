@@ -38,7 +38,7 @@ export default function ThemeSwitcher() {
             : "Select theme..."}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-48 p-0">
+      <PopoverContent className="max-w-60 p-0">
         <Command>
           <CommandList>
             <CommandGroup>

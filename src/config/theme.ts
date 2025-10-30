@@ -1,6 +1,6 @@
 export const THEMES = [
   {
-    name: "Default",
+    name: "Amethyst Haze (default)",
     value: "default",
   },
   {
@@ -8,12 +8,12 @@ export const THEMES = [
     value: "bubblegum",
   },
   {
-    name: "Mocha Mousse",
-    value: "mocha-mousse",
+    name: "Dark Twitter",
+    value: "twitter",
   },
   {
-    name: "Dark Matter",
-    value: "dark-matter",
+    name: "Mocha Mousse",
+    value: "mocha-mousse",
   },
 ];
 

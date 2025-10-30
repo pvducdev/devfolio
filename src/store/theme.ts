@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { Theme } from "@/config/theme.ts";
+import { THEMES, type Theme } from "@/config/theme.ts";
 import applyTheme from "@/lib/applyTheme.ts";
 
 export const storeKey = "theme";
@@ -16,7 +16,7 @@ type Actions = {
 export const useThemeStore = create<State & Actions>()(
   persist(
     (set) => ({
-      theme: "",
+      theme: THEMES.find((t) => t.value === "default")?.value || "",
       setTheme: (theme) => {
         applyTheme(theme);
         set({ theme });
