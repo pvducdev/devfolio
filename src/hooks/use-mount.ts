@@ -1,16 +1,21 @@
+import type { EffectCallback } from "react";
 import { useEffect } from "react";
 
-export type UseMount = (fn: () => void) => void;
+type MountCallback = EffectCallback | (() => Promise<undefined | (() => void)>);
 
-export const useMount: UseMount = (fn: () => void) => {
-  if (typeof fn !== "function") {
-    throw new Error(
-      `useMount: parameter \`fn\` expected to be a function, but got "${typeof fn}".`
-    );
-  }
-
+export function useMount(fn: MountCallback) {
   // biome-ignore lint/correctness/useExhaustiveDependencies: <custom hook>
   useEffect(() => {
-    fn?.();
+    const result = fn?.();
+    if (
+      result &&
+      typeof result === "object" &&
+      // biome-ignore lint/suspicious/noExplicitAny: <.>
+      typeof (result as any).then === "function"
+    ) {
+      return;
+    }
+
+    return result as ReturnType<EffectCallback>;
   }, []);
-};
+}
