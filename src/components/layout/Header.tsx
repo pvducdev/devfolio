@@ -1,6 +1,7 @@
-import { Download, FileUser, GitBranch, Settings } from "lucide-react";
+import { GitBranch, Settings } from "lucide-react";
 import ButtonWithTooltip from "@/components/common/button-with-tooltip.tsx";
 import AppSearch from "@/components/layout/app-search.tsx";
+import ResumeViewer from "@/components/resume-viewer/dialog-container.tsx";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -30,16 +31,7 @@ export default function Header() {
         </div>
       </div>
       <div className="flex items-center space-x-2 pr-1">
-        <div className="mr-32 flex items-center space-x-2">
-          <FileUser className="size-4" />
-          <p className="text-xs">My CV</p>
-          <Button
-            className="size-6 cursor-pointer bg-primary text-center text-primary-foreground hover:bg-primary/80"
-            size="icon"
-          >
-            <Download className="size-3" />
-          </Button>
-        </div>
+        <ResumeViewer className="mr-32 flex items-center space-x-2" />
         <Button
           className="size-7 cursor-pointer hover:bg-transparent"
           size="icon"
