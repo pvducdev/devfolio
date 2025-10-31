@@ -1,4 +1,4 @@
-import { Download, FileUser } from "lucide-react";
+import { Eye, FileUser } from "lucide-react";
 import DownloadAction from "@/components/resume-viewer/download-action.tsx";
 import ResumeViewer from "@/components/resume-viewer/pdf-viewer.tsx";
 import { Button } from "@/components/ui/button.tsx";
@@ -26,10 +26,10 @@ export default function DialogContainer({ className }: ResumeReviewerProps) {
       <Dialog>
         <DialogTrigger asChild>
           <Button
-            className="size-6 cursor-pointer bg-primary text-center text-primary-foreground hover:bg-primary/80"
+            className="size-6 bg-primary text-center text-primary-foreground hover:bg-primary/90"
             size="icon"
           >
-            <Download className="size-3" />
+            <Eye className="size-3" />
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-5xl" showCloseButton={false}>
@@ -41,7 +41,7 @@ export default function DialogContainer({ className }: ResumeReviewerProps) {
           <DialogFooter>
             <DialogClose asChild>
               <Button type="button" variant="ghost">
-                Close
+                Cancel
               </Button>
             </DialogClose>
             <DownloadAction filename={RESUME_FILE_NAME} url={RESUME_URL} />
