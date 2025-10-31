@@ -10,13 +10,9 @@ type Item = {
 };
 
 const items: Record<string, Item> = {
-  company: {
-    name: "Company",
-    children: ["engineering", "marketing"],
-  },
   engineering: {
     name: "Engineering",
-    children: ["frontend", "backend", "platform-team"],
+    children: ["frontend", "backend"],
   },
   frontend: { name: "Frontend", children: ["design-system", "web-platform"] },
   "design-system": {
@@ -30,21 +26,19 @@ const items: Record<string, Item> = {
   backend: { name: "Backend", children: ["apis", "infrastructure"] },
   apis: { name: "APIs" },
   infrastructure: { name: "Infrastructure" },
-  "platform-team": { name: "Platform Team" },
-  marketing: { name: "Marketing", children: ["content", "seo"] },
-  content: { name: "Content" },
-  seo: { name: "SEO" },
 };
 
 const indent = 20;
 
 export default function Projects() {
+  "use no memo";
+
   const tree = useTree<Item>({
     initialState: {
       expandedItems: ["engineering", "frontend", "design-system"],
     },
     indent,
-    rootItemId: "company",
+    rootItemId: "engineering",
     getItemName: (item) => item.getItemData().name,
     isItemFolder: (item) => (item.getItemData()?.children?.length ?? 0) > 0,
     dataLoader: {
