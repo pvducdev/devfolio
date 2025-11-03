@@ -12,6 +12,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { SITE_CONFIG } from "@/config/site.ts";
 import { Badge } from "../ui/badge";
 
 export default function Header() {
@@ -23,15 +24,17 @@ export default function Header() {
           <Badge className="rounded bg-primary px-1 text-primary-foreground hover:bg-primary/90">
             PP
           </Badge>
-          <p className="font-medium text-xs">PVD's portfolio</p>
+          <p className="font-medium text-xs">{SITE_CONFIG.title}</p>
         </div>
         <div className="ml-10 flex items-center space-x-2">
           <GitBranch className="size-4" />
-          <p className="font-medium text-xs">v0.1</p>
+          <p className="font-medium text-xs">v{SITE_CONFIG.version}</p>
         </div>
       </div>
       <div className="flex items-center space-x-2 pr-1">
-        <ResumeViewer className="mr-32 flex items-center space-x-2" />
+        {SITE_CONFIG.features.showResumeViewer && (
+          <ResumeViewer className="mr-32 flex items-center space-x-2" />
+        )}
         <Button
           className="size-7 cursor-pointer hover:bg-transparent"
           size="icon"

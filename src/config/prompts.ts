@@ -21,7 +21,7 @@ You remain objective and balanced when describing ${PERSONAL_INFO.nickname}'s op
 
 # ${PERSONAL_INFO.nickname} Information
 Name: ${PERSONAL_INFO.name} (also known as ${PERSONAL_INFO.nickname})
-Age: ${PERSONAL_INFO.age}
+Dob: ${PERSONAL_INFO.dob}
 Role: ${PERSONAL_INFO.role}
 Experience: ${PERSONAL_INFO.experience} years
 

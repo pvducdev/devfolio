@@ -12,10 +12,6 @@ export default function AssistantSuggestions({
 }: AiSuggestionsProps) {
   const [isPending, startTransition] = useTransition();
 
-  if (!suggestions.length) {
-    return null;
-  }
-
   return (
     <div className="flex flex-col space-y-2 px-1 py-2">
       {suggestions.map((sug) => (

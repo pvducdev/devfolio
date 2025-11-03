@@ -12,7 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog.tsx";
-import { RESUME_FILE_NAME, RESUME_URL } from "@/config/personal.ts";
+import { PERSONAL_INFO } from "@/config/personal.ts";
 
 type ResumeReviewerProps = {
   className?: string;
@@ -34,17 +34,20 @@ export default function DialogContainer({ className }: ResumeReviewerProps) {
         </DialogTrigger>
         <DialogContent className="sm:max-w-5xl" showCloseButton={false}>
           <DialogHeader>
-            <DialogTitle>{RESUME_FILE_NAME}</DialogTitle>
+            <DialogTitle>{PERSONAL_INFO.resume.fileName}</DialogTitle>
             <DialogDescription />
           </DialogHeader>
-          <ResumeViewer className="h-[70dvh]" url={RESUME_URL} />
+          <ResumeViewer className="h-[70dvh]" url={PERSONAL_INFO.resume.url} />
           <DialogFooter>
             <DialogClose asChild>
               <Button type="button" variant="ghost">
                 Cancel
               </Button>
             </DialogClose>
-            <DownloadAction filename={RESUME_FILE_NAME} url={RESUME_URL} />
+            <DownloadAction
+              filename={PERSONAL_INFO.resume.fileName}
+              url={PERSONAL_INFO.resume.url}
+            />
           </DialogFooter>
         </DialogContent>
       </Dialog>

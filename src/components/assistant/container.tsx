@@ -4,6 +4,7 @@ import Input from "@/components/assistant/input.tsx";
 import AssistantResponse from "@/components/assistant/response.tsx";
 import Suggestions from "@/components/assistant/suggestions.tsx";
 import { ScrollArea } from "@/components/ui/scroll-area.tsx";
+import { SITE_CONFIG } from "@/config/site.ts";
 import generateAssistantResponseFn from "@/fn/generate-assistant-response.ts";
 import { cn } from "@/lib/utils.ts";
 
@@ -11,14 +12,6 @@ export default function AssistantContainer() {
   const [messages, setMessages] = useState<string>("");
 
   const hasMessage = !!messages;
-
-  const suggestions = hasMessage
-    ? []
-    : [
-        "What’s D’s specialty?",
-        "How does D solve problems?",
-        "What tech does D like most?",
-      ];
 
   const clearMessages = () => {
     setMessages("");
@@ -52,13 +45,17 @@ export default function AssistantContainer() {
       >
         <AssistantResponse response={messages} />
       </ScrollArea>
-      <Suggestions
-        onClick={(msg) => {
-          clearMessages();
-          return sendMessage(msg);
-        }}
-        suggestions={suggestions}
-      />
+      {!hasMessage && (
+        <Suggestions
+          onClick={(msg) => {
+            clearMessages();
+            return sendMessage(msg);
+          }}
+          suggestions={
+            SITE_CONFIG.assistant.defaultSuggestions as unknown as string[]
+          }
+        />
+      )}
       <Input
         onSubmit={(_, formData) => {
           clearMessages();

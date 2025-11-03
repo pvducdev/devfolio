@@ -1,8 +1,3 @@
-export const TIMELINE_CONFIG = {
-  defaultActiveStep: 3,
-  variant: "default" as const,
-} as const;
-
 export const TREE_CONFIG = {
   indent: 20,
   enableHotkeys: true,

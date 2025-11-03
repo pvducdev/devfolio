@@ -1,5 +1,6 @@
 import ButtonWithTooltip from "@/components/common/button-with-tooltip.tsx";
 import type { Activity as TActivity } from "@/config/routes.tsx";
+import { cn } from "@/lib/utils.ts";
 
 type ActivityProps = {
   active: boolean;
@@ -12,7 +13,10 @@ export default function Activity({ active, data, onClick }: ActivityProps) {
 
   return (
     <ButtonWithTooltip
-      className="size-7 border-none"
+      className={cn(
+        "size-7 border-none",
+        active && "bg-accent text-accent-foreground"
+      )}
       onClick={() => {
         onClick(data);
       }}

@@ -3,6 +3,8 @@ import { PERSONAL_INFO } from "./personal";
 export const SITE_CONFIG = {
   title: "PVD Portfolio",
   description: PERSONAL_INFO.about.shortBio,
+  // biome-ignore lint/correctness/noUndeclaredVariables: <zxc>
+  version: __APP_VERSION__,
   url: "https://your-domain.com",
 
   meta: {
@@ -26,15 +28,14 @@ export const SITE_CONFIG = {
       "What are D's core skills?",
       "Tell me about D's experience",
       "What projects has D worked on?",
-      "What tools does D use?",
     ],
+    welcome: "Ready for some fun facts about my human?",
   },
 
   features: {
     showAssistant: true,
     showResumeViewer: true,
     showThemeSwitcher: true,
-    enableDevtools: process.env.NODE_ENV === "development",
   },
 } as const;
 

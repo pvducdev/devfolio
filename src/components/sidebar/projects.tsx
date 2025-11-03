@@ -3,8 +3,7 @@ import { useTree } from "@headless-tree/react";
 import { FileIcon, FolderIcon, FolderOpenIcon } from "lucide-react";
 
 import { Tree, TreeItem, TreeItemLabel } from "@/components/ui/tree";
-import { PROJECT_TREE_CONFIG } from "@/config/components.ts";
-import { PROJECT_TREE } from "@/config/content.ts";
+import { PROJECT_TREE, PROJECT_TREE_CONFIG } from "@/config/content.ts";
 
 type Item = {
   name: string;
@@ -16,7 +15,7 @@ export default function Projects() {
 
   const tree = useTree<Item>({
     initialState: {
-      expandedItems: PROJECT_TREE_CONFIG.defaultExpanded,
+      expandedItems: PROJECT_TREE_CONFIG.defaultExpanded as unknown as string[],
     },
     indent: PROJECT_TREE_CONFIG.indent,
     rootItemId: PROJECT_TREE_CONFIG.rootItemId,

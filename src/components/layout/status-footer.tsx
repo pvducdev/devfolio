@@ -1,6 +1,7 @@
 import ThemeSwitcher from "@/components/theme-switcher.tsx";
 import { Gitlab } from "@/components/ui/svgs/gitlab";
 import { Linkedin } from "@/components/ui/svgs/linkedin";
+import { SITE_CONFIG } from "@/config/site.ts";
 import { Badge } from "../ui/badge";
 
 export default function StatusFooter() {
@@ -10,7 +11,7 @@ export default function StatusFooter() {
         Home &gt; Welcome
       </small>
       <div className="flex items-center space-x-4">
-        <ThemeSwitcher />
+        {SITE_CONFIG.features.showThemeSwitcher && <ThemeSwitcher />}
         <div className="flex items-center space-x-2">
           <Gitlab className="size-3 text-muted-foreground [&>path]:fill-current" />
           <Linkedin className="size-3 text-muted-foreground [&>path]:fill-current" />

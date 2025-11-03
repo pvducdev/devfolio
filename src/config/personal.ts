@@ -2,7 +2,7 @@ export const PERSONAL_INFO = {
   name: "PVD",
   fullName: "PVD",
   nickname: "D",
-  age: 24,
+  dob: 2001,
   role: "Frontend Developer",
   experience: 3, // years
 
@@ -40,7 +40,3 @@ export const PERSONAL_INFO = {
 } as const;
 
 export type PersonalInfo = typeof PERSONAL_INFO;
-
-// Legacy exports for backward compatibility
-export const RESUME_URL = PERSONAL_INFO.resume.url;
-export const RESUME_FILE_NAME = PERSONAL_INFO.resume.fileName;
