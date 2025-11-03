@@ -1,6 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
 import { createServerOnlyFn } from "@tanstack/react-start";
-import geminiSystemPrompt from "@/config/gemini-system-prompt.txt?raw";
+import geminiSystemPrompt from "@/config/prompts";
 
 const getClient = createServerOnlyFn(
   () =>

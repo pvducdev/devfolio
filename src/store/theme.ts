@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { THEMES, type Theme } from "@/config/theme.ts";
-import applyTheme from "@/lib/applyTheme.ts";
+import applyTheme from "@/lib/apply-theme.ts";
 
 export const storeKey = "theme";
 

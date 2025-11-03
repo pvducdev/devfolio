@@ -3,47 +3,28 @@ import { useTree } from "@headless-tree/react";
 import { FileIcon, FolderIcon, FolderOpenIcon } from "lucide-react";
 
 import { Tree, TreeItem, TreeItemLabel } from "@/components/ui/tree";
+import { PROJECT_TREE_CONFIG } from "@/config/components.ts";
+import { PROJECT_TREE } from "@/config/content.ts";
 
 type Item = {
   name: string;
   children?: string[];
 };
 
-const items: Record<string, Item> = {
-  engineering: {
-    name: "Engineering",
-    children: ["frontend", "backend"],
-  },
-  frontend: { name: "Frontend", children: ["design-system", "web-platform"] },
-  "design-system": {
-    name: "Design System",
-    children: ["components", "tokens", "guidelines"],
-  },
-  components: { name: "Components" },
-  tokens: { name: "Tokens" },
-  guidelines: { name: "Guidelines" },
-  "web-platform": { name: "Web Platform" },
-  backend: { name: "Backend", children: ["apis", "infrastructure"] },
-  apis: { name: "APIs" },
-  infrastructure: { name: "Infrastructure" },
-};
-
-const indent = 20;
-
 export default function Projects() {
   "use no memo";
 
   const tree = useTree<Item>({
     initialState: {
-      expandedItems: ["engineering", "frontend", "design-system"],
+      expandedItems: PROJECT_TREE_CONFIG.defaultExpanded,
     },
-    indent,
-    rootItemId: "engineering",
+    indent: PROJECT_TREE_CONFIG.indent,
+    rootItemId: PROJECT_TREE_CONFIG.rootItemId,
     getItemName: (item) => item.getItemData().name,
     isItemFolder: (item) => (item.getItemData()?.children?.length ?? 0) > 0,
     dataLoader: {
-      getItem: (itemId) => items[itemId],
-      getChildren: (itemId) => items[itemId].children ?? [],
+      getItem: (itemId) => PROJECT_TREE[itemId],
+      getChildren: (itemId) => PROJECT_TREE[itemId].children ?? [],
     },
     features: [syncDataLoaderFeature, hotkeysCoreFeature],
   });
@@ -53,7 +34,7 @@ export default function Projects() {
       <div>
         <Tree
           className="before:-ms-1 relative before:absolute before:inset-0 before:bg-[repeating-linear-gradient(to_right,transparent_0,transparent_calc(var(--tree-indent)-1px),var(--border)_calc(var(--tree-indent)-1px),var(--border)_calc(var(--tree-indent)))]"
-          indent={indent}
+          indent={PROJECT_TREE_CONFIG.indent}
           tree={tree}
         >
           {tree.getItems().map((item) => (

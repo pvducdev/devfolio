@@ -2,6 +2,7 @@ import { TanStackDevtools } from "@tanstack/react-devtools";
 import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 
+import { SITE_CONFIG } from "@/config/site.ts";
 import appCss from "../styles.css?url";
 
 export const Route = createRootRoute({
@@ -15,7 +16,19 @@ export const Route = createRootRoute({
         content: "width=device-width, initial-scale=1",
       },
       {
-        title: "PVD Portfolio",
+        title: SITE_CONFIG.title,
+      },
+      {
+        name: "description",
+        content: SITE_CONFIG.description,
+      },
+      {
+        name: "author",
+        content: SITE_CONFIG.meta.author,
+      },
+      {
+        name: "keywords",
+        content: SITE_CONFIG.meta.keywords.join(", "),
       },
     ],
     links: [
