@@ -7,7 +7,7 @@ type WelcomeActionProps = {
   data: TActivity;
 };
 
-export default function WelcomeAction({ data }: WelcomeActionProps) {
+export default function WelcomeActivity({ data }: WelcomeActionProps) {
   const [activeView, toggleActiveView] = useSidebarStore(
     useShallow((state) => [state.activeView, state.toggleActiveView])
   );
@@ -16,14 +16,13 @@ export default function WelcomeAction({ data }: WelcomeActionProps) {
 
   return (
     <Button
-      className="justify-center border-gray-300 transition-all hover:border-primary hover:text-primary"
       key={data.key}
       onClick={() => {
         toggleActiveView(data.key);
       }}
       variant={activeView === data.key ? "default" : "outline"}
     >
-      <Icon className="mr-2 h-4 w-4" />
+      <Icon />
       {data.name}
     </Button>
   );
