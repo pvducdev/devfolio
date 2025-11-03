@@ -3,7 +3,7 @@ import { PERSONAL_INFO } from "./personal";
 export const SITE_CONFIG = {
   title: "PVD Portfolio",
   description: PERSONAL_INFO.about.shortBio,
-  // biome-ignore lint/correctness/noUndeclaredVariables: <zxc>
+  // biome-ignore lint/correctness/noUndeclaredVariables: <vite define>
   version: __APP_VERSION__,
   url: "https://your-domain.com",
 

@@ -1,8 +1,8 @@
 import { X } from "lucide-react";
 import { useState } from "react";
-import PortfolioWelcome from "@/components/layout/welcome.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import PortfolioWelcome from "@/components/welcome/container.tsx";
 
 export default function CodeEditorContainer() {
   const [tabs, setTabs] = useState([

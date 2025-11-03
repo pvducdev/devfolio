@@ -33,7 +33,7 @@ export const PERSONAL_INFO = {
 
   about: {
     shortBio:
-      "Frontend Developer with 3 years of experience specializing in React, Vue, and modern web technologies.",
+      "I craft modern web experiences with clean design and thoughtful code. Dive in and explore what I’ve been building.",
     longBio:
       "Frontend Developer with 3 years of experience specializing in React, Vue, and modern web technologies.",
   },
