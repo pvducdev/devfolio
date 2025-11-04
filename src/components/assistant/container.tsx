@@ -30,7 +30,9 @@ export default function AssistantContainer() {
 
       return "";
     } catch (err) {
-      return (err as Error)?.message || "Failed to send message.";
+      const errorMessage =
+        err instanceof Error ? err.message : "An unexpected error occurred";
+      return errorMessage;
     }
   };
 
@@ -51,9 +53,7 @@ export default function AssistantContainer() {
             clearMessages();
             return sendMessage(msg);
           }}
-          suggestions={
-            SITE_CONFIG.assistant.defaultSuggestions as unknown as string[]
-          }
+          suggestions={SITE_CONFIG.assistant.defaultSuggestions}
         />
       )}
       <Input

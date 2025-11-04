@@ -2,7 +2,7 @@ import { useTransition } from "react";
 import { Button } from "@/components/ui/button.tsx";
 
 type AiSuggestionsProps = {
-  suggestions: string[];
+  suggestions: readonly string[];
   onClick: (suggestion: string) => Promise<string>;
 };
 
