@@ -2,12 +2,20 @@ import { ClientOnly } from "@tanstack/react-router";
 import { Dog } from "lucide-react";
 import { Response } from "@/components/ai-elements/response.tsx";
 import { SITE_CONFIG } from "@/config/site.ts";
+import { useTypewriter } from "@/hooks/use-typewriter.ts";
 
 type AiResponseProps = {
   response: string;
 };
 
 export default function AssistantResponse({ response }: AiResponseProps) {
+  const { displayedText } = useTypewriter(response, {
+    speedStages: [
+      { duration: 3000, speed: 100 },
+      { duration: Number.POSITIVE_INFINITY, speed: 200 },
+    ],
+  });
+
   if (!response) {
     return (
       <div className="relative mt-20 flex min-h-40 w-full flex-col items-center rounded-md border p-6 text-center font-mono text-sm">
@@ -24,7 +32,7 @@ export default function AssistantResponse({ response }: AiResponseProps) {
 
   return (
     <ClientOnly>
-      <Response>{response}</Response>
+      <Response>{displayedText}</Response>
     </ClientOnly>
   );
 }

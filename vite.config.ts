@@ -33,6 +33,9 @@ const config = defineConfig({
       },
     }),
   ],
+  ssr: {
+    noExternal: ["streamdown"],
+  },
 });
 
 export default config;
