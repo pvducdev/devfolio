@@ -17,9 +17,16 @@ const config = defineConfig({
     }),
     tailwindcss(),
     tanstackStart(),
-    mdx({
-      providerImportSource: "@mdx-js/react",
-    }),
+    // MDX must run in pre phase before React plugin
+    // This ensures MDX files are transformed to JSX before React processes them
+    {
+      enforce: "pre",
+      ...mdx({
+        // Point to our custom useMDXComponents implementation
+        // Using absolute path from project root
+        providerImportSource: "/src/mdx-components",
+      }),
+    },
     viteReact({
       babel: {
         plugins: ["babel-plugin-react-compiler"],
