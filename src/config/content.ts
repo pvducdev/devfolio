@@ -68,3 +68,24 @@ export const PROJECT_TREE_CONFIG = {
   defaultExpanded: ["engineering", "frontend", "design-system"],
   indent: 20,
 } as const;
+
+type AboutTreeItem = {
+  name: string;
+  children?: string[];
+};
+
+export const ABOUT_TREE: Record<string, AboutTreeItem> = {
+  about: {
+    name: "About",
+    children: ["about.mdx"],
+  },
+  "about.mdx": { name: "about.mdx" },
+} as const;
+
+export type AboutTree = typeof ABOUT_TREE;
+
+export const ABOUT_TREE_CONFIG = {
+  rootItemId: "about",
+  defaultExpanded: ["about"],
+  indent: 20,
+} as const;
