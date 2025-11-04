@@ -1,16 +1,9 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { getFileName, hashPath } from "@/lib/utils.ts";
 import type { Tab, TabsActions, TabsState } from "@/types/tabs";
 
-function hashPath(path: string): string {
-  return path.replace(/[^a-zA-Z0-9]/g, "-");
-}
-
-function getFileName(path: string): string {
-  const name = path.split("/").pop() || path;
-
-  return name;
-}
+const storeKey = "tabs-storage";
 
 export const useTabsStore = create<TabsState & TabsActions>()(
   persist(
@@ -22,14 +15,12 @@ export const useTabsStore = create<TabsState & TabsActions>()(
         const state = get();
         const tabId = hashPath(filePath);
 
-        // Check if tab exists
         const existingTab = state.tabs.find((t) => t.id === tabId);
         if (existingTab) {
           set({ activeTabId: tabId });
           return;
         }
 
-        // Create new tab
         const newTab: Tab = {
           id: tabId,
           filePath,
@@ -45,22 +36,21 @@ export const useTabsStore = create<TabsState & TabsActions>()(
       closeTab: (tabId: string) => {
         const state = get();
         const newTabs = state.tabs.filter((t) => t.id !== tabId);
+        set(() => ({ tabs: newTabs }));
 
-        // Find next active tab
-        let nextActiveId: string | null = null;
         if (state.activeTabId === tabId && newTabs.length > 0) {
           const closedIndex = state.tabs.findIndex((t) => t.id === tabId);
-          nextActiveId =
+          const nextActiveId =
             newTabs[Math.min(closedIndex, newTabs.length - 1)]?.id || null;
-        }
 
-        set({ tabs: newTabs, activeTabId: nextActiveId });
+          set(() => ({ activeTabId: nextActiveId }));
+        }
       },
 
       setActiveTab: (tabId: string) => {
         set({ activeTabId: tabId });
       },
     }),
-    { name: "tabs-storage" }
+    { name: storeKey }
   )
 );

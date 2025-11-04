@@ -21,22 +21,13 @@ export default function CodeEditorContainer() {
 
   return (
     <Tabs
-      className="flex h-full w-full flex-col overflow-hidden"
+      className="flex size-full flex-col overflow-hidden"
       onValueChange={setActiveTab}
       value={activeTabId || undefined}
     >
-      <TabBar
-        activeTabId={activeTabId}
-        onTabClick={setActiveTab}
-        onTabClose={closeTab}
-        tabs={tabs}
-      />
+      <TabBar onTabClick={setActiveTab} onTabClose={closeTab} tabs={tabs} />
       {tabs.map((tab) => (
-        <TabsContent
-          className="flex-1 overflow-hidden"
-          key={tab.id}
-          value={tab.id}
-        >
+        <TabsContent className="overflow-hidden" key={tab.id} value={tab.id}>
           <MDXViewer tab={tab} />
         </TabsContent>
       ))}

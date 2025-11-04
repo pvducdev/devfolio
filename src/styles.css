@@ -8,6 +8,8 @@
 
 @source "../node_modules/streamdown/dist/index.js";
 
+@custom-variant dark (&:is(.dark *));
+
 @theme inline {
     --color-background: var(--background);
     --color-foreground: var(--foreground);
@@ -63,9 +65,4 @@
     body {
         @apply bg-background text-foreground;
     }
-}
-
-* {
-    color-scheme: light dark;
-    border-color: var(--color-border);
 }

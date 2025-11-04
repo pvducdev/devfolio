@@ -1,46 +1,42 @@
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { MarkdownLight } from "@/components/ui/svgs/markdownLight.tsx";
 import { TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { Tab } from "@/types/tabs";
 
 type TabBarProps = {
   tabs: Tab[];
-  activeTabId: string | null;
   onTabClick: (tabId: string) => void;
   onTabClose: (tabId: string) => void;
 };
 
-export default function TabBar({
-  tabs,
-  activeTabId,
-  onTabClick,
-  onTabClose,
-}: TabBarProps) {
-  if (tabs.length === 0) {
-    return null;
-  }
-
+export default function TabBar({ tabs, onTabClick, onTabClose }: TabBarProps) {
   return (
-    <TabsList className="h-auto w-full justify-start rounded-none border-b bg-sidebar p-1">
+    <TabsList className="h-auto w-full justify-start space-x-0.5 overflow-x-auto rounded-none border-b bg-transparent">
       {tabs.map((tab) => (
         <TabsTrigger
-          className="group relative flex items-center gap-2 pr-7 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground"
-          data-state={tab.id === activeTabId ? "active" : "inactive"}
+          className="group relative flex flex-initial items-center space-x-0.5 rounded-md px-1 text-xs shadow-none! hover:bg-accent hover:text-accent-foreground data-[state=active]:border-border data-[state=active]:bg-accent data-[state=active]:text-accent-foreground"
           key={tab.id}
-          onClick={() => onTabClick(tab.id)}
+          onClick={() => {
+            onTabClick(tab.id);
+          }}
           value={tab.id}
         >
-          <span className="max-w-[150px] truncate">{tab.label}</span>
+          <MarkdownLight className="size-4" />
+          <span className="max-w-28 truncate">{tab.label}</span>
           <Button
-            className="absolute right-1 size-4 opacity-0 transition-opacity group-hover:opacity-100"
-            onClick={(e) => {
-              e.stopPropagation();
-              onTabClose(tab.id);
-            }}
+            asChild
+            className="size-3 rounded-full p-px opacity-0 transition-opacity hover:bg-background group-hover:opacity-100 group-data-[state=active]:opacity-100"
             size="icon"
             variant="ghost"
           >
-            <X className="size-3" />
+            <span
+              onPointerDown={() => {
+                onTabClose(tab.id);
+              }}
+            >
+              <X className="size-full" />
+            </span>
           </Button>
         </TabsTrigger>
       ))}

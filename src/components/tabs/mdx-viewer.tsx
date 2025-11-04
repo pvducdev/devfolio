@@ -1,4 +1,4 @@
-import { Suspense, useState } from "react";
+import { type ComponentType, Suspense, useState } from "react";
 import { useMount } from "@/hooks/use-mount";
 import type { Tab } from "@/types/tabs";
 
@@ -6,14 +6,12 @@ type MDXViewerProps = {
   tab: Tab;
 };
 
-const mdxModules = import.meta.glob<{ default: React.ComponentType }>(
+const mdxModules = import.meta.glob<{ default: ComponentType }>(
   "/src/content/**/*.mdx"
 );
 
 export default function MDXViewer({ tab }: MDXViewerProps) {
-  const [MDXContent, setMDXContent] = useState<React.ComponentType | null>(
-    null
-  );
+  const [MDXContent, setMDXContent] = useState<ComponentType | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useMount(() => {
@@ -24,20 +22,20 @@ export default function MDXViewer({ tab }: MDXViewerProps) {
     setError(null);
 
     try {
-      const globKey = `/src/${tab.filePath}.mdx`;
+      const globKey = `/src/${tab.filePath}`;
 
       const moduleLoader = mdxModules[globKey];
 
       if (!moduleLoader) {
         throw new Error(
-          `MDX file not found: ${globKey}\nAvailable files: ${Object.keys(mdxModules).join(", ")}`
+          `File not found: ${globKey}\nAvailable files: ${Object.keys(mdxModules).join(", ")}`
         );
       }
 
       const module = await moduleLoader();
       setMDXContent(() => module.default);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to load MDX file");
+      setError(err instanceof Error ? err.message : "Failed to load file");
     }
   }
 

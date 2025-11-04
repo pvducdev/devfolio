@@ -76,20 +76,24 @@ export type AboutTreeItem = {
 };
 
 export const ABOUT_TREE: Record<string, AboutTreeItem> = {
-  about: {
-    name: "About",
-    children: ["about.mdx"],
+  profile: {
+    name: "Profile",
+    children: ["about"],
   },
-  "about.mdx": {
+  about: {
     name: "about.mdx",
-    filePath: "content/about",
+    filePath: "content/about.mdx",
+  },
+  root: {
+    name: "root",
+    children: ["profile"],
   },
 } as const;
 
 export type AboutTree = typeof ABOUT_TREE;
 
 export const ABOUT_TREE_CONFIG = {
-  rootItemId: "about",
-  defaultExpanded: ["about"],
+  rootItemId: "root",
+  defaultExpanded: ["root", "profile"],
   indent: 20,
 } as const;
