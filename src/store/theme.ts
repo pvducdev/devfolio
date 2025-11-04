@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { THEMES, type Theme } from "@/config/theme.ts";
-import applyTheme from "@/lib/apply-theme.ts";
 
 export const storeKey = "theme";
 
@@ -18,7 +17,6 @@ export const useThemeStore = create<State & Actions>()(
     (set) => ({
       theme: THEMES.find((t) => t.value === "default")?.value || "",
       setTheme: (theme) => {
-        applyTheme(theme);
         set({ theme });
       },
     }),
