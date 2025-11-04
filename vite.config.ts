@@ -1,3 +1,4 @@
+import mdx from "@mdx-js/rollup";
 import tailwindcss from "@tailwindcss/vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
@@ -16,6 +17,9 @@ const config = defineConfig({
     }),
     tailwindcss(),
     tanstackStart(),
+    mdx({
+      providerImportSource: "@mdx-js/react",
+    }),
     viteReact({
       babel: {
         plugins: ["babel-plugin-react-compiler"],

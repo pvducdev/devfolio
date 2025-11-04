@@ -1,9 +1,9 @@
 import { Gitlab } from "@/components/ui/svgs/gitlab.tsx";
 import { Linkedin } from "@/components/ui/svgs/linkedin.tsx";
+import WelcomeActivity from "@/components/welcome/activity.tsx";
 import { PERSONAL_INFO } from "@/config/personal.ts";
 import { activities } from "@/config/routes.tsx";
 import { SITE_CONFIG } from "@/config/site.ts";
-import WelcomeActivity from "@/components/welcome/activity.tsx";
 
 export default function WelcomeContainer() {
   return (

@@ -1,0 +1,37 @@
+# About Me
+
+Welcome to my portfolio! This is an example MDX file that demonstrates the power of combining **Markdown** with **React components**.
+
+## What is MDX?
+
+MDX allows you to use JSX in your markdown content. You can write markdown like normal, and also import and use React components.
+
+## Features
+
+- GitHub Flavored Markdown support
+- Automatic heading IDs with `rehype-slug`
+- Auto-linked headings with `rehype-autolink-headings`
+- Full React component integration
+- Fast build-time compilation with Vite
+
+## Code Example
+
+```typescript
+const greeting = (name: string) => {
+  return `Hello, ${name}!`;
+};
+
+console.log(greeting("World"));
+```
+
+## List Example
+
+1. First item
+2. Second item
+   - Nested item
+   - Another nested item
+3. Third item
+
+---
+
+This content is loaded dynamically using Vite's MDX plugin and displayed in the tab system!
