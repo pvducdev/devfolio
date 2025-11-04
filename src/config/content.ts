@@ -72,6 +72,7 @@ export const PROJECT_TREE_CONFIG = {
 type AboutTreeItem = {
   name: string;
   children?: string[];
+  filePath?: string;
 };
 
 export const ABOUT_TREE: Record<string, AboutTreeItem> = {
@@ -79,7 +80,10 @@ export const ABOUT_TREE: Record<string, AboutTreeItem> = {
     name: "About",
     children: ["about.mdx"],
   },
-  "about.mdx": { name: "about.mdx" },
+  "about.mdx": {
+    name: "about.mdx",
+    filePath: "content/about",
+  },
 } as const;
 
 export type AboutTree = typeof ABOUT_TREE;

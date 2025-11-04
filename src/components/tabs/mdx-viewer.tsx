@@ -6,6 +6,10 @@ type MDXViewerProps = {
   tab: Tab;
 };
 
+const mdxModules = import.meta.glob<{ default: React.ComponentType }>(
+  "/src/content/**/*.mdx"
+);
+
 export default function MDXViewer({ tab }: MDXViewerProps) {
   const [MDXContent, setMDXContent] = useState<React.ComponentType | null>(
     null
@@ -20,10 +24,17 @@ export default function MDXViewer({ tab }: MDXViewerProps) {
     setError(null);
 
     try {
-      // Dynamic import of MDX files compiled by Vite
-      // The filePath should be relative to src (e.g., "content/about")
-      // Note: Vite requires static file extension in dynamic imports
-      const module = await import(`../../${tab.filePath}.mdx`);
+      const globKey = `/src/${tab.filePath}.mdx`;
+
+      const moduleLoader = mdxModules[globKey];
+
+      if (!moduleLoader) {
+        throw new Error(
+          `MDX file not found: ${globKey}\nAvailable files: ${Object.keys(mdxModules).join(", ")}`
+        );
+      }
+
+      const module = await moduleLoader();
       setMDXContent(() => module.default);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to load MDX file");
