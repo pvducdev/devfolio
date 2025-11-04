@@ -4,21 +4,19 @@ import { useTree } from "@headless-tree/react";
 import { FileIcon, FolderIcon, FolderOpenIcon } from "lucide-react";
 import { useShallow } from "zustand/react/shallow";
 import { Tree, TreeItem, TreeItemLabel } from "@/components/ui/tree";
-import { ABOUT_TREE, ABOUT_TREE_CONFIG } from "@/config/content.ts";
+import {
+  ABOUT_TREE,
+  ABOUT_TREE_CONFIG,
+  type AboutTreeItem,
+} from "@/config/content.ts";
 import { useTabsStore } from "@/store/tabs";
-
-type Item = {
-  name: string;
-  children?: string[];
-  filePath?: string;
-};
 
 export default function About() {
   "use no memo";
 
   const openTab = useTabsStore(useShallow((state) => state.openTab));
 
-  const tree = useTree<Item>({
+  const tree = useTree<AboutTreeItem>({
     initialState: {
       expandedItems: ABOUT_TREE_CONFIG.defaultExpanded as unknown as string[],
     },
@@ -33,7 +31,7 @@ export default function About() {
     features: [syncDataLoaderFeature, hotkeysCoreFeature],
   });
 
-  const handleItemDoubleClick = (item: ItemInstance<Item>) => {
+  const handleItemDoubleClick = (item: ItemInstance<AboutTreeItem>) => {
     const itemData = item.getItemData();
 
     if (itemData.filePath) {

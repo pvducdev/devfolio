@@ -69,7 +69,7 @@ export const PROJECT_TREE_CONFIG = {
   indent: 20,
 } as const;
 
-type AboutTreeItem = {
+export type AboutTreeItem = {
   name: string;
   children?: string[];
   filePath?: string;
