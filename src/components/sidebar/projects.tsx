@@ -1,19 +1,22 @@
+import type { ItemInstance } from "@headless-tree/core";
 import { hotkeysCoreFeature, syncDataLoaderFeature } from "@headless-tree/core";
 import { useTree } from "@headless-tree/react";
 import { FileIcon, FolderIcon, FolderOpenIcon } from "lucide-react";
-
+import { useShallow } from "zustand/react/shallow";
 import { Tree, TreeItem, TreeItemLabel } from "@/components/ui/tree";
-import { PROJECT_TREE, PROJECT_TREE_CONFIG } from "@/config/content.ts";
-
-type Item = {
-  name: string;
-  children?: string[];
-};
+import {
+  PROJECT_TREE,
+  PROJECT_TREE_CONFIG,
+  type ProjectTreeItem,
+} from "@/config/content.ts";
+import { useTabsStore } from "@/store/tabs";
 
 export default function Projects() {
   "use no memo";
 
-  const tree = useTree<Item>({
+  const openTab = useTabsStore(useShallow((state) => state.openTab));
+
+  const tree = useTree<ProjectTreeItem>({
     initialState: {
       expandedItems: PROJECT_TREE_CONFIG.defaultExpanded as unknown as string[],
     },
@@ -28,6 +31,14 @@ export default function Projects() {
     features: [syncDataLoaderFeature, hotkeysCoreFeature],
   });
 
+  const handleItemDoubleClick = (item: ItemInstance<ProjectTreeItem>) => {
+    const itemData = item.getItemData();
+
+    if (itemData.filePath) {
+      openTab(itemData.filePath);
+    }
+  };
+
   return (
     <div className="flex h-full flex-col gap-2 overflow-auto *:first:grow">
       <div>
@@ -37,7 +48,13 @@ export default function Projects() {
           tree={tree}
         >
           {tree.getItems().map((item) => (
-            <TreeItem item={item} key={item.getId()}>
+            <TreeItem
+              item={item}
+              key={item.getId()}
+              onDoubleClick={() => {
+                handleItemDoubleClick(item);
+              }}
+            >
               <TreeItemLabel className="before:-inset-y-0.5 before:-z-10 relative before:absolute before:inset-x-0 before:bg-background">
                 <span className="flex items-center gap-2 text-nowrap">
                   {item.isFolder() ? (

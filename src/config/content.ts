@@ -31,9 +31,10 @@ export const WORK_EXPERIENCES = [
 
 export type WorkExperience = (typeof WORK_EXPERIENCES)[number];
 
-type ProjectTreeItem = {
+export type ProjectTreeItem = {
   name: string;
   children?: string[];
+  filePath?: string;
 };
 
 export const PROJECT_TREE: Record<string, ProjectTreeItem> = {
@@ -43,29 +44,43 @@ export const PROJECT_TREE: Record<string, ProjectTreeItem> = {
   },
   frontend: {
     name: "Frontend",
-    children: ["design-system", "web-platform"],
+    children: [
+      "project-1-frontend",
+      "project-2-frontend",
+      "project-3-frontend",
+    ],
   },
-  "design-system": {
-    name: "Design System",
-    children: ["components", "tokens", "guidelines"],
+  "project-1-frontend": {
+    name: "projects.mdx",
+    filePath: "content/projects.mdx",
   },
-  components: { name: "Components" },
-  tokens: { name: "Tokens" },
-  guidelines: { name: "Guidelines" },
-  "web-platform": { name: "Web Platform" },
+  "project-2-frontend": {
+    name: "projects.mdx",
+    filePath: "content/projects.mdx",
+  },
+  "project-3-frontend": {
+    name: "projects.mdx",
+    filePath: "content/projects.mdx",
+  },
   backend: {
     name: "Backend",
-    children: ["apis", "infrastructure"],
+    children: ["project-1-backend", "project-2-backend"],
   },
-  apis: { name: "APIs" },
-  infrastructure: { name: "Infrastructure" },
+  "project-1-backend": {
+    name: "projects.mdx",
+    filePath: "content/projects.mdx",
+  },
+  "project-2-backend": {
+    name: "projects.mdx",
+    filePath: "content/projects.mdx",
+  },
 } as const;
 
 export type ProjectTree = typeof PROJECT_TREE;
 
 export const PROJECT_TREE_CONFIG = {
   rootItemId: "engineering",
-  defaultExpanded: ["engineering", "frontend", "design-system"],
+  defaultExpanded: ["engineering", "frontend"],
   indent: 20,
 } as const;
 
