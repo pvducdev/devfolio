@@ -57,6 +57,7 @@ export default function AssistantContainer() {
         />
       )}
       <Input
+        onClearMessages={clearMessages}
         onSubmit={(_, formData) => {
           clearMessages();
           return sendMessage(formData.get("message") as string);
