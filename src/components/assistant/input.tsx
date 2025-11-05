@@ -7,13 +7,11 @@ import { useKeyPress } from "@/hooks/use-keyboard.ts";
 type AiInputProps = {
   placeholder?: string;
   onSubmit: (state: string, formData: FormData) => string | Promise<string>;
-  onClearMessages: () => void;
 };
 
 export default function AssistantInput({
   placeholder = "Feel free to ask...",
   onSubmit,
-  onClearMessages,
 }: AiInputProps) {
   const [errMessage, formAction, isPending] = useActionState(onSubmit, "");
   const [inputValue, setInputValue] = useState("");
@@ -23,15 +21,14 @@ export default function AssistantInput({
   const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
     setInputValue(value);
-    setShowCommands(value.startsWith("/"));
+
+    setShowCommands(
+      value === "/" || (value.startsWith("/") && inputValue === "/")
+    );
   };
 
   const handleCommandSelect = (command: SlashCommand) => {
-    command.handler({
-      clearMessages: onClearMessages,
-      setInputValue,
-    });
-
+    setInputValue(`/${command.name}`);
     setShowCommands(false);
   };
 

@@ -5,6 +5,7 @@ import AssistantResponse from "@/components/assistant/response.tsx";
 import Suggestions from "@/components/assistant/suggestions.tsx";
 import { ScrollArea } from "@/components/ui/scroll-area.tsx";
 import { SITE_CONFIG } from "@/config/site.ts";
+import { SLASH_COMMANDS } from "@/config/slash-commands.ts";
 import generateAssistantResponseFn from "@/fn/generate-assistant-response.ts";
 import { cn } from "@/lib/utils.ts";
 
@@ -18,6 +19,25 @@ export default function AssistantContainer() {
   };
 
   const sendMessage = async (message: string): Promise<string> => {
+    // Check if message is a slash command
+    if (message.startsWith("/")) {
+      const commandName = message.slice(1).trim();
+      const command = SLASH_COMMANDS.find((cmd) => cmd.name === commandName);
+
+      if (command) {
+        // Execute the command handler
+        command.handler({
+          clearMessages,
+          // setInputValue not needed in form submission context
+          setInputValue: () => {
+            // Intentionally empty - input is already cleared by form submission
+          },
+        });
+        return "";
+      }
+    }
+
+    // Normal message handling
     try {
       const handler = generateAssistantResponseFn({
         data: { prompt: message },
@@ -57,7 +77,6 @@ export default function AssistantContainer() {
         />
       )}
       <Input
-        onClearMessages={clearMessages}
         onSubmit={(_, formData) => {
           clearMessages();
           return sendMessage(formData.get("message") as string);
