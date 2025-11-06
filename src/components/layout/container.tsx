@@ -20,6 +20,7 @@ export default function Container() {
           <Sidebar />
           <ResizablePanel
             className="rounded-xl bg-background"
+            defaultSize={50}
             id="code-editor"
             order={2}
           >

@@ -19,7 +19,7 @@ export const useSidebarStore = create<SidebarState & SidebarActions>()(
       size: 25,
       activeView: undefined,
       onChangeSize: (v) => {
-        set({ size: v });
+        set(() => ({ size: v }));
       },
       toggleActiveView: (v) => {
         set((state) => ({

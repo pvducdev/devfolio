@@ -1,16 +1,10 @@
 import type { LucideIcon } from "lucide-react";
 import { Eraser } from "lucide-react";
 
-export type CommandContext = {
-  clearMessages: () => void;
-  setInputValue: (value: string) => void;
-};
-
 export type SlashCommand = {
   name: string;
   description: string;
   icon?: LucideIcon;
-  handler: (context: CommandContext) => void | Promise<void>;
 };
 
 export const SLASH_COMMANDS: SlashCommand[] = [
@@ -18,10 +12,6 @@ export const SLASH_COMMANDS: SlashCommand[] = [
     name: "clear",
     description: "Clear all messages and reset the conversation",
     icon: Eraser,
-    handler: (context) => {
-      context.clearMessages();
-      context.setInputValue("");
-    },
   },
 ];
 
