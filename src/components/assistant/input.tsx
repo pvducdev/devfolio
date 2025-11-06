@@ -42,14 +42,12 @@ export default function AssistantInput({
 
   useKeyPress("Enter", submitForm, {
     target: textareaRef.current,
-    onlyFromElements: ["TEXTAREA"],
     modifiers: { shift: false },
     preventDefault: true,
   });
 
   useKeyPress("Escape", () => setShowCommands(false), {
     target: textareaRef.current,
-    onlyFromElements: ["TEXTAREA"],
     enabled: showCommands,
     preventDefault: true,
   });

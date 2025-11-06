@@ -29,6 +29,20 @@ type FilterOptions = {
 
 type ModifierOptions = {
   modifiers?: Modifiers;
+  /**
+   * When true (default), ALL modifiers must match exactly as specified.
+   * When false, only specified modifiers are checked (others are ignored).
+   *
+   * @example
+   * // Strict mode (default): Only Ctrl+S (no Shift, Alt, or Meta)
+   * useKeyPress("s", handler, { modifiers: { ctrl: true }, strictModifiers: true })
+   *
+   * @example
+   * // Non-strict mode: Ctrl+S, Ctrl+Shift+S, Ctrl+Alt+S all work
+   * useKeyPress("s", handler, { modifiers: { ctrl: true }, strictModifiers: false })
+   *
+   * @default true
+   */
   strictModifiers?: boolean;
 };
 
@@ -52,12 +66,14 @@ function shouldIgnoreEvent(
   ignoreElements?: string[],
   onlyFromElements?: string[]
 ): boolean {
-  const target = event.target as HTMLElement;
-  const tagName = target?.tagName;
+  const target = event.target;
 
-  if (!tagName) {
+  // Type-safe check: only process HTML elements with tagName
+  if (!(target instanceof HTMLElement)) {
     return false;
   }
+
+  const tagName = target.tagName;
 
   if (onlyFromElements && onlyFromElements.length > 0) {
     return !onlyFromElements.includes(tagName);
@@ -107,6 +123,10 @@ function processMatcher(keyMatcher: KeyMatcher): ProcessedMatcher {
   if (typeof keyMatcher === "string") {
     return { type: "string", key: keyMatcher };
   }
+  // Validate array matcher is not empty
+  if (keyMatcher.length === 0) {
+    throw new Error("Key matcher array cannot be empty");
+  }
   return { type: "array", keys: keyMatcher };
 }
 
@@ -127,6 +147,44 @@ function keyMatches(event: KeyboardEvent, matcher: ProcessedMatcher): boolean {
   return false;
 }
 
+/**
+ * Hook for handling keyboard events with flexible matching and filtering options.
+ *
+ * @param keyMatcher - Key(s) to match: string, array of strings, or custom function
+ * @param handler - Callback function to execute when key matches
+ * @param options - Configuration options for event handling, modifiers, and filtering
+ *
+ * @example
+ * // Simple key press
+ * useKeyPress("Escape", () => closeModal())
+ *
+ * @example
+ * // Multiple keys
+ * useKeyPress(["Enter", "NumpadEnter"], () => submitForm())
+ *
+ * @example
+ * // With modifiers (strict mode - only Ctrl+S, no other modifiers)
+ * useKeyPress("s", handleSave, { modifiers: { ctrl: true } })
+ *
+ * @example
+ * // Custom matching function
+ * useKeyPress((e) => e.key >= "0" && e.key <= "9", handleNumberKey)
+ *
+ * @example
+ * // Using with refs - CORRECT PATTERN (target updates when ref changes)
+ * const inputRef = useRef<HTMLInputElement>(null);
+ * useKeyPress("Enter", handleSubmit, {
+ *   target: inputRef.current,  // ✅ Will re-subscribe when ref populates
+ * });
+ *
+ * @example
+ * // Using with callback refs - ALTERNATIVE PATTERN
+ * const [inputElement, setInputElement] = useState<HTMLInputElement | null>(null);
+ * useKeyPress("Enter", handleSubmit, {
+ *   target: inputElement,  // ✅ State triggers re-subscription
+ * });
+ * <input ref={setInputElement} />
+ */
 export function useKeyPress(
   keyMatcher: KeyMatcher,
   handler: KeyPressHandler,
@@ -172,11 +230,14 @@ export function useKeyPress(
   const onKeyPress = useEffectEvent((event: KeyboardEvent) => {
     const config = configRef.current;
 
-    if (
+    // Only filter by element when listening on global targets (window/document)
+    // Element-specific listeners don't need element filtering
+    const shouldFilterByElement =
       target &&
       isGlobalTarget(target) &&
-      shouldIgnoreEvent(event, config.ignoreElements, config.onlyFromElements)
-    ) {
+      shouldIgnoreEvent(event, config.ignoreElements, config.onlyFromElements);
+
+    if (shouldFilterByElement) {
       return;
     }
 
@@ -212,9 +273,27 @@ export function useKeyPress(
     return () => {
       target.removeEventListener(eventType, eventListener);
     };
+    // Include target in dependencies so hook re-subscribes when target changes
+    // This is important for refs that update after initial render
   }, [target, eventType, enabled, onKeyPress]);
 }
 
+/**
+ * Hook that tracks whether a key is currently pressed (boolean state).
+ * Returns true while the key is held down, false when released.
+ *
+ * @param keyMatcher - Key(s) to track: string, array of strings, or custom function
+ * @param options - Configuration options (same as useKeyPress, except eventType)
+ * @returns Boolean indicating whether the key is currently pressed
+ *
+ * @example
+ * // Track if Shift key is pressed
+ * const isShiftPressed = useKeyState("Shift")
+ *
+ * @example
+ * // Track if Ctrl or Meta (Cmd) is pressed
+ * const isModifierPressed = useKeyState(["Control", "Meta"])
+ */
 export function useKeyState(
   keyMatcher: KeyMatcher,
   options: Omit<UseKeyPressOptions, "eventType"> = {}
@@ -234,6 +313,29 @@ export function useKeyState(
   return isPressed;
 }
 
+/**
+ * Convenience hook for keyboard shortcuts with modifier keys.
+ * Automatically enables preventDefault and strict modifier matching.
+ *
+ * @param key - Key to match (single key string)
+ * @param handler - Callback function to execute when shortcut matches
+ * @param modifiers - Required modifier keys (ctrl, shift, alt, meta)
+ * @param options - Additional configuration options
+ *
+ * @example
+ * // Ctrl+S to save
+ * useKeyboardShortcut("s", handleSave, { ctrl: true })
+ *
+ * @example
+ * // Ctrl+Shift+Z to redo
+ * useKeyboardShortcut("z", handleRedo, { ctrl: true, shift: true })
+ *
+ * @example
+ * // Cmd+K on Mac, Ctrl+K on Windows/Linux
+ * useKeyboardShortcut("k", openCommandPalette, {
+ *   [isMac ? "meta" : "ctrl"]: true
+ * })
+ */
 export function useKeyboardShortcut(
   key: string,
   handler: KeyPressHandler,
