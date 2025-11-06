@@ -1,8 +1,9 @@
-import { type ReactNode, useEffect } from "react";
+import type { ReactNode } from "react";
 import {
   Command,
   CommandEmpty,
   CommandGroup,
+  CommandInput,
   CommandItem,
   CommandList,
 } from "@/components/ui/command.tsx";
@@ -11,7 +12,7 @@ import {
   PopoverAnchor,
   PopoverContent,
 } from "@/components/ui/popover.tsx";
-import { filterCommands, type SlashCommand } from "@/config/slash-commands.ts";
+import { SLASH_COMMANDS, type SlashCommand } from "@/config/slash-commands.ts";
 
 type SlashCommandPopoverProps = {
   open: boolean;
@@ -28,38 +29,34 @@ export default function SlashCommandPopover({
   onCommandSelect,
   children,
 }: SlashCommandPopoverProps) {
-  const filteredCommands = filterCommands(inputValue);
-
   const handleCommandSelect = (command: SlashCommand) => {
     onCommandSelect(command);
     onOpenChange(false);
   };
-
-  useEffect(() => {
-    if (open && filteredCommands.length === 0 && inputValue.startsWith("/")) {
-      onOpenChange(false);
-    }
-  }, [open, filteredCommands.length, inputValue, onOpenChange]);
 
   return (
     <Popover onOpenChange={onOpenChange} open={open}>
       <PopoverAnchor asChild>{children}</PopoverAnchor>
       <PopoverContent
         align="start"
-        className="w-[300px] p-0"
+        className="max-h-[var(--radix-popover-content-available-height)] w-[var(--radix-popover-trigger-width)] p-0"
         onOpenAutoFocus={(e) => e.preventDefault()}
         side="top"
         sideOffset={8}
       >
         <Command>
+          <div className="sr-only">
+            <CommandInput value={inputValue} />
+          </div>
           <CommandList>
             <CommandEmpty>No commands found.</CommandEmpty>
             <CommandGroup heading="Commands">
-              {filteredCommands.map((command) => {
+              {SLASH_COMMANDS.map((command) => {
                 const Icon = command.icon;
                 return (
                   <CommandItem
                     key={command.name}
+                    keywords={[command.name, command.description]}
                     onSelect={() => handleCommandSelect(command)}
                     value={command.name}
                   >

@@ -1,7 +1,7 @@
 import { type ChangeEvent, useActionState, useRef, useState } from "react";
 import SlashCommandPopover from "@/components/assistant/slash-command-popover.tsx";
 import { Textarea } from "@/components/ui/textarea.tsx";
-import type { SlashCommand } from "@/config/slash-commands.ts";
+import { SLASH_PREFIX, type SlashCommand } from "@/config/slash-commands.ts";
 import { useKeyPress } from "@/hooks/use-keyboard.ts";
 
 type AiInputProps = {
@@ -18,18 +18,19 @@ export default function AssistantInput({
   const [showCommands, setShowCommands] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+  const formattedInput = inputValue
+    ? inputValue.replace(SLASH_PREFIX, "")
+    : inputValue;
+
   const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
     setInputValue(value);
 
-    setShowCommands(
-      value === "/" || (value.startsWith("/") && inputValue === "/")
-    );
+    setShowCommands(value.startsWith(SLASH_PREFIX) && !value.includes(" "));
   };
 
   const handleCommandSelect = (command: SlashCommand) => {
-    setInputValue(`/${command.name}`);
-    setShowCommands(false);
+    setInputValue(`${SLASH_PREFIX}${command.name}`);
   };
 
   const submitForm = () => {
@@ -46,16 +47,10 @@ export default function AssistantInput({
     preventDefault: true,
   });
 
-  useKeyPress("Escape", () => setShowCommands(false), {
-    target: textareaRef.current,
-    enabled: showCommands,
-    preventDefault: true,
-  });
-
   return (
     <form action={formAction} className="space-y-1 p-1">
       <SlashCommandPopover
-        inputValue={inputValue}
+        inputValue={formattedInput}
         onCommandSelect={handleCommandSelect}
         onOpenChange={setShowCommands}
         open={showCommands}

@@ -13,20 +13,11 @@ export const SLASH_COMMANDS: SlashCommand[] = [
     description: "Clear all messages and reset the conversation",
     icon: Eraser,
   },
+  {
+    name: "zxc",
+    description: "zxc123",
+    icon: Eraser,
+  },
 ];
 
-const SLASH_PREFIX = /^\//;
-
-export function filterCommands(query: string): SlashCommand[] {
-  const searchTerm = query.toLowerCase().replace(SLASH_PREFIX, "").trim();
-
-  if (!searchTerm) {
-    return SLASH_COMMANDS;
-  }
-
-  return SLASH_COMMANDS.filter(
-    (cmd) =>
-      cmd.name.toLowerCase().includes(searchTerm) ||
-      cmd.description.toLowerCase().includes(searchTerm)
-  );
-}
+export const SLASH_PREFIX = "/";
