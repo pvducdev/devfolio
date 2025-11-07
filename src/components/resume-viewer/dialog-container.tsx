@@ -1,4 +1,4 @@
-import { Eye, FileUser } from "lucide-react";
+import { Eye } from "lucide-react";
 import DownloadAction from "@/components/resume-viewer/download-action.tsx";
 import ResumeViewer from "@/components/resume-viewer/pdf-viewer.tsx";
 import { Button } from "@/components/ui/button.tsx";
@@ -12,6 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog.tsx";
+import { Kbd } from "@/components/ui/kbd.tsx";
 import { PERSONAL_INFO } from "@/config/personal.ts";
 
 type ResumeReviewerProps = {
@@ -21,7 +22,6 @@ type ResumeReviewerProps = {
 export default function DialogContainer({ className }: ResumeReviewerProps) {
   return (
     <div className={className}>
-      <FileUser className="size-4" />
       <p className="text-xs">My CV</p>
       <Dialog>
         <DialogTrigger asChild>
@@ -32,16 +32,21 @@ export default function DialogContainer({ className }: ResumeReviewerProps) {
             <Eye className="size-3" />
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-5xl" showCloseButton={false}>
+        <DialogContent
+          className="min-w-150 rounded-xl p-4 sm:max-w-fit"
+          showCloseButton={false}
+        >
           <DialogHeader>
-            <DialogTitle>{PERSONAL_INFO.resume.fileName}</DialogTitle>
+            <DialogTitle className="text-center">
+              {PERSONAL_INFO.resume.fileName}
+            </DialogTitle>
             <DialogDescription />
           </DialogHeader>
           <ResumeViewer className="h-[70dvh]" url={PERSONAL_INFO.resume.url} />
-          <DialogFooter>
+          <DialogFooter className="sm:justify-center">
             <DialogClose asChild>
               <Button type="button" variant="ghost">
-                Cancel
+                Cancel <Kbd>Esc</Kbd>
               </Button>
             </DialogClose>
             <DownloadAction

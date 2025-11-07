@@ -1,4 +1,5 @@
 import { GitBranch, Settings } from "lucide-react";
+import AssistantTrigger from "@/components/assistant/trigger.tsx";
 import ButtonWithTooltip from "@/components/common/button-with-tooltip.tsx";
 import AppSearch from "@/components/layout/app-search.tsx";
 import ResumeViewer from "@/components/resume-viewer/dialog-container.tsx";
@@ -35,18 +36,12 @@ export default function Header() {
         {SITE_CONFIG.features.showResumeViewer && (
           <ResumeViewer className="mr-32 flex items-center space-x-2" />
         )}
-        <Button
-          className="size-7 cursor-pointer hover:bg-transparent"
-          size="icon"
-          variant="ghost"
-        >
-          <div className="size-5 rounded-full bg-pink-200" />
-        </Button>
+        <AssistantTrigger />
         <AppSearch />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <ButtonWithTooltip
-              className="size-7 cursor-pointer hover:bg-white/20"
+              className="size-7"
               size="icon"
               tooltip="Settings"
               variant="ghost"

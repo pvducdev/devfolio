@@ -5,7 +5,9 @@ type AiHeaderProps = {
   title?: string;
 };
 
-export default function AssistantHeader({ title = "Terminal" }: AiHeaderProps) {
+export default function AssistantHeader({
+  title = "Assistant",
+}: AiHeaderProps) {
   return (
     <div className="flex h-7 items-center justify-between bg-accent px-2">
       <small className="font-medium text-xs leading-none">{title}</small>

@@ -11,7 +11,7 @@ import {
   Viewport,
   ViewportPluginPackage,
 } from "@embedpdf/plugin-viewport/react";
-import { Skeleton } from "@/components/ui/skeleton.tsx";
+import ResumeViewerSkeleton from "@/components/resume-viewer/skeleton.tsx";
 
 type ResumePDFViewerProps = {
   className?: string;
@@ -37,16 +37,7 @@ export default function PdfViewer({ className, url }: ResumePDFViewerProps) {
   ];
 
   if (isLoading || !engine) {
-    return (
-      <div className="mx-auto flex flex-col space-y-3">
-        <Skeleton className="h-48 w-lg rounded-xl bg-muted-foreground" />
-        <Skeleton className="h-48 w-lg rounded-xl bg-muted-foreground" />
-        <div className="space-y-2">
-          <Skeleton className="h-4 w-lg bg-muted-foreground" />
-          <Skeleton className="h-4 w-lg bg-muted-foreground" />
-        </div>
-      </div>
-    );
+    return <ResumeViewerSkeleton />;
   }
 
   return (

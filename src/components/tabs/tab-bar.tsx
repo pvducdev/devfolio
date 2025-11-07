@@ -12,10 +12,10 @@ type TabBarProps = {
 
 export default function TabBar({ tabs, onTabClick, onTabClose }: TabBarProps) {
   return (
-    <TabsList className="h-auto w-full justify-start space-x-0.5 overflow-x-auto rounded-none border-b bg-transparent">
+    <TabsList className="h-auto w-full justify-start space-x-0.5 overflow-x-auto rounded-none border-b bg-transparent p-0.5">
       {tabs.map((tab) => (
         <TabsTrigger
-          className="group relative flex flex-initial items-center space-x-0.5 rounded-md px-1 text-xs shadow-none! hover:bg-accent hover:text-accent-foreground data-[state=active]:border-border data-[state=active]:bg-accent data-[state=active]:text-accent-foreground"
+          className="group relative flex flex-initial items-center space-x-0.5 rounded-lg px-1 text-xs shadow-none! hover:bg-accent hover:text-accent-foreground data-[state=active]:border-border data-[state=active]:bg-accent data-[state=active]:text-accent-foreground"
           key={tab.id}
           onClick={() => {
             onTabClick(tab.id);

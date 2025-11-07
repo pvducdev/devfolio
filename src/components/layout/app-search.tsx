@@ -19,6 +19,7 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from "@/components/ui/command.tsx";
+import { Kbd, KbdGroup } from "@/components/ui/kbd.tsx";
 import { useKeyboardShortcut } from "@/hooks/use-keyboard.ts";
 
 export default function AppSearch() {
@@ -37,17 +38,18 @@ export default function AppSearch() {
   return (
     <>
       <ButtonWithTooltip
-        className="size-7 cursor-pointer hover:bg-white/20"
+        className="size-7"
         onClick={() => {
           setOpen((o) => !o);
         }}
         size="icon"
         tooltip={
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center space-x-2">
             <span>Search</span>
-            <span className="text-muted-foreground text-xs tracking-widest">
-              ⌘K
-            </span>
+            <KbdGroup>
+              <Kbd>⌘</Kbd>
+              <Kbd>K</Kbd>
+            </KbdGroup>
           </div>
         }
         variant="ghost"
