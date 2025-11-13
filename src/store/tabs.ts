@@ -1,16 +1,32 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { getFileName, hashPath } from "@/lib/utils.ts";
-import type { Tab, TabsActions, TabsState } from "@/types/tabs";
 
-const storeKey = "tabs-storage";
+const STORE_KEY = "tabs-storage";
+
+type Tab = {
+  id: string;
+  filePath: string;
+  label: string;
+};
+
+type TabsState = {
+  tabs: Tab[];
+  activeTabId: string | null;
+};
+
+type TabsActions = {
+  openTab: (filePath: string) => void;
+  closeTab: (tabId: string) => void;
+  setActiveTab: (tabId: string) => void;
+};
+
+const DEFAULT_STATE: TabsState = { tabs: [], activeTabId: null };
 
 export const useTabsStore = create<TabsState & TabsActions>()(
   persist(
     (set, get) => ({
-      tabs: [],
-      activeTabId: null,
-
+      ...DEFAULT_STATE,
       openTab: (filePath: string) => {
         const state = get();
         const tabId = hashPath(filePath);
@@ -51,6 +67,6 @@ export const useTabsStore = create<TabsState & TabsActions>()(
         set({ activeTabId: tabId });
       },
     }),
-    { name: storeKey }
+    { name: STORE_KEY }
   )
 );

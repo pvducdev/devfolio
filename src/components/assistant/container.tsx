@@ -8,7 +8,13 @@ import { SITE_CONFIG } from "@/config/site.ts";
 import generateAssistantResponseFn from "@/fn/generate-assistant-response.ts";
 import { cn } from "@/lib/utils.ts";
 
-export default function AssistantContainer() {
+type AssistantContainerProps = {
+  onClose: () => void;
+};
+
+export default function AssistantContainer({
+  onClose,
+}: AssistantContainerProps) {
   const [messages, setMessages] = useState<string>("");
 
   const hasMessage = !!messages;
@@ -44,7 +50,7 @@ export default function AssistantContainer() {
 
   return (
     <div className="grid size-full grid-rows-[auto_1fr_auto_auto] overflow-hidden">
-      <Header />
+      <Header onClose={onClose} />
       <ScrollArea
         className={cn(
           "w-full p-2",

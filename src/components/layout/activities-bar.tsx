@@ -1,22 +1,22 @@
 import { useShallow } from "zustand/react/shallow";
 import Activity from "@/components/layout/activity.tsx";
 import { activities } from "@/config/routes.tsx";
-import { useSidebarStore } from "@/store/sidebar.ts";
+import { useAppLayoutStore } from "@/store/app-layout.ts";
 
 export default function ActivitiesBar() {
-  const [activeView, toggleActiveView] = useSidebarStore(
-    useShallow((state) => [state.activeView, state.toggleActiveView])
+  const [sidebar, toggleSidebar] = useAppLayoutStore(
+    useShallow((state) => [state.sidebar, state.toggleSidebar])
   );
 
   return (
     <aside className="flex h-full w-8 flex-col items-center space-y-2 bg-sidebar p-0.5">
       {activities.map((act) => (
         <Activity
-          active={act.key === activeView}
+          active={act.key === sidebar}
           data={act}
           key={act.name}
           onClick={(values) => {
-            toggleActiveView(values.key);
+            toggleSidebar(values.key);
           }}
         />
       ))}

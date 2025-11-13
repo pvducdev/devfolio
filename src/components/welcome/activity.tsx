@@ -1,15 +1,15 @@
 import { useShallow } from "zustand/react/shallow";
 import { Button } from "@/components/ui/button.tsx";
 import type { Activity as TActivity } from "@/config/routes.tsx";
-import { useSidebarStore } from "@/store/sidebar.ts";
+import { useAppLayoutStore } from "@/store/app-layout.ts";
 
 type WelcomeActionProps = {
   data: TActivity;
 };
 
 export default function WelcomeActivity({ data }: WelcomeActionProps) {
-  const [activeView, toggleActiveView] = useSidebarStore(
-    useShallow((state) => [state.activeView, state.toggleActiveView])
+  const [sidebar, toggleSidebar] = useAppLayoutStore(
+    useShallow((state) => [state.sidebar, state.toggleSidebar])
   );
 
   const Icon = data.icon;
@@ -18,9 +18,9 @@ export default function WelcomeActivity({ data }: WelcomeActionProps) {
     <Button
       key={data.key}
       onClick={() => {
-        toggleActiveView(data.key);
+        toggleSidebar(data.key);
       }}
-      variant={activeView === data.key ? "default" : "outline"}
+      variant={sidebar === data.key ? "default" : "outline"}
     >
       <Icon />
       {data.name}
