@@ -4,6 +4,8 @@ import { Textarea } from "@/components/ui/textarea.tsx";
 import { SLASH_PREFIX, type SlashCommand } from "@/config/slash-commands.ts";
 import { useKeyPress } from "@/hooks/use-keyboard.ts";
 
+const ESC_DOUBLE_PRESS_THRESHOLD = 1000; // ms
+
 type AiInputProps = {
   placeholder?: string;
   onSubmit: (state: string, formData: FormData) => string | Promise<string>;
@@ -17,6 +19,7 @@ export default function AssistantInput({
   const [inputValue, setInputValue] = useState("");
   const [showCommands, setShowCommands] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const lastEscPressRef = useRef<number>(0);
 
   const formattedInput = inputValue
     ? inputValue.replace(SLASH_PREFIX, "")
@@ -41,10 +44,27 @@ export default function AssistantInput({
     }
   };
 
+  const handleEscapePress = () => {
+    const now = Date.now();
+    const timeSinceLastPress = now - lastEscPressRef.current;
+
+    if (timeSinceLastPress < ESC_DOUBLE_PRESS_THRESHOLD) {
+      setInputValue("");
+      lastEscPressRef.current = 0;
+      return;
+    }
+
+    lastEscPressRef.current = now;
+  };
+
   useKeyPress("Enter", submitForm, {
     target: textareaRef.current,
     modifiers: { shift: false },
     preventDefault: true,
+  });
+
+  useKeyPress("Escape", handleEscapePress, {
+    target: textareaRef.current,
   });
 
   return (
