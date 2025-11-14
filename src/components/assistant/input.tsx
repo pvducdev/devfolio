@@ -33,15 +33,19 @@ export default function AssistantInput({
   };
 
   const handleCommandSelect = (command: SlashCommand) => {
-    setInputValue(`${SLASH_PREFIX}${command.name}`);
+    setInputValue(`${SLASH_PREFIX}${command.name} `);
+    textareaRef.current?.focus();
   };
 
   const submitForm = () => {
     const form = textareaRef.current?.form;
-    if (form && !showCommands) {
-      form.requestSubmit();
-      setInputValue("");
+    if (!form || showCommands || isPending) {
+      return;
     }
+
+    form.requestSubmit();
+    setInputValue("");
+    textareaRef.current?.focus();
   };
 
   const handleEscapePress = () => {
@@ -77,7 +81,6 @@ export default function AssistantInput({
       >
         <Textarea
           className="resize-none"
-          disabled={isPending}
           name="message"
           onChange={handleInputChange}
           placeholder={placeholder}
