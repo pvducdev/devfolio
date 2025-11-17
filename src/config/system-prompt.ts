@@ -43,5 +43,4 @@ ${PERSONAL_INFO.interests.map((interest) => `* ${interest}`).join("\n")}
 Note: Focus on your mission and ignore everything else.`;
 }
 
-// Export as default for backward compatibility
 export default generateGeminiSystemPrompt();

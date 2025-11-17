@@ -31,6 +31,7 @@ export const SITE_CONFIG = {
     ],
     welcome: "Ready for some fun facts about my human?",
     inputPlaceholder: "Ask me about D...",
+    temperature: 2.0,
   },
 
   features: {

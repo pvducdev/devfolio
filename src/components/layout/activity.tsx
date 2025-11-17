@@ -1,5 +1,5 @@
 import ButtonWithTooltip from "@/components/common/button-with-tooltip.tsx";
-import type { Activity as TActivity } from "@/config/routes.tsx";
+import type { Activity as TActivity } from "@/config/routes.ts";
 import { cn } from "@/lib/utils.ts";
 
 type ActivityProps = {

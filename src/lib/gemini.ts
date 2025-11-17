@@ -1,7 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 import { createServerOnlyFn } from "@tanstack/react-start";
-import geminiSystemPrompt from "@/config/prompts";
 import { SITE_CONFIG } from "@/config/site.ts";
+import systemInstruction from "@/config/system-prompt";
 
 const getClient = createServerOnlyFn(
   () =>
@@ -15,7 +15,8 @@ export const generateMessage = createServerOnlyFn(async (prompt: string) =>
     contents: prompt,
     model: SITE_CONFIG.assistant.model,
     config: {
-      systemInstruction: geminiSystemPrompt,
+      systemInstruction,
+      temperature: SITE_CONFIG.assistant.temperature,
     },
   })
 );

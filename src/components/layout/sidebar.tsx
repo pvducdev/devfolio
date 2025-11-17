@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { activities } from "@/config/routes.tsx";
+import { activities } from "@/config/routes.ts";
 
 type SidebarProps = {
   activeView: string;

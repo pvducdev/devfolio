@@ -1,6 +1,6 @@
 import { useShallow } from "zustand/react/shallow";
 import { Button } from "@/components/ui/button.tsx";
-import type { Activity as TActivity } from "@/config/routes.tsx";
+import type { Activity as TActivity } from "@/config/routes.ts";
 import { useAppLayoutStore } from "@/store/app-layout.ts";
 
 type WelcomeActionProps = {

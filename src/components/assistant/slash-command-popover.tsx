@@ -46,11 +46,11 @@ export default function SlashCommandPopover({
         side="top"
         sideOffset={8}
       >
-        <Command ref={commandRef}>
+        <Command>
           <div className="sr-only">
             <CommandInput value={inputValue} />
           </div>
-          <CommandList>
+          <CommandList ref={commandRef}>
             <CommandEmpty>No commands found.</CommandEmpty>
             <CommandGroup heading="Commands">
               {SLASH_COMMANDS.map((command) => {
