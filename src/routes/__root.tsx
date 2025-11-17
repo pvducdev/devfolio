@@ -3,6 +3,7 @@ import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 
 import { SITE_CONFIG } from "@/config/site.ts";
+import ThemeScript from "@/lib/theme-script.tsx";
 import appCss from "../styles.css?url";
 
 export const Route = createRootRoute({
@@ -48,6 +49,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       {/** biome-ignore lint/style/noHeadElement: <zxc> */}
       <head>
         <HeadContent />
+        <title />
       </head>
       <body>
         {children}
@@ -63,6 +65,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           ]}
         />
         <Scripts />
+        <ThemeScript />
       </body>
     </html>
   );
