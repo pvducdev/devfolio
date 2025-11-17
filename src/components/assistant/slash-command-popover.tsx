@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ReactNode, RefObject } from "react";
 import {
   Command,
   CommandEmpty,
@@ -15,6 +15,7 @@ import {
 import { SLASH_COMMANDS, type SlashCommand } from "@/config/slash-commands.ts";
 
 type SlashCommandPopoverProps = {
+  commandRef: RefObject<HTMLDivElement | null>;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   inputValue: string;
@@ -23,6 +24,7 @@ type SlashCommandPopoverProps = {
 };
 
 export default function SlashCommandPopover({
+  commandRef,
   open,
   onOpenChange,
   inputValue,
@@ -44,7 +46,7 @@ export default function SlashCommandPopover({
         side="top"
         sideOffset={8}
       >
-        <Command>
+        <Command ref={commandRef}>
           <div className="sr-only">
             <CommandInput value={inputValue} />
           </div>

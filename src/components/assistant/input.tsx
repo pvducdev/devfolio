@@ -1,4 +1,10 @@
-import { type ChangeEvent, useActionState, useRef, useState } from "react";
+import {
+  type ChangeEvent,
+  type KeyboardEvent,
+  useActionState,
+  useRef,
+  useState,
+} from "react";
 import SlashCommandPopover from "@/components/assistant/slash-command-popover.tsx";
 import { Textarea } from "@/components/ui/textarea.tsx";
 import { SLASH_PREFIX, type SlashCommand } from "@/config/slash-commands.ts";
@@ -19,6 +25,7 @@ export default function AssistantInput({
   const [inputValue, setInputValue] = useState("");
   const [showCommands, setShowCommands] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const commandRef = useRef<HTMLDivElement>(null);
   const lastEscPressRef = useRef<number>(0);
 
   const formattedInput = inputValue
@@ -48,6 +55,46 @@ export default function AssistantInput({
     textareaRef.current?.focus();
   };
 
+  function selectHighlightedCommandItem() {
+    const el = commandRef.current?.querySelector(
+      '[cmdk-item=""][aria-selected="true"]'
+    );
+    if (!el) {
+      return;
+    }
+
+    const event = new Event("cmdk-item-select");
+    el.dispatchEvent(event);
+  }
+
+  const forwardKeyToCommandPopover = (
+    e: KeyboardEvent<HTMLTextAreaElement>
+  ) => {
+    if (!showCommands) {
+      return;
+    }
+
+    if (e.key === "Tab") {
+      e.preventDefault();
+      selectHighlightedCommandItem();
+      return;
+    }
+
+    const interactiveKeys = ["ArrowUp", "ArrowDown", "Enter", "Escape"];
+
+    if (interactiveKeys.includes(e.key)) {
+      commandRef.current?.dispatchEvent(
+        new KeyboardEvent("keydown", {
+          key: e.key,
+          code: e.code,
+          bubbles: true,
+          cancelable: true,
+        })
+      );
+      e.preventDefault();
+    }
+  };
+
   const handleEscapePress = () => {
     const now = Date.now();
     const timeSinceLastPress = now - lastEscPressRef.current;
@@ -74,6 +121,7 @@ export default function AssistantInput({
   return (
     <form action={formAction} className="space-y-1 p-1">
       <SlashCommandPopover
+        commandRef={commandRef}
         inputValue={formattedInput}
         onCommandSelect={handleCommandSelect}
         onOpenChange={setShowCommands}
@@ -83,6 +131,7 @@ export default function AssistantInput({
           className="resize-none"
           name="message"
           onChange={handleInputChange}
+          onKeyDown={forwardKeyToCommandPopover}
           placeholder={placeholder}
           ref={textareaRef}
           value={inputValue}
