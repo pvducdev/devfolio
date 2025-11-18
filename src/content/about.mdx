@@ -1,37 +1,78 @@
-# About Me
+import { CodeGridAccent } from '../components/common/code-grid-accent';
+import { PERSONAL_INFO } from '../config/personal';
 
-Welcome to my portfolio! This is an example MDX file that demonstrates the power of combining **Markdown** with **React components**.
+<div className="relative min-h-screen">
+  <CodeGridAccent variant="neutral" gridSize="medium" />
 
-## What is MDX?
+  <main className="relative z-10">
+    <article className="text-center py-8 space-y-6">
+      <header className="inline-block">
+        <div className="bg-gradient-to-br from-purple-500/20 via-pink-500/20 to-blue-500/20 px-8 py-3 rounded-lg backdrop-blur-sm">
+          <span className="text-sm font-medium tracking-wider">CREATIVE PORTFOLIO</span>
+        </div>
+      </header>
 
-MDX allows you to use JSX in your markdown content. You can write markdown like normal, and also import and use React components.
+      <div className="flex justify-center">
+        <div
+          className="w-32 h-32 rounded-lg border-2 border-gray-300 dark:border-gray-700 flex items-center justify-center text-6xl"
+          role="img"
+          aria-label="Developer profile avatar"
+        >
+          👨‍💻
+        </div>
+      </div>
 
-## Features
+      <section className="space-y-2">
+        <h1 className="text-4xl font-bold tracking-tight">{PERSONAL_INFO.nickname}</h1>
+        <div className="border-t-2 border-b-2 border-gray-300 dark:border-gray-700 py-3 max-w-md mx-auto">
+          <p className="font-medium">{PERSONAL_INFO.role} · HCMC</p>
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            Age {new Date().getFullYear() - PERSONAL_INFO.dob}
+          </p>
+        </div>
+      </section>
 
-- GitHub Flavored Markdown support
-- Automatic heading IDs with `rehype-slug`
-- Auto-linked headings with `rehype-autolink-headings`
-- Full React component integration
-- Fast build-time compilation with Vite
+      <nav className="flex justify-center gap-4 text-sm" aria-label="Social media links">
+        <a
+          href={PERSONAL_INFO.contact.linkedin}
+          className="hover:underline"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          LinkedIn
+        </a>
+        <span aria-hidden="true">·</span>
+        <a
+          href={PERSONAL_INFO.contact.github}
+          className="hover:underline"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GitHub
+        </a>
+        <span aria-hidden="true">·</span>
+        <a
+          href={PERSONAL_INFO.contact.gitlab}
+          className="hover:underline"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GitLab
+        </a>
+      </nav>
 
-## Code Example
+      <div className="text-sm text-gray-600 dark:text-gray-400">
+        <a
+          href={`mailto:${PERSONAL_INFO.contact.email}`}
+          className="hover:underline"
+        >
+          {PERSONAL_INFO.contact.email}
+        </a>
+      </div>
 
-```typescript
-const greeting = (name: string) => {
-  return `Hello, ${name}!`;
-};
-
-console.log(greeting("World"));
-```
-
-## List Example
-
-1. First item
-2. Second item
-   - Nested item
-   - Another nested item
-3. Third item
-
----
-
-This content is loaded dynamically using Vite's MDX plugin and displayed in the tab system!
+      <blockquote className="border-t border-b border-gray-300 dark:border-gray-700 py-4 max-w-2xl mx-auto">
+        <p className="italic text-base">{PERSONAL_INFO.about.shortBio}</p>
+      </blockquote>
+    </article>
+  </main>
+</div>
