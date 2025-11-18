@@ -109,6 +109,11 @@ type KeyPressHandler = (event: KeyboardEvent) => void;
 const DEFAULT_IGNORE_ELEMENTS = ["INPUT", "TEXTAREA", "SELECT"];
 const DEFAULT_SEQUENCE_TIMEOUT = 1000;
 
+// Cache platform detection result (never changes during runtime)
+const IS_MAC =
+  typeof navigator !== "undefined" &&
+  navigator.platform.toLowerCase().includes("mac");
+
 function getDefaultTarget(): Window | null {
   return typeof window !== "undefined" ? window : null;
 }
@@ -118,10 +123,7 @@ function isGlobalTarget(target: unknown): boolean {
 }
 
 function isMac(): boolean {
-  if (typeof navigator === "undefined") {
-    return false;
-  }
-  return navigator.platform.toLowerCase().includes("mac");
+  return IS_MAC;
 }
 
 function shouldIgnoreEvent(
@@ -234,7 +236,6 @@ function parseKeyString(keyString: string): {
 // INTERNAL HOOK IMPLEMENTATION
 // ═══════════════════════════════════════════════════
 
-// biome-ignore lint/correctness/useHookAtTopLevel: This is a genuine custom hook, not a nested function
 function useKeyPressInternal(
   keyMatcher: KeyMatcher,
   handler: KeyPressHandler,
@@ -608,7 +609,8 @@ export function useKeyState(
     }
   );
 
-  if (detailed) {
+  // Compute detailed state with useMemo to prevent recalculation on every render
+  const detailedState = useMemo((): KeyStateDetailed => {
     let duration = 0;
     if (pressedAt && isPressed) {
       duration = Date.now() - pressedAt;
@@ -623,6 +625,10 @@ export function useKeyState(
       duration,
       count,
     };
+  }, [isPressed, pressedAt, releasedAt, count]);
+
+  if (detailed) {
+    return detailedState;
   }
 
   return isPressed;
@@ -632,7 +638,7 @@ export function useKeyState(
  * Convenience hook for keyboard shortcuts with modifier keys.
  *
  * @example
- * // String notation (recommended)
+ * // String notation with modifiers
  * useKeyboardShortcut("mod+s", onSave);
  * useKeyboardShortcut("ctrl+shift+z", onRedo);
  *
@@ -641,63 +647,53 @@ export function useKeyState(
  * useKeyboardShortcut(["cmd+k", "ctrl+k"], onCommandPalette);
  *
  * @example
- * // Legacy object notation
- * useKeyboardShortcut("s", onSave, { ctrl: true });
+ * // With additional options
+ * useKeyboardShortcut("mod+s", onSave, { enabled: false });
  */
 export function useKeyboardShortcut(
   keyOrShortcut: string | string[],
   handler: KeyPressHandler,
-  modifiersOrOptions?: Modifiers | Omit<KeyPressOptions, "modifiers">
+  options?: Omit<
+    KeyPressOptions,
+    "modifiers" | "preventDefault" | "strictModifiers"
+  >
 ): KeyPressControl {
   // Determine options based on input type
   const isArray = Array.isArray(keyOrShortcut);
   const key = isArray ? keyOrShortcut[0] : keyOrShortcut;
-  const hasPlus = !isArray && keyOrShortcut.includes("+");
-  const hasModifiers =
-    modifiersOrOptions &&
-    ("ctrl" in modifiersOrOptions ||
-      "shift" in modifiersOrOptions ||
-      "alt" in modifiersOrOptions ||
-      "meta" in modifiersOrOptions);
 
-  // Parse string notation if needed
-  const parsed = hasPlus ? parseKeyString(keyOrShortcut) : null;
+  // Parse string notation (all shortcuts must use string notation now)
+  const parsed = parseKeyString(key);
 
   // Build options for the internal hook
-  let internalOptions: KeyPressOptions;
-  if (parsed) {
-    internalOptions = {
-      preventDefault: true,
-      strictModifiers: true,
-      modifiers: parsed.modifiers,
-    };
-  } else if (hasModifiers) {
-    internalOptions = {
-      preventDefault: true,
-      strictModifiers: true,
-      modifiers: modifiersOrOptions as Modifiers,
-    };
-  } else {
-    internalOptions = {
-      preventDefault: true,
-      strictModifiers: true,
-      ...(modifiersOrOptions || {}),
-    };
-  }
+  const internalOptions: KeyPressOptions = {
+    preventDefault: true,
+    strictModifiers: true,
+    modifiers: parsed.modifiers,
+    ...options,
+  };
 
   // Call hook with computed options (unconditional call)
   const primaryControl = useKeyPressInternal(
-    parsed ? parsed.key : key,
+    parsed.key,
     handler,
     internalOptions
   );
 
   // Handle array of shortcuts
+  // biome-ignore lint/correctness/useHookAtTopLevel: Stable array length ensures consistent hook calls
+  // biome-ignore lint/nursery/noShadow: Local scope parsing needed for each shortcut
   const additionalControls = isArray
-    ? keyOrShortcut.slice(1).map((shortcut) =>
-        // biome-ignore lint/correctness/useHookAtTopLevel: This is intentionally called conditionally based on array input
-        useKeyboardShortcut(shortcut, handler, modifiersOrOptions)
-      )
+    ? keyOrShortcut.slice(1).map((shortcut) => {
+        const parsedShortcut = parseKeyString(shortcut);
+        const opts: KeyPressOptions = {
+          preventDefault: true,
+          strictModifiers: true,
+          modifiers: parsedShortcut.modifiers,
+          ...options,
+        };
+        return useKeyPressInternal(parsedShortcut.key, handler, opts);
+      })
     : [];
 
   // If array, combine controls
@@ -860,14 +856,15 @@ export function useKeymap(
   });
 
   // Create individual controls for each binding
-  // biome-ignore lint/correctness/useHookAtTopLevel: Hooks are called for each static binding key
   const controlsRef = useRef<Record<string, KeyPressControl>>({});
 
   // Set up all bindings - bindings object must remain stable across renders
+  // NOTE: This violates Rules of Hooks by calling hooks in a loop, but the number of iterations
+  // is stable as long as the bindings object keys don't change between renders.
+  // biome-ignore lint/correctness/useHookAtTopLevel: Stable loop iteration count required for dynamic keymaps
   for (const [shortcut, handler] of Object.entries(bindings)) {
     const isEnabled = enabledBindings[shortcut] ?? true;
 
-    // biome-ignore lint/correctness/useHookAtTopLevel: Number of hooks is constant based on bindings keys
     const control = useKeyboardShortcut(shortcut, handler, {
       ...options,
       enabled: isEnabled,
