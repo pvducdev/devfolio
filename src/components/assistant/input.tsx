@@ -58,7 +58,6 @@ export default function AssistantInput({
     .preventDefault()
     .handle(submitForm);
 
-  // Double-tap Escape to clear input
   useKeySequence(["Escape", "Escape"], clearInput, {
     timeout: 1000,
     target: textareaRef.current,
