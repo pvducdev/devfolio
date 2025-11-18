@@ -1,4 +1,5 @@
-import type { KeyboardEvent, RefObject } from "react";
+import type { RefObject } from "react";
+import { useKeyboardForwarding } from "./use-keyboard-forwarding.ts";
 
 const INTERACTIVE_KEYS = ["ArrowUp", "ArrowDown", "Enter", "Escape"] as const;
 
@@ -13,27 +14,12 @@ export function useCmdNav({
   showCommands,
   onTabSelect,
 }: UseCmdNavOptions) {
-  return (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (!showCommands) {
-      return;
-    }
-
-    if (e.key === "Tab") {
-      e.preventDefault();
-      onTabSelect();
-      return;
-    }
-
-    if (INTERACTIVE_KEYS.includes(e.key as (typeof INTERACTIVE_KEYS)[number])) {
-      commandRef.current?.dispatchEvent(
-        new KeyboardEvent("keydown", {
-          key: e.key,
-          code: e.code,
-          bubbles: true,
-          cancelable: true,
-        })
-      );
-      e.preventDefault();
-    }
-  };
+  return useKeyboardForwarding<HTMLTextAreaElement, HTMLDivElement>({
+    targetRef: commandRef,
+    forwardKeys: INTERACTIVE_KEYS,
+    shouldForward: showCommands,
+    specialKeyHandlers: {
+      Tab: () => onTabSelect(),
+    },
+  });
 }
