@@ -1,48 +1,42 @@
-import {
-  type ChangeEvent,
-  type KeyboardEvent,
-  useActionState,
-  useRef,
-  useState,
-} from "react";
+import { type ChangeEvent, useActionState, useRef } from "react";
 import SlashCommandPopover from "@/components/assistant/slash-command-popover.tsx";
 import { Textarea } from "@/components/ui/textarea.tsx";
-import { SLASH_PREFIX, type SlashCommand } from "@/config/slash-commands.ts";
 import { useKeyPress } from "@/hooks/use-keyboard.ts";
+import { useCmdNav } from "./hooks/use-cmd-nav.ts";
+import { useDoubleEsc } from "./hooks/use-double-esc.ts";
+import { useSlashCommands } from "./hooks/use-slash-commands.ts";
+import { selectHighlightedCommand } from "./utils.ts";
 
-const ESC_DOUBLE_PRESS_THRESHOLD = 1000; // ms
-
-type AiInputProps = {
+type AssistantInputProps = {
   placeholder?: string;
   onSubmit: (state: string, formData: FormData) => string | Promise<string>;
 };
 
 export default function AssistantInput({
-  placeholder = "Type to something...",
+  placeholder = "Type something...",
   onSubmit,
-}: AiInputProps) {
+}: AssistantInputProps) {
   const [errMessage, formAction, isPending] = useActionState(onSubmit, "");
-  const [inputValue, setInputValue] = useState("");
-  const [showCommands, setShowCommands] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const commandRef = useRef<HTMLDivElement>(null);
-  const lastEscPressRef = useRef<number>(0);
 
-  const formattedInput = inputValue
-    ? inputValue.replace(SLASH_PREFIX, "")
-    : inputValue;
+  const {
+    inputValue,
+    formattedInput,
+    showCommands,
+    handleInputChange: updateSlashCommands,
+    handleCommandSelect: selectSlashCommand,
+    setShowCommands,
+    clearInput,
+  } = useSlashCommands({
+    onCommandSelect: () => textareaRef.current?.focus(),
+  });
 
-  const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const value = e.target.value;
-    setInputValue(value);
-
-    setShowCommands(value.startsWith(SLASH_PREFIX) && !value.includes(" "));
-  };
-
-  const handleCommandSelect = (command: SlashCommand) => {
-    setInputValue(`${SLASH_PREFIX}${command.name} `);
-    textareaRef.current?.focus();
-  };
+  const forwardKeyToCommandPopover = useCmdNav({
+    commandRef,
+    showCommands,
+    onTabSelect: () => selectHighlightedCommand(commandRef.current),
+  });
 
   const submitForm = () => {
     const form = textareaRef.current?.form;
@@ -51,61 +45,14 @@ export default function AssistantInput({
     }
 
     form.requestSubmit();
-    setInputValue("");
+    clearInput();
     textareaRef.current?.focus();
   };
 
-  function selectHighlightedCommandItem() {
-    const el = commandRef.current?.querySelector(
-      '[cmdk-item=""][aria-selected="true"]'
-    );
-    if (!el) {
-      return;
-    }
+  const handleEscapePress = useDoubleEsc(clearInput);
 
-    const event = new Event("cmdk-item-select");
-    el.dispatchEvent(event);
-  }
-
-  const forwardKeyToCommandPopover = (
-    e: KeyboardEvent<HTMLTextAreaElement>
-  ) => {
-    if (!showCommands) {
-      return;
-    }
-
-    if (e.key === "Tab") {
-      e.preventDefault();
-      selectHighlightedCommandItem();
-      return;
-    }
-
-    const interactiveKeys = ["ArrowUp", "ArrowDown", "Enter", "Escape"];
-
-    if (interactiveKeys.includes(e.key)) {
-      commandRef.current?.dispatchEvent(
-        new KeyboardEvent("keydown", {
-          key: e.key,
-          code: e.code,
-          bubbles: true,
-          cancelable: true,
-        })
-      );
-      e.preventDefault();
-    }
-  };
-
-  const handleEscapePress = () => {
-    const now = Date.now();
-    const timeSinceLastPress = now - lastEscPressRef.current;
-
-    if (timeSinceLastPress < ESC_DOUBLE_PRESS_THRESHOLD) {
-      setInputValue("");
-      lastEscPressRef.current = 0;
-      return;
-    }
-
-    lastEscPressRef.current = now;
+  const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    updateSlashCommands(e.target.value);
   };
 
   useKeyPress("Enter", submitForm, {
@@ -123,7 +70,7 @@ export default function AssistantInput({
       <SlashCommandPopover
         commandRef={commandRef}
         inputValue={formattedInput}
-        onCommandSelect={handleCommandSelect}
+        onCommandSelect={selectSlashCommand}
         onOpenChange={setShowCommands}
         open={showCommands}
       >

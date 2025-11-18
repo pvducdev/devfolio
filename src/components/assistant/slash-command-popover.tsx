@@ -31,11 +31,6 @@ export default function SlashCommandPopover({
   onCommandSelect,
   children,
 }: SlashCommandPopoverProps) {
-  const handleCommandSelect = (command: SlashCommand) => {
-    onCommandSelect(command);
-    onOpenChange(false);
-  };
-
   return (
     <Popover onOpenChange={onOpenChange} open={open}>
       <PopoverAnchor asChild>{children}</PopoverAnchor>
@@ -59,7 +54,7 @@ export default function SlashCommandPopover({
                   <CommandItem
                     key={command.name}
                     keywords={[command.name, command.description]}
-                    onSelect={() => handleCommandSelect(command)}
+                    onSelect={() => onCommandSelect(command)}
                     value={command.name}
                   >
                     {Icon && <Icon className="mr-2 size-4" />}
