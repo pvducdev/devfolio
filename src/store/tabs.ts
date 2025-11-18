@@ -4,7 +4,7 @@ import { getFileName, hashPath } from "@/lib/utils.ts";
 
 const STORE_KEY = "tabs-storage";
 
-type Tab = {
+export type Tab = {
   id: string;
   filePath: string;
   label: string;

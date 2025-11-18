@@ -1,6 +1,6 @@
 import { type ComponentType, Suspense, useState } from "react";
 import { useMount } from "@/hooks/use-mount";
-import type { Tab } from "@/types/tabs";
+import type { Tab } from "@/store/tabs.ts";
 
 type MDXViewerProps = {
   tab: Tab;

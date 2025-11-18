@@ -2,7 +2,7 @@ import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MarkdownLight } from "@/components/ui/svgs/markdownLight.tsx";
 import { TabsList, TabsTrigger } from "@/components/ui/tabs";
-import type { Tab } from "@/types/tabs";
+import type { Tab } from "@/store/tabs.ts";
 
 type TabBarProps = {
   tabs: Tab[];
