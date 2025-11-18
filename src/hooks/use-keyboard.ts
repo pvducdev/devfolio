@@ -1,64 +1,127 @@
-import { useEffect, useEffectEvent, useMemo, useRef, useState } from "react";
+import {
+  type RefObject,
+  useEffect,
+  useEffectEvent,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
-type KeyMatcher = string | string[] | ((event: KeyboardEvent) => boolean);
+// ═══════════════════════════════════════════════════
+// TYPE DEFINITIONS
+// ═══════════════════════════════════════════════════
+
+type KeyPredicate = (event: KeyboardEvent) => boolean;
+
+type KeyMatcher =
+  | string // Single key
+  | string[] // Multiple keys (OR)
+  | KeyPredicate; // Custom function
 
 type KeyboardEventType = "keydown" | "keyup" | "keypress";
 
-type Modifiers = {
-  ctrl?: boolean;
-  shift?: boolean;
-  alt?: boolean;
-  meta?: boolean;
+type ModifierKey = "ctrl" | "shift" | "alt" | "meta";
+
+type Modifiers = Partial<Record<ModifierKey, boolean>>;
+
+type PlatformModifiers = {
+  mac?: ModifierKey;
+  windows?: ModifierKey;
+  linux?: ModifierKey;
+  other?: ModifierKey;
 };
 
-type BaseOptions = {
+type KeyPressOptions = {
+  // Target
   target?: Window | Document | HTMLElement | null;
+  scope?: "global" | "element";
+
+  // Behavior
+  enabled?: boolean;
+  preventDefault?: boolean;
+  stopPropagation?: boolean;
+
+  // Filtering
+  when?: KeyPredicate;
+  ignoreElements?: string[];
+  onlyFromElements?: string[];
+
+  // Modifiers
+  modifiers?: Modifiers;
+  strictModifiers?: boolean;
+
+  // Event
   eventType?: KeyboardEventType;
+};
+
+type KeyPressControl = {
+  isEnabled: boolean;
+  enable: () => void;
+  disable: () => void;
+  toggle: () => void;
+  destroy: () => void;
+};
+
+type KeyStateOptions = {
+  target?: Window | Document | HTMLElement | null;
+  detailed?: boolean;
+  trackDuration?: boolean;
+  trackCount?: boolean;
   enabled?: boolean;
 };
 
-type EventBehaviorOptions = {
+type KeyStateDetailed = {
+  pressed: boolean;
+  pressedAt: number | null;
+  releasedAt: number | null;
+  duration: number;
+  count: number;
+};
+
+type KeySequenceOptions = {
+  timeout?: number;
   preventDefault?: boolean;
-  stopPropagation?: boolean;
+  target?: Window | Document | HTMLElement | null;
+  enabled?: boolean;
 };
 
-type FilterOptions = {
-  ignoreElements?: string[];
-  onlyFromElements?: string[];
+type KeymapOptions = {
+  enabled?: boolean;
+  scope?: "global" | "element";
+  preventDefault?: boolean;
+  target?: Window | Document | HTMLElement | null;
+  inheritGlobal?: boolean;
 };
 
-type ModifierOptions = {
-  modifiers?: Modifiers;
-  /**
-   * When true (default), ALL modifiers must match exactly as specified.
-   * When false, only specified modifiers are checked (others are ignored).
-   *
-   * @example
-   * // Strict mode (default): Only Ctrl+S (no Shift, Alt, or Meta)
-   * useKeyPress("s", handler, { modifiers: { ctrl: true }, strictModifiers: true })
-   *
-   * @example
-   * // Non-strict mode: Ctrl+S, Ctrl+Shift+S, Ctrl+Alt+S all work
-   * useKeyPress("s", handler, { modifiers: { ctrl: true }, strictModifiers: false })
-   *
-   * @default true
-   */
-  strictModifiers?: boolean;
+type KeymapControl = {
+  enable: (shortcut?: string) => void;
+  disable: (shortcut?: string) => void;
+  getBindings: () => Record<string, boolean>;
+  isEnabled: (shortcut: string) => boolean;
 };
-
-type UseKeyPressOptions = BaseOptions &
-  EventBehaviorOptions &
-  FilterOptions &
-  ModifierOptions;
 
 type KeyPressHandler = (event: KeyboardEvent) => void;
 
-const DEFAULT_IGNORE_ELEMENTS = ["INPUT", "TEXTAREA", "SELECT"];
+// ═══════════════════════════════════════════════════
+// UTILITY FUNCTIONS
+// ═══════════════════════════════════════════════════
 
-const getDefaultTarget = () => (typeof window !== "undefined" ? window : null);
+const DEFAULT_IGNORE_ELEMENTS = ["INPUT", "TEXTAREA", "SELECT"];
+const DEFAULT_SEQUENCE_TIMEOUT = 1000;
+
+function getDefaultTarget(): Window | null {
+  return typeof window !== "undefined" ? window : null;
+}
 
 function isGlobalTarget(target: unknown): boolean {
   return target === window || target === document;
+}
+
+function isMac(): boolean {
+  if (typeof navigator === "undefined") {
+    return false;
+  }
+  return navigator.platform.toLowerCase().includes("mac");
 }
 
 function shouldIgnoreEvent(
@@ -68,7 +131,6 @@ function shouldIgnoreEvent(
 ): boolean {
   const target = event.target;
 
-  // Type-safe check: only process HTML elements with tagName
   if (!(target instanceof HTMLElement)) {
     return false;
   }
@@ -111,35 +173,17 @@ function modifiersMatch(
   );
 }
 
-type ProcessedMatcher =
-  | { type: "function"; fn: (e: KeyboardEvent) => boolean }
-  | { type: "string"; key: string }
-  | { type: "array"; keys: string[] };
-
-function processMatcher(keyMatcher: KeyMatcher): ProcessedMatcher {
+function keyMatches(event: KeyboardEvent, keyMatcher: KeyMatcher): boolean {
   if (typeof keyMatcher === "function") {
-    return { type: "function", fn: keyMatcher };
+    return keyMatcher(event);
   }
+
   if (typeof keyMatcher === "string") {
-    return { type: "string", key: keyMatcher };
-  }
-  // Validate array matcher is not empty
-  if (keyMatcher.length === 0) {
-    throw new Error("Key matcher array cannot be empty");
-  }
-  return { type: "array", keys: keyMatcher };
-}
-
-function keyMatches(event: KeyboardEvent, matcher: ProcessedMatcher): boolean {
-  if (matcher.type === "function") {
-    return matcher.fn(event);
+    return event.key === keyMatcher || event.code === keyMatcher;
   }
 
-  if (matcher.type === "string") {
-    return event.key === matcher.key || event.code === matcher.key;
-  }
-
-  for (const key of matcher.keys) {
+  // Array matcher
+  for (const key of keyMatcher) {
     if (event.key === key || event.code === key) {
       return true;
     }
@@ -148,64 +192,68 @@ function keyMatches(event: KeyboardEvent, matcher: ProcessedMatcher): boolean {
 }
 
 /**
- * Hook for handling keyboard events with flexible matching and filtering options.
- *
- * @param keyMatcher - Key(s) to match: string, array of strings, or custom function
- * @param handler - Callback function to execute when key matches
- * @param options - Configuration options for event handling, modifiers, and filtering
- *
- * @example
- * // Simple key press
- * useKeyPress("Escape", () => closeModal())
- *
- * @example
- * // Multiple keys
- * useKeyPress(["Enter", "NumpadEnter"], () => submitForm())
- *
- * @example
- * // With modifiers (strict mode - only Ctrl+S, no other modifiers)
- * useKeyPress("s", handleSave, { modifiers: { ctrl: true } })
- *
- * @example
- * // Custom matching function
- * useKeyPress((e) => e.key >= "0" && e.key <= "9", handleNumberKey)
- *
- * @example
- * // Using with refs - CORRECT PATTERN (target updates when ref changes)
- * const inputRef = useRef<HTMLInputElement>(null);
- * useKeyPress("Enter", handleSubmit, {
- *   target: inputRef.current,  // ✅ Will re-subscribe when ref populates
- * });
- *
- * @example
- * // Using with callback refs - ALTERNATIVE PATTERN
- * const [inputElement, setInputElement] = useState<HTMLInputElement | null>(null);
- * useKeyPress("Enter", handleSubmit, {
- *   target: inputElement,  // ✅ State triggers re-subscription
- * });
- * <input ref={setInputElement} />
+ * Parse key string notation (e.g., "ctrl+shift+k", "mod+s")
  */
-export function useKeyPress(
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Parser needs complexity for modifier handling
+function parseKeyString(keyString: string): {
+  key: string;
+  modifiers: Modifiers;
+} {
+  const parts = keyString
+    .toLowerCase()
+    .split("+")
+    .map((p) => p.trim());
+  const modifiers: Modifiers = {};
+  let key: string | undefined;
+
+  for (const part of parts) {
+    if (part === "ctrl" || part === "control") {
+      modifiers.ctrl = true;
+    } else if (part === "shift") {
+      modifiers.shift = true;
+    } else if (part === "alt" || part === "option") {
+      modifiers.alt = true;
+    } else if (part === "meta" || part === "cmd" || part === "command") {
+      modifiers.meta = true;
+    } else if (part === "mod") {
+      const modKey: ModifierKey = isMac() ? "meta" : "ctrl";
+      modifiers[modKey] = true;
+    } else {
+      key = part;
+    }
+  }
+
+  if (!key) {
+    throw new Error(`Invalid key string: ${keyString} - no key specified`);
+  }
+
+  return { key, modifiers };
+}
+
+// ═══════════════════════════════════════════════════
+// INTERNAL HOOK IMPLEMENTATION
+// ═══════════════════════════════════════════════════
+
+// biome-ignore lint/correctness/useHookAtTopLevel: This is a genuine custom hook, not a nested function
+function useKeyPressInternal(
   keyMatcher: KeyMatcher,
   handler: KeyPressHandler,
-  options: UseKeyPressOptions = {}
-): void {
+  options: KeyPressOptions = {}
+): KeyPressControl {
   const {
     target = getDefaultTarget(),
     eventType = "keydown",
-    enabled = true,
+    enabled: enabledOption = true,
     preventDefault = false,
     stopPropagation = false,
     modifiers,
     strictModifiers = true,
     ignoreElements,
     onlyFromElements,
+    when,
   } = options;
 
-  const processedMatcher = useMemo(
-    () => processMatcher(keyMatcher),
-    [keyMatcher]
-  );
+  const [enabled, setEnabled] = useState(enabledOption);
 
   const configRef = useRef({
     modifiers,
@@ -214,6 +262,7 @@ export function useKeyPress(
     onlyFromElements,
     preventDefault,
     stopPropagation,
+    when,
   });
 
   useEffect(() => {
@@ -224,14 +273,19 @@ export function useKeyPress(
       onlyFromElements,
       preventDefault,
       stopPropagation,
+      when,
     };
   });
 
   const onKeyPress = useEffectEvent((event: KeyboardEvent) => {
     const config = configRef.current;
 
-    // Only filter by element when listening on global targets (window/document)
-    // Element-specific listeners don't need element filtering
+    // Check custom when condition
+    if (config.when && !config.when(event)) {
+      return;
+    }
+
+    // Only filter by element when listening on global targets
     const shouldFilterByElement =
       target &&
       isGlobalTarget(target) &&
@@ -245,7 +299,7 @@ export function useKeyPress(
       return;
     }
 
-    if (!keyMatches(event, processedMatcher)) {
+    if (!keyMatches(event, keyMatcher)) {
       return;
     }
 
@@ -273,91 +327,616 @@ export function useKeyPress(
     return () => {
       target.removeEventListener(eventType, eventListener);
     };
-    // Include target in dependencies so hook re-subscribes when target changes
-    // This is important for refs that update after initial render
   }, [target, eventType, enabled, onKeyPress]);
+
+  const control: KeyPressControl = useMemo(
+    () => ({
+      isEnabled: enabled,
+      enable: () => setEnabled(true),
+      disable: () => setEnabled(false),
+      toggle: () => setEnabled((prev) => !prev),
+      destroy: () => setEnabled(false),
+    }),
+    [enabled]
+  );
+
+  return control;
+}
+
+// ═══════════════════════════════════════════════════
+// FUNCTIONAL BUILDER PATTERN
+// ═══════════════════════════════════════════════════
+
+type KeyPressBuilderAPI = {
+  // Modifier methods
+  withModifiers: (modifiers: Modifiers) => KeyPressBuilderAPI;
+  mod: (platform?: PlatformModifiers) => KeyPressBuilderAPI;
+  ctrl: () => KeyPressBuilderAPI;
+  shift: () => KeyPressBuilderAPI;
+  alt: () => KeyPressBuilderAPI;
+  meta: () => KeyPressBuilderAPI;
+
+  // Target methods
+  onGlobal: () => KeyPressBuilderAPI;
+  onTarget: (
+    target: RefObject<HTMLElement | null> | EventTarget
+  ) => KeyPressBuilderAPI;
+
+  // Behavior methods
+  preventDefault: () => KeyPressBuilderAPI;
+  stopPropagation: () => KeyPressBuilderAPI;
+  when: (predicate: KeyPredicate) => KeyPressBuilderAPI;
+  ignoreInputs: () => KeyPressBuilderAPI;
+
+  // Terminal method
+  handle: (handler: KeyPressHandler) => KeyPressControl;
+};
+
+function createKeyPressBuilder(
+  keyMatcher: KeyMatcher,
+  initialOptions: KeyPressOptions = {}
+): KeyPressBuilderAPI {
+  const options = { ...initialOptions };
+
+  // Helper to create new builder with updated config
+  const updateConfig = (
+    updates: Partial<KeyPressOptions>
+  ): KeyPressBuilderAPI =>
+    createKeyPressBuilder(keyMatcher, {
+      ...options,
+      ...updates,
+    });
+
+  // Helper to merge modifiers
+  const mergeModifiers = (newModifiers: Modifiers): KeyPressBuilderAPI =>
+    updateConfig({
+      modifiers: {
+        ...options.modifiers,
+        ...newModifiers,
+      },
+    });
+
+  return {
+    // Modifier methods
+    withModifiers: (modifiers) => mergeModifiers(modifiers),
+
+    mod: (platform) => {
+      const platformIsMac = isMac();
+      let key: ModifierKey;
+
+      if (platform) {
+        const platformKey = platformIsMac ? "mac" : "other";
+        key = platform[platformKey] ?? "ctrl";
+      } else {
+        key = platformIsMac ? "meta" : "ctrl";
+      }
+
+      return mergeModifiers({ [key]: true });
+    },
+
+    ctrl: () => mergeModifiers({ ctrl: true }),
+    shift: () => mergeModifiers({ shift: true }),
+    alt: () => mergeModifiers({ alt: true }),
+    meta: () => mergeModifiers({ meta: true }),
+
+    // Target methods
+    onGlobal: () =>
+      updateConfig({
+        scope: "global",
+        target: getDefaultTarget(),
+      }),
+
+    onTarget: (target) => {
+      const resolvedTarget = "current" in target ? target.current : target;
+      return updateConfig({
+        target: resolvedTarget as Window | Document | HTMLElement | null,
+      });
+    },
+
+    // Behavior methods
+    preventDefault: () => updateConfig({ preventDefault: true }),
+    stopPropagation: () => updateConfig({ stopPropagation: true }),
+    when: (predicate) => updateConfig({ when: predicate }),
+    ignoreInputs: () =>
+      updateConfig({
+        ignoreElements: DEFAULT_IGNORE_ELEMENTS,
+      }),
+
+    // Terminal method
+    handle: (handler) => useKeyPressInternal(keyMatcher, handler, options),
+  };
+}
+
+// ═══════════════════════════════════════════════════
+// MAIN HOOKS
+// ═══════════════════════════════════════════════════
+
+/**
+ * Hook for handling keyboard events with flexible matching and filtering options.
+ *
+ * @example
+ * // Simple key press
+ * useKeyPress("Escape", onClose);
+ *
+ * @example
+ * // String notation with modifiers
+ * useKeyPress("ctrl+s", onSave);
+ * useKeyPress("mod+k", onCommandPalette);
+ *
+ * @example
+ * // Builder pattern
+ * useKeyPress("s").mod().preventDefault().handle(onSave);
+ *
+ * @example
+ * // Multiple keys
+ * useKeyPress(["Enter", "NumpadEnter"], onSubmit);
+ *
+ * @example
+ * // Custom matching function
+ * useKeyPress((e) => e.key >= "0" && e.key <= "9", onNumberKey);
+ *
+ * @example
+ * // With refs
+ * useKeyPress("Enter").onTarget(inputRef).handle(onSubmit);
+ *
+ * @example
+ * // Conditional execution
+ * useKeyPress("Enter").when((e) => !showCommands).handle(onSubmit);
+ */
+// Builder pattern overloads
+export function useKeyPress(
+  keyMatcher: KeyMatcher | string,
+  options?: KeyPressOptions
+): KeyPressBuilderAPI;
+// Direct hook overloads
+export function useKeyPress(
+  keyMatcher: KeyMatcher | string,
+  handler: KeyPressHandler,
+  options?: KeyPressOptions
+): KeyPressControl;
+// Implementation
+export function useKeyPress(
+  keyMatcher: KeyMatcher | string,
+  handlerOrOptions?: KeyPressHandler | KeyPressOptions,
+  optionsOrUndefined?: KeyPressOptions
+): KeyPressBuilderAPI | KeyPressControl {
+  // Parse key string notation if present
+  const isStringKey = typeof keyMatcher === "string";
+  const hasPlus = isStringKey && keyMatcher.includes("+");
+  const parsed = hasPlus ? parseKeyString(keyMatcher as string) : null;
+  const finalKey = parsed ? parsed.key : keyMatcher;
+  const parsedModifiers = parsed ? parsed.modifiers : {};
+
+  // Determine pattern based on arguments
+  const isFunction = typeof handlerOrOptions === "function";
+  const isObject =
+    typeof handlerOrOptions === "object" && handlerOrOptions !== null;
+  const hasOptions = Boolean(optionsOrUndefined);
+
+  // Pattern 1 & 4: Builder pattern (no handler provided)
+  if (!isFunction) {
+    const builderOptions = isObject
+      ? {
+          ...handlerOrOptions,
+          modifiers: {
+            ...parsedModifiers,
+            ...handlerOrOptions.modifiers,
+          },
+        }
+      : { modifiers: parsedModifiers };
+
+    return createKeyPressBuilder(finalKey, builderOptions);
+  }
+
+  // Pattern 2 & 3: Direct hook calls (handler provided)
+  const handler = handlerOrOptions as KeyPressHandler;
+  const options: KeyPressOptions = hasOptions
+    ? {
+        ...optionsOrUndefined,
+        modifiers: {
+          ...parsedModifiers,
+          ...optionsOrUndefined?.modifiers,
+        },
+      }
+    : { modifiers: parsedModifiers };
+
+  // biome-ignore lint/correctness/useHookAtTopLevel: This function acts as both a hook and builder factory
+  return useKeyPressInternal(finalKey, handler, options);
 }
 
 /**
- * Hook that tracks whether a key is currently pressed (boolean state).
- * Returns true while the key is held down, false when released.
- *
- * @param keyMatcher - Key(s) to track: string, array of strings, or custom function
- * @param options - Configuration options (same as useKeyPress, except eventType)
- * @returns Boolean indicating whether the key is currently pressed
+ * Hook that tracks whether a key is currently pressed.
  *
  * @example
- * // Track if Shift key is pressed
- * const isShiftPressed = useKeyState("Shift")
+ * // Simple boolean state
+ * const isShiftPressed = useKeyState("Shift");
  *
  * @example
- * // Track if Ctrl or Meta (Cmd) is pressed
- * const isModifierPressed = useKeyState(["Control", "Meta"])
+ * // Detailed state with timing
+ * const shiftState = useKeyState("Shift", { detailed: true });
+ * // Returns: { pressed, pressedAt, releasedAt, duration, count }
+ *
+ * @example
+ * // Track hold duration
+ * const spaceState = useKeyState("Space", { trackDuration: true });
  */
 export function useKeyState(
   keyMatcher: KeyMatcher,
-  options: Omit<UseKeyPressOptions, "eventType"> = {}
-): boolean {
+  options: KeyStateOptions = {}
+): boolean | KeyStateDetailed {
+  const {
+    detailed = false,
+    trackDuration = false,
+    trackCount = false,
+  } = options;
+
   const [isPressed, setIsPressed] = useState(false);
+  const [pressedAt, setPressedAt] = useState<number | null>(null);
+  const [releasedAt, setReleasedAt] = useState<number | null>(null);
+  const [count, setCount] = useState(0);
 
-  useKeyPress(keyMatcher, () => setIsPressed(true), {
-    ...options,
-    eventType: "keydown",
-  });
+  useKeyPress(
+    keyMatcher,
+    () => {
+      setIsPressed(true);
+      if (trackDuration || detailed) {
+        setPressedAt(Date.now());
+      }
+      if (trackCount || detailed) {
+        setCount((prev) => prev + 1);
+      }
+    },
+    {
+      eventType: "keydown",
+      target: options.target,
+      enabled: options.enabled,
+    }
+  );
 
-  useKeyPress(keyMatcher, () => setIsPressed(false), {
-    ...options,
-    eventType: "keyup",
-  });
+  useKeyPress(
+    keyMatcher,
+    () => {
+      setIsPressed(false);
+      if (trackDuration || detailed) {
+        setReleasedAt(Date.now());
+      }
+    },
+    {
+      eventType: "keyup",
+      target: options.target,
+      enabled: options.enabled,
+    }
+  );
+
+  if (detailed) {
+    let duration = 0;
+    if (pressedAt && isPressed) {
+      duration = Date.now() - pressedAt;
+    } else if (pressedAt && releasedAt) {
+      duration = releasedAt - pressedAt;
+    }
+
+    return {
+      pressed: isPressed,
+      pressedAt,
+      releasedAt,
+      duration,
+      count,
+    };
+  }
 
   return isPressed;
 }
 
 /**
  * Convenience hook for keyboard shortcuts with modifier keys.
- * Automatically enables preventDefault and strict modifier matching.
- *
- * @param key - Key to match (single key string)
- * @param handler - Callback function to execute when shortcut matches
- * @param modifiers - Required modifier keys (ctrl, shift, alt, meta)
- * @param options - Additional configuration options
  *
  * @example
- * // Ctrl+S to save
- * useKeyboardShortcut("s", handleSave, { ctrl: true })
+ * // String notation (recommended)
+ * useKeyboardShortcut("mod+s", onSave);
+ * useKeyboardShortcut("ctrl+shift+z", onRedo);
  *
  * @example
- * // Ctrl+Shift+Z to redo
- * useKeyboardShortcut("z", handleRedo, { ctrl: true, shift: true })
+ * // Multiple shortcuts for same action
+ * useKeyboardShortcut(["cmd+k", "ctrl+k"], onCommandPalette);
  *
  * @example
- * // Cmd+K on Mac, Ctrl+K on Windows/Linux
- * useKeyboardShortcut("k", openCommandPalette, {
- *   [isMac ? "meta" : "ctrl"]: true
- * })
+ * // Legacy object notation
+ * useKeyboardShortcut("s", onSave, { ctrl: true });
  */
 export function useKeyboardShortcut(
-  key: string,
+  keyOrShortcut: string | string[],
   handler: KeyPressHandler,
-  modifiers: Modifiers,
-  options?: Omit<UseKeyPressOptions, "modifiers">
-): void {
-  useKeyPress(key, handler, {
-    ...options,
-    modifiers,
-    preventDefault: options?.preventDefault ?? true,
-    strictModifiers: options?.strictModifiers ?? true,
-  });
+  modifiersOrOptions?: Modifiers | Omit<KeyPressOptions, "modifiers">
+): KeyPressControl {
+  // Determine options based on input type
+  const isArray = Array.isArray(keyOrShortcut);
+  const key = isArray ? keyOrShortcut[0] : keyOrShortcut;
+  const hasPlus = !isArray && keyOrShortcut.includes("+");
+  const hasModifiers =
+    modifiersOrOptions &&
+    ("ctrl" in modifiersOrOptions ||
+      "shift" in modifiersOrOptions ||
+      "alt" in modifiersOrOptions ||
+      "meta" in modifiersOrOptions);
+
+  // Parse string notation if needed
+  const parsed = hasPlus ? parseKeyString(keyOrShortcut) : null;
+
+  // Build options for the internal hook
+  let internalOptions: KeyPressOptions;
+  if (parsed) {
+    internalOptions = {
+      preventDefault: true,
+      strictModifiers: true,
+      modifiers: parsed.modifiers,
+    };
+  } else if (hasModifiers) {
+    internalOptions = {
+      preventDefault: true,
+      strictModifiers: true,
+      modifiers: modifiersOrOptions as Modifiers,
+    };
+  } else {
+    internalOptions = {
+      preventDefault: true,
+      strictModifiers: true,
+      ...(modifiersOrOptions || {}),
+    };
+  }
+
+  // Call hook with computed options (unconditional call)
+  const primaryControl = useKeyPressInternal(
+    parsed ? parsed.key : key,
+    handler,
+    internalOptions
+  );
+
+  // Handle array of shortcuts
+  const additionalControls = isArray
+    ? keyOrShortcut.slice(1).map((shortcut) =>
+        // biome-ignore lint/correctness/useHookAtTopLevel: This is intentionally called conditionally based on array input
+        useKeyboardShortcut(shortcut, handler, modifiersOrOptions)
+      )
+    : [];
+
+  // If array, combine controls
+  if (isArray) {
+    const allControls = [primaryControl, ...additionalControls];
+    return {
+      isEnabled: allControls.every((c) => c.isEnabled),
+      enable: () => {
+        for (const c of allControls) {
+          c.enable();
+        }
+      },
+      disable: () => {
+        for (const c of allControls) {
+          c.disable();
+        }
+      },
+      toggle: () => {
+        for (const c of allControls) {
+          c.toggle();
+        }
+      },
+      destroy: () => {
+        for (const c of allControls) {
+          c.destroy();
+        }
+      },
+    };
+  }
+
+  return primaryControl;
 }
+
+/**
+ * Hook for handling key sequences (e.g., "g" then "d").
+ *
+ * @example
+ * // Vim-like navigation
+ * useKeySequence(["g", "d"], onGoToDefinition);
+ * useKeySequence(["g", "g"], onGoToTop);
+ *
+ * @example
+ * // Custom timeout
+ * useKeySequence(["g", "d"], onGoToDefinition, { timeout: 500 });
+ */
+export function useKeySequence(
+  sequence: string[],
+  handler: KeyPressHandler,
+  options: KeySequenceOptions = {}
+): KeyPressControl {
+  const {
+    timeout = DEFAULT_SEQUENCE_TIMEOUT,
+    preventDefault = false,
+    target = getDefaultTarget(),
+    enabled: enabledOption = true,
+  } = options;
+
+  const [enabled, setEnabled] = useState(enabledOption);
+  const sequenceIndexRef = useRef(0);
+  const timeoutIdRef = useRef<number | null>(null);
+
+  const resetSequence = useEffectEvent(() => {
+    sequenceIndexRef.current = 0;
+    if (timeoutIdRef.current !== null) {
+      clearTimeout(timeoutIdRef.current);
+      timeoutIdRef.current = null;
+    }
+  });
+
+  const onKeyDown = useEffectEvent((event: KeyboardEvent) => {
+    const expectedKey = sequence[sequenceIndexRef.current];
+
+    if (event.key === expectedKey || event.code === expectedKey) {
+      if (preventDefault) {
+        event.preventDefault();
+      }
+
+      sequenceIndexRef.current++;
+
+      // Clear existing timeout
+      if (timeoutIdRef.current !== null) {
+        clearTimeout(timeoutIdRef.current);
+      }
+
+      // Check if sequence is complete
+      if (sequenceIndexRef.current === sequence.length) {
+        handler(event);
+        resetSequence();
+      } else {
+        // Set timeout for next key
+        timeoutIdRef.current = setTimeout(
+          resetSequence,
+          timeout
+        ) as unknown as number;
+      }
+    } else {
+      // Wrong key, reset sequence
+      resetSequence();
+    }
+  });
+
+  useEffect(() => {
+    if (!(enabled && target)) {
+      return;
+    }
+
+    const eventListener = (event: Event) => {
+      onKeyDown(event as KeyboardEvent);
+    };
+
+    target.addEventListener("keydown", eventListener);
+
+    return () => {
+      target.removeEventListener("keydown", eventListener);
+      resetSequence();
+    };
+  }, [target, enabled, onKeyDown, resetSequence]);
+
+  return {
+    isEnabled: enabled,
+    enable: () => setEnabled(true),
+    disable: () => setEnabled(false),
+    toggle: () => setEnabled((prev) => !prev),
+    destroy: () => {
+      setEnabled(false);
+      resetSequence();
+    },
+  };
+}
+
+/**
+ * Hook for managing multiple keyboard shortcuts as a keymap.
+ *
+ * @example
+ * const keymap = useKeymap({
+ *   "mod+s": onSave,
+ *   "mod+k": onCommandPalette,
+ *   "Escape": onClose,
+ * });
+ *
+ * @example
+ * // Dynamic control
+ * keymap.disable("Escape");
+ * keymap.enable("Escape");
+ */
+export function useKeymap(
+  bindings: Record<string, KeyPressHandler>,
+  options: KeymapOptions = {}
+): KeymapControl {
+  const { enabled: enabledOption = true } = options;
+
+  const [enabledBindings, setEnabledBindings] = useState<
+    Record<string, boolean>
+  >(() => {
+    const initial: Record<string, boolean> = {};
+    for (const key of Object.keys(bindings)) {
+      initial[key] = enabledOption;
+    }
+    return initial;
+  });
+
+  // Create individual controls for each binding
+  // biome-ignore lint/correctness/useHookAtTopLevel: Hooks are called for each static binding key
+  const controlsRef = useRef<Record<string, KeyPressControl>>({});
+
+  // Set up all bindings - bindings object must remain stable across renders
+  for (const [shortcut, handler] of Object.entries(bindings)) {
+    const isEnabled = enabledBindings[shortcut] ?? true;
+
+    // biome-ignore lint/correctness/useHookAtTopLevel: Number of hooks is constant based on bindings keys
+    const control = useKeyboardShortcut(shortcut, handler, {
+      ...options,
+      enabled: isEnabled,
+    });
+
+    controlsRef.current[shortcut] = control;
+  }
+
+  const keymapControl: KeymapControl = useMemo(
+    () => ({
+      enable: (shortcut) => {
+        if (shortcut) {
+          setEnabledBindings((prev) => ({ ...prev, [shortcut]: true }));
+          controlsRef.current[shortcut]?.enable();
+        } else {
+          const allEnabled: Record<string, boolean> = {};
+          for (const key of Object.keys(bindings)) {
+            allEnabled[key] = true;
+          }
+          setEnabledBindings(allEnabled);
+          for (const control of Object.values(controlsRef.current)) {
+            control.enable();
+          }
+        }
+      },
+
+      disable: (shortcut) => {
+        if (shortcut) {
+          setEnabledBindings((prev) => ({ ...prev, [shortcut]: false }));
+          controlsRef.current[shortcut]?.disable();
+        } else {
+          const allDisabled: Record<string, boolean> = {};
+          for (const key of Object.keys(bindings)) {
+            allDisabled[key] = false;
+          }
+          setEnabledBindings(allDisabled);
+          for (const control of Object.values(controlsRef.current)) {
+            control.disable();
+          }
+        }
+      },
+
+      getBindings: () => ({ ...enabledBindings }),
+
+      isEnabled: (shortcut) => enabledBindings[shortcut] ?? false,
+    }),
+    [enabledBindings, bindings]
+  );
+
+  return keymapControl;
+}
+
+// ═══════════════════════════════════════════════════
+// EXPORTS
+// ═══════════════════════════════════════════════════
 
 export type {
   KeyMatcher,
   KeyboardEventType,
   Modifiers,
-  BaseOptions,
-  EventBehaviorOptions,
-  FilterOptions,
-  ModifierOptions,
-  UseKeyPressOptions,
+  KeyPressOptions,
   KeyPressHandler,
+  KeyPressControl,
+  KeyStateOptions,
+  KeyStateDetailed,
+  KeySequenceOptions,
+  KeymapOptions,
+  KeymapControl,
+  KeyPredicate,
+  ModifierKey,
+  PlatformModifiers,
 };
