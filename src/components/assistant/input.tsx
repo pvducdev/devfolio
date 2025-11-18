@@ -1,10 +1,10 @@
 import { type ChangeEvent, useActionState, useRef } from "react";
 import SlashCommandPopover from "@/components/assistant/slash-command-popover.tsx";
 import { Textarea } from "@/components/ui/textarea.tsx";
+import { useCmdNav } from "@/hooks/use-cmd-nav.ts";
+import { useDoubleEsc } from "@/hooks/use-double-esc.ts";
 import { useKeyPress } from "@/hooks/use-keyboard.ts";
-import { useCmdNav } from "./hooks/use-cmd-nav.ts";
-import { useDoubleEsc } from "./hooks/use-double-esc.ts";
-import { useSlashCommands } from "./hooks/use-slash-commands.ts";
+import { useSlashCommands } from "@/hooks/use-slash-commands.ts";
 import { selectHighlightedCommand } from "./utils.ts";
 
 type AssistantInputProps = {
