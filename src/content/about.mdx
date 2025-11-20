@@ -14,7 +14,7 @@ import { PERSONAL_INFO } from '../config/personal';
 
       <div className="flex justify-center">
         <div
-          className="w-32 h-32 rounded-lg border-2 border-gray-300 dark:border-gray-700 flex items-center justify-center text-6xl"
+          className="w-32 h-32 rounded-full border-2 border-gray-300 dark:border-gray-700 flex items-center justify-center text-6xl"
           role="img"
           aria-label="Developer profile avatar"
         >
@@ -23,9 +23,9 @@ import { PERSONAL_INFO } from '../config/personal';
       </div>
 
       <section className="space-y-2">
-        <h1 className="text-4xl font-bold tracking-tight">{PERSONAL_INFO.nickname}</h1>
+        <h1 className="text-4xl font-bold tracking-tight">{PERSONAL_INFO.name}</h1>
         <div className="border-t-2 border-b-2 border-gray-300 dark:border-gray-700 py-3 max-w-md mx-auto">
-          <p className="font-medium">{PERSONAL_INFO.role} · HCMC</p>
+          <p className="font-medium">{PERSONAL_INFO.role} · {PERSONAL_INFO.location}</p>
           <p className="text-sm text-gray-600 dark:text-gray-400">
             Age {new Date().getFullYear() - PERSONAL_INFO.dob}
           </p>

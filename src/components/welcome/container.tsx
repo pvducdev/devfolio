@@ -27,16 +27,16 @@ export default function WelcomeContainer() {
         <div className="flex justify-center space-x-5 text-gray-500">
           <a
             className="transition-colors hover:text-[#FC6D26]"
-            href="https://github.com/yourusername"
-            rel="noopener"
+            href={PERSONAL_INFO.contact.gitlab}
+            rel="noopener noreferrer"
             target="_blank"
           >
             <Gitlab className="size-6 [&>path]:fill-current" />
           </a>
           <a
             className="transition-colors hover:text-[#0A66C2]"
-            href="https://linkedin.com/in/yourusername"
-            rel="noopener"
+            href={PERSONAL_INFO.contact.linkedin}
+            rel="noopener noreferrer"
             target="_blank"
           >
             <Linkedin className="size-6 [&>path]:fill-current" />

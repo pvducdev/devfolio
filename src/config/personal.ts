@@ -1,13 +1,13 @@
 export const PERSONAL_INFO = {
   name: "PVD",
-  fullName: "PVD",
   nickname: "D",
   dob: 2001,
   role: "Frontend Developer",
+  location: "HCMC, Vietnam",
   experience: 3, // years
 
   contact: {
-    email: "your.email@example.com",
+    email: "pvducc.dev@gmail.com",
     github: "https://github.com/username",
     linkedin: "https://linkedin.com/in/username",
     gitlab: "https://gitlab.com/username",
