@@ -11,7 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as RootLayoutRouteImport } from './routes/_root-layout'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as RootLayoutWelcomeRouteImport } from './routes/_root-layout/welcome'
+import { Route as RootLayoutHomeRouteImport } from './routes/_root-layout/home'
 
 const RootLayoutRoute = RootLayoutRouteImport.update({
   id: '/_root-layout',
@@ -22,32 +22,32 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const RootLayoutWelcomeRoute = RootLayoutWelcomeRouteImport.update({
-  id: '/welcome',
-  path: '/welcome',
+const RootLayoutHomeRoute = RootLayoutHomeRouteImport.update({
+  id: '/home',
+  path: '/home',
   getParentRoute: () => RootLayoutRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/welcome': typeof RootLayoutWelcomeRoute
+  '/home': typeof RootLayoutHomeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/welcome': typeof RootLayoutWelcomeRoute
+  '/home': typeof RootLayoutHomeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_root-layout': typeof RootLayoutRouteWithChildren
-  '/_root-layout/welcome': typeof RootLayoutWelcomeRoute
+  '/_root-layout/home': typeof RootLayoutHomeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/welcome'
+  fullPaths: '/' | '/home'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/welcome'
-  id: '__root__' | '/' | '/_root-layout' | '/_root-layout/welcome'
+  to: '/' | '/home'
+  id: '__root__' | '/' | '/_root-layout' | '/_root-layout/home'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -71,22 +71,22 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_root-layout/welcome': {
-      id: '/_root-layout/welcome'
-      path: '/welcome'
-      fullPath: '/welcome'
-      preLoaderRoute: typeof RootLayoutWelcomeRouteImport
+    '/_root-layout/home': {
+      id: '/_root-layout/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof RootLayoutHomeRouteImport
       parentRoute: typeof RootLayoutRoute
     }
   }
 }
 
 interface RootLayoutRouteChildren {
-  RootLayoutWelcomeRoute: typeof RootLayoutWelcomeRoute
+  RootLayoutHomeRoute: typeof RootLayoutHomeRoute
 }
 
 const RootLayoutRouteChildren: RootLayoutRouteChildren = {
-  RootLayoutWelcomeRoute: RootLayoutWelcomeRoute,
+  RootLayoutHomeRoute: RootLayoutHomeRoute,
 }
 
 const RootLayoutRouteWithChildren = RootLayoutRoute._addFileChildren(

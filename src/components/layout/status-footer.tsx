@@ -20,14 +20,14 @@ export default function StatusFooter() {
       <Breadcrumb>
         <BreadcrumbList className="gap-1">
           <BreadcrumbItem>
-            <BreadcrumbLink className="text-muted-foreground text-xs" href="/">
-              Home
+            <BreadcrumbLink className="text-muted-foreground text-xs">
+              /
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
             <BreadcrumbPage className="text-muted-foreground text-xs">
-              Welcome
+              Home
             </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
