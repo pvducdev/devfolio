@@ -16,9 +16,7 @@ export default function AssistantTrigger() {
     togglePanel("assistant");
   };
 
-  useKeyboardShortcut(KBD, onToggleAssistant, {
-    meta: true,
-  });
+  useKeyboardShortcut(`mod+${KBD}`, onToggleAssistant);
 
   return (
     <ButtonWithTooltip

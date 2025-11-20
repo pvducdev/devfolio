@@ -2,8 +2,7 @@ import { type ChangeEvent, useActionState, useRef } from "react";
 import SlashCommandPopover from "@/components/assistant/slash-command-popover.tsx";
 import { Textarea } from "@/components/ui/textarea.tsx";
 import { useCmdNav } from "@/hooks/use-cmd-nav.ts";
-import { useDoubleEsc } from "@/hooks/use-double-esc.ts";
-import { useKeyPress } from "@/hooks/use-keyboard.ts";
+import { useKeyPress, useKeySequence } from "@/hooks/use-keyboard.ts";
 import { useSlashCommands } from "@/hooks/use-slash-commands.ts";
 import { selectHighlightedCommand } from "./utils.ts";
 
@@ -49,19 +48,18 @@ export default function AssistantInput({
     textareaRef.current?.focus();
   };
 
-  const handleEscapePress = useDoubleEsc(clearInput);
-
   const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     updateSlashCommands(e.target.value);
   };
 
-  useKeyPress("Enter", submitForm, {
-    target: textareaRef.current,
-    modifiers: { shift: false },
-    preventDefault: true,
-  });
+  useKeyPress("Enter")
+    .onTarget(textareaRef)
+    .withModifiers({ shift: false })
+    .preventDefault()
+    .handle(submitForm);
 
-  useKeyPress("Escape", handleEscapePress, {
+  useKeySequence(["Escape", "Escape"], clearInput, {
+    timeout: 1000,
     target: textareaRef.current,
   });
 

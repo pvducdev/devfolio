@@ -25,15 +25,9 @@ import { useKeyboardShortcut } from "@/hooks/use-keyboard.ts";
 export default function AppSearch() {
   const [open, setOpen] = useState(false);
 
-  useKeyboardShortcut(
-    "k",
-    () => {
-      setOpen((o) => !o);
-    },
-    {
-      meta: true,
-    }
-  );
+  useKeyboardShortcut("mod+k", () => {
+    setOpen((o) => !o);
+  });
 
   return (
     <>
