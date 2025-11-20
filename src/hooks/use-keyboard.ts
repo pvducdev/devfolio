@@ -1,6 +1,7 @@
 /** biome-ignore-all lint/correctness/useHookAtTopLevel: <custom hook> */
 import {
   type RefObject,
+  useCallback,
   useEffect,
   useEffectEvent,
   useMemo,
@@ -88,11 +89,10 @@ type KeymapControl = {
 type KeyPressHandler = (event: KeyboardEvent) => void;
 
 const DEFAULT_IGNORE_ELEMENTS = ["INPUT", "TEXTAREA", "SELECT"];
+
 const DEFAULT_SEQUENCE_TIMEOUT = 1000;
 
-const IS_MAC =
-  typeof navigator !== "undefined" &&
-  navigator.platform.toLowerCase().includes("mac");
+let cachedIsMac: boolean | undefined;
 
 function getDefaultTarget(): Window | null {
   return typeof window !== "undefined" ? window : null;
@@ -103,7 +103,12 @@ function isGlobalTarget(target: unknown): boolean {
 }
 
 function isMac(): boolean {
-  return IS_MAC;
+  if (cachedIsMac === undefined) {
+    cachedIsMac =
+      typeof navigator !== "undefined" &&
+      navigator.platform.toLowerCase().includes("mac");
+  }
+  return cachedIsMac;
 }
 
 function shouldIgnoreEvent(
@@ -172,10 +177,27 @@ function keyMatches(event: KeyboardEvent, keyMatcher: KeyMatcher): boolean {
   return false;
 }
 
+/**
+ * Memoization cache for parsed key strings
+ * Improves performance by avoiding repeated parsing
+ */
+const parsedKeyCache = new Map<
+  string,
+  {
+    key: string;
+    modifiers: Modifiers;
+  }
+>();
+
 function parseKeyString(keyString: string): {
   key: string;
   modifiers: Modifiers;
 } {
+  const cached = parsedKeyCache.get(keyString);
+  if (cached) {
+    return cached;
+  }
+
   const modifiers: Modifiers = {};
 
   const aliasMap: Record<string, ModifierKey | "mod"> = {
@@ -209,7 +231,9 @@ function parseKeyString(keyString: string): {
     throw new Error(`Invalid key string: ${keyString} - no key specified`);
   }
 
-  return { key, modifiers };
+  const parsed = { key, modifiers };
+  parsedKeyCache.set(keyString, parsed);
+  return parsed;
 }
 
 function useKeyPressInternal(
@@ -313,6 +337,52 @@ function useKeyPressInternal(
   };
 }
 
+function useMultiKeyPress(
+  bindings: Array<{
+    shortcut: string;
+    key: string;
+    modifiers: Modifiers;
+    handler: KeyPressHandler;
+  }>,
+  enabledMap: Record<string, boolean>,
+  options: KeyPressOptions = {}
+): void {
+  const stableBindings = useMemo(() => bindings, [bindings]);
+
+  const multiHandler = useEffectEvent((event: KeyboardEvent) => {
+    for (const binding of stableBindings) {
+      if (!enabledMap[binding.shortcut]) {
+        continue;
+      }
+
+      if (
+        keyMatches(event, binding.key) &&
+        modifiersMatch(event, binding.modifiers, true)
+      ) {
+        binding.handler(event);
+        break;
+      }
+    }
+  });
+
+  const multiMatcher = useCallback(
+    (event: KeyboardEvent): boolean =>
+      stableBindings.some(
+        (binding) =>
+          enabledMap[binding.shortcut] &&
+          keyMatches(event, binding.key) &&
+          modifiersMatch(event, binding.modifiers, true)
+      ),
+    [stableBindings, enabledMap]
+  );
+
+  useKeyPressInternal(multiMatcher, multiHandler, {
+    ...options,
+    preventDefault: options.preventDefault ?? true,
+    strictModifiers: true,
+  });
+}
+
 type KeyPressBuilderAPI = {
   withModifiers: (modifiers: Modifiers) => KeyPressBuilderAPI;
   mod: (platform?: PlatformModifiers) => KeyPressBuilderAPI;
@@ -408,9 +478,13 @@ export function useKeyPress(
   handlerOrOptions?: KeyPressHandler | KeyPressOptions,
   optionsOrUndefined?: KeyPressOptions
 ): KeyPressBuilderAPI | KeyPressControl {
-  const isStringKey = typeof keyMatcher === "string";
-  const hasPlus = isStringKey && keyMatcher.includes("+");
-  const parsed = hasPlus ? parseKeyString(keyMatcher as string) : null;
+  const parsed = useMemo(() => {
+    if (typeof keyMatcher === "string" && keyMatcher.includes("+")) {
+      return parseKeyString(keyMatcher);
+    }
+    return null;
+  }, [keyMatcher]);
+
   const finalKey = parsed ? parsed.key : keyMatcher;
   const parsedModifiers = parsed ? parsed.modifiers : {};
 
@@ -528,64 +602,47 @@ export function useKeyboardShortcut(
   >
 ): KeyPressControl {
   const isArray = Array.isArray(keyOrShortcut);
-  const key = isArray ? keyOrShortcut[0] : keyOrShortcut;
+  const shortcuts = isArray ? keyOrShortcut : [keyOrShortcut];
 
-  const parsed = parseKeyString(key);
-
-  const internalOptions: KeyPressOptions = {
-    preventDefault: true,
-    strictModifiers: true,
-    modifiers: parsed.modifiers,
-    ...options,
-  };
-
-  const primaryControl = useKeyPressInternal(
-    parsed.key,
-    handler,
-    internalOptions
+  const parsedShortcuts = useMemo(
+    () => shortcuts.map((s) => parseKeyString(s)),
+    [shortcuts]
   );
 
-  const additionalControls = isArray
-    ? keyOrShortcut.slice(1).map((shortcut) => {
-        const parsedShortcut = parseKeyString(shortcut);
-        const opts: KeyPressOptions = {
-          preventDefault: true,
-          strictModifiers: true,
-          modifiers: parsedShortcut.modifiers,
-          ...options,
-        };
-        return useKeyPressInternal(parsedShortcut.key, handler, opts);
-      })
-    : [];
+  const bindings = useMemo(
+    () =>
+      parsedShortcuts.map((parsed, index) => ({
+        shortcut: shortcuts[index],
+        key: parsed.key,
+        modifiers: parsed.modifiers,
+        handler,
+      })),
+    [parsedShortcuts, shortcuts, handler]
+  );
 
-  if (isArray) {
-    const allControls = [primaryControl, ...additionalControls];
-    return {
-      isEnabled: allControls.every((c) => c.isEnabled),
-      enable: () => {
-        for (const c of allControls) {
-          c.enable();
-        }
-      },
-      disable: () => {
-        for (const c of allControls) {
-          c.disable();
-        }
-      },
-      toggle: () => {
-        for (const c of allControls) {
-          c.toggle();
-        }
-      },
-      destroy: () => {
-        for (const c of allControls) {
-          c.destroy();
-        }
-      },
-    };
-  }
+  const [enabled, setEnabled] = useState(true);
 
-  return primaryControl;
+  const enabledMap = useMemo(() => {
+    const map: Record<string, boolean> = {};
+    for (const shortcut of shortcuts) {
+      map[shortcut] = enabled;
+    }
+    return map;
+  }, [shortcuts, enabled]);
+
+  useMultiKeyPress(bindings, enabledMap, {
+    ...options,
+    preventDefault: true,
+    enabled,
+  });
+
+  return {
+    isEnabled: enabled,
+    enable: () => setEnabled(true),
+    disable: () => setEnabled(false),
+    toggle: () => setEnabled((prev) => !prev),
+    destroy: () => setEnabled(false),
+  };
 }
 
 export function useKeySequence(
@@ -685,46 +742,46 @@ export function useKeymap(
     return initial;
   });
 
-  const controlsRef = useRef<Record<string, KeyPressControl>>({});
+  const parsedBindings = useMemo(
+    () =>
+      Object.entries(bindings).map(([shortcut, handler]) => {
+        const parsed = parseKeyString(shortcut);
+        return {
+          shortcut,
+          key: parsed.key,
+          modifiers: parsed.modifiers,
+          handler,
+        };
+      }),
+    [bindings]
+  );
 
-  for (const [shortcut, handler] of Object.entries(bindings)) {
-    const isEnabled = enabledBindings[shortcut] ?? true;
-
-    controlsRef.current[shortcut] = useKeyboardShortcut(shortcut, handler, {
-      ...options,
-      enabled: isEnabled,
-    });
-  }
+  useMultiKeyPress(parsedBindings, enabledBindings, {
+    ...options,
+    preventDefault: options.preventDefault ?? true,
+  });
 
   return {
     enable: (shortcut) => {
       if (shortcut) {
         setEnabledBindings((prev) => ({ ...prev, [shortcut]: true }));
-        controlsRef.current[shortcut]?.enable();
       } else {
         const allEnabled: Record<string, boolean> = {};
         for (const key of Object.keys(bindings)) {
           allEnabled[key] = true;
         }
         setEnabledBindings(allEnabled);
-        for (const control of Object.values(controlsRef.current)) {
-          control.enable();
-        }
       }
     },
     disable: (shortcut) => {
       if (shortcut) {
         setEnabledBindings((prev) => ({ ...prev, [shortcut]: false }));
-        controlsRef.current[shortcut]?.disable();
       } else {
         const allDisabled: Record<string, boolean> = {};
         for (const key of Object.keys(bindings)) {
           allDisabled[key] = false;
         }
         setEnabledBindings(allDisabled);
-        for (const control of Object.values(controlsRef.current)) {
-          control.disable();
-        }
       }
     },
     getBindings: () => ({ ...enabledBindings }),
