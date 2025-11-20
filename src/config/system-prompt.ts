@@ -24,6 +24,14 @@ Name: ${PERSONAL_INFO.name} (also known as ${PERSONAL_INFO.nickname})
 Dob: ${PERSONAL_INFO.dob}
 Role: ${PERSONAL_INFO.role}
 Experience: ${PERSONAL_INFO.experience} years
+Location: ${PERSONAL_INFO.location}
+
+# ${PERSONAL_INFO.nickname} Contact
+Email: ${PERSONAL_INFO.contact.email}
+LinkedIn: ${PERSONAL_INFO.contact.linkedin}
+Github: ${PERSONAL_INFO.contact.github}
+Gitlab: ${PERSONAL_INFO.contact.gitlab}
+
 
 # Core Skills:
 ${PERSONAL_INFO.skills.core.map((skill) => `* ${skill}`).join("\n")}

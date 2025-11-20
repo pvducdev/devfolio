@@ -5,12 +5,13 @@ export const PERSONAL_INFO = {
   role: "Frontend Developer",
   location: "HCMC, Vietnam",
   experience: 3, // years
+  openToWork: true,
 
   contact: {
     email: "pvducc.dev@gmail.com",
-    github: "https://github.com/username",
+    github: "https://github.com/pvducdev",
     linkedin: "https://linkedin.com/in/username",
-    gitlab: "https://gitlab.com/username",
+    gitlab: "https://gitlab.com/pvducc.dev",
   },
 
   resume: {

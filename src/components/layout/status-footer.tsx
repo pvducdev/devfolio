@@ -7,6 +7,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { GithubLight } from "@/components/ui/svgs/githubLight.tsx";
 import { Gitlab } from "@/components/ui/svgs/gitlab";
 import { Linkedin } from "@/components/ui/svgs/linkedin";
 import { PERSONAL_INFO } from "@/config/personal.ts";
@@ -35,6 +36,13 @@ export default function StatusFooter() {
         {SITE_CONFIG.features.showThemeSwitcher && <ThemeSwitcher />}
         <div className="flex items-center space-x-2">
           <a
+            href={PERSONAL_INFO.contact.github}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <GithubLight className="size-3 text-muted-foreground [&>path]:fill-current" />
+          </a>
+          <a
             href={PERSONAL_INFO.contact.gitlab}
             rel="noopener noreferrer"
             target="_blank"
@@ -52,12 +60,18 @@ export default function StatusFooter() {
         <small className="text-muted-foreground text-xs leading-none">
           {PERSONAL_INFO.location}
         </small>
-        <Badge
-          className="rounded-full border-green-500! text-green-500"
-          variant="outline"
-        >
-          Open to work
-        </Badge>
+        {PERSONAL_INFO.openToWork ? (
+          <Badge
+            className="rounded-full border-green-500! text-green-500"
+            variant="outline"
+          >
+            Open to work
+          </Badge>
+        ) : (
+          <Badge className="rounded-full" variant="outline">
+            Hired.exe
+          </Badge>
+        )}
       </div>
     </footer>
   );
