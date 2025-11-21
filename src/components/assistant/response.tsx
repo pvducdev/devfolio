@@ -8,10 +8,9 @@ type AiResponseProps = {
 
 export default function AssistantResponse({ response }: AiResponseProps) {
   const { displayedText } = useTypewriter(response, {
-    speedStages: [
-      { duration: 3000, speed: 100 },
-      { duration: Number.POSITIVE_INFINITY, speed: 200 },
-    ],
+    // Fast preset for responsive AI chat experience (60 chars/sec)
+    speed: "fast",
+    mode: "character",
   });
 
   if (!response) {
