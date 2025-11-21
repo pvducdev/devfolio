@@ -8,6 +8,7 @@ export type AppLayoutState = {
   panel?: string;
   sidebarSize: number;
   panelSize: number;
+  isStretchLayout: boolean;
 };
 
 export type AppLayoutActions = {
@@ -15,6 +16,7 @@ export type AppLayoutActions = {
   togglePanel: (value?: string) => void;
   setSidebarSize: (size: number) => void;
   setPanelSize: (size: number) => void;
+  toggleStretchLayout: () => void;
 };
 
 const DEFAULT_APP_LAYOUT: AppLayoutState = {
@@ -22,6 +24,7 @@ const DEFAULT_APP_LAYOUT: AppLayoutState = {
   panel: "assistant",
   sidebarSize: 25,
   panelSize: 25,
+  isStretchLayout: false,
 };
 
 export const useAppLayoutStore = create<AppLayoutState & AppLayoutActions>()(
@@ -41,6 +44,9 @@ export const useAppLayoutStore = create<AppLayoutState & AppLayoutActions>()(
       },
       setPanelSize: (size) => {
         set(() => ({ panelSize: size }));
+      },
+      toggleStretchLayout: () => {
+        set((state) => ({ isStretchLayout: !state.isStretchLayout }));
       },
     }),
     {

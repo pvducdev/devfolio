@@ -1,9 +1,8 @@
-import { GitBranch, Settings } from "lucide-react";
+import { Expand, GitBranch, Settings, Shrink } from "lucide-react";
 import AssistantTrigger from "@/components/assistant/trigger.tsx";
 import ButtonWithTooltip from "@/components/common/button-with-tooltip.tsx";
 import AppSearch from "@/components/layout/app-search.tsx";
 import ResumeViewer from "@/components/resume-viewer/dialog-container.tsx";
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,13 +13,33 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SITE_CONFIG } from "@/config/site.ts";
+import { useKeyboardShortcut } from "@/hooks/use-keyboard.ts";
+import { useAppLayoutStore } from "@/store/app-layout.ts";
 import { Badge } from "../ui/badge";
 
 export default function Header() {
+  const isStretchLayout = useAppLayoutStore((state) => state.isStretchLayout);
+  const toggleStretchLayout = useAppLayoutStore(
+    (state) => state.toggleStretchLayout
+  );
+
+  useKeyboardShortcut("mod+shift+f", toggleStretchLayout);
+
   return (
     <header className="flex h-8 w-full items-center justify-between bg-sidebar">
       <div className="flex items-center pl-3">
-        <Button className="size-3 rounded-full bg-green-500" size="icon" />
+        <ButtonWithTooltip
+          className="group size-3 rounded-full bg-green-500 hover:bg-green-500"
+          onClick={toggleStretchLayout}
+          size="icon"
+          tooltip={isStretchLayout ? "Normal Layout" : "Stretch Layout"}
+        >
+          {isStretchLayout ? (
+            <Shrink className="size-2 opacity-0 transition-opacity group-hover:opacity-100" />
+          ) : (
+            <Expand className="size-2 opacity-0 transition-opacity group-hover:opacity-100" />
+          )}
+        </ButtonWithTooltip>
         <div className="ml-14 flex items-center space-x-2">
           <Badge className="rounded bg-primary px-1 text-primary-foreground hover:bg-primary/90">
             PP
