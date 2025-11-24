@@ -12,14 +12,16 @@ import {
   PopoverAnchor,
   PopoverContent,
 } from "@/components/ui/popover.tsx";
-import { SLASH_COMMANDS, type SlashCommand } from "@/config/slash-commands.ts";
+import { registry } from "@/lib/commands";
+import "@/commands";
+import type { Command as TCommand } from "@/lib/commands/types";
 
 type SlashCommandPopoverProps = {
   commandRef: RefObject<HTMLDivElement | null>;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   inputValue: string;
-  onCommandSelect: (command: SlashCommand) => void;
+  onCommandSelect: (command: TCommand) => void;
   children: ReactNode;
 };
 
@@ -31,6 +33,9 @@ export default function SlashCommandPopover({
   onCommandSelect,
   children,
 }: SlashCommandPopoverProps) {
+  // Get commands from registry
+  const commands = registry.list();
+
   return (
     <Popover onOpenChange={onOpenChange} open={open}>
       <PopoverAnchor asChild>{children}</PopoverAnchor>
@@ -48,7 +53,7 @@ export default function SlashCommandPopover({
           <CommandList ref={commandRef}>
             <CommandEmpty>No commands found.</CommandEmpty>
             <CommandGroup heading="Commands">
-              {SLASH_COMMANDS.map((command) => {
+              {commands.map((command) => {
                 const Icon = command.icon;
                 return (
                   <CommandItem
@@ -57,12 +62,16 @@ export default function SlashCommandPopover({
                     onSelect={() => onCommandSelect(command)}
                     value={command.name}
                   >
-                    {Icon && <Icon className="mr-2 size-4" />}
-                    <div className="flex flex-col">
-                      <span className="font-medium">/{command.name}</span>
-                      <span className="text-muted-foreground text-xs">
-                        {command.description}
-                      </span>
+                    <div className="flex items-start gap-3">
+                      {Icon && (
+                        <Icon className="mt-0.5 size-4 text-muted-foreground" />
+                      )}
+                      <div className="flex flex-col">
+                        <span className="font-medium">/{command.name}</span>
+                        <span className="text-muted-foreground text-xs">
+                          {command.description}
+                        </span>
+                      </div>
                     </div>
                   </CommandItem>
                 );
