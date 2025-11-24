@@ -1,3 +1,4 @@
+import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import Header from "@/components/assistant/header.tsx";
 import Input from "@/components/assistant/input.tsx";
@@ -6,7 +7,11 @@ import Suggestions from "@/components/assistant/suggestions.tsx";
 import { ScrollArea } from "@/components/ui/scroll-area.tsx";
 import { SITE_CONFIG } from "@/config/site.ts";
 import generateAssistantResponseFn from "@/fn/generate-assistant-response.ts";
+import { executor, parser } from "@/lib/commands";
+import type { CommandContext } from "@/lib/commands/types";
 import { cn } from "@/lib/utils.ts";
+import { useThemeStore } from "@/store/theme.ts";
+import "@/commands"; // Register commands
 
 type AssistantContainerProps = {
   onClose: () => void;
@@ -16,6 +21,8 @@ export default function AssistantContainer({
   onClose,
 }: AssistantContainerProps) {
   const [messages, setMessages] = useState<string>("");
+  const navigate = useNavigate();
+  const { setTheme } = useThemeStore();
 
   const hasMessage = !!messages;
 
@@ -23,17 +30,33 @@ export default function AssistantContainer({
     setMessages("");
   };
 
-  const sendMessage = async (message: string): Promise<string> => {
-    const trimmedMsg = message.trim();
-
-    if (trimmedMsg.startsWith("/") && trimmedMsg === "/clear") {
-      return "";
+  const handleCommand = async (parsed: ReturnType<typeof parser.parse>) => {
+    if (!parsed) {
+      return null;
     }
 
+    const context: CommandContext = {
+      clearMessages,
+      setTheme,
+      navigate: (path) => navigate({ to: path }),
+    };
+
+    const result = await executor.execute(parsed, context);
+
+    if (!result.success) {
+      return result.message || "Command failed";
+    }
+
+    if (parsed.name === "help") {
+      setMessages(result.message as string);
+    }
+
+    return "";
+  };
+
+  const handleAssistantMessage = async (prompt: string) => {
     try {
-      const handler = generateAssistantResponseFn({
-        data: { prompt: trimmedMsg },
-      });
+      const handler = generateAssistantResponseFn({ data: { prompt } });
 
       for await (const msg of await handler) {
         const chunk = msg;
@@ -46,6 +69,18 @@ export default function AssistantContainer({
         ? err.message
         : "An unexpected error occurred";
     }
+  };
+
+  const sendMessage = async (message: string): Promise<string> => {
+    const trimmedMsg = message.trim();
+    const parsed = parser.parse(trimmedMsg);
+
+    if (parsed) {
+      const result = await handleCommand(parsed);
+      return result || "";
+    }
+
+    return handleAssistantMessage(trimmedMsg);
   };
 
   return (
