@@ -1,4 +1,4 @@
-import { CodeXml, GitCommitVertical, PanelsTopLeft, User } from "lucide-react";
+import { GitCommitVertical, PanelsTopLeft, User } from "lucide-react";
 import { lazy } from "react";
 
 export const activities = [
@@ -13,12 +13,6 @@ export const activities = [
     key: "experience",
     icon: GitCommitVertical,
     sidebar: lazy(() => import("@/components/sidebar/work-experiences")),
-  },
-  {
-    name: "Skills",
-    key: "skills",
-    icon: CodeXml,
-    sidebar: null,
   },
   {
     name: "Projects",

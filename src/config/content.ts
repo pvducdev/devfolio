@@ -93,11 +93,15 @@ export type AboutTreeItem = {
 export const ABOUT_TREE: Record<string, AboutTreeItem> = {
   profile: {
     name: "Profile",
-    children: ["about"],
+    children: ["about", "skills"],
   },
   about: {
     name: "about.mdx",
     filePath: "content/about.mdx",
+  },
+  skills: {
+    name: "skills.mdx",
+    filePath: "content/skills.mdx",
   },
   root: {
     name: "root",
