@@ -1,8 +1,8 @@
 import { Dog } from "lucide-react";
+import { useHotkeys } from "react-hotkeys-hook";
 import { useShallow } from "zustand/react/shallow";
 import ButtonWithTooltip from "@/components/common/button-with-tooltip.tsx";
 import { Kbd, KbdGroup } from "@/components/ui/kbd.tsx";
-import { useKeyboardShortcut } from "@/hooks/use-keyboard.ts";
 import { useAppLayoutStore } from "@/store/app-layout.ts";
 
 const KBD = "j";
@@ -16,7 +16,7 @@ export default function AssistantTrigger() {
     togglePanel("assistant");
   };
 
-  useKeyboardShortcut(`mod+${KBD}`, onToggleAssistant);
+  useHotkeys(`mod+${KBD}`, onToggleAssistant);
 
   return (
     <ButtonWithTooltip

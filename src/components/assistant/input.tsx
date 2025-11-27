@@ -1,8 +1,8 @@
-import { type ChangeEvent, useActionState, useRef } from "react";
+import { type ChangeEvent, useActionState, useCallback, useRef } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 import SlashCommandPopover from "@/components/assistant/slash-command-popover.tsx";
 import { Textarea } from "@/components/ui/textarea.tsx";
 import { useCmdNav } from "@/hooks/use-cmd-nav.ts";
-import { useKeyPress, useKeySequence } from "@/hooks/use-keyboard.ts";
 import { useSlashCommands } from "@/hooks/use-slash-commands.ts";
 import { selectHighlightedCommand } from "./utils.ts";
 
@@ -52,16 +52,34 @@ export default function AssistantInput({
     updateSlashCommands(e.target.value);
   };
 
-  useKeyPress("Enter")
-    .onTarget(textareaRef)
-    .withModifiers({ shift: false })
-    .preventDefault()
-    .handle(submitForm);
+  // Enter without shift to submit (scoped to textarea)
+  const enterRef = useHotkeys<HTMLTextAreaElement>(
+    "enter",
+    (e) => {
+      if (e.shiftKey) {
+        return;
+      }
+      submitForm();
+    },
+    { preventDefault: true, enableOnFormTags: ["TEXTAREA"] }
+  );
 
-  useKeySequence(["Escape", "Escape"], clearInput, {
-    timeout: 1000,
-    target: textareaRef.current,
-  });
+  // Double escape to clear (scoped to textarea)
+  const escapeRef = useHotkeys<HTMLTextAreaElement>(
+    "escape>escape",
+    clearInput,
+    { enableOnFormTags: ["TEXTAREA"] }
+  );
+
+  // Merge refs for textarea
+  const mergedRef = useCallback(
+    (node: HTMLTextAreaElement | null) => {
+      textareaRef.current = node;
+      enterRef.current = node;
+      escapeRef.current = node;
+    },
+    [enterRef, escapeRef]
+  );
 
   return (
     <form action={formAction} className="space-y-1 p-1">
@@ -78,7 +96,7 @@ export default function AssistantInput({
           onChange={handleInputChange}
           onKeyDown={forwardKeyToCommandPopover}
           placeholder={placeholder}
-          ref={textareaRef}
+          ref={mergedRef}
           value={inputValue}
         />
       </SlashCommandPopover>

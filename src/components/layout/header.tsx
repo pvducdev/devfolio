@@ -1,4 +1,5 @@
 import { Expand, GitBranch, Settings, Shrink } from "lucide-react";
+import { useHotkeys } from "react-hotkeys-hook";
 import AssistantTrigger from "@/components/assistant/trigger.tsx";
 import ButtonWithTooltip from "@/components/common/button-with-tooltip.tsx";
 import AppSearch from "@/components/layout/app-search.tsx";
@@ -13,7 +14,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SITE_CONFIG } from "@/config/site.ts";
-import { useKeyboardShortcut } from "@/hooks/use-keyboard.ts";
 import { useAppLayoutStore } from "@/store/app-layout.ts";
 import { Badge } from "../ui/badge";
 
@@ -23,7 +23,7 @@ export default function Header() {
     (state) => state.toggleStretchLayout
   );
 
-  useKeyboardShortcut("mod+shift+f", toggleStretchLayout);
+  useHotkeys("mod+shift+f", toggleStretchLayout);
 
   return (
     <header className="flex h-8 w-full items-center justify-between bg-sidebar">

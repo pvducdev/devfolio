@@ -8,6 +8,7 @@ import {
   User,
 } from "lucide-react";
 import { useState } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 import ButtonWithTooltip from "@/components/common/button-with-tooltip.tsx";
 import {
   CommandDialog,
@@ -20,14 +21,11 @@ import {
   CommandShortcut,
 } from "@/components/ui/command.tsx";
 import { Kbd, KbdGroup } from "@/components/ui/kbd.tsx";
-import { useKeyboardShortcut } from "@/hooks/use-keyboard.ts";
 
 export default function AppSearch() {
   const [open, setOpen] = useState(false);
 
-  useKeyboardShortcut("mod+k", () => {
-    setOpen((o) => !o);
-  });
+  useHotkeys("mod+k", () => setOpen((o) => !o));
 
   return (
     <>
