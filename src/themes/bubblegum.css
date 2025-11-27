@@ -1,4 +1,5 @@
 [data-theme="bubblegum"] {
+  color-scheme: light;
   --background: oklch(0.9399 0.0203 345.6985);
   --foreground: oklch(0.4712 0 0);
   --card: oklch(0.9498 0.05 86.8891);

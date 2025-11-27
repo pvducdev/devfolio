@@ -1,6 +1,6 @@
 export const THEMES = [
   {
-    name: "Amethyst Haze (default)",
+    name: "Notebook (default)",
     value: "default",
   },
   {

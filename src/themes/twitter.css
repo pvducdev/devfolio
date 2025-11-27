@@ -1,4 +1,5 @@
 [data-theme="twitter"] {
+  color-scheme: dark;
   --background: oklch(0 0 0);
   --foreground: oklch(0.9328 0.0025 228.7857);
   --card: oklch(0.2097 0.008 274.5332);
