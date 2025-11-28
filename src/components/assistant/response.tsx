@@ -1,21 +1,31 @@
 import { Response } from "@/components/ai-elements/response.tsx";
 import AssistantWelcome from "@/components/assistant/welcome.tsx";
 import { useTypewriter } from "@/hooks/use-typewriter.ts";
+import type { AssistantMessage } from "@/store/assistant.ts";
 
-type AiResponseProps = {
-  response: string;
+type AssistantResponseProps = {
+  message: AssistantMessage | null;
 };
 
-export default function AssistantResponse({ response }: AiResponseProps) {
-  const { displayedText } = useTypewriter(response, {
-    // Fast preset for responsive AI chat experience (60 chars/sec)
-    speed: "fast",
-    mode: "character",
-  });
+export default function AssistantResponse({ message }: AssistantResponseProps) {
+  const isStreamingType = message?.type === "streaming";
 
-  if (!response) {
+  // Only use typewriter for streaming responses (LLM)
+  const { displayedText } = useTypewriter(
+    isStreamingType ? message.content : "",
+    {
+      speed: "fast",
+      mode: "character",
+    }
+  );
+
+  if (!message) {
     return <AssistantWelcome />;
   }
 
-  return <Response>{displayedText}</Response>;
+  // Immediate: render content directly (no animation)
+  // Streaming: render animated typewriter text
+  const content = isStreamingType ? displayedText : message.content;
+
+  return <Response>{content}</Response>;
 }

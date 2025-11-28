@@ -8,16 +8,19 @@ import { selectHighlightedCommand } from "./utils.ts";
 
 type AssistantInputProps = {
   placeholder?: string;
-  onSubmit: (state: string, formData: FormData) => string | Promise<string>;
+  disabled?: boolean;
+  onSubmit: (state: string, formData: FormData) => void | Promise<void>;
 };
 
 export default function AssistantInput({
   placeholder = "Type something...",
+  disabled = false,
   onSubmit,
 }: AssistantInputProps) {
-  const [errMessage, formAction, isPending] = useActionState(onSubmit, "");
+  const [, formAction, isPending] = useActionState(onSubmit, undefined);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const commandRef = useRef<HTMLDivElement>(null);
+  const isDisabled = disabled || isPending;
 
   const {
     inputValue,
@@ -39,7 +42,7 @@ export default function AssistantInput({
 
   const submitForm = () => {
     const form = textareaRef.current?.form;
-    if (!form || showCommands || isPending) {
+    if (!form || showCommands || isDisabled) {
       return;
     }
 
@@ -92,6 +95,7 @@ export default function AssistantInput({
       >
         <Textarea
           className="resize-none"
+          disabled={isDisabled}
           name="message"
           onChange={handleInputChange}
           onKeyDown={forwardKeyToCommandPopover}
@@ -100,9 +104,6 @@ export default function AssistantInput({
           value={inputValue}
         />
       </SlashCommandPopover>
-      {errMessage && (
-        <p className="text-pretty text-red-500 text-xs">{errMessage}</p>
-      )}
     </form>
   );
 }
