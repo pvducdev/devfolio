@@ -54,18 +54,18 @@ export default function MDXViewer({ tab }: MDXViewerProps) {
   }
 
   return (
-    <div className="h-full overflow-auto p-6">
-      <article className="prose prose-slate dark:prose-invert max-w-none">
+    <div className="size-full overflow-auto">
+      <div className="prose prose-sm md:prose-base dark:prose-invert max-w-none">
         <Suspense
           fallback={
-            <div className="flex h-full items-center justify-center">
+            <div className="flex h-full items-center justify-center p-6">
               <p className="text-muted-foreground">Loading {tab.label}...</p>
             </div>
           }
         >
           {MDXContent && <MDXContent />}
         </Suspense>
-      </article>
+      </div>
     </div>
   );
 }

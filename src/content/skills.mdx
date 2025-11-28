@@ -5,13 +5,13 @@ export const SkillShowcase = () => {
 
     return (
         <div
-            className="w-full min-h-screen bg-transparent text-[#111] font-sans selection:bg-[#111] selection:text-white p-6 md:p-12 lg:p-20 overflow-x-hidden">
+            className="relative bg-background text-foreground font-sans selection:bg-foreground selection:text-background p-4 md:p-8 lg:p-12">
 
             {/* -----------------------------------------------------------
           HEADER / NAV
       ------------------------------------------------------------ */}
             <header
-                className="fixed top-6 left-6 md:top-12 md:left-12 z-50 flex items-center justify-end w-[calc(100%-3rem)] md:w-[calc(100%-6rem)] mix-blend-difference text-[#F4F4F0] pointer-events-none">
+                className="absolute top-4 left-4 md:top-8 md:left-8 flex items-center justify-end w-[calc(100%-2rem)] md:w-[calc(100%-4rem)] mix-blend-difference text-background pointer-events-none">
                 <span className="text-xs font-mono opacity-40 uppercase tracking-widest hidden md:block">
           My Skillet in {new Date().getFullYear()} and beyond.
         </span>
@@ -21,7 +21,7 @@ export const SkillShowcase = () => {
           MAIN GRID LAYOUT
       ------------------------------------------------------------ */}
             <main
-                className="max-w-[1400px] mx-auto mt-20 md:mt-12 grid grid-cols-1 md:grid-cols-12 gap-y-32 gap-x-8 pb-32">
+                className="max-w-300 mx-auto mt-12 md:mt-8 grid grid-cols-1 md:grid-cols-12 gap-y-24 gap-x-7 pb-24">
 
                 {/* --- SECTION 01: CORE EXPERTISE (Left Heavy) --- */}
                 <section
@@ -29,21 +29,21 @@ export const SkillShowcase = () => {
                     onMouseEnter={() => setActiveSection('core')}
                     onMouseLeave={() => setActiveSection(null)}
                 >
-                    <div className="flex items-center gap-4 mb-4 border-b border-neutral-300 pb-2 max-w-[200px]">
-                        <span className="text-xs font-mono font-bold text-neutral-400">01</span>
-                        <span className="text-xs font-bold tracking-[0.2em] uppercase text-neutral-500">The Core</span>
+                    <div className="flex items-center gap-3 mb-3 border-b border-border pb-1.5 max-w-[180px]">
+                        <span className="text-xs font-mono font-bold text-muted-foreground">01</span>
+                        <span className="text-xs font-bold tracking-[0.2em] uppercase text-muted-foreground">The Core</span>
                     </div>
 
                     {/* Skill Item 1 */}
                     <div className="relative group cursor-crosshair">
-                        <h1 className="text-[12vw] md:text-[8rem] lg:text-[9rem] font-black tracking-[-0.05em] leading-[0.85] transition-opacity duration-500 group-hover:opacity-100 opacity-90 group-hover/section:opacity-20 group-hover/section:hover:opacity-100">
+                        <h1 className="text-[10vw] md:text-[5rem] lg:text-[6rem] font-black tracking-[-0.05em] leading-[0.85] transition-opacity duration-500 group-hover:opacity-100 opacity-90 group-hover/section:opacity-20 group-hover/section:hover:opacity-100">
                             REACT
                         </h1>
                         <div
-                            className="hidden md:block absolute left-[25%] top-1/2 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-10 pointer-events-none">
-                            <div className="bg-[#111] text-[#F4F4F0] p-4 shadow-xl">
-                                <p className="text-[10px] font-mono mb-2 text-neutral-400 uppercase">Mastery</p>
-                                <p className="text-sm leading-tight max-w-[200px]">
+                            className="hidden md:block absolute left-[25%] top-1/2 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-1 pointer-events-none">
+                            <div className="bg-foreground text-background p-3 shadow-xl">
+                                <p className="text-[9px] font-mono mb-1.5 text-muted uppercase">Mastery</p>
+                                <p className="text-xs leading-tight max-w-[180px]">
                                     Custom Hooks, Context API, Concurrent Features, Re-render Optimization.
                                 </p>
                             </div>
@@ -51,15 +51,15 @@ export const SkillShowcase = () => {
                     </div>
 
                     {/* Skill Item 2 */}
-                    <div className="relative group cursor-crosshair md:ml-[15%] -mt-4 md:-mt-8">
-                        <h1 className="text-[12vw] md:text-[8rem] lg:text-[9rem] font-black tracking-[-0.05em] leading-[0.85] transition-opacity duration-500 group-hover:opacity-100 opacity-90 group-hover/section:opacity-20 group-hover/section:hover:opacity-100">
+                    <div className="relative group cursor-crosshair md:ml-[15%] -mt-2 md:-mt-4">
+                        <h1 className="text-[10vw] md:text-[5rem] lg:text-[6rem] font-black tracking-[-0.05em] leading-[0.85] transition-opacity duration-500 group-hover:opacity-100 opacity-90 group-hover/section:opacity-20 group-hover/section:hover:opacity-100">
                             TYPESCRIPT
                         </h1>
                         <div
-                            className="hidden md:block absolute right-[10%] top-1/2 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-10 pointer-events-none">
-                            <div className="bg-[#111] text-[#F4F4F0] p-4 shadow-xl">
-                                <p className="text-[10px] font-mono mb-2 text-neutral-400 uppercase">Strict Mode</p>
-                                <p className="text-sm leading-tight max-w-[200px]">
+                            className="hidden md:block absolute right-[10%] top-1/2 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-1 pointer-events-none">
+                            <div className="bg-foreground text-background p-3 shadow-xl">
+                                <p className="text-[9px] font-mono mb-1.5 text-muted uppercase">Strict Mode</p>
+                                <p className="text-xs leading-tight max-w-[180px]">
                                     Generics, Utility Types, Zod Integration, Declaration Merging.
                                 </p>
                             </div>
@@ -69,12 +69,12 @@ export const SkillShowcase = () => {
 
                 {/* --- SECTION 02: ECOSYSTEM (Middle Offset) --- */}
                 <section className="col-span-1 md:col-span-5 md:col-start-2 lg:col-span-4 lg:col-start-3">
-                    <div className="flex items-center gap-4 mb-8 border-b border-neutral-300 pb-2">
-                        <span className="text-xs font-mono font-bold text-neutral-400">02</span>
-                        <span className="text-xs font-bold tracking-[0.2em] uppercase text-neutral-500">Stack</span>
+                    <div className="flex items-center gap-3 mb-6 border-b border-border pb-1.5">
+                        <span className="text-xs font-mono font-bold text-muted-foreground">02</span>
+                        <span className="text-xs font-bold tracking-[0.2em] uppercase text-muted-foreground">Stack</span>
                     </div>
 
-                    <div className="grid grid-cols-1 gap-6">
+                    <div className="grid grid-cols-1 gap-5">
                         {[
                             {name: 'Next.js', tag: 'App Router / SSR'},
                             {name: 'Tailwind', tag: 'Design Systems'},
@@ -82,12 +82,12 @@ export const SkillShowcase = () => {
                             {name: 'TanStack Query', tag: 'Server State'}
                         ].map((item) => (
                             <div key={item.name}
-                                 className="group flex items-center justify-between border-b border-transparent hover:border-neutral-300 pb-2 transition-all cursor-default">
-                                <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-neutral-800 group-hover:text-black group-hover:translate-x-2 transition-transform">
+                                 className="group flex items-center justify-between border-b border-transparent hover:border-border pb-1.5 transition-all cursor-default">
+                                <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground/80 group-hover:text-foreground group-hover:translate-x-2 transition-transform">
                                     {item.name}
                                 </h2>
                                 <span
-                                    className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-xs font-mono text-neutral-500">
+                                    className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-xs font-mono text-muted-foreground">
                   [{item.tag}]
                 </span>
                             </div>
@@ -96,30 +96,30 @@ export const SkillShowcase = () => {
                 </section>
 
                 {/* --- SECTION 03: TOOLING (Right Aligned Column) --- */}
-                <section className="col-span-1 md:col-span-3 md:col-start-9 lg:col-start-10 mt-0 md:mt-24">
+                <section className="col-span-1 md:col-span-3 md:col-start-9 lg:col-start-10 mt-0 md:mt-16">
                     <div
-                        className="flex items-center justify-end md:justify-start gap-4 mb-8 border-b border-neutral-300 pb-2">
-                        <span className="text-xs font-mono font-bold text-neutral-400">03</span>
+                        className="flex items-center justify-end md:justify-start gap-3 mb-6 border-b border-border pb-1.5">
+                        <span className="text-xs font-mono font-bold text-muted-foreground">03</span>
                         <span
-                            className="text-xs font-bold tracking-[0.2em] uppercase text-neutral-500">DevOps & Tools</span>
+                            className="text-xs font-bold tracking-[0.2em] uppercase text-muted-foreground">DevOps & Tools</span>
                     </div>
 
-                    <ul className="flex flex-col gap-4 font-mono text-sm text-neutral-600 text-right md:text-left">
-                        <li className="hover:text-black transition-colors cursor-help" title="CI/CD Pipelines">GitHub
+                    <ul className="flex flex-col gap-3.5 font-mono text-xs text-muted-foreground text-right md:text-left">
+                        <li className="hover:text-foreground transition-colors cursor-help" title="CI/CD Pipelines">GitHub
                             Actions
                         </li>
-                        <li className="hover:text-black transition-colors cursor-help" title="Containerization">Docker
+                        <li className="hover:text-foreground transition-colors cursor-help" title="Containerization">Docker
                         </li>
-                        <li className="hover:text-black transition-colors cursor-help" title="Unit & E2E Testing">Jest /
+                        <li className="hover:text-foreground transition-colors cursor-help" title="Unit & E2E Testing">Jest /
                             Cypress
                         </li>
-                        <li className="hover:text-black transition-colors cursor-help" title="Package Manager">TurboRepo
+                        <li className="hover:text-foreground transition-colors cursor-help" title="Package Manager">TurboRepo
                             / Nx
                         </li>
-                        <li className="hover:text-black transition-colors cursor-help" title="Module Bundler">Vite /
+                        <li className="hover:text-foreground transition-colors cursor-help" title="Module Bundler">Vite /
                             Webpack
                         </li>
-                        <li className="hover:text-black transition-colors cursor-help" title="Headless CMS">Sanity /
+                        <li className="hover:text-foreground transition-colors cursor-help" title="Headless CMS">Sanity /
                             Strapi
                         </li>
                     </ul>
@@ -128,23 +128,23 @@ export const SkillShowcase = () => {
                 {/* --- SECTION 04: ENGINEERING STANDARDS (Horizontal Span) --- */}
                 {/* New Section: Proves you care about quality, not just code. */}
                 <section
-                    className="col-span-1 md:col-span-12 grid grid-cols-1 md:grid-cols-4 gap-8 border-t border-neutral-200 pt-12">
+                    className="col-span-1 md:col-span-12 grid grid-cols-1 md:grid-cols-4 gap-7 border-t border-border pt-10">
                     <div className="md:col-span-1">
-                        <div className="flex items-center gap-4 mb-4">
-                            <span className="text-xs font-mono font-bold text-neutral-400">04</span>
+                        <div className="flex items-center gap-3 mb-3">
+                            <span className="text-xs font-mono font-bold text-muted-foreground">04</span>
                             <span
-                                className="text-xs font-bold tracking-[0.2em] uppercase text-neutral-500">Standards</span>
+                                className="text-xs font-bold tracking-[0.2em] uppercase text-muted-foreground">Standards</span>
                         </div>
-                        <p className="text-sm text-neutral-500 max-w-[200px]">
+                        <p className="text-xs text-muted-foreground max-w-[180px]">
                             Philosophy regarding performance, accessibility, and code quality.
                         </p>
                     </div>
 
-                    <div className="md:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="md:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-7">
                         {/* Standard 1 */}
-                        <div className="bg-white/50 p-6 backdrop-blur-sm hover:bg-white transition-colors duration-300">
-                            <h3 className="font-bold text-lg mb-2">Web Performance</h3>
-                            <ul className="text-xs font-mono text-neutral-500 space-y-1">
+                        <div className="bg-card/50 p-4 backdrop-blur-sm hover:bg-card transition-colors duration-300">
+                            <h3 className="font-bold text-base mb-1.5">Web Performance</h3>
+                            <ul className="text-xs font-mono text-muted-foreground space-y-0.5">
                                 <li>Core Web Vitals (LCP/CLS)</li>
                                 <li>Tree Shaking & Lazy Loading</li>
                                 <li>Image Optimization (WebP/AVIF)</li>
@@ -152,9 +152,9 @@ export const SkillShowcase = () => {
                         </div>
 
                         {/* Standard 2 */}
-                        <div className="bg-white/50 p-6 backdrop-blur-sm hover:bg-white transition-colors duration-300">
-                            <h3 className="font-bold text-lg mb-2">Accessibility (A11y)</h3>
-                            <ul className="text-xs font-mono text-neutral-500 space-y-1">
+                        <div className="bg-card/50 p-4 backdrop-blur-sm hover:bg-card transition-colors duration-300">
+                            <h3 className="font-bold text-base mb-1.5">Accessibility (A11y)</h3>
+                            <ul className="text-xs font-mono text-muted-foreground space-y-0.5">
                                 <li>WCAG 2.1 AA Compliance</li>
                                 <li>Semantic HTML5</li>
                                 <li>Keyboard Navigation Support</li>
@@ -162,9 +162,9 @@ export const SkillShowcase = () => {
                         </div>
 
                         {/* Standard 3 */}
-                        <div className="bg-white/50 p-6 backdrop-blur-sm hover:bg-white transition-colors duration-300">
-                            <h3 className="font-bold text-lg mb-2">Best Practices</h3>
-                            <ul className="text-xs font-mono text-neutral-500 space-y-1">
+                        <div className="bg-card/50 p-4 backdrop-blur-sm hover:bg-card transition-colors duration-300">
+                            <h3 className="font-bold text-base mb-1.5">Best Practices</h3>
+                            <ul className="text-xs font-mono text-muted-foreground space-y-0.5">
                                 <li>DRY / SOLID Principles</li>
                                 <li>Component Composition</li>
                                 <li>Atomic Design Pattern</li>
@@ -175,19 +175,19 @@ export const SkillShowcase = () => {
 
                 {/* --- SECTION 05: METHODOLOGIES (Bottom Asymmetric) --- */}
                 {/* New Section: Soft Skills & Workflow */}
-                <section className="col-span-1 md:col-span-8 md:col-start-3 lg:col-start-4 pt-12">
-                    <div className="flex items-center gap-4 mb-8">
-                        <span className="text-xs font-mono font-bold text-neutral-400">05</span>
-                        <span className="text-xs font-bold tracking-[0.2em] uppercase text-neutral-500">Workflow</span>
+                <section className="col-span-1 md:col-span-8 md:col-start-3 lg:col-start-4 pt-10">
+                    <div className="flex items-center gap-3 mb-6">
+                        <span className="text-xs font-mono font-bold text-muted-foreground">05</span>
+                        <span className="text-xs font-bold tracking-[0.2em] uppercase text-muted-foreground">Workflow</span>
                     </div>
 
-                    <div className="flex flex-wrap gap-x-12 gap-y-4 text-2xl md:text-3xl font-light text-neutral-400">
-                        <span className="text-neutral-900 font-medium">Agile/Scrum</span>
+                    <div className="flex flex-wrap gap-x-10 gap-y-4 text-xl md:text-2xl font-light text-muted-foreground">
+                        <span className="text-foreground font-medium">Agile/Scrum</span>
                         <span>Code Reviews</span>
-                        <span className="text-neutral-900 font-medium">TDD</span>
+                        <span className="text-foreground font-medium">TDD</span>
                         <span>Pair Programming</span>
                         <span>Mentorship</span>
-                        <span className="text-neutral-900 font-medium">Technical Writing</span>
+                        <span className="text-foreground font-medium">Technical Writing</span>
                         <span>Problem Solving</span>
                     </div>
                 </section>
@@ -197,12 +197,12 @@ export const SkillShowcase = () => {
             {/* -----------------------------------------------------------
           FOOTER / CURRENTLY LEARNING
       ------------------------------------------------------------ */}
-            <footer className="fixed bottom-6 left-6 md:left-12 z-40">
-                <div className="flex flex-col gap-1">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Currently Exploring</span>
-                    <div className="flex items-center gap-2">
-                        <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                        <span className="text-xs font-mono text-neutral-800">WebAssembly / Rust</span>
+            <footer className="absolute bottom-4 left-4 md:left-8 z-1">
+                <div className="flex flex-col gap-0.5">
+                    <span className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground">Currently Exploring</span>
+                    <div className="flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 bg-chart-3 rounded-full animate-pulse"></span>
+                        <span className="text-xs font-mono text-foreground">WebAssembly / Rust</span>
                     </div>
                 </div>
             </footer>
