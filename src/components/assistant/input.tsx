@@ -1,4 +1,4 @@
-import { type ChangeEvent, useActionState, useCallback, useRef } from "react";
+import { type ChangeEvent, useCallback, useRef } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import SlashCommandPopover from "@/components/assistant/slash-command-popover.tsx";
 import { Textarea } from "@/components/ui/textarea.tsx";
@@ -9,7 +9,7 @@ import { selectHighlightedCommand } from "./utils.ts";
 type AssistantInputProps = {
   placeholder?: string;
   disabled?: boolean;
-  onSubmit: (state: string, formData: FormData) => void | Promise<void>;
+  onSubmit: (message: string) => void;
 };
 
 export default function AssistantInput({
@@ -17,10 +17,8 @@ export default function AssistantInput({
   disabled = false,
   onSubmit,
 }: AssistantInputProps) {
-  const [, formAction, isPending] = useActionState(onSubmit, undefined);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const commandRef = useRef<HTMLDivElement>(null);
-  const isDisabled = disabled || isPending;
 
   const {
     inputValue,
@@ -41,12 +39,12 @@ export default function AssistantInput({
   });
 
   const submitForm = () => {
-    const form = textareaRef.current?.form;
-    if (!form || showCommands || isDisabled) {
+    const trimmedInput = inputValue.trim();
+    if (showCommands || disabled || !trimmedInput) {
       return;
     }
 
-    form.requestSubmit();
+    onSubmit(trimmedInput);
     clearInput();
     textareaRef.current?.focus();
   };
@@ -85,7 +83,7 @@ export default function AssistantInput({
   );
 
   return (
-    <form action={formAction} className="space-y-1 p-1">
+    <div className="space-y-1 p-1">
       <SlashCommandPopover
         commandRef={commandRef}
         inputValue={formattedInput}
@@ -95,8 +93,7 @@ export default function AssistantInput({
       >
         <Textarea
           className="resize-none"
-          disabled={isDisabled}
-          name="message"
+          disabled={disabled}
           onChange={handleInputChange}
           onKeyDown={forwardKeyToCommandPopover}
           placeholder={placeholder}
@@ -104,6 +101,6 @@ export default function AssistantInput({
           value={inputValue}
         />
       </SlashCommandPopover>
-    </form>
+    </div>
   );
 }
