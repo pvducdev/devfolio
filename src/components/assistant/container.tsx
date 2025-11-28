@@ -11,7 +11,8 @@ import type { CommandContext } from "@/lib/commands/types";
 import { cn } from "@/lib/utils.ts";
 import { useAssistantStore } from "@/store/assistant.ts";
 import { useThemeStore } from "@/store/theme.ts";
-import "@/commands"; // Register commands
+import "@/commands";
+import AssistantWelcome from "@/components/assistant/welcome.tsx"; // Register commands
 
 type AssistantContainerProps = {
   onClose: () => void;
@@ -67,7 +68,7 @@ export default function AssistantContainer({
       const handler = generateAssistantResponseFn({ data: { prompt } });
 
       for await (const msg of await handler) {
-        appendChunk(msg);
+        appendChunk(msg as string);
       }
 
       finishStreamingResponse();
@@ -101,7 +102,11 @@ export default function AssistantContainer({
           hasResponse ? "h-[calc(100vh-166px)]" : "h-[calc(100vh-300px)]"
         )}
       >
-        <AssistantResponse message={message} />
+        {message ? (
+          <AssistantResponse message={message} />
+        ) : (
+          <AssistantWelcome />
+        )}
       </ScrollArea>
       {!hasResponse && (
         <Suggestions

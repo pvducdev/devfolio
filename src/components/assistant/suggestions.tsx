@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button.tsx";
 
 type AiSuggestionsProps = {
   suggestions: readonly string[];
-  onClick: (suggestion: string) => Promise<string>;
+  onClick: (suggestion: string) => Promise<void>;
 };
 
 export default function AssistantSuggestions({
