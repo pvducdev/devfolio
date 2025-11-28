@@ -12,10 +12,8 @@ export const SITE_CONFIG = {
     keywords: [
       "portfolio",
       "frontend developer",
-      "react",
-      "vue",
-      "typescript",
-      ...PERSONAL_INFO.skills.core,
+      ...PERSONAL_INFO.skills.core.map((s) => s.name.toLowerCase()),
+      ...PERSONAL_INFO.skills.stack.map((s) => s.name.toLowerCase()),
     ],
     ogImage: "/og-image.png",
   },

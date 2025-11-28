@@ -1,213 +1,209 @@
-import React, {useState} from 'react';
+import { useState } from "react";
+import { PERSONAL_INFO } from "../config/personal";
 
 export const SkillShowcase = () => {
-    const [_, setActiveSection] = useState(null);
+  const [_, setActiveSection] = useState(null);
+  const { skills } = PERSONAL_INFO;
 
-    return (
-        <div
-            className="relative bg-background text-foreground font-sans selection:bg-foreground selection:text-background p-4 md:p-8 lg:p-12">
-
-            {/* -----------------------------------------------------------
+  return (
+    <div className="relative bg-background text-foreground font-sans selection:bg-foreground selection:text-background p-4 md:p-8 lg:p-12">
+      {/* -----------------------------------------------------------
           HEADER / NAV
       ------------------------------------------------------------ */}
-            <header
-                className="absolute top-4 left-4 md:top-8 md:left-8 flex items-center justify-end w-[calc(100%-2rem)] md:w-[calc(100%-4rem)] mix-blend-difference text-background pointer-events-none">
-                <span className="text-xs font-mono opacity-40 uppercase tracking-widest hidden md:block">
+      <header className="absolute top-4 left-4 md:top-8 md:left-8 flex items-center justify-end w-[calc(100%-2rem)] md:w-[calc(100%-4rem)] mix-blend-difference text-background pointer-events-none">
+        <span className="text-xs font-mono opacity-40 uppercase tracking-widest hidden md:block">
           My Skillet in {new Date().getFullYear()} and beyond.
         </span>
-            </header>
+      </header>
 
-            {/* -----------------------------------------------------------
+      {/* -----------------------------------------------------------
           MAIN GRID LAYOUT
       ------------------------------------------------------------ */}
-            <main
-                className="max-w-300 mx-auto mt-12 md:mt-8 grid grid-cols-1 md:grid-cols-12 gap-y-24 gap-x-7 pb-24">
+      <main className="max-w-300 mx-auto mt-12 md:mt-8 grid grid-cols-1 md:grid-cols-12 gap-y-24 gap-x-7 pb-24">
+        {/* --- SECTION 01: CORE EXPERTISE (Left Heavy) --- */}
+        <section
+          className="col-span-1 md:col-span-12 lg:col-span-10 flex flex-col gap-2 group/section"
+          onMouseEnter={() => setActiveSection("core")}
+          onMouseLeave={() => setActiveSection(null)}
+        >
+          <div className="flex items-center gap-3 mb-3 border-b border-border pb-1.5 max-w-[180px]">
+            <span className="text-xs font-mono font-bold text-muted-foreground">
+              01
+            </span>
+            <span className="text-xs font-bold tracking-[0.2em] uppercase text-muted-foreground">
+              The Core
+            </span>
+          </div>
 
-                {/* --- SECTION 01: CORE EXPERTISE (Left Heavy) --- */}
-                <section
-                    className="col-span-1 md:col-span-12 lg:col-span-10 flex flex-col gap-2 group/section"
-                    onMouseEnter={() => setActiveSection('core')}
-                    onMouseLeave={() => setActiveSection(null)}
-                >
-                    <div className="flex items-center gap-3 mb-3 border-b border-border pb-1.5 max-w-[180px]">
-                        <span className="text-xs font-mono font-bold text-muted-foreground">01</span>
-                        <span className="text-xs font-bold tracking-[0.2em] uppercase text-muted-foreground">The Core</span>
-                    </div>
+          {skills.core.map((skill, index) => (
+            <div
+              key={skill.name}
+              className={`relative group cursor-crosshair ${index > 0 ? "md:ml-[15%] -mt-2 md:-mt-4" : ""}`}
+            >
+              <h1 className="text-[10vw] md:text-[5rem] lg:text-[6rem] font-black tracking-[-0.05em] leading-[0.85] transition-opacity duration-500 group-hover:opacity-100 opacity-90 group-hover/section:opacity-20 group-hover/section:hover:opacity-100">
+                {skill.name.toUpperCase()}
+              </h1>
+              <div
+                className={`hidden md:block absolute ${index === 0 ? "left-[25%]" : "right-[10%]"} top-1/2 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-1 pointer-events-none`}
+              >
+                <div className="bg-foreground text-background p-3 shadow-xl">
+                  <p className="text-[9px] font-mono mb-1.5 text-muted uppercase">
+                    {skill.tag}
+                  </p>
+                  <p className="text-xs leading-tight max-w-[180px]">
+                    {skill.details.join(", ")}.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </section>
 
-                    {/* Skill Item 1 */}
-                    <div className="relative group cursor-crosshair">
-                        <h1 className="text-[10vw] md:text-[5rem] lg:text-[6rem] font-black tracking-[-0.05em] leading-[0.85] transition-opacity duration-500 group-hover:opacity-100 opacity-90 group-hover/section:opacity-20 group-hover/section:hover:opacity-100">
-                            REACT
-                        </h1>
-                        <div
-                            className="hidden md:block absolute left-[25%] top-1/2 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-1 pointer-events-none">
-                            <div className="bg-foreground text-background p-3 shadow-xl">
-                                <p className="text-[9px] font-mono mb-1.5 text-muted uppercase">Mastery</p>
-                                <p className="text-xs leading-tight max-w-[180px]">
-                                    Custom Hooks, Context API, Concurrent Features, Re-render Optimization.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+        {/* --- SECTION 02: ECOSYSTEM (Middle Offset) --- */}
+        <section className="col-span-1 md:col-span-5 md:col-start-2 lg:col-span-4 lg:col-start-3">
+          <div className="flex items-center gap-3 mb-6 border-b border-border pb-1.5">
+            <span className="text-xs font-mono font-bold text-muted-foreground">
+              02
+            </span>
+            <span className="text-xs font-bold tracking-[0.2em] uppercase text-muted-foreground">
+              Stack
+            </span>
+          </div>
 
-                    {/* Skill Item 2 */}
-                    <div className="relative group cursor-crosshair md:ml-[15%] -mt-2 md:-mt-4">
-                        <h1 className="text-[10vw] md:text-[5rem] lg:text-[6rem] font-black tracking-[-0.05em] leading-[0.85] transition-opacity duration-500 group-hover:opacity-100 opacity-90 group-hover/section:opacity-20 group-hover/section:hover:opacity-100">
-                            TYPESCRIPT
-                        </h1>
-                        <div
-                            className="hidden md:block absolute right-[10%] top-1/2 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-1 pointer-events-none">
-                            <div className="bg-foreground text-background p-3 shadow-xl">
-                                <p className="text-[9px] font-mono mb-1.5 text-muted uppercase">Strict Mode</p>
-                                <p className="text-xs leading-tight max-w-[180px]">
-                                    Generics, Utility Types, Zod Integration, Declaration Merging.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                {/* --- SECTION 02: ECOSYSTEM (Middle Offset) --- */}
-                <section className="col-span-1 md:col-span-5 md:col-start-2 lg:col-span-4 lg:col-start-3">
-                    <div className="flex items-center gap-3 mb-6 border-b border-border pb-1.5">
-                        <span className="text-xs font-mono font-bold text-muted-foreground">02</span>
-                        <span className="text-xs font-bold tracking-[0.2em] uppercase text-muted-foreground">Stack</span>
-                    </div>
-
-                    <div className="grid grid-cols-1 gap-5">
-                        {[
-                            {name: 'Next.js', tag: 'App Router / SSR'},
-                            {name: 'Tailwind', tag: 'Design Systems'},
-                            {name: 'Zustand', tag: 'Global State'},
-                            {name: 'TanStack Query', tag: 'Server State'}
-                        ].map((item) => (
-                            <div key={item.name}
-                                 className="group flex items-center justify-between border-b border-transparent hover:border-border pb-1.5 transition-all cursor-default">
-                                <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground/80 group-hover:text-foreground group-hover:translate-x-2 transition-transform">
-                                    {item.name}
-                                </h2>
-                                <span
-                                    className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-xs font-mono text-muted-foreground">
+          <div className="grid grid-cols-1 gap-5">
+            {skills.stack.map((item) => (
+              <div
+                key={item.name}
+                className="group flex items-center justify-between border-b border-transparent hover:border-border pb-1.5 transition-all cursor-default"
+              >
+                <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground/80 group-hover:text-foreground group-hover:translate-x-2 transition-transform">
+                  {item.name}
+                </h2>
+                <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-xs font-mono text-muted-foreground">
                   [{item.tag}]
                 </span>
-                            </div>
-                        ))}
-                    </div>
-                </section>
+              </div>
+            ))}
+          </div>
+        </section>
 
-                {/* --- SECTION 03: TOOLING (Right Aligned Column) --- */}
-                <section className="col-span-1 md:col-span-3 md:col-start-9 lg:col-start-10 mt-0 md:mt-16">
-                    <div
-                        className="flex items-center justify-end md:justify-start gap-3 mb-6 border-b border-border pb-1.5">
-                        <span className="text-xs font-mono font-bold text-muted-foreground">03</span>
-                        <span
-                            className="text-xs font-bold tracking-[0.2em] uppercase text-muted-foreground">DevOps & Tools</span>
-                    </div>
+        {/* --- SECTION 03: TOOLING (Right Aligned Column) --- */}
+        <section className="col-span-1 md:col-span-3 md:col-start-9 lg:col-start-10 mt-0 md:mt-16">
+          <div className="flex items-center justify-end md:justify-start gap-3 mb-6 border-b border-border pb-1.5">
+            <span className="text-xs font-mono font-bold text-muted-foreground">
+              03
+            </span>
+            <span className="text-xs font-bold tracking-[0.2em] uppercase text-muted-foreground">
+              DevOps & Tools
+            </span>
+          </div>
 
-                    <ul className="flex flex-col gap-3.5 font-mono text-xs text-muted-foreground text-right md:text-left">
-                        <li className="hover:text-foreground transition-colors cursor-help" title="CI/CD Pipelines">GitHub
-                            Actions
-                        </li>
-                        <li className="hover:text-foreground transition-colors cursor-help" title="Containerization">Docker
-                        </li>
-                        <li className="hover:text-foreground transition-colors cursor-help" title="Unit & E2E Testing">Jest /
-                            Cypress
-                        </li>
-                        <li className="hover:text-foreground transition-colors cursor-help" title="Package Manager">TurboRepo
-                            / Nx
-                        </li>
-                        <li className="hover:text-foreground transition-colors cursor-help" title="Module Bundler">Vite /
-                            Webpack
-                        </li>
-                        <li className="hover:text-foreground transition-colors cursor-help" title="Headless CMS">Sanity /
-                            Strapi
-                        </li>
-                    </ul>
-                </section>
+          <ul className="flex flex-col gap-3.5 font-mono text-xs text-muted-foreground text-right md:text-left">
+            {skills.devops.map((item) => (
+              <li
+                key={item.name}
+                className="hover:text-foreground transition-colors cursor-help"
+                title={item.tag}
+              >
+                {item.name}
+              </li>
+            ))}
+          </ul>
+        </section>
 
-                {/* --- SECTION 04: ENGINEERING STANDARDS (Horizontal Span) --- */}
-                {/* New Section: Proves you care about quality, not just code. */}
-                <section
-                    className="col-span-1 md:col-span-12 grid grid-cols-1 md:grid-cols-4 gap-7 border-t border-border pt-10">
-                    <div className="md:col-span-1">
-                        <div className="flex items-center gap-3 mb-3">
-                            <span className="text-xs font-mono font-bold text-muted-foreground">04</span>
-                            <span
-                                className="text-xs font-bold tracking-[0.2em] uppercase text-muted-foreground">Standards</span>
-                        </div>
-                        <p className="text-xs text-muted-foreground max-w-[180px]">
-                            Philosophy regarding performance, accessibility, and code quality.
-                        </p>
-                    </div>
+        {/* --- SECTION 04: ENGINEERING STANDARDS (Horizontal Span) --- */}
+        <section className="col-span-1 md:col-span-12 grid grid-cols-1 md:grid-cols-4 gap-7 border-t border-border pt-10">
+          <div className="md:col-span-1">
+            <div className="flex items-center gap-3 mb-3">
+              <span className="text-xs font-mono font-bold text-muted-foreground">
+                04
+              </span>
+              <span className="text-xs font-bold tracking-[0.2em] uppercase text-muted-foreground">
+                Standards
+              </span>
+            </div>
+            <p className="text-xs text-muted-foreground max-w-[180px]">
+              Philosophy regarding performance, accessibility, and code quality.
+            </p>
+          </div>
 
-                    <div className="md:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-7">
-                        {/* Standard 1 */}
-                        <div className="bg-card/50 p-4 backdrop-blur-sm hover:bg-card transition-colors duration-300">
-                            <h3 className="font-bold text-base mb-1.5">Web Performance</h3>
-                            <ul className="text-xs font-mono text-muted-foreground space-y-0.5">
-                                <li>Core Web Vitals (LCP/CLS)</li>
-                                <li>Tree Shaking & Lazy Loading</li>
-                                <li>Image Optimization (WebP/AVIF)</li>
-                            </ul>
-                        </div>
+          <div className="md:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-7">
+            {/* Standard 1 */}
+            <div className="bg-card/50 p-4 backdrop-blur-sm hover:bg-card transition-colors duration-300">
+              <h3 className="font-bold text-base mb-1.5">Web Performance</h3>
+              <ul className="text-xs font-mono text-muted-foreground space-y-0.5">
+                {skills.standards.performance.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
 
-                        {/* Standard 2 */}
-                        <div className="bg-card/50 p-4 backdrop-blur-sm hover:bg-card transition-colors duration-300">
-                            <h3 className="font-bold text-base mb-1.5">Accessibility (A11y)</h3>
-                            <ul className="text-xs font-mono text-muted-foreground space-y-0.5">
-                                <li>WCAG 2.1 AA Compliance</li>
-                                <li>Semantic HTML5</li>
-                                <li>Keyboard Navigation Support</li>
-                            </ul>
-                        </div>
+            {/* Standard 2 */}
+            <div className="bg-card/50 p-4 backdrop-blur-sm hover:bg-card transition-colors duration-300">
+              <h3 className="font-bold text-base mb-1.5">Accessibility (A11y)</h3>
+              <ul className="text-xs font-mono text-muted-foreground space-y-0.5">
+                {skills.standards.accessibility.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
 
-                        {/* Standard 3 */}
-                        <div className="bg-card/50 p-4 backdrop-blur-sm hover:bg-card transition-colors duration-300">
-                            <h3 className="font-bold text-base mb-1.5">Best Practices</h3>
-                            <ul className="text-xs font-mono text-muted-foreground space-y-0.5">
-                                <li>DRY / SOLID Principles</li>
-                                <li>Component Composition</li>
-                                <li>Atomic Design Pattern</li>
-                            </ul>
-                        </div>
-                    </div>
-                </section>
+            {/* Standard 3 */}
+            <div className="bg-card/50 p-4 backdrop-blur-sm hover:bg-card transition-colors duration-300">
+              <h3 className="font-bold text-base mb-1.5">Best Practices</h3>
+              <ul className="text-xs font-mono text-muted-foreground space-y-0.5">
+                {skills.standards.bestPractices.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
 
-                {/* --- SECTION 05: METHODOLOGIES (Bottom Asymmetric) --- */}
-                {/* New Section: Soft Skills & Workflow */}
-                <section className="col-span-1 md:col-span-8 md:col-start-3 lg:col-start-4 pt-10">
-                    <div className="flex items-center gap-3 mb-6">
-                        <span className="text-xs font-mono font-bold text-muted-foreground">05</span>
-                        <span className="text-xs font-bold tracking-[0.2em] uppercase text-muted-foreground">Workflow</span>
-                    </div>
+        {/* --- SECTION 05: METHODOLOGIES (Bottom Asymmetric) --- */}
+        <section className="col-span-1 md:col-span-8 md:col-start-3 lg:col-start-4 pt-10">
+          <div className="flex items-center gap-3 mb-6">
+            <span className="text-xs font-mono font-bold text-muted-foreground">
+              05
+            </span>
+            <span className="text-xs font-bold tracking-[0.2em] uppercase text-muted-foreground">
+              Workflow
+            </span>
+          </div>
 
-                    <div className="flex flex-wrap gap-x-10 gap-y-4 text-xl md:text-2xl font-light text-muted-foreground">
-                        <span className="text-foreground font-medium">Agile/Scrum</span>
-                        <span>Code Reviews</span>
-                        <span className="text-foreground font-medium">TDD</span>
-                        <span>Pair Programming</span>
-                        <span>Mentorship</span>
-                        <span className="text-foreground font-medium">Technical Writing</span>
-                        <span>Problem Solving</span>
-                    </div>
-                </section>
+          <div className="flex flex-wrap gap-x-10 gap-y-4 text-xl md:text-2xl font-light text-muted-foreground">
+            {skills.workflow.map((item) => (
+              <span
+                key={item.name}
+                className={
+                  item.highlighted ? "text-foreground font-medium" : ""
+                }
+              >
+                {item.name}
+              </span>
+            ))}
+          </div>
+        </section>
+      </main>
 
-            </main>
-
-            {/* -----------------------------------------------------------
+      {/* -----------------------------------------------------------
           FOOTER / CURRENTLY LEARNING
       ------------------------------------------------------------ */}
-            <footer className="absolute bottom-4 left-4 md:left-8 z-1">
-                <div className="flex flex-col gap-0.5">
-                    <span className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground">Currently Exploring</span>
-                    <div className="flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 bg-chart-3 rounded-full animate-pulse"></span>
-                        <span className="text-xs font-mono text-foreground">WebAssembly / Rust</span>
-                    </div>
-                </div>
-            </footer>
+      <footer className="absolute bottom-4 left-4 md:left-8 z-1">
+        <div className="flex flex-col gap-0.5">
+          <span className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground">
+            Currently Exploring
+          </span>
+          <div className="flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 bg-chart-3 rounded-full animate-pulse"></span>
+            <span className="text-xs font-mono text-foreground">
+              {skills.exploring.join(" / ")}
+            </span>
+          </div>
         </div>
-    );
+      </footer>
+    </div>
+  );
 };
 
 export default SkillShowcase;
