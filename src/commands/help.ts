@@ -1,14 +1,14 @@
 import { CircleHelp } from "lucide-react";
-import { registry } from "@/lib/commands";
-import type { Command } from "@/lib/commands/types";
+import { defineCommand, listCommands } from "@/lib/commands";
 
-const helpCommand: Command = {
+export default defineCommand({
   name: "help",
   description: "Show available commands",
   icon: CircleHelp,
+  aliases: ["h", "?"],
 
-  handler: (_args, _context) => {
-    const commands = registry.list();
+  handler: () => {
+    const commands = listCommands();
 
     const helpText = `# Available Commands
 
@@ -17,7 +17,9 @@ Type a command starting with \`/\` to execute it.
 ${commands
   .map((cmd) => {
     const examples = getCommandExamples(cmd.name);
-    return `### \`/${cmd.name}\`
+    const aliasText =
+      cmd.aliases?.length ? ` (aliases: ${cmd.aliases.map((a) => `/${a}`).join(", ")})` : "";
+    return `### \`/${cmd.name}\`${aliasText}
 
 ${cmd.description}
 
@@ -29,12 +31,9 @@ ${examples ? `**Usage:**\n${examples}` : ""}`;
 
 **Tip:** Press \`Tab\` to autocomplete commands while typing.`;
 
-    return {
-      success: true,
-      message: helpText,
-    };
+    return { success: true, message: helpText };
   },
-};
+});
 
 function getCommandExamples(commandName: string): string {
   const examples: Record<string, string> = {
@@ -46,5 +45,3 @@ function getCommandExamples(commandName: string): string {
 
   return examples[commandName] || "";
 }
-
-export default helpCommand;

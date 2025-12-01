@@ -12,9 +12,8 @@ import {
   PopoverAnchor,
   PopoverContent,
 } from "@/components/ui/popover.tsx";
-import { registry } from "@/lib/commands";
+import { listCommands, type Command as TCommand } from "@/lib/commands";
 import "@/commands";
-import type { Command as TCommand } from "@/lib/commands/types";
 
 type SlashCommandPopoverProps = {
   commandRef: RefObject<HTMLDivElement | null>;
@@ -33,8 +32,7 @@ export default function SlashCommandPopover({
   onCommandSelect,
   children,
 }: SlashCommandPopoverProps) {
-  // Get commands from registry
-  const commands = registry.list();
+  const commands = listCommands();
 
   return (
     <Popover onOpenChange={onOpenChange} open={open}>

@@ -3,16 +3,15 @@ import Header from "@/components/assistant/header.tsx";
 import Input from "@/components/assistant/input.tsx";
 import AssistantResponse from "@/components/assistant/response.tsx";
 import Suggestions from "@/components/assistant/suggestions.tsx";
+import AssistantWelcome from "@/components/assistant/welcome.tsx";
 import { ScrollArea } from "@/components/ui/scroll-area.tsx";
 import { SITE_CONFIG } from "@/config/site.ts";
 import generateAssistantResponseFn from "@/fn/generate-assistant-response.ts";
-import { executor, parser } from "@/lib/commands";
-import type { CommandContext } from "@/lib/commands/types";
+import { type CommandContext, execute } from "@/lib/commands";
 import { cn } from "@/lib/utils.ts";
 import { useAssistantStore } from "@/store/assistant.ts";
 import { useThemeStore } from "@/store/theme.ts";
 import "@/commands";
-import AssistantWelcome from "@/components/assistant/welcome.tsx"; // Register commands
 
 type AssistantContainerProps = {
   onClose: () => void;
@@ -36,26 +35,32 @@ export default function AssistantContainer({
 
   const hasResponse = !!message;
 
-  const handleCommand = async (parsed: ReturnType<typeof parser.parse>) => {
-    if (!parsed) {
-      return false;
-    }
-
+  const handleCommand = async (input: string): Promise<boolean> => {
     const context: CommandContext = {
       clearMessages: clear,
       setTheme,
       navigate: (path) => navigate({ to: path }),
     };
 
-    const result = await executor.execute(parsed, context);
+    const result = await execute(input, context);
+
+    if (result === null) {
+      return false;
+    }
 
     if (!result.success) {
       setError(result.message || "Command failed");
       return true;
     }
 
-    if (parsed.name === "help") {
-      setImmediateResponse(result.message as string);
+    if (
+      result.message &&
+      (input.startsWith("/help") ||
+        input.startsWith("/h ") ||
+        input === "/h" ||
+        input.startsWith("/?"))
+    ) {
+      setImmediateResponse(result.message);
     }
 
     return true;
@@ -81,9 +86,8 @@ export default function AssistantContainer({
 
   const sendMessage = async (input: string): Promise<void> => {
     const trimmedMsg = input.trim();
-    const parsed = parser.parse(trimmedMsg);
 
-    const isCommand = await handleCommand(parsed);
+    const isCommand = await handleCommand(trimmedMsg);
     if (isCommand) {
       return;
     }

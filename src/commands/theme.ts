@@ -1,11 +1,12 @@
 import { Palette } from "lucide-react";
 import { THEMES } from "@/config/theme";
-import type { Command } from "@/lib/commands/types";
+import { defineCommand } from "@/lib/commands";
 
-const themeCommand: Command = {
+export default defineCommand({
   name: "theme",
   description: "Change the application theme",
   icon: Palette,
+  aliases: ["t"],
 
   handler: (args, context) => {
     const themeName = args[0];
@@ -26,12 +27,6 @@ const themeCommand: Command = {
     }
 
     context.setTheme(themeName);
-
-    return {
-      success: true,
-      message: `Theme changed to "${themeName}"`,
-    };
+    return { success: true, message: `Theme changed to "${themeName}"` };
   },
-};
-
-export default themeCommand;
+});
