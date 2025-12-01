@@ -17,8 +17,9 @@ Type a command starting with \`/\` to execute it.
 ${commands
   .map((cmd) => {
     const examples = getCommandExamples(cmd.name);
-    const aliasText =
-      cmd.aliases?.length ? ` (aliases: ${cmd.aliases.map((a) => `/${a}`).join(", ")})` : "";
+    const aliasText = cmd.aliases?.length
+      ? ` (aliases: ${cmd.aliases.map((a) => `/${a}`).join(", ")})`
+      : "";
     return `### \`/${cmd.name}\`${aliasText}
 
 ${cmd.description}

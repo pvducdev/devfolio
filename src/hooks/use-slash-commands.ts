@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SLASH_PREFIX, type Command } from "@/lib/commands";
+import { type Command, SLASH_PREFIX } from "@/lib/commands";
 
 type UseSlashCommandsOptions = {
   onCommandSelect?: (command: Command) => void;

@@ -56,7 +56,11 @@ export default function SlashCommandPopover({
                 return (
                   <CommandItem
                     key={command.name}
-                    keywords={[command.name, command.description]}
+                    keywords={[
+                      command.name,
+                      command.description,
+                      ...(command.aliases ?? []),
+                    ]}
                     onSelect={() => onCommandSelect(command)}
                     value={command.name}
                   >

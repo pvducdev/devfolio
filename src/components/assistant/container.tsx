@@ -1,10 +1,10 @@
 import { useNavigate } from "@tanstack/react-router";
 import Header from "@/components/assistant/header.tsx";
 import Input from "@/components/assistant/input.tsx";
-import AssistantResponse from "@/components/assistant/response.tsx";
+import Response from "@/components/assistant/response.tsx";
 import Suggestions from "@/components/assistant/suggestions.tsx";
-import AssistantWelcome from "@/components/assistant/welcome.tsx";
-import { ScrollArea } from "@/components/ui/scroll-area.tsx";
+import Welcome from "@/components/assistant/welcome.tsx";
+import ScrollAreaWithAnchor from "@/components/common/scroll-area-with-anchor.tsx";
 import { SITE_CONFIG } from "@/config/site.ts";
 import generateAssistantResponseFn from "@/fn/generate-assistant-response.ts";
 import { type CommandContext, execute } from "@/lib/commands";
@@ -32,8 +32,6 @@ export default function AssistantContainer({
     setError,
     clear,
   } = useAssistantStore();
-
-  const hasResponse = !!message;
 
   const handleCommand = async (input: string): Promise<boolean> => {
     const context: CommandContext = {
@@ -98,21 +96,17 @@ export default function AssistantContainer({
   const { error } = useAssistantStore();
 
   return (
-    <div className="grid size-full grid-rows-[auto_1fr_auto_auto] overflow-hidden">
+    <div
+      className={cn(
+        "grid size-full grid-rows-[auto_1fr_auto_auto]",
+        message ? "grid-rows-[auto_1fr_auto]" : "grid-rows-[auto_1fr_auto_auto]"
+      )}
+    >
       <Header onClose={onClose} />
-      <ScrollArea
-        className={cn(
-          "w-full p-2",
-          hasResponse ? "h-[calc(100vh-166px)]" : "h-[calc(100vh-300px)]"
-        )}
-      >
-        {message ? (
-          <AssistantResponse content={message} />
-        ) : (
-          <AssistantWelcome />
-        )}
-      </ScrollArea>
-      {!hasResponse && (
+      <ScrollAreaWithAnchor className="size-full p-2">
+        {message ? <Response content={message} /> : <Welcome />}
+      </ScrollAreaWithAnchor>
+      {!message && (
         <Suggestions
           onClick={sendMessage}
           suggestions={SITE_CONFIG.assistant.defaultSuggestions}
