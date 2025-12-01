@@ -1,25 +1,19 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-export type ResponseType = "immediate" | "streaming";
-
-export type AssistantMessage = {
-  content: string;
-  type: ResponseType;
-  timestamp: number;
-};
+const STORE_KEY = "assistant";
 
 type AssistantState = {
-  message: AssistantMessage | null;
+  message: string | null;
   isStreaming: boolean;
   error: string | null;
 };
 
 type AssistantActions = {
-  setImmediateResponse: (content: string) => void;
-  startStreamingResponse: () => void;
+  setResponse: (content: string) => void;
+  startStreaming: () => void;
   appendChunk: (chunk: string) => void;
-  finishStreamingResponse: () => void;
+  finishStreaming: () => void;
   setError: (error: string) => void;
   clear: () => void;
 };
@@ -37,53 +31,24 @@ export const useAssistantStore = create<AssistantStore>()(
     (set) => ({
       ...initialState,
 
-      setImmediateResponse: (content) =>
-        set({
-          message: {
-            content,
-            type: "immediate",
-            timestamp: Date.now(),
-          },
-          isStreaming: false,
-          error: null,
-        }),
+      setResponse: (content) =>
+        set({ message: content, isStreaming: false, error: null }),
 
-      startStreamingResponse: () =>
-        set({
-          message: {
-            content: "",
-            type: "streaming",
-            timestamp: Date.now(),
-          },
-          isStreaming: true,
-          error: null,
-        }),
+      startStreaming: () =>
+        set({ message: "", isStreaming: true, error: null }),
 
       appendChunk: (chunk) =>
-        set((state) => ({
-          message: state.message
-            ? { ...state.message, content: state.message.content + chunk }
-            : null,
-        })),
+        set((state) => ({ message: (state.message ?? "") + chunk })),
 
-      finishStreamingResponse: () =>
-        set({
-          isStreaming: false,
-        }),
+      finishStreaming: () => set({ isStreaming: false }),
 
-      setError: (error) =>
-        set({
-          error,
-          isStreaming: false,
-        }),
+      setError: (error) => set({ error, isStreaming: false }),
 
       clear: () => set(initialState),
     }),
     {
-      name: "assistant-storage",
-      partialize: (state) => ({
-        message: state.message,
-      }),
+      name: STORE_KEY,
+      partialize: (state) => ({ message: state.message }),
     }
   )
 );

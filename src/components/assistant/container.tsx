@@ -25,10 +25,10 @@ export default function AssistantContainer({
   const {
     message,
     isStreaming,
-    setImmediateResponse,
-    startStreamingResponse,
+    setResponse,
+    startStreaming,
     appendChunk,
-    finishStreamingResponse,
+    finishStreaming,
     setError,
     clear,
   } = useAssistantStore();
@@ -60,14 +60,14 @@ export default function AssistantContainer({
         input === "/h" ||
         input.startsWith("/?"))
     ) {
-      setImmediateResponse(result.message);
+      setResponse(result.message);
     }
 
     return true;
   };
 
   const handleAssistantMessage = async (prompt: string) => {
-    startStreamingResponse();
+    startStreaming();
 
     try {
       const handler = generateAssistantResponseFn({ data: { prompt } });
@@ -76,7 +76,7 @@ export default function AssistantContainer({
         appendChunk(msg as string);
       }
 
-      finishStreamingResponse();
+      finishStreaming();
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "An unexpected error occurred"
@@ -107,7 +107,7 @@ export default function AssistantContainer({
         )}
       >
         {message ? (
-          <AssistantResponse message={message} />
+          <AssistantResponse content={message} />
         ) : (
           <AssistantWelcome />
         )}

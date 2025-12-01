@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { generateMessage } from "@/lib/gemini.ts";
+import { typewriterStream } from "@/lib/typewriter-stream.ts";
 
 const generateAssistantResponse = createServerFn()
   .inputValidator((data: { prompt: string }) => {
@@ -14,8 +15,14 @@ const generateAssistantResponse = createServerFn()
   .handler(async function* ({ data }) {
     const response = await generateMessage(data.prompt);
 
-    for await (const chunk of response) {
-      yield chunk.text;
+    const chunks = (async function* () {
+      for await (const chunk of response) {
+        yield chunk.text;
+      }
+    })();
+
+    for await (const word of typewriterStream(chunks)) {
+      yield word;
     }
   });
 

@@ -1,15 +1,11 @@
+import { useShallow } from "zustand/react/shallow";
 import { Response } from "@/components/ai-elements/response.tsx";
-import StreamingResponse from "@/components/assistant/streaming-response.tsx";
-import type { AssistantMessage } from "@/store/assistant.ts";
+import { useAssistantStore } from "@/store/assistant.ts";
 
-type AssistantResponseProps = {
-  message: AssistantMessage;
-};
+export default function AssistantResponse({ content }: { content: string }) {
+  const isStreaming = useAssistantStore(
+    useShallow((state) => state.isStreaming)
+  );
 
-export default function AssistantResponse({ message }: AssistantResponseProps) {
-  if (message.type === "streaming") {
-    return <StreamingResponse response={message.content} />;
-  }
-
-  return <Response>{message.content}</Response>;
+  return <Response isAnimating={isStreaming}>{content}</Response>;
 }
