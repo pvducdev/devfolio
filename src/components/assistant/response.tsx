@@ -1,21 +1,11 @@
+import { useShallow } from "zustand/react/shallow";
 import { Response } from "@/components/ai-elements/response.tsx";
-import AssistantWelcome from "@/components/assistant/welcome.tsx";
-import { useTypewriter } from "@/hooks/use-typewriter.ts";
+import { useAssistantStore } from "@/store/assistant.ts";
 
-type AiResponseProps = {
-  response: string;
-};
+export default function AssistantResponse({ content }: { content: string }) {
+  const isStreaming = useAssistantStore(
+    useShallow((state) => state.isStreaming)
+  );
 
-export default function AssistantResponse({ response }: AiResponseProps) {
-  const { displayedText } = useTypewriter(response, {
-    // Fast preset for responsive AI chat experience (60 chars/sec)
-    speed: "fast",
-    mode: "character",
-  });
-
-  if (!response) {
-    return <AssistantWelcome />;
-  }
-
-  return <Response>{displayedText}</Response>;
+  return <Response isAnimating={isStreaming}>{content}</Response>;
 }

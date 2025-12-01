@@ -1,17 +1,17 @@
 import { useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
 import Header from "@/components/assistant/header.tsx";
 import Input from "@/components/assistant/input.tsx";
 import AssistantResponse from "@/components/assistant/response.tsx";
 import Suggestions from "@/components/assistant/suggestions.tsx";
+import AssistantWelcome from "@/components/assistant/welcome.tsx";
 import { ScrollArea } from "@/components/ui/scroll-area.tsx";
 import { SITE_CONFIG } from "@/config/site.ts";
 import generateAssistantResponseFn from "@/fn/generate-assistant-response.ts";
-import { executor, parser } from "@/lib/commands";
-import type { CommandContext } from "@/lib/commands/types";
+import { type CommandContext, execute } from "@/lib/commands";
 import { cn } from "@/lib/utils.ts";
+import { useAssistantStore } from "@/store/assistant.ts";
 import { useThemeStore } from "@/store/theme.ts";
-import "@/commands"; // Register commands
+import "@/commands";
 
 type AssistantContainerProps = {
   onClose: () => void;
@@ -20,68 +20,82 @@ type AssistantContainerProps = {
 export default function AssistantContainer({
   onClose,
 }: AssistantContainerProps) {
-  const [messages, setMessages] = useState<string>("");
   const navigate = useNavigate();
   const { setTheme } = useThemeStore();
+  const {
+    message,
+    isStreaming,
+    setResponse,
+    startStreaming,
+    appendChunk,
+    finishStreaming,
+    setError,
+    clear,
+  } = useAssistantStore();
 
-  const hasMessage = !!messages;
+  const hasResponse = !!message;
 
-  const clearMessages = () => {
-    setMessages("");
-  };
-
-  const handleCommand = async (parsed: ReturnType<typeof parser.parse>) => {
-    if (!parsed) {
-      return null;
-    }
-
+  const handleCommand = async (input: string): Promise<boolean> => {
     const context: CommandContext = {
-      clearMessages,
+      clearMessages: clear,
       setTheme,
       navigate: (path) => navigate({ to: path }),
     };
 
-    const result = await executor.execute(parsed, context);
+    const result = await execute(input, context);
+
+    if (result === null) {
+      return false;
+    }
 
     if (!result.success) {
-      return result.message || "Command failed";
+      setError(result.message || "Command failed");
+      return true;
     }
 
-    if (parsed.name === "help") {
-      setMessages(result.message as string);
+    if (
+      result.message &&
+      (input.startsWith("/help") ||
+        input.startsWith("/h ") ||
+        input === "/h" ||
+        input.startsWith("/?"))
+    ) {
+      setResponse(result.message);
     }
 
-    return "";
+    return true;
   };
 
   const handleAssistantMessage = async (prompt: string) => {
+    startStreaming();
+
     try {
       const handler = generateAssistantResponseFn({ data: { prompt } });
 
       for await (const msg of await handler) {
-        const chunk = msg;
-        setMessages((prev) => prev + chunk);
+        appendChunk(msg as string);
       }
 
-      return "";
+      finishStreaming();
     } catch (err) {
-      return err instanceof Error
-        ? err.message
-        : "An unexpected error occurred";
+      setError(
+        err instanceof Error ? err.message : "An unexpected error occurred"
+      );
     }
   };
 
-  const sendMessage = async (message: string): Promise<string> => {
-    const trimmedMsg = message.trim();
-    const parsed = parser.parse(trimmedMsg);
+  const sendMessage = async (input: string): Promise<void> => {
+    const trimmedMsg = input.trim();
 
-    if (parsed) {
-      const result = await handleCommand(parsed);
-      return result || "";
+    const isCommand = await handleCommand(trimmedMsg);
+    if (isCommand) {
+      return;
     }
 
-    return handleAssistantMessage(trimmedMsg);
+    await handleAssistantMessage(trimmedMsg);
   };
+
+  const { error } = useAssistantStore();
 
   return (
     <div className="grid size-full grid-rows-[auto_1fr_auto_auto] overflow-hidden">
@@ -89,27 +103,31 @@ export default function AssistantContainer({
       <ScrollArea
         className={cn(
           "w-full p-2",
-          hasMessage ? "h-[calc(100vh-166px)]" : "h-[calc(100vh-300px)]"
+          hasResponse ? "h-[calc(100vh-166px)]" : "h-[calc(100vh-300px)]"
         )}
       >
-        <AssistantResponse response={messages} />
+        {message ? (
+          <AssistantResponse content={message} />
+        ) : (
+          <AssistantWelcome />
+        )}
       </ScrollArea>
-      {!hasMessage && (
+      {!hasResponse && (
         <Suggestions
-          onClick={(msg) => {
-            clearMessages();
-            return sendMessage(msg);
-          }}
+          onClick={sendMessage}
           suggestions={SITE_CONFIG.assistant.defaultSuggestions}
         />
       )}
-      <Input
-        onSubmit={(_, formData) => {
-          clearMessages();
-          return sendMessage(formData.get("message") as string);
-        }}
-        placeholder={SITE_CONFIG.assistant.inputPlaceholder}
-      />
+      <div className="space-y-1">
+        {error && (
+          <p className="text-pretty px-2 text-red-500 text-xs">{error}</p>
+        )}
+        <Input
+          disabled={isStreaming}
+          onSubmit={sendMessage}
+          placeholder={SITE_CONFIG.assistant.inputPlaceholder}
+        />
+      </div>
     </div>
   );
 }

@@ -1,19 +1,13 @@
 import { Eraser } from "lucide-react";
-import type { Command } from "@/lib/commands/types";
+import { defineCommand } from "@/lib/commands";
 
-const clearCommand: Command = {
+export default defineCommand({
   name: "clear",
   description: "Clear all messages and reset the conversation",
   icon: Eraser,
 
   handler: (_args, context) => {
     context.clearMessages();
-
-    return {
-      success: true,
-      message: "Conversation cleared",
-    };
+    return { success: true, message: "Conversation cleared" };
   },
-};
-
-export default clearCommand;
+});

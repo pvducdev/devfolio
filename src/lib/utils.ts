@@ -12,3 +12,7 @@ export function hashPath(path: string): string {
 export function getFileName(path: string): string {
   return path.split("/").pop() || path;
 }
+
+export function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
