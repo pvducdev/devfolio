@@ -33,7 +33,7 @@ export default function StatusFooter() {
         </BreadcrumbList>
       </Breadcrumb>
       <div className="flex items-center space-x-4">
-        {SITE_CONFIG.features.showThemeSwitcher && <ThemeSwitcher />}
+        {!!SITE_CONFIG.features.showThemeSwitcher && <ThemeSwitcher />}
         <div className="flex items-center space-x-2">
           <a
             href={PERSONAL_INFO.contact.github}

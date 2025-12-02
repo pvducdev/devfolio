@@ -65,7 +65,7 @@ export default function SlashCommandPopover({
                     value={command.name}
                   >
                     <div className="flex items-start gap-3">
-                      {Icon && (
+                      {!!Icon && (
                         <Icon className="mt-0.5 size-4 text-muted-foreground" />
                       )}
                       <div className="flex flex-col">
