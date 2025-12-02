@@ -24,7 +24,7 @@ export default function AppContent() {
     <div className="flex h-full overflow-hidden">
       <ActivitiesBar />
       <ResizablePanelGroup autoSaveId="conditional" direction="horizontal">
-        {sidebar && (
+        {!!sidebar && (
           <>
             <ResizablePanel
               className="overflow-auto! rounded-xl bg-background"
@@ -48,7 +48,7 @@ export default function AppContent() {
         >
           <CodeEditorContainer />
         </ResizablePanel>
-        {panel && (
+        {!!panel && (
           <>
             <ResizableHandle className="w-1.5 bg-transparent" />
             <ResizablePanel

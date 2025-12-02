@@ -52,7 +52,7 @@ export default function Header() {
         </div>
       </div>
       <div className="flex items-center space-x-2 pr-1">
-        {SITE_CONFIG.features.showResumeViewer && (
+        {!!SITE_CONFIG.features.showResumeViewer && (
           <ResumeViewer className="mr-32 flex items-center space-x-2" />
         )}
         <AssistantTrigger />

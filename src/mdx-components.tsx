@@ -31,16 +31,21 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     p: ({ children }) => <p className="mb-4 leading-relaxed">{children}</p>,
 
     // Links with external link handling
-    a: ({ href, children }) => (
-      <a
-        className="text-blue-600 underline decoration-blue-600/30 underline-offset-2 transition-colors hover:text-blue-800 hover:decoration-blue-800/50"
-        href={href}
-        rel={href?.startsWith("http") ? "noopener noreferrer" : undefined}
-        target={href?.startsWith("http") ? "_blank" : undefined}
-      >
-        {children}
-      </a>
-    ),
+    a: ({ href, children }) => {
+      const isExternal = href?.startsWith("http");
+      const externalProps = isExternal
+        ? { rel: "noopener noreferrer" as const, target: "_blank" as const }
+        : {};
+      return (
+        <a
+          className="text-blue-600 underline decoration-blue-600/30 underline-offset-2 transition-colors hover:text-blue-800 hover:decoration-blue-800/50"
+          href={href}
+          {...externalProps}
+        >
+          {children}
+        </a>
+      );
+    },
 
     // Inline code with subtle background
     code: ({ children, className }) => {

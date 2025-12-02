@@ -11,6 +11,17 @@ import {
 } from "@/config/content.ts";
 import { useTabsStore } from "@/store/tabs";
 
+function getTreeItemIcon(item: ItemInstance<ProjectTreeItem>) {
+  const iconClass = "pointer-events-none size-4 text-muted-foreground";
+  if (!item.isFolder()) {
+    return <FileIcon className={iconClass} />;
+  }
+  if (item.isExpanded()) {
+    return <FolderOpenIcon className={iconClass} />;
+  }
+  return <FolderIcon className={iconClass} />;
+}
+
 export default function Projects() {
   "use no memo";
 
@@ -57,15 +68,7 @@ export default function Projects() {
             >
               <TreeItemLabel className="before:-inset-y-0.5 before:-z-10 relative before:absolute before:inset-x-0 before:bg-background">
                 <span className="flex items-center gap-2 text-nowrap">
-                  {item.isFolder() ? (
-                    item.isExpanded() ? (
-                      <FolderOpenIcon className="pointer-events-none size-4 text-muted-foreground" />
-                    ) : (
-                      <FolderIcon className="pointer-events-none size-4 text-muted-foreground" />
-                    )
-                  ) : (
-                    <FileIcon className="pointer-events-none size-4 text-muted-foreground" />
-                  )}
+                  {getTreeItemIcon(item)}
                   {item.getItemName()}
                 </span>
               </TreeItemLabel>

@@ -113,7 +113,7 @@ export default function AssistantContainer({
         />
       )}
       <div className="space-y-1">
-        {error && (
+        {!!error && (
           <p className="text-pretty px-2 text-red-500 text-xs">{error}</p>
         )}
         <Input

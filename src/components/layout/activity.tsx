@@ -15,7 +15,7 @@ export default function Activity({ active, data, onClick }: ActivityProps) {
     <ButtonWithTooltip
       className={cn(
         "size-7 border-none",
-        active && "bg-accent text-accent-foreground"
+        active ? "bg-accent text-accent-foreground" : ""
       )}
       onClick={() => {
         onClick(data);

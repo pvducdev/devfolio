@@ -63,7 +63,7 @@ export default function MDXViewer({ tab }: MDXViewerProps) {
             </div>
           }
         >
-          {MDXContent && <MDXContent />}
+          {!!MDXContent && <MDXContent />}
         </Suspense>
       </div>
     </div>

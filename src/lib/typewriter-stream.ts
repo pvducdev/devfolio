@@ -24,7 +24,7 @@ export async function* typewriterStream(
         pos = 0;
         await delay(delayMs);
       } else {
-        pos++;
+        pos += 1;
       }
     }
   }
