@@ -1,29 +1,43 @@
 import { useRive, useStateMachineInput } from "@rive-app/react-canvas";
 import { useEffect } from "react";
 import { CHARACTER_CONFIG } from "@/config/career-timeline";
+import { useMilestoneStore } from "@/store/milestone";
 
 type CharacterProps = {
   isRunning: boolean;
 };
 
 export function Character({ isRunning }: CharacterProps) {
+  const isInMilestoneZone = useMilestoneStore((s) => s.isInMilestoneZone);
+
   const { rive, RiveComponent } = useRive({
     src: CHARACTER_CONFIG.src,
     stateMachines: CHARACTER_CONFIG.stateMachine,
     autoplay: true,
   });
 
-  const runInput = useStateMachineInput(
+  const stateInput = useStateMachineInput(
     rive,
     CHARACTER_CONFIG.stateMachine,
     CHARACTER_CONFIG.runningInput
   );
 
   useEffect(() => {
-    if (runInput) {
-      runInput.value = isRunning ? 1 : 0;
+    if (!stateInput) {
+      return;
     }
-  }, [isRunning, runInput]);
+
+    if (isInMilestoneZone) {
+      // Celebration state
+      stateInput.value = CHARACTER_CONFIG.celebrationValue;
+    } else if (isRunning) {
+      // Running state
+      stateInput.value = 1;
+    } else {
+      // Idle state
+      stateInput.value = 0;
+    }
+  }, [isInMilestoneZone, isRunning, stateInput]);
 
   return (
     <div

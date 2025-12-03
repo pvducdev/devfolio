@@ -1,5 +1,9 @@
 import { motion } from "motion/react";
-import type { CardStyle } from "@/config/career-timeline";
+import {
+  type CardStyle,
+  type JobType,
+  MILESTONE_ANIMATION_CONFIG,
+} from "@/config/career-timeline";
 import { cn } from "@/lib/utils";
 
 type CardStyleConfig = {
@@ -81,6 +85,8 @@ type JobCardProps = {
   subtitle: string;
   details: string[];
   isCurrent?: boolean;
+  isActive?: boolean;
+  jobType?: JobType;
 };
 
 export function JobCard({
@@ -89,18 +95,42 @@ export function JobCard({
   subtitle,
   details,
   isCurrent,
+  isActive,
+  jobType,
 }: JobCardProps) {
   const config = getCardStyleConfig(style);
+  const glowColor = jobType
+    ? MILESTONE_ANIMATION_CONFIG.glowColors[jobType]
+    : "transparent";
 
   return (
     <div className={cn("transition-transform", config.wrapper)}>
       <motion.div
+        animate={{
+          scale: isActive
+            ? MILESTONE_ANIMATION_CONFIG.cardScaleActive
+            : MILESTONE_ANIMATION_CONFIG.cardScaleInactive,
+          opacity: isActive
+            ? MILESTONE_ANIMATION_CONFIG.cardOpacityActive
+            : MILESTONE_ANIMATION_CONFIG.cardOpacityInactive,
+          boxShadow: isActive
+            ? `0 0 20px 5px ${glowColor}, 0 0 40px 10px ${glowColor}`
+            : "0 0 0 0 transparent",
+        }}
         className={cn(
           "w-48 border p-3 font-mono",
           config.container,
           !!isCurrent && "border-2"
         )}
-        whileHover={{ y: -2 }}
+        style={{
+          willChange: "transform, opacity, box-shadow",
+          transformOrigin: "center center",
+        }}
+        transition={{
+          duration: MILESTONE_ANIMATION_CONFIG.cardPop,
+          ease: MILESTONE_ANIMATION_CONFIG.easing,
+        }}
+        whileHover={isActive ? undefined : { y: -2 }}
       >
         {/* Window title bar for "window" style */}
         {config.titleBar ? <WindowTitleBar title={title} /> : null}

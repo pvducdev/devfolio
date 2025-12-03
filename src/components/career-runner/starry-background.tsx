@@ -1,4 +1,7 @@
+import { motion } from "motion/react";
 import { useMemo } from "react";
+import { MILESTONE_ANIMATION_CONFIG } from "@/config/career-timeline";
+import { useMilestoneStore } from "@/store/milestone";
 
 type Star = {
   id: number;
@@ -14,6 +17,8 @@ type StarryBackgroundProps = {
 };
 
 export function StarryBackground({ starCount = 50 }: StarryBackgroundProps) {
+  const isInMilestoneZone = useMilestoneStore((s) => s.isInMilestoneZone);
+
   const stars = useMemo<Star[]>(() => {
     return Array.from({ length: starCount }, (_, i) => ({
       id: i,
@@ -26,7 +31,20 @@ export function StarryBackground({ starCount = 50 }: StarryBackgroundProps) {
   }, [starCount]);
 
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden">
+    <motion.div
+      animate={{
+        opacity: isInMilestoneZone
+          ? MILESTONE_ANIMATION_CONFIG.dimmedOpacity
+          : 1,
+        filter: isInMilestoneZone ? "brightness(0.4)" : "brightness(1)",
+      }}
+      className="pointer-events-none absolute inset-0 overflow-hidden"
+      style={{ willChange: "opacity, filter" }}
+      transition={{
+        duration: MILESTONE_ANIMATION_CONFIG.spotlightDim,
+        ease: MILESTONE_ANIMATION_CONFIG.easing,
+      }}
+    >
       {stars.map((star) => (
         <div
           className="absolute animate-pulse rounded-full bg-foreground/80"
@@ -42,6 +60,6 @@ export function StarryBackground({ starCount = 50 }: StarryBackgroundProps) {
           }}
         />
       ))}
-    </div>
+    </motion.div>
   );
 }
