@@ -1,18 +1,14 @@
-export type CardStyle = "blackboard" | "postit" | "window" | "code";
+import type { LucideIcon } from "lucide-react";
+import { Building2, Coffee, GraduationCap, Monitor, Users } from "lucide-react";
 
-export type LandmarkType =
-  | "university"
-  | "cafe"
-  | "coworking"
-  | "office"
-  | "tech-station";
+export type CardStyle = "blackboard" | "postit" | "window" | "code";
 
 export type JobType = "fulltime" | "parttime" | "freelance" | "education";
 
 export type CareerSection = {
   id: string;
   year: string;
-  landmark: LandmarkType;
+  icon: LucideIcon;
   jobType: JobType;
   card: {
     style: CardStyle;
@@ -26,7 +22,7 @@ export const CAREER_SECTIONS: CareerSection[] = [
   {
     id: "education",
     year: "2020",
-    landmark: "university",
+    icon: GraduationCap,
     jobType: "education",
     card: {
       style: "blackboard",
@@ -38,7 +34,7 @@ export const CAREER_SECTIONS: CareerSection[] = [
   {
     id: "first-steps",
     year: "2021",
-    landmark: "cafe",
+    icon: Coffee,
     jobType: "freelance",
     card: {
       style: "postit",
@@ -50,7 +46,7 @@ export const CAREER_SECTIONS: CareerSection[] = [
   {
     id: "gaining-xp",
     year: "2021-2022",
-    landmark: "coworking",
+    icon: Users,
     jobType: "parttime",
     card: {
       style: "window",
@@ -62,7 +58,7 @@ export const CAREER_SECTIONS: CareerSection[] = [
   {
     id: "professional",
     year: "2022-2023",
-    landmark: "office",
+    icon: Building2,
     jobType: "fulltime",
     card: {
       style: "window",
@@ -74,7 +70,7 @@ export const CAREER_SECTIONS: CareerSection[] = [
   {
     id: "current",
     year: "Present",
-    landmark: "tech-station",
+    icon: Monitor,
     jobType: "fulltime",
     card: {
       style: "code",
@@ -89,8 +85,7 @@ export const CHARACTER_CONFIG = {
   src: "/character.riv",
   stateMachine: "machine",
   runningInput: "Number 1",
-  celebrationValue: 4,
-  size: { width: 64, height: 64 },
+  size: { width: 128, height: 128 },
 } as const;
 
 export const RUNNER_CONFIG = {
@@ -112,7 +107,7 @@ export const MILESTONE_ANIMATION_CONFIG = {
   yearFlip: 0.3,
 
   // Opacity and scale values
-  dimmedOpacity: 0.3,
+  dimmedOpacity: 0.6,
   cardScaleActive: 1.05,
   cardScaleInactive: 0.9,
   cardOpacityActive: 1,
