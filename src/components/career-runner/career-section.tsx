@@ -19,6 +19,7 @@ export function CareerSectionContent({
       <div className="-translate-x-1/2 absolute top-15 left-1/2">
         <JobCard
           details={section.card.details}
+          expanded={section.card.expanded}
           isActive={isActive}
           isCurrent={isCurrent}
           jobType={section.jobType}
