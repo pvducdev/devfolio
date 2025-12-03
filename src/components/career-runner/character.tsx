@@ -21,7 +21,7 @@ export function Character({ isRunning }: CharacterProps) {
 
   useEffect(() => {
     if (runInput) {
-      runInput.value = isRunning;
+      runInput.value = isRunning ? 1 : 0;
     }
   }, [isRunning, runInput]);
 

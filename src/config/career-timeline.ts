@@ -78,9 +78,9 @@ export const CAREER_SECTIONS: CareerSection[] = [
 ] as const;
 
 export const CHARACTER_CONFIG = {
-  src: "/public/character.riv",
-  stateMachine: "State Machine",
-  runningInput: "isRunning",
+  src: "/character.riv",
+  stateMachine: "machine",
+  runningInput: "Number 1",
   size: { width: 64, height: 64 },
 } as const;
 
