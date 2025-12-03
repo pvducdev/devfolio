@@ -7,12 +7,10 @@ type YearHUDProps = {
 };
 
 export function YearHUD({ year }: YearHUDProps) {
-  // Split year into individual characters for slot machine effect
   const digits = useMemo(() => year.split(""), [year]);
 
   return (
     <div className="absolute top-4 right-4 z-50">
-      {/* Retro pixel-style HUD */}
       <div className="border border-foreground bg-background px-3 py-1.5 font-mono">
         <div className="mb-0.5 text-foreground/50 text-xs">YEAR</div>
         <div className="flex overflow-hidden font-bold text-lg">

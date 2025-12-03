@@ -94,11 +94,11 @@ export const CHARACTER_CONFIG = {
 } as const;
 
 export const RUNNER_CONFIG = {
-  sectionWidth: 1000, // px per section
-  groundBottom: 12, // ground line position from bottom
-  characterPosition: { left: 60, bottom: 12 }, // character sits on ground
-  cardTop: 60, // card position from top
-  landmarkBottom: 12, // landmark sits on ground
+  // Values used in JS calculations (infinite scroll, milestone detection)
+  sectionWidth: 1000, // w-[1000px] in Section component
+  spacerWidth: 144, // w-36 (144px) in CareerRunner spacer divs
+  paddingEnd: 208, // w-52 (208px) in CareerRunner padding div
+  // Note: Character is centered dynamically (left-1/2 -translate-x-1/2)
 } as const;
 
 export const MILESTONE_ANIMATION_CONFIG = {
@@ -118,12 +118,12 @@ export const MILESTONE_ANIMATION_CONFIG = {
   cardOpacityActive: 1,
   cardOpacityInactive: 0.6,
 
-  // Glow colors by job type
+  // Glow colors by job type (using Tailwind v4 oklch colors)
   glowColors: {
-    fulltime: "rgba(34, 197, 94, 0.6)", // green-500
-    parttime: "rgba(59, 130, 246, 0.6)", // blue-500
-    freelance: "rgba(168, 85, 247, 0.6)", // purple-500
-    education: "rgba(251, 191, 36, 0.6)", // amber-400
+    fulltime: "oklch(from var(--color-green-500) l c h / 0.6)",
+    parttime: "oklch(from var(--color-blue-500) l c h / 0.6)",
+    freelance: "oklch(from var(--color-purple-500) l c h / 0.6)",
+    education: "oklch(from var(--color-amber-400) l c h / 0.6)",
   },
 } as const;
 

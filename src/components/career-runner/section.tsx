@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import { RUNNER_CONFIG } from "@/config/career-timeline";
 
 type SectionProps = {
   children: ReactNode;
@@ -7,10 +6,7 @@ type SectionProps = {
 
 export function Section({ children }: SectionProps) {
   return (
-    <div
-      className="relative flex shrink-0 items-end pb-8"
-      style={{ width: RUNNER_CONFIG.sectionWidth }}
-    >
+    <div className="relative flex w-[1000px] shrink-0 items-end pb-8">
       {children}
     </div>
   );

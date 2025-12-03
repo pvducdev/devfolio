@@ -28,13 +28,10 @@ export function Character({ isRunning }: CharacterProps) {
     }
 
     if (isInMilestoneZone) {
-      // Celebration state
       stateInput.value = CHARACTER_CONFIG.celebrationValue;
     } else if (isRunning) {
-      // Running state
       stateInput.value = 1;
     } else {
-      // Idle state
       stateInput.value = 0;
     }
   }, [isInMilestoneZone, isRunning, stateInput]);
