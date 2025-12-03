@@ -27,11 +27,11 @@ export function CareerRunner() {
   const { isScrolling } = useWheelScroll(containerRef, scrollX);
 
   return (
-    <div className="relative h-full min-h-[400px] w-full overflow-hidden bg-background font-mono">
+    <div className="scrollbar-none relative h-full min-h-[400px] w-full overflow-hidden bg-background font-mono">
       <StarryBackground starCount={40} />
       <YearHUD year={currentSection.year} />
 
-      <div className="-translate-x-1/2 absolute bottom-3 left-1/2 z-10">
+      <div className="-translate-x-1/2 -bottom-2 absolute left-1/2 z-10">
         <Character isRunning={isScrolling} />
       </div>
 

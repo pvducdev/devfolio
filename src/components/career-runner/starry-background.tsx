@@ -36,7 +36,7 @@ export function StarryBackground({ starCount = 50 }: StarryBackgroundProps) {
         opacity: isInMilestoneZone
           ? MILESTONE_ANIMATION_CONFIG.dimmedOpacity
           : 1,
-        filter: isInMilestoneZone ? "brightness(0.4)" : "brightness(1)",
+        filter: isInMilestoneZone ? "brightness(0.7)" : "brightness(1)",
       }}
       className="pointer-events-none absolute inset-0 overflow-hidden"
       style={{ willChange: "opacity, filter" }}

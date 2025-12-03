@@ -28,7 +28,7 @@ export function Character({ isRunning }: CharacterProps) {
     }
 
     if (isInMilestoneZone) {
-      stateInput.value = CHARACTER_CONFIG.celebrationValue;
+      stateInput.value = 4;
     } else if (isRunning) {
       stateInput.value = 1;
     } else {

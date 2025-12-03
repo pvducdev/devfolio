@@ -1,5 +1,4 @@
 import type { MDXComponents } from "mdx/types";
-import { CareerRunner } from "@/components/career-runner/career-runner";
 
 // This file allows you to provide custom React components
 // to be used in MDX files. You can import and use any
@@ -121,9 +120,6 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         {children}
       </pre>
     ),
-
-    // Custom components
-    CareerRunner,
 
     // Allow component overrides
     ...components,

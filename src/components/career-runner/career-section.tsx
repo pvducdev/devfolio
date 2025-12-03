@@ -30,8 +30,8 @@ export function CareerSectionContent({
 
       <div className="-translate-x-1/2 absolute top-56 bottom-10 left-1/2 w-px bg-foreground/20" />
 
-      <div className="-translate-x-1/2 absolute bottom-3 left-1/2">
-        <Landmark type={section.landmark} />
+      <div className="-translate-x-1/2 absolute bottom-1 left-1/2">
+        <Landmark icon={section.icon} />
       </div>
     </Section>
   );
