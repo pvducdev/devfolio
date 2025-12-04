@@ -2,9 +2,7 @@ import {
   CAREER_SECTIONS,
   INFINITE_SCROLL_CONFIG,
 } from "@/config/career-timeline";
-import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
-import { useMilestoneDetection } from "@/hooks/use-milestone-detection";
-import { useWheelScroll } from "@/hooks/use-wheel-scroll";
+import { useCareerScroll } from "@/hooks/use-career-scroll";
 import { CareerSectionContent } from "./career-section";
 import { Character } from "./character";
 import { Ground } from "./ground";
@@ -14,16 +12,11 @@ import { YearHUD } from "./year-hud";
 const ALIGNMENT_TOLERANCE = 250;
 
 export function CareerRunner() {
-  const { containerRef, scrollX } = useInfiniteScroll({
-    teleportDebounceMs: INFINITE_SCROLL_CONFIG.teleportDebounceMs,
-  });
-
-  const { currentSection, activeSectionId } = useMilestoneDetection(scrollX, {
-    alignmentTolerance: ALIGNMENT_TOLERANCE,
-    containerRef,
-  });
-
-  const { isScrolling } = useWheelScroll(containerRef, scrollX);
+  const { containerRef, isScrolling, currentSection, activeSectionId } =
+    useCareerScroll({
+      teleportDebounceMs: INFINITE_SCROLL_CONFIG.teleportDebounceMs,
+      alignmentTolerance: ALIGNMENT_TOLERANCE,
+    });
 
   return (
     <div className="scrollbar-none relative h-full min-h-100 w-full overflow-hidden bg-background font-mono">
