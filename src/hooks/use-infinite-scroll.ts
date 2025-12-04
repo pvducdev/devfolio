@@ -1,5 +1,6 @@
 import { useMotionValue } from "motion/react";
 import { useCallback, useEffect, useRef } from "react";
+import { useEventListener } from "usehooks-ts";
 import {
   getRealContentStartPos,
   normalizeScrollPosition,
@@ -63,15 +64,7 @@ export function useInfiniteScroll(
     scrollX.set(startPos);
   }, [scrollX]);
 
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) {
-      return;
-    }
-
-    container.addEventListener("scroll", handleScroll);
-    return () => container.removeEventListener("scroll", handleScroll);
-  }, [handleScroll]);
+  useEventListener("scroll", handleScroll, containerRef);
 
   return { containerRef, scrollX };
 }

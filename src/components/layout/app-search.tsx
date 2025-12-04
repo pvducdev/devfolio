@@ -7,8 +7,8 @@ import {
   Smile,
   User,
 } from "lucide-react";
-import { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
+import { useBoolean } from "usehooks-ts";
 import ButtonWithTooltip from "@/components/common/button-with-tooltip.tsx";
 import {
   CommandDialog,
@@ -23,17 +23,15 @@ import {
 import { Kbd, KbdGroup } from "@/components/ui/kbd.tsx";
 
 export default function AppSearch() {
-  const [open, setOpen] = useState(false);
+  const { value: open, toggle, setValue: setOpen } = useBoolean(false);
 
-  useHotkeys("mod+k", () => setOpen((o) => !o));
+  useHotkeys("mod+k", toggle);
 
   return (
     <>
       <ButtonWithTooltip
         className="size-7"
-        onClick={() => {
-          setOpen((o) => !o);
-        }}
+        onClick={toggle}
         size="icon"
         tooltip={
           <div className="flex items-center space-x-2">

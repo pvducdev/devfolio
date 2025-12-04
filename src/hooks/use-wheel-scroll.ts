@@ -1,5 +1,6 @@
 import type { MotionValue } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import { useDebounceCallback, useEventListener } from "usehooks-ts";
 
 type UseWheelScrollOptions = {
   scrollStopDelay?: number;
@@ -17,38 +18,28 @@ export function useWheelScroll(
   const { scrollStopDelay = 150 } = options;
 
   const [isScrolling, setIsScrolling] = useState(false);
-  const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
-    undefined
-  );
 
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) {
-      return;
-    }
+  const stopScrolling = useDebounceCallback(() => {
+    setIsScrolling(false);
+  }, scrollStopDelay);
 
-    const handleWheel = (e: WheelEvent) => {
+  useEventListener(
+    "wheel",
+    (e: WheelEvent) => {
       e.preventDefault();
+      const container = containerRef.current;
+      if (!container) {
+        return;
+      }
+
       container.scrollLeft += e.deltaY;
       scrollX.set(container.scrollLeft);
-
       setIsScrolling(true);
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-      scrollTimeoutRef.current = setTimeout(() => {
-        setIsScrolling(false);
-      }, scrollStopDelay);
-    };
-
-    container.addEventListener("wheel", handleWheel, { passive: false });
-    return () => {
-      container.removeEventListener("wheel", handleWheel);
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-    };
-  }, [containerRef, scrollX, scrollStopDelay]);
+      stopScrolling();
+    },
+    containerRef,
+    { passive: false }
+  );
 
   return { isScrolling };
 }

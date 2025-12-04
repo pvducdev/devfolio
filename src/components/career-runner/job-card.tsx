@@ -1,6 +1,7 @@
 import { ChevronDown } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useBoolean } from "usehooks-ts";
 import type { ExpandedContent } from "@/config/career-timeline";
 import { cn } from "@/lib/utils";
 import { ExpandedSection } from "./expanded-section";
@@ -24,19 +25,23 @@ export function JobCard({
   isCurrent,
   isActive,
 }: JobCardProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const {
+    value: isExpanded,
+    toggle: toggleExpanded,
+    setFalse: collapse,
+  } = useBoolean(false);
 
   const canExpand = isActive && expanded;
 
   useEffect(() => {
     if (!isActive) {
-      setIsExpanded(false);
+      collapse();
     }
-  }, [isActive]);
+  }, [isActive, collapse]);
 
   const handleClick = () => {
     if (canExpand) {
-      setIsExpanded((prev) => !prev);
+      toggleExpanded();
     }
   };
 
