@@ -22,7 +22,6 @@ export function CareerSectionContent({
           expanded={section.card.expanded}
           isActive={isActive}
           isCurrent={isCurrent}
-          style={section.card.style}
           subtitle={section.card.subtitle}
           title={section.card.title}
         />

@@ -7,11 +7,11 @@ import {
   type CareerSection,
   RUNNER_CONFIG,
 } from "@/config/career-timeline";
-import { useMilestoneStore } from "@/store/milestone";
 import {
   calculateSectionIndex,
   normalizeScrollPosition,
-} from "../infinite-scroll-utils";
+} from "@/lib/infinite-scroll-utils";
+import { useMilestoneStore } from "@/store/milestone";
 
 type UseMilestoneDetectionOptions = {
   alignmentTolerance: number;

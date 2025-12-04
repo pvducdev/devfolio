@@ -1,8 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import { Building2, Coffee, GraduationCap, Monitor, Users } from "lucide-react";
 
-export type CardStyle = "blackboard" | "postit" | "window" | "code";
-
 export type JobType = "fulltime" | "parttime" | "freelance" | "education";
 
 export type ExpandedContent = {
@@ -21,7 +19,6 @@ export type CareerSection = {
   icon: LucideIcon;
   jobType: JobType;
   card: {
-    style: CardStyle;
     title: string;
     subtitle: string;
     details: string[];
@@ -36,7 +33,6 @@ export const CAREER_SECTIONS: CareerSection[] = [
     icon: GraduationCap,
     jobType: "education",
     card: {
-      style: "blackboard",
       title: "Computer Science",
       subtitle: "University Name",
       details: ["Bachelor's Degree", "Class of 2020"],
@@ -57,7 +53,6 @@ export const CAREER_SECTIONS: CareerSection[] = [
     icon: Coffee,
     jobType: "freelance",
     card: {
-      style: "postit",
       title: "Freelance Developer",
       subtitle: "Remote",
       details: ["HTML/CSS/JS", "First client projects"],
@@ -82,7 +77,6 @@ export const CAREER_SECTIONS: CareerSection[] = [
     icon: Users,
     jobType: "parttime",
     card: {
-      style: "window",
       title: "Junior Developer",
       subtitle: "Startup Co.",
       details: ["React", "Node.js", "Team collaboration"],
@@ -108,7 +102,6 @@ export const CAREER_SECTIONS: CareerSection[] = [
     icon: Building2,
     jobType: "fulltime",
     card: {
-      style: "window",
       title: "Frontend Developer",
       subtitle: "Tech Corp",
       details: ["TypeScript", "React", "CI/CD"],
@@ -134,7 +127,6 @@ export const CAREER_SECTIONS: CareerSection[] = [
     icon: Monitor,
     jobType: "fulltime",
     card: {
-      style: "code",
       title: "Senior Frontend Developer",
       subtitle: "Current Company",
       details: ["React", "TypeScript", "TanStack"],
@@ -182,9 +174,4 @@ export const INFINITE_SCROLL_CONFIG = {
 
   // Debounce to prevent rapid oscillation during fast scrolling
   teleportDebounceMs: 50,
-} as const;
-
-export const CAREER_BACKGROUND_CONFIG = {
-  src: "/career-bg-light.webp",
-  fallbackColor: "bg-transparent",
 } as const;

@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef } from "react";
 import {
   getRealContentStartPos,
   normalizeScrollPosition,
-} from "../infinite-scroll-utils";
+} from "@/lib/infinite-scroll-utils";
 
 type UseInfiniteScrollOptions = {
   teleportDebounceMs: number;
