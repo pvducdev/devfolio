@@ -209,3 +209,8 @@ export const INFINITE_SCROLL_CONFIG = {
   // Debounce to prevent rapid oscillation during fast scrolling
   teleportDebounceMs: 50,
 } as const;
+
+export const CAREER_BACKGROUND_CONFIG = {
+  src: "/career-bg-light.webp",
+  fallbackColor: "bg-transparent",
+} as const;
