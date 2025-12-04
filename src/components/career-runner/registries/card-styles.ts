@@ -8,6 +8,7 @@ export type CardStyleConfig = {
   detailPrefix: string;
   detailText: string;
   wrapper: string;
+  glowColor: string;
   titleBar?: boolean;
   lineNumbers?: boolean;
 };
@@ -21,6 +22,7 @@ export const CARD_STYLE_REGISTRY: Record<CardStyle, CardStyleConfig> = {
     detailPrefix: "text-background/50",
     detailText: "text-background/90",
     wrapper: "",
+    glowColor: "oklch(from var(--color-amber-400) l c h / 0.6)",
   },
   postit: {
     container:
@@ -31,6 +33,7 @@ export const CARD_STYLE_REGISTRY: Record<CardStyle, CardStyleConfig> = {
     detailPrefix: "text-yellow-600",
     detailText: "text-yellow-800",
     wrapper: "rotate-1",
+    glowColor: "oklch(from var(--color-purple-500) l c h / 0.6)",
   },
   window: {
     container: "bg-background border-foreground/50 rounded-lg overflow-hidden",
@@ -40,6 +43,7 @@ export const CARD_STYLE_REGISTRY: Record<CardStyle, CardStyleConfig> = {
     detailPrefix: "text-foreground/40",
     detailText: "text-foreground",
     wrapper: "",
+    glowColor: "oklch(from var(--color-blue-500) l c h / 0.6)",
     titleBar: true,
   },
   code: {
@@ -51,6 +55,7 @@ export const CARD_STYLE_REGISTRY: Record<CardStyle, CardStyleConfig> = {
     detailPrefix: "text-green-600",
     detailText: "text-green-400",
     wrapper: "",
+    glowColor: "oklch(from var(--color-green-500) l c h / 0.6)",
     lineNumbers: true,
   },
 };
@@ -63,6 +68,7 @@ export const DEFAULT_CARD_STYLE: CardStyleConfig = {
   detailPrefix: "text-foreground/40",
   detailText: "text-foreground",
   wrapper: "",
+  glowColor: "oklch(from var(--color-blue-500) l c h / 0.6)",
 };
 
 export function getCardStyle(style: CardStyle): CardStyleConfig {

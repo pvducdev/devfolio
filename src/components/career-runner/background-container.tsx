@@ -1,9 +1,6 @@
 import { motion } from "motion/react";
 import { useShallow } from "zustand/react/shallow";
-import {
-  CAREER_BACKGROUND_CONFIG,
-  MILESTONE_ANIMATION_CONFIG,
-} from "@/config/career-timeline";
+import { CAREER_BACKGROUND_CONFIG } from "@/config/career-timeline";
 import { cn } from "@/lib/utils.ts";
 import { useMilestoneStore } from "@/store/milestone";
 
@@ -15,9 +12,7 @@ export default function BackgroundContainer() {
   return (
     <motion.div
       animate={{
-        opacity: isInMilestoneZone
-          ? MILESTONE_ANIMATION_CONFIG.dimmedOpacity
-          : 1,
+        opacity: isInMilestoneZone ? 0.6 : 1,
         filter: isInMilestoneZone ? "brightness(0.7)" : "brightness(1)",
       }}
       className={cn(
@@ -29,8 +24,8 @@ export default function BackgroundContainer() {
         willChange: "opacity, filter",
       }}
       transition={{
-        duration: MILESTONE_ANIMATION_CONFIG.spotlightDim,
-        ease: MILESTONE_ANIMATION_CONFIG.easing,
+        duration: 0.4,
+        ease: [0.25, 1, 0.5, 1],
       }}
     />
   );

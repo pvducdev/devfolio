@@ -63,7 +63,7 @@ export function useMilestoneDetection(
         ) {
           const section = CAREER_SECTIONS[i];
           if (section && activeSectionId !== section.id) {
-            setActiveSection(section.id, section.jobType);
+            setActiveSection(section.id);
             setMilestoneZone(true);
           }
           return;
@@ -72,7 +72,7 @@ export function useMilestoneDetection(
 
       if (activeSectionId !== null) {
         setMilestoneZone(false);
-        setActiveSection(null, null);
+        setActiveSection(null);
       }
     },
     [

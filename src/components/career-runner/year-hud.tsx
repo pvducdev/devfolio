@@ -1,6 +1,5 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useMemo } from "react";
-import { MILESTONE_ANIMATION_CONFIG } from "@/config/career-timeline";
 
 type YearHUDProps = {
   year: string;
@@ -27,9 +26,9 @@ export function YearHUD({ year }: YearHUDProps) {
                   perspective: 100,
                 }}
                 transition={{
-                  duration: MILESTONE_ANIMATION_CONFIG.yearFlip,
+                  duration: 0.3,
                   delay: index * 0.05,
-                  ease: MILESTONE_ANIMATION_CONFIG.easing,
+                  ease: [0.25, 1, 0.5, 1],
                 }}
               >
                 {digit}

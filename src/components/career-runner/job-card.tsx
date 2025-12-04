@@ -1,12 +1,7 @@
 import { ChevronDown } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
-import {
-  type CardStyle,
-  type ExpandedContent,
-  type JobType,
-  MILESTONE_ANIMATION_CONFIG,
-} from "@/config/career-timeline";
+import type { CardStyle, ExpandedContent } from "@/config/career-timeline";
 import { cn } from "@/lib/utils";
 import { getCardStyle } from "./registries/card-styles";
 
@@ -18,7 +13,6 @@ type JobCardProps = {
   expanded?: ExpandedContent;
   isCurrent?: boolean;
   isActive?: boolean;
-  jobType?: JobType;
 };
 
 export function JobCard({
@@ -29,14 +23,10 @@ export function JobCard({
   expanded,
   isCurrent,
   isActive,
-  jobType,
 }: JobCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const config = getCardStyle(style);
-  const glowColor = jobType
-    ? MILESTONE_ANIMATION_CONFIG.glowColors[jobType]
-    : "transparent";
 
   const canExpand = isActive && expanded;
 
@@ -57,14 +47,10 @@ export function JobCard({
     <div className={cn("transition-transform", config.wrapper)}>
       <motion.div
         animate={{
-          scale: isActive
-            ? MILESTONE_ANIMATION_CONFIG.cardScaleActive
-            : MILESTONE_ANIMATION_CONFIG.cardScaleInactive,
-          opacity: isActive
-            ? MILESTONE_ANIMATION_CONFIG.cardOpacityActive
-            : MILESTONE_ANIMATION_CONFIG.cardOpacityInactive,
+          scale: isActive ? 1.05 : 0.9,
+          opacity: isActive ? 1 : 0.6,
           boxShadow: isActive
-            ? `0 0 20px 5px ${glowColor}, 0 0 40px 10px ${glowColor}`
+            ? `0 0 20px 5px ${config.glowColor}, 0 0 40px 10px ${config.glowColor}`
             : "0 0 0 0 transparent",
         }}
         className={cn(
@@ -81,8 +67,8 @@ export function JobCard({
           transformOrigin: "center center",
         }}
         transition={{
-          duration: MILESTONE_ANIMATION_CONFIG.cardPop,
-          ease: MILESTONE_ANIMATION_CONFIG.easing,
+          duration: 0.5,
+          ease: [0.25, 1, 0.5, 1],
         }}
         whileHover={isActive ? undefined : { y: -2 }}
       >

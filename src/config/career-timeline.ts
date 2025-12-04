@@ -171,32 +171,6 @@ export const RUNNER_CONFIG = {
   // Note: Character is centered dynamically (left-1/2 -translate-x-1/2)
 } as const;
 
-export const MILESTONE_ANIMATION_CONFIG = {
-  // Easing curve: starts fast, slows down gently (soft landing)
-  easing: [0.25, 1, 0.5, 1] as const,
-
-  // Durations (in seconds)
-  spotlightDim: 0.4,
-  cardPop: 0.5,
-  groundPulse: 0.3,
-  yearFlip: 0.3,
-
-  // Opacity and scale values
-  dimmedOpacity: 0.6,
-  cardScaleActive: 1.05,
-  cardScaleInactive: 0.9,
-  cardOpacityActive: 1,
-  cardOpacityInactive: 0.6,
-
-  // Glow colors by job type (using Tailwind v4 oklch colors)
-  glowColors: {
-    fulltime: "oklch(from var(--color-green-500) l c h / 0.6)",
-    parttime: "oklch(from var(--color-blue-500) l c h / 0.6)",
-    freelance: "oklch(from var(--color-purple-500) l c h / 0.6)",
-    education: "oklch(from var(--color-amber-400) l c h / 0.6)",
-  },
-} as const;
-
 export const INFINITE_SCROLL_CONFIG = {
   // Number of sections to clone at each end for seamless looping
   leadingCloneSections: 3, // Clone last 3 sections at the start
