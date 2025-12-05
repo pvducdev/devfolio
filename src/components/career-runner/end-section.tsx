@@ -1,4 +1,3 @@
-import { ChevronLeft } from "lucide-react";
 import type { Variants } from "motion/react";
 import { motion, stagger, useReducedMotion } from "motion/react";
 
@@ -66,41 +65,6 @@ function TitleSection({
   );
 }
 
-function RestartHint({
-  prefersReducedMotion,
-}: {
-  prefersReducedMotion: boolean;
-}) {
-  return (
-    <motion.div
-      className="mb-12 flex items-center justify-center"
-      {...(!prefersReducedMotion && { variants: itemVariants })}
-    >
-      <div className="flex items-center gap-1 border border-border px-4 py-2">
-        <motion.div
-          {...(!prefersReducedMotion && {
-            animate: {
-              opacity: [1, 0.4, 1],
-              x: [0, -4, 0],
-            },
-            transition: {
-              repeat: Number.POSITIVE_INFINITY,
-              duration: 2,
-              ease: "easeInOut",
-            },
-          })}
-        >
-          <ChevronLeft className="size-3 text-primary" />
-        </motion.div>
-        <div className="h-px w-32 bg-border" />
-        <span className="text-[10px] text-muted-foreground uppercase tracking-wider">
-          restart
-        </span>
-      </div>
-    </motion.div>
-  );
-}
-
 export function EndSection() {
   const prefersReducedMotion = useReducedMotion() ?? false;
 
@@ -125,8 +89,6 @@ export function EndSection() {
         <br />
         Thanks for explore.
       </motion.p>
-
-      <RestartHint prefersReducedMotion={prefersReducedMotion} />
     </motion.div>
   );
 }

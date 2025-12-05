@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import type { Variants } from "motion/react";
 import { motion, stagger, useReducedMotion } from "motion/react";
 
@@ -66,39 +66,6 @@ function TitleSection({
   );
 }
 
-function ScrollHint({
-  prefersReducedMotion,
-}: {
-  prefersReducedMotion: boolean;
-}) {
-  return (
-    <motion.div
-      className="mb-12 flex items-center justify-center"
-      {...(!prefersReducedMotion && { variants: itemVariants })}
-    >
-      <div className="flex items-center gap-1 border border-border px-4 py-2">
-        <ChevronLeft className="size-3 text-muted-foreground" />
-        <div className="h-px w-48 bg-border" />
-        <motion.div
-          {...(!prefersReducedMotion && {
-            animate: {
-              opacity: [1, 0.4, 1],
-              x: [0, 4, 0],
-            },
-            transition: {
-              repeat: Number.POSITIVE_INFINITY,
-              duration: 2,
-              ease: "easeInOut",
-            },
-          })}
-        >
-          <ChevronRight className="size-3 text-primary" />
-        </motion.div>
-      </div>
-    </motion.div>
-  );
-}
-
 function TipBox({ prefersReducedMotion }: { prefersReducedMotion: boolean }) {
   return (
     <motion.div
@@ -147,8 +114,6 @@ export function StarterSection() {
         <br />
         from education to senior engineer.
       </motion.p>
-
-      <ScrollHint prefersReducedMotion={prefersReducedMotion} />
 
       <TipBox prefersReducedMotion={prefersReducedMotion} />
 

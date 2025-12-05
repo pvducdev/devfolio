@@ -30,7 +30,11 @@ export function CareerRunner() {
         <StarterSection />
 
         {CAREER_SECTIONS.map((section) => (
-          <CareerSection key={section.id} section={section} />
+          <CareerSection
+            containerRef={containerRef}
+            key={section.id}
+            section={section}
+          />
         ))}
 
         <EndSection />
