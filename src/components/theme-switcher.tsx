@@ -1,5 +1,5 @@
 import { Check, Palette } from "lucide-react";
-import { useState } from "react";
+import { useBoolean } from "usehooks-ts";
 import { useShallow } from "zustand/react/shallow";
 import { Button } from "@/components/ui/button.tsx";
 import {
@@ -18,7 +18,7 @@ import { cn } from "@/lib/utils.ts";
 import { useThemeStore } from "@/store/theme.ts";
 
 export default function ThemeSwitcher() {
-  const [open, setOpen] = useState(false);
+  const { value: open, setValue: setOpen } = useBoolean(false);
   const [theme, setTheme] = useThemeStore(
     useShallow((state) => [state.theme, state.setTheme])
   );
