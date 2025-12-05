@@ -157,6 +157,6 @@ export const CHARACTER_CONFIG = {
 } as const;
 
 export const UI_CONFIG = {
-  sectionMargin: "0px -300px",
+  sectionMargin: "0px -200px",
   sectionSpace: "space-x-400",
 } as const;
