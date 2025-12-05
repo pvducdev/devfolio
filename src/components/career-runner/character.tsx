@@ -1,15 +1,16 @@
 import { useRive, useStateMachineInput } from "@rive-app/react-canvas";
 import { useEffect } from "react";
-import { useShallow } from "zustand/react/shallow";
 import { CHARACTER_CONFIG } from "@/config/career-timeline";
-import { useCareerStore } from "@/store/career";
+import {
+  useCareerActiveSection,
+  useCareerLooping,
+  useCareerScrolling,
+} from "@/store/career";
 
-type CharacterProps = {
-  isRunning: boolean;
-};
-
-export function Character({ isRunning }: CharacterProps) {
-  const activeSection = useCareerStore(useShallow((s) => s.activeSection));
+export function Character() {
+  const activeSection = useCareerActiveSection();
+  const careerScrolling = useCareerScrolling();
+  const careerLooping = useCareerLooping();
 
   const { rive, RiveComponent } = useRive({
     src: CHARACTER_CONFIG.src,
@@ -30,14 +31,16 @@ export function Character({ isRunning }: CharacterProps) {
 
     const { states } = CHARACTER_CONFIG;
 
-    if (activeSection) {
+    if (careerLooping) {
+      stateInput.value = states.running;
+    } else if (activeSection) {
       stateInput.value = states.milestone;
-    } else if (isRunning) {
+    } else if (careerScrolling) {
       stateInput.value = states.running;
     } else {
       stateInput.value = states.idle;
     }
-  }, [activeSection, isRunning, stateInput]);
+  }, [activeSection, stateInput, careerLooping, careerScrolling]);
 
   return (
     <div

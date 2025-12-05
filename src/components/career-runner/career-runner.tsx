@@ -1,32 +1,22 @@
-import { useEffect, useRef } from "react";
-import { useShallow } from "zustand/react/shallow";
 import { CAREER_SECTIONS, UI_CONFIG } from "@/config/career-timeline";
 import { useCareerScroll } from "@/hooks/use-career-scroll";
 import { cn } from "@/lib/utils.ts";
-import { useCareerStore } from "@/store/career";
 import { CareerSection } from "./career-section";
 import { Character } from "./character";
+import { EndSection } from "./end-section";
 import { Ground } from "./ground";
 import { StarterSection } from "./starter-section";
 import { YearHUD } from "./year-hud";
 
 export function CareerRunner() {
-  const { containerRef, isScrolling } = useCareerScroll();
-  const activeSection = useCareerStore(useShallow((s) => s.activeSection));
-  const prevSection = useRef<typeof activeSection>(null);
-
-  useEffect(() => {
-    if (activeSection) {
-      prevSection.current = activeSection;
-    }
-  }, [activeSection]);
+  const { containerRef } = useCareerScroll();
 
   return (
     <div className="relative size-full overflow-hidden bg-background font-mono">
       <YearHUD />
 
       <div className="-translate-x-1/2 -bottom-2 absolute left-1/2 z-10">
-        <Character isRunning={isScrolling} />
+        <Character />
       </div>
 
       <section
@@ -42,7 +32,10 @@ export function CareerRunner() {
         {CAREER_SECTIONS.map((section) => (
           <CareerSection key={section.id} section={section} />
         ))}
-        <div className="w-52 shrink-0" />
+
+        <EndSection />
+
+        <div className="sr-only" />
       </section>
 
       <Ground />
