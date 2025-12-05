@@ -1,14 +1,15 @@
 import { useRive, useStateMachineInput } from "@rive-app/react-canvas";
 import { useEffect } from "react";
+import { useShallow } from "zustand/react/shallow";
 import { CHARACTER_CONFIG } from "@/config/career-timeline";
-import { useMilestoneStore } from "@/store/milestone";
+import { useCareerStore } from "@/store/career";
 
 type CharacterProps = {
   isRunning: boolean;
 };
 
 export function Character({ isRunning }: CharacterProps) {
-  const isInMilestoneZone = useMilestoneStore((s) => s.isInMilestoneZone);
+  const activeSection = useCareerStore(useShallow((s) => s.activeSection));
 
   const { rive, RiveComponent } = useRive({
     src: CHARACTER_CONFIG.src,
@@ -27,14 +28,16 @@ export function Character({ isRunning }: CharacterProps) {
       return;
     }
 
-    if (isInMilestoneZone) {
-      stateInput.value = 4;
+    const { states } = CHARACTER_CONFIG;
+
+    if (activeSection) {
+      stateInput.value = states.milestone;
     } else if (isRunning) {
-      stateInput.value = 1;
+      stateInput.value = states.running;
     } else {
-      stateInput.value = 0;
+      stateInput.value = states.idle;
     }
-  }, [isInMilestoneZone, isRunning, stateInput]);
+  }, [activeSection, isRunning, stateInput]);
 
   return (
     <div

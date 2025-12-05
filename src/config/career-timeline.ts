@@ -153,25 +153,10 @@ export const CHARACTER_CONFIG = {
   stateMachine: "machine",
   runningInput: "Number 1",
   size: { width: 128, height: 128 },
+  states: { idle: 0, running: 1, milestone: 4 },
 } as const;
 
-export const RUNNER_CONFIG = {
-  // Values used in JS calculations (infinite scroll, milestone detection)
-  sectionWidth: 1000, // w-[1000px] in Section component
-  spacerWidth: 144, // w-36 (144px) in CareerRunner spacer divs
-  paddingEnd: 208, // w-52 (208px) in CareerRunner padding div
-  // Note: Character is centered dynamically (left-1/2 -translate-x-1/2)
-} as const;
-
-export const INFINITE_SCROLL_CONFIG = {
-  // Number of sections to clone at each end for seamless looping
-  leadingCloneSections: 3, // Clone last 3 sections at the start
-  trailingCloneSections: 2, // Clone first 2 sections at the end
-  includeLoopConnectorInClone: true,
-
-  // Teleport triggers when scroll enters clone zone past this threshold
-  teleportThreshold: 200,
-
-  // Debounce to prevent rapid oscillation during fast scrolling
-  teleportDebounceMs: 50,
+export const UI_CONFIG = {
+  sectionMargin: "0px 100px",
+  sectionSpace: "space-x-400",
 } as const;

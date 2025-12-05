@@ -13,7 +13,6 @@ type JobCardProps = {
   subtitle: string;
   details: string[];
   expanded?: ExpandedContent;
-  isCurrent?: boolean;
   isActive?: boolean;
 };
 
@@ -22,8 +21,7 @@ export function JobCard({
   subtitle,
   details,
   expanded,
-  isCurrent,
-  isActive,
+  isActive = false,
 }: JobCardProps) {
   const {
     value: isExpanded,
@@ -31,7 +29,7 @@ export function JobCard({
     setFalse: collapse,
   } = useBoolean(false);
 
-  const canExpand = isActive && expanded;
+  const canExpand = isActive && !!expanded;
 
   useEffect(() => {
     if (!isActive) {
@@ -57,9 +55,7 @@ export function JobCard({
         }}
         className={cn(
           "border border-border bg-transparent p-3 font-mono",
-          isExpanded ? "w-72" : "w-48",
-          !!isCurrent && "border-2",
-          !!canExpand && "cursor-pointer"
+          isExpanded ? "w-72" : "w-48"
         )}
         layout
         onClick={handleClick}

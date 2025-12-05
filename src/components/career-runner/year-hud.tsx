@@ -1,12 +1,19 @@
 import { AnimatePresence, motion } from "motion/react";
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
+import { useShallow } from "zustand/react/shallow";
+import { useCareerStore } from "@/store/career.ts";
 
-type YearHUDProps = {
-  year: string;
-};
+export function YearHUD() {
+  const activeSection = useCareerStore(useShallow((s) => s.activeSection));
+  const [year, setYear] = useState<string>("Starting...");
 
-export function YearHUD({ year }: YearHUDProps) {
-  const digits = useMemo(() => year.split(""), [year]);
+  useEffect(() => {
+    if (activeSection) {
+      setYear(activeSection.year);
+    }
+  }, [activeSection]);
+
+  const digits = year.split("");
 
   return (
     <div className="absolute top-4 right-4 z-50">

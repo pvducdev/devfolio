@@ -1,26 +1,29 @@
-import {
-  CAREER_SECTIONS,
-  INFINITE_SCROLL_CONFIG,
-} from "@/config/career-timeline";
+import { useEffect, useRef } from "react";
+import { useShallow } from "zustand/react/shallow";
+import { CAREER_SECTIONS, UI_CONFIG } from "@/config/career-timeline";
 import { useCareerScroll } from "@/hooks/use-career-scroll";
-import { CareerSectionContent } from "./career-section";
+import { cn } from "@/lib/utils.ts";
+import { useCareerStore } from "@/store/career";
+import { CareerSection } from "./career-section";
 import { Character } from "./character";
 import { Ground } from "./ground";
-import { LoopConnector } from "./loop-connector";
+import { StarterSection } from "./starter-section";
 import { YearHUD } from "./year-hud";
 
-const ALIGNMENT_TOLERANCE = 250;
-
 export function CareerRunner() {
-  const { containerRef, isScrolling, currentSection, activeSectionId } =
-    useCareerScroll({
-      teleportDebounceMs: INFINITE_SCROLL_CONFIG.teleportDebounceMs,
-      alignmentTolerance: ALIGNMENT_TOLERANCE,
-    });
+  const { containerRef, isScrolling } = useCareerScroll();
+  const activeSection = useCareerStore(useShallow((s) => s.activeSection));
+  const prevSection = useRef<typeof activeSection>(null);
+
+  useEffect(() => {
+    if (activeSection) {
+      prevSection.current = activeSection;
+    }
+  }, [activeSection]);
 
   return (
-    <div className="scrollbar-none relative h-full min-h-100 w-full overflow-hidden bg-background font-mono">
-      <YearHUD year={currentSection.year} />
+    <div className="relative size-full overflow-hidden bg-background font-mono">
+      <YearHUD />
 
       <div className="-translate-x-1/2 -bottom-2 absolute left-1/2 z-10">
         <Character isRunning={isScrolling} />
@@ -28,52 +31,18 @@ export function CareerRunner() {
 
       <section
         aria-label="Career timeline"
-        className="scrollbar-none flex h-full overflow-x-auto"
+        className={cn(
+          "scrollbar-none flex h-full overflow-x-auto",
+          UI_CONFIG.sectionSpace
+        )}
         ref={containerRef}
       >
-        {CAREER_SECTIONS.slice(
-          -INFINITE_SCROLL_CONFIG.leadingCloneSections
-        ).map((section, cloneIdx) => {
-          const originalIndex =
-            CAREER_SECTIONS.length -
-            INFINITE_SCROLL_CONFIG.leadingCloneSections +
-            cloneIdx;
-          return (
-            <CareerSectionContent
-              isActive={activeSectionId === section.id}
-              isCurrent={originalIndex === CAREER_SECTIONS.length - 1}
-              key={`clone-leading-${section.id}`}
-              section={section}
-            />
-          );
-        })}
-        <LoopConnector />
-        <div className="w-36 shrink-0" />
+        <StarterSection />
 
-        <div className="w-36 shrink-0" />
-        {CAREER_SECTIONS.map((section, index) => (
-          <CareerSectionContent
-            isActive={activeSectionId === section.id}
-            isCurrent={index === CAREER_SECTIONS.length - 1}
-            key={section.id}
-            section={section}
-          />
+        {CAREER_SECTIONS.map((section) => (
+          <CareerSection key={section.id} section={section} />
         ))}
-        <LoopConnector />
         <div className="w-52 shrink-0" />
-
-        <div className="w-36 shrink-0" />
-        {CAREER_SECTIONS.slice(
-          0,
-          INFINITE_SCROLL_CONFIG.trailingCloneSections
-        ).map((section) => (
-          <CareerSectionContent
-            isActive={activeSectionId === section.id}
-            isCurrent={false}
-            key={`clone-trailing-${section.id}`}
-            section={section}
-          />
-        ))}
       </section>
 
       <Ground />
