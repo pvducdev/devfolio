@@ -83,6 +83,7 @@ pnpx shadcn@latest add button    # Add shadcn components
 - **Biome** for linting and formatting
 - **Ultracite** for additional code quality checks
 - **Vitest** for testing
+- **@inlang/paraglide-js** for type-safe internationalization
 
 ### Path Aliases
 - `@/*` maps to `src/*` (configured in tsconfig.json and vite-tsconfig-paths)
@@ -99,13 +100,23 @@ pnpx shadcn@latest add button    # Add shadcn components
 - Available themes defined in `src/config/theme.ts`
 - Main styles in `src/styles.css`
 
+### Internationalization (i18n)
+- **Framework**: Paraglide.js with Inlang
+- **Supported Locales**: `en` (source), `vi`
+- **Message Files**: `messages/{locale}/*.json` - modular by domain (common, navigation, pages, ui, career, assistant, commands)
+- **Auto-generation**: `src/paraglide/` is auto-generated, do not edit manually
+- **Configuration**: `project.inlang/settings.json`
+- **Usage**: Import from `@/paraglide/messages.js` and `@/paraglide/runtime.js`
+- **Locale Detection**: cookie (`PARAGLIDE_LOCALE`) → browser preference → baseLocale
+- **Server Integration**: Paraglide middleware in `src/server.ts`
+
 ### Git Hooks
 - **Lefthook** configured for pre-commit hooks
 - Runs `bun x ultracite fix` on staged files: `.js`, `.jsx`, `.ts`, `.tsx`, `.json`, `.jsonc`, `.css`
 - Auto-stages fixed files
 
 ### Biome Configuration
-- Excludes: `src/routeTree.gen.ts`, `src/components/ui/**/*`, `src/components/ai-elements`, `src/styles.css`
+- Excludes: `src/routeTree.gen.ts`, `src/components/ui/**/*`, `src/components/ai-elements`, `src/styles.css`, `src/paraglide/**/*`
 - Quote style: double quotes
 - Import organization enabled
 - Extends ultracite configuration
@@ -126,3 +137,5 @@ pnpx shadcn@latest add button    # Add shadcn components
 7. **Coding Style**: Avoid comments, prefer Tailwind utility classes over arbitrary values (w-10 > w-[40px])
 8. **MDX Files**: Can be imported as components; custom components provided via `src/mdx-components.tsx`
 9. **SSR**: `streamdown` package is bundled for SSR via `ssr.noExternal` in vite.config.ts
+10. **Paraglide Files**: Never edit `src/paraglide/` - it's regenerated from message files in `messages/`
+11. **Adding Translations**: Add keys to `messages/en/*.json`, then add translations to `messages/vi/*.json`
