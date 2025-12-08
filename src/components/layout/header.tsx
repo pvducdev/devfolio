@@ -16,6 +16,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SITE_CONFIG } from "@/config/site.ts";
+import {
+  ui_keyboard_shortcuts,
+  ui_language,
+  ui_layout_normal,
+  ui_layout_stretch,
+  ui_settings,
+} from "@/paraglide/messages.js";
 import { useAppLayoutStore } from "@/store/app-layout.ts";
 import { Badge } from "../ui/badge";
 
@@ -34,7 +41,7 @@ export default function Header() {
           className="group size-3 rounded-full bg-green-500 hover:bg-green-500"
           onClick={toggleStretchLayout}
           size="icon"
-          tooltip={isStretchLayout ? "Normal Layout" : "Stretch Layout"}
+          tooltip={isStretchLayout ? ui_layout_normal() : ui_layout_stretch()}
         >
           {isStretchLayout ? (
             <Shrink className="size-2 opacity-0 transition-opacity group-hover:opacity-100" />
@@ -64,19 +71,19 @@ export default function Header() {
             <ButtonWithTooltip
               className="size-7"
               size="icon"
-              tooltip="Settings"
+              tooltip={ui_settings()}
               variant="ghost"
             >
               <Settings className="size-4" />
             </ButtonWithTooltip>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">
-            <DropdownMenuLabel>Language</DropdownMenuLabel>
+            <DropdownMenuLabel>{ui_language()}</DropdownMenuLabel>
             <LanguageSwitcher />
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                Keyboard shortcuts
+                {ui_keyboard_shortcuts()}
                 <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
               </DropdownMenuItem>
             </DropdownMenuGroup>

@@ -21,6 +21,18 @@ import {
   CommandShortcut,
 } from "@/components/ui/command.tsx";
 import { Kbd, KbdGroup } from "@/components/ui/kbd.tsx";
+import {
+  ui_billing,
+  ui_calculator,
+  ui_calendar,
+  ui_no_results,
+  ui_profile,
+  ui_search,
+  ui_search_emoji,
+  ui_search_placeholder,
+  ui_settings,
+  ui_suggestions,
+} from "@/paraglide/messages.js";
 
 export default function AppSearch() {
   const { value: open, toggle, setValue: setOpen } = useBoolean(false);
@@ -35,7 +47,7 @@ export default function AppSearch() {
         size="icon"
         tooltip={
           <div className="flex items-center space-x-2">
-            <span>Search</span>
+            <span>{ui_search()}</span>
             <KbdGroup>
               <Kbd>⌘</Kbd>
               <Kbd>K</Kbd>
@@ -47,38 +59,38 @@ export default function AppSearch() {
         <Search className="size-4" />
       </ButtonWithTooltip>
       <CommandDialog onOpenChange={setOpen} open={open}>
-        <CommandInput placeholder="Type a command or search..." />
+        <CommandInput placeholder={ui_search_placeholder()} />
         <CommandList>
-          <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="Suggestions">
+          <CommandEmpty>{ui_no_results()}</CommandEmpty>
+          <CommandGroup heading={ui_suggestions()}>
             <CommandItem>
               <Calendar />
-              <span>Calendar</span>
+              <span>{ui_calendar()}</span>
             </CommandItem>
             <CommandItem>
               <Smile />
-              <span>Search Emoji</span>
+              <span>{ui_search_emoji()}</span>
             </CommandItem>
             <CommandItem>
               <Calculator />
-              <span>Calculator</span>
+              <span>{ui_calculator()}</span>
             </CommandItem>
           </CommandGroup>
           <CommandSeparator />
-          <CommandGroup heading="Settings">
+          <CommandGroup heading={ui_settings()}>
             <CommandItem>
               <User />
-              <span>Profile</span>
+              <span>{ui_profile()}</span>
               <CommandShortcut>⌘P</CommandShortcut>
             </CommandItem>
             <CommandItem>
               <CreditCard />
-              <span>Billing</span>
+              <span>{ui_billing()}</span>
               <CommandShortcut>⌘B</CommandShortcut>
             </CommandItem>
             <CommandItem>
               <Settings />
-              <span>Settings</span>
+              <span>{ui_settings()}</span>
               <CommandShortcut>⌘S</CommandShortcut>
             </CommandItem>
           </CommandGroup>

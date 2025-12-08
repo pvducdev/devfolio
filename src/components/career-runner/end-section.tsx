@@ -1,5 +1,10 @@
 import type { Variants } from "motion/react";
 import { motion, stagger, useReducedMotion } from "motion/react";
+import {
+  career_eof,
+  career_thanks,
+  career_timeline_complete,
+} from "@/paraglide/messages.js";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -34,7 +39,7 @@ function TitleSection({
         className="mb-1 font-bold text-foreground text-xl uppercase tracking-wide"
         {...(!prefersReducedMotion && { variants: itemVariants })}
       >
-        {"> EOF"}
+        {career_eof()}
         {!prefersReducedMotion && (
           <motion.span
             animate={{ opacity: [1, 0] }}
@@ -85,9 +90,9 @@ export function EndSection() {
         className="mb-8 text-right text-muted-foreground text-xs leading-relaxed"
         {...(!prefersReducedMotion && { variants: itemVariants })}
       >
-        Timeline complete.
+        {career_timeline_complete()}
         <br />
-        Thanks for explore.
+        {career_thanks()}
       </motion.p>
     </motion.div>
   );

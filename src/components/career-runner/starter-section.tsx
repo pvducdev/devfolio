@@ -1,6 +1,14 @@
 import { ChevronDown } from "lucide-react";
 import type { Variants } from "motion/react";
 import { motion, stagger, useReducedMotion } from "motion/react";
+import {
+  career_explore_journey,
+  career_explore_journey_sub,
+  career_help_text,
+  career_pro_tip,
+  career_scroll_hint,
+  career_title,
+} from "@/paraglide/messages.js";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -35,7 +43,7 @@ function TitleSection({
         className="mb-1 font-bold text-foreground text-xl uppercase tracking-wide"
         {...(!prefersReducedMotion && { variants: itemVariants })}
       >
-        {"> CAREER_TIMELINE"}
+        {career_title()}
         {!prefersReducedMotion && (
           <motion.span
             animate={{ opacity: [1, 0] }}
@@ -80,12 +88,10 @@ function TipBox({ prefersReducedMotion }: { prefersReducedMotion: boolean }) {
     >
       <div className="mb-1 flex items-start gap-2">
         <span className="font-bold text-[10px] text-primary uppercase tracking-wider">
-          PRO TIP:
+          {career_pro_tip()}
         </span>
       </div>
-      <p className="text-foreground text-xs">
-        Click any role card to view tech stack, achievements, and impact metrics
-      </p>
+      <p className="text-foreground text-xs">{career_help_text()}</p>
     </motion.div>
   );
 }
@@ -110,9 +116,9 @@ export function StarterSection() {
         className="mb-8 text-muted-foreground text-xs leading-relaxed"
         {...(!prefersReducedMotion && { variants: itemVariants })}
       >
-        Explore my professional journey
+        {career_explore_journey()}
         <br />
-        from education to senior engineer.
+        {career_explore_journey_sub()}
       </motion.p>
 
       <TipBox prefersReducedMotion={prefersReducedMotion} />
@@ -121,7 +127,7 @@ export function StarterSection() {
         className="mb-6 text-center text-[10px] text-muted-foreground tracking-wide"
         {...(!prefersReducedMotion && { variants: itemVariants })}
       >
-        Scroll to explore roles →
+        {career_scroll_hint()}
       </motion.p>
 
       <motion.div

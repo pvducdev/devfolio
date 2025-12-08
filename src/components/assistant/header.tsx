@@ -1,5 +1,6 @@
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button.tsx";
+import { assistant_header_title } from "@/paraglide/messages.js";
 
 type AiHeaderProps = {
   title?: string;
@@ -7,7 +8,7 @@ type AiHeaderProps = {
 };
 
 export default function AssistantHeader({
-  title = "Assistant",
+  title = assistant_header_title(),
   onClose,
 }: AiHeaderProps) {
   return (

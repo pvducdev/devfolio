@@ -11,5 +11,62 @@
   "assistant_placeholder": "Ask me about D...",
   "assistant_suggestion_skills": "What are D's core skills?",
   "assistant_suggestion_experience": "Tell me about D's experience",
-  "assistant_suggestion_projects": "What projects has D worked on?"
+  "assistant_suggestion_projects": "What projects has D worked on?",
+
+  "ui_layout_normal": "Normal Layout",
+  "ui_layout_stretch": "Stretch Layout",
+  "ui_settings": "Settings",
+  "ui_language": "Language",
+  "ui_keyboard_shortcuts": "Keyboard shortcuts",
+  "ui_home": "Home",
+  "ui_open_to_work": "Open to work",
+  "ui_hired": "Hired.exe",
+  "ui_search": "Search",
+  "ui_search_placeholder": "Type a command or search...",
+  "ui_no_results": "No results found.",
+  "ui_suggestions": "Suggestions",
+  "ui_calendar": "Calendar",
+  "ui_search_emoji": "Search Emoji",
+  "ui_calculator": "Calculator",
+  "ui_profile": "Profile",
+  "ui_billing": "Billing",
+  "ui_loading": "Loading...",
+
+  "resume_my_cv": "My CV",
+  "resume_cancel": "Cancel",
+  "resume_downloading": "Downloading...",
+  "resume_download": "Download now",
+
+  "career_title": "> CAREER_TIMELINE",
+  "career_pro_tip": "PRO TIP:",
+  "career_help_text": "Click any role card to view tech stack, achievements, and impact metrics",
+  "career_explore_journey": "Explore my professional journey",
+  "career_explore_journey_sub": "from education to senior engineer.",
+  "career_scroll_hint": "Scroll to explore roles →",
+  "career_eof": "> EOF",
+  "career_timeline_complete": "Timeline complete.",
+  "career_thanks": "Thanks for exploring.",
+  "career_stack": "Stack",
+  "career_tools": "Tools",
+  "career_infra": "Infra",
+  "career_metrics": "Metrics",
+  "career_year": "YEAR",
+
+  "assistant_trigger_tooltip": "HeyD Assistant",
+  "assistant_no_commands": "No commands found.",
+  "assistant_commands": "Commands",
+
+  "welcome_title": "Welcome to",
+  "welcome_workspace_desc": "Designed in a {highlight} workspace",
+  "welcome_webstorm": "Web Storm–inspired",
+
+  "theme_select": "Select theme...",
+
+  "sidebar_career_title": "Career Journey",
+  "sidebar_career_description": "View my career as an interactive side-scrolling timeline",
+  "sidebar_open_career_runner": "Open Career Runner",
+
+  "error_loading_file": "Error loading file",
+  "error_file_path_hint": "Make sure the file path is relative to src/ directory",
+  "error_failed_load": "Failed to load file"
 }

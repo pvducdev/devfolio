@@ -4,13 +4,15 @@ import WelcomeActivity from "@/components/welcome/activity.tsx";
 import { PERSONAL_INFO } from "@/config/personal.ts";
 import { activities } from "@/config/routes.ts";
 import { SITE_CONFIG } from "@/config/site.ts";
+import { welcome_title, welcome_webstorm } from "@/paraglide/messages.js";
 
 export default function WelcomeContainer() {
   return (
     <div className="flex h-screen flex-col items-center justify-center px-4 font-sans">
       <div className="w-full max-w-md text-center">
         <h1 className="mb-3 font-semibold text-4xl tracking-tight">
-          Welcome to <span className="text-primary">{SITE_CONFIG.title}</span>
+          {welcome_title()}{" "}
+          <span className="text-primary">{SITE_CONFIG.title}</span>
         </h1>
         <p className="mb-10 text-gray-600 leading-relaxed">
           {PERSONAL_INFO.about.shortBio}
@@ -44,8 +46,8 @@ export default function WelcomeContainer() {
         </div>
 
         <p className="mt-10 text-gray-400 text-xs">
-          Designed in a <span className="text-primary">Web Storm–inspired</span>{" "}
-          workspace
+          Designed in a{" "}
+          <span className="text-primary">{welcome_webstorm()}</span> workspace
         </p>
       </div>
     </div>
