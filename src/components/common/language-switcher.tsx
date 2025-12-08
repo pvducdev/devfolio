@@ -1,9 +1,10 @@
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs.tsx";
+import { ui_lang_en, ui_lang_vi } from "@/paraglide/messages.js";
 import { getLocale, locales, setLocale } from "@/paraglide/runtime.js";
 
-const localeLabels: Record<string, string> = {
-  en: "EN",
-  vi: "VI",
+const localeLabels: Record<string, () => string> = {
+  en: ui_lang_en,
+  vi: ui_lang_vi,
 };
 
 export function LanguageSwitcher() {
@@ -17,7 +18,7 @@ export function LanguageSwitcher() {
       <TabsList className="h-7 w-full">
         {locales.map((locale) => (
           <TabsTrigger className="px-2 text-xs" key={locale} value={locale}>
-            {localeLabels[locale] ?? locale.toUpperCase()}
+            {localeLabels[locale]?.() ?? locale.toUpperCase()}
           </TabsTrigger>
         ))}
       </TabsList>

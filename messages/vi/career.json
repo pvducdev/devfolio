@@ -7,32 +7,7 @@
   "label_career_metrics": "Chỉ số",
   "label_career_year": "NĂM",
   "label_career_protip": "MẸO HAY:",
-  "label_career_present": "Hiện tại",
 
   "label_status_opentowork": "Sẵn sàng làm việc",
-  "label_status_hired": "Đã có việc",
-
-  "job_01_role": "Khoa học Máy tính",
-  "job_01_company": "Tên Trường Đại học",
-  "job_01_summary": "Học các nền tảng khoa học máy tính, thuật toán và nguyên lý kỹ thuật phần mềm.",
-  "job_01_highlight1": "Bằng Cử nhân",
-  "job_01_highlight2": "Khóa 2020",
-
-  "job_02_role": "Lập trình viên Tự do",
-  "job_02_company": "Làm việc từ xa",
-  "job_02_summary": "Xây dựng website và ứng dụng web cho doanh nghiệp nhỏ và startup với tư cách freelancer.",
-  "job_02_highlight1": "Dự án khách hàng đầu tiên",
-
-  "job_03_role": "Lập trình viên Junior",
-  "job_03_company": "Công ty Khởi nghiệp",
-  "job_03_summary": "Tham gia startup giai đoạn đầu để xây dựng tính năng sản phẩm và học quy trình phát triển chuyên nghiệp.",
-  "job_03_highlight1": "Làm việc nhóm",
-
-  "job_04_role": "Lập trình viên Frontend",
-  "job_04_company": "Công ty Công nghệ",
-  "job_04_summary": "Dẫn dắt phát triển frontend cho sản phẩm SaaS doanh nghiệp, tập trung vào hiệu suất và khả năng mở rộng.",
-
-  "job_05_role": "Lập trình viên Frontend Cao cấp",
-  "job_05_company": "Công ty Hiện tại",
-  "job_05_summary": "Thiết kế kiến trúc ứng dụng web hiện đại với công nghệ tiên tiến và hướng dẫn đội ngũ frontend."
+  "label_status_hired": "Đã có việc"
 }

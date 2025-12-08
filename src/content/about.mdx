@@ -1,11 +1,6 @@
 import { CodeGridAccent } from '../components/common/code-grid-accent';
 import { PERSONAL_INFO } from '../config/personal';
-import {
-  nav_social_github,
-  nav_social_gitlab,
-  nav_social_linkedin,
-  page_portfolio_header,
-} from '../paraglide/messages.js';
+import { page_portfolio_header } from '../paraglide/messages.js';
 
 <div className="relative min-h-screen">
   <CodeGridAccent variant="neutral" gridSize="medium" />
@@ -45,7 +40,7 @@ import {
           target="_blank"
           rel="noopener noreferrer"
         >
-          {nav_social_linkedin()}
+          LinkedIn
         </a>
         <span aria-hidden="true">·</span>
         <a
@@ -54,7 +49,7 @@ import {
           target="_blank"
           rel="noopener noreferrer"
         >
-          {nav_social_github()}
+          GitHub
         </a>
         <span aria-hidden="true">·</span>
         <a
@@ -63,7 +58,7 @@ import {
           target="_blank"
           rel="noopener noreferrer"
         >
-          {nav_social_gitlab()}
+          GitLab
         </a>
       </nav>
 

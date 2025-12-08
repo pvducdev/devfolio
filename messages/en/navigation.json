@@ -3,9 +3,5 @@
 
   "nav_main_about": "About me",
   "nav_main_experience": "Experience",
-  "nav_main_projects": "Projects",
-
-  "nav_social_linkedin": "LinkedIn",
-  "nav_social_github": "GitHub",
-  "nav_social_gitlab": "GitLab"
+  "nav_main_projects": "Projects"
 }

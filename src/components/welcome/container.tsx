@@ -4,10 +4,7 @@ import WelcomeActivity from "@/components/welcome/activity.tsx";
 import { PERSONAL_INFO } from "@/config/personal.ts";
 import { activities } from "@/config/routes.ts";
 import { SITE_CONFIG } from "@/config/site.ts";
-import {
-  page_welcome_highlight,
-  page_welcome_title,
-} from "@/paraglide/messages.js";
+import { page_welcome_desc, page_welcome_title } from "@/paraglide/messages.js";
 
 export default function WelcomeContainer() {
   return (
@@ -49,9 +46,7 @@ export default function WelcomeContainer() {
         </div>
 
         <p className="mt-10 text-gray-400 text-xs">
-          Designed in a{" "}
-          <span className="text-primary">{page_welcome_highlight()}</span>{" "}
-          workspace
+          {page_welcome_desc({ highlight: "WebStorm" })}
         </p>
       </div>
     </div>

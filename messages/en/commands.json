@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "cmd_clear_desc": "Clear all messages and reset the conversation",
+  "cmd_clear_success": "Conversation cleared",
+
+  "cmd_help_desc": "Show available commands",
+  "cmd_help_title": "Available Commands",
+  "cmd_help_intro": "Type a command starting with `/` to execute it.",
+  "cmd_help_tip": "Tip: Press `Tab` to autocomplete commands while typing.",
+  "cmd_help_clear": "Clears the conversation",
+  "cmd_help_help": "Shows this help message",
+  "cmd_help_theme": "Changes the theme",
+
+  "cmd_theme_desc": "Change the application theme",
+  "cmd_theme_usage": "Usage: /theme <name>",
+  "cmd_theme_invalid": "Invalid theme \"{themeName}\". Available: {themes}",
+  "cmd_theme_success": "Theme changed to \"{themeName}\""
+}

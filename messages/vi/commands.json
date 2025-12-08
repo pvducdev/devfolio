@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "cmd_clear_desc": "Xóa tất cả tin nhắn và đặt lại cuộc trò chuyện",
+  "cmd_clear_success": "Đã xóa cuộc trò chuyện",
+
+  "cmd_help_desc": "Hiển thị các lệnh có sẵn",
+  "cmd_help_title": "Các lệnh có sẵn",
+  "cmd_help_intro": "Nhập lệnh bắt đầu bằng `/` để thực thi.",
+  "cmd_help_tip": "Mẹo: Nhấn `Tab` để tự động hoàn thành lệnh khi nhập.",
+  "cmd_help_clear": "Xóa cuộc trò chuyện",
+  "cmd_help_help": "Hiển thị trợ giúp này",
+  "cmd_help_theme": "Thay đổi giao diện",
+
+  "cmd_theme_desc": "Thay đổi giao diện ứng dụng",
+  "cmd_theme_usage": "Cách dùng: /theme <tên>",
+  "cmd_theme_invalid": "Giao diện \"{themeName}\" không hợp lệ. Có sẵn: {themes}",
+  "cmd_theme_success": "Đã đổi giao diện thành \"{themeName}\""
+}

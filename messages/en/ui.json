@@ -27,5 +27,10 @@
   "ui_sidebar_careertitle": "Career Journey",
   "ui_sidebar_careerdesc": "View my career as an interactive side-scrolling timeline",
 
-  "ui_theme_select": "Select theme..."
+  "ui_theme_select": "Select theme...",
+
+  "ui_lang_en": "EN",
+  "ui_lang_vi": "VI",
+
+  "ui_error_unexpected": "An unexpected error occurred"
 }

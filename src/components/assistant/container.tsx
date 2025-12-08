@@ -13,6 +13,7 @@ import {
   assistant_suggest_experience,
   assistant_suggest_projects,
   assistant_suggest_skills,
+  ui_error_unexpected,
 } from "@/paraglide/messages.js";
 import { useAssistantStore } from "@/store/assistant.ts";
 import { useThemeStore } from "@/store/theme.ts";
@@ -81,9 +82,7 @@ export default function AssistantContainer({
 
       finishStreaming();
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "An unexpected error occurred"
-      );
+      setError(err instanceof Error ? err.message : ui_error_unexpected());
     }
   };
 

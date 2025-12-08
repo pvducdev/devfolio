@@ -27,5 +27,10 @@
   "ui_sidebar_careertitle": "Hành trình sự nghiệp",
   "ui_sidebar_careerdesc": "Xem sự nghiệp của tôi qua dòng thời gian tương tác",
 
-  "ui_theme_select": "Chọn giao diện..."
+  "ui_theme_select": "Chọn giao diện...",
+
+  "ui_lang_en": "EN",
+  "ui_lang_vi": "VI",
+
+  "ui_error_unexpected": "Đã xảy ra lỗi không mong muốn"
 }
