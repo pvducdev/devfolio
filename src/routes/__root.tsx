@@ -4,6 +4,7 @@ import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 
 import { SITE_CONFIG } from "@/config/site.ts";
 import ThemeScript from "@/lib/theme-script.tsx";
+import { getLocale } from "@/paraglide/runtime.js";
 import appCss from "../styles.css?url";
 
 export const Route = createRootRoute({
@@ -45,7 +46,7 @@ export const Route = createRootRoute({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang={getLocale()}>
       <head>
         <HeadContent />
         <title />

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "nav_about": "Về tôi",
+  "nav_experience": "Kinh nghiệm",
+  "nav_projects": "Dự án",
+  "portfolio_header": "PORTFOLIO SÁNG TẠO",
+  "social_linkedin": "LinkedIn",
+  "social_github": "GitHub",
+  "social_gitlab": "GitLab",
+  "assistant_welcome": "Sẵn sàng khám phá những điều thú vị về chủ nhân của tôi?",
+  "assistant_placeholder": "Hỏi tôi về D...",
+  "assistant_suggestion_skills": "Kỹ năng cốt lõi của D là gì?",
+  "assistant_suggestion_experience": "Kể về kinh nghiệm của D",
+  "assistant_suggestion_projects": "D đã làm những dự án nào?"
+}

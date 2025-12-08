@@ -14,7 +14,7 @@ export default function ActivitiesBar() {
         <Activity
           active={act.key === sidebar}
           data={act}
-          key={act.name}
+          key={act.key}
           onClick={(values) => {
             toggleSidebar(values.key);
           }}

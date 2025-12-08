@@ -1,0 +1,15 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "nav_about": "About me",
+  "nav_experience": "Experience",
+  "nav_projects": "Projects",
+  "portfolio_header": "CREATIVE PORTFOLIO",
+  "social_linkedin": "LinkedIn",
+  "social_github": "GitHub",
+  "social_gitlab": "GitLab",
+  "assistant_welcome": "Ready for some fun facts about my human?",
+  "assistant_placeholder": "Ask me about D...",
+  "assistant_suggestion_skills": "What are D's core skills?",
+  "assistant_suggestion_experience": "Tell me about D's experience",
+  "assistant_suggestion_projects": "What projects has D worked on?"
+}

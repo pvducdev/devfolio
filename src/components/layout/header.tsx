@@ -2,6 +2,7 @@ import { Expand, GitBranch, Settings, Shrink } from "lucide-react";
 import { useHotkeys } from "react-hotkeys-hook";
 import AssistantTrigger from "@/components/assistant/trigger.tsx";
 import ButtonWithTooltip from "@/components/common/button-with-tooltip.tsx";
+import { LanguageSwitcher } from "@/components/common/language-switcher.tsx";
 import AppSearch from "@/components/layout/app-search.tsx";
 import ResumeViewer from "@/components/resume-viewer/dialog-container.tsx";
 import {
@@ -9,6 +10,7 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
@@ -69,23 +71,14 @@ export default function Header() {
             </ButtonWithTooltip>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">
+            <DropdownMenuLabel>Language</DropdownMenuLabel>
+            <LanguageSwitcher />
+            <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                Profile
-                <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                Settings
-                <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-              </DropdownMenuItem>
               <DropdownMenuItem>
                 Keyboard shortcuts
                 <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
               </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>Team</DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>

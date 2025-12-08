@@ -5,10 +5,15 @@ import Response from "@/components/assistant/response.tsx";
 import Suggestions from "@/components/assistant/suggestions.tsx";
 import Welcome from "@/components/assistant/welcome.tsx";
 import ScrollAreaWithAnchor from "@/components/common/scroll-area-with-anchor.tsx";
-import { SITE_CONFIG } from "@/config/site.ts";
 import generateAssistantResponseFn from "@/fn/generate-assistant-response.ts";
 import { type CommandContext, execute } from "@/lib/commands";
 import { cn } from "@/lib/utils.ts";
+import {
+  assistant_placeholder,
+  assistant_suggestion_experience,
+  assistant_suggestion_projects,
+  assistant_suggestion_skills,
+} from "@/paraglide/messages.js";
 import { useAssistantStore } from "@/store/assistant.ts";
 import { useThemeStore } from "@/store/theme.ts";
 import "@/commands";
@@ -109,7 +114,11 @@ export default function AssistantContainer({
       {!message && (
         <Suggestions
           onClick={sendMessage}
-          suggestions={SITE_CONFIG.assistant.defaultSuggestions}
+          suggestions={[
+            assistant_suggestion_skills(),
+            assistant_suggestion_experience(),
+            assistant_suggestion_projects(),
+          ]}
         />
       )}
       <div className="space-y-1">
@@ -119,7 +128,7 @@ export default function AssistantContainer({
         <Input
           disabled={isStreaming}
           onSubmit={sendMessage}
-          placeholder={SITE_CONFIG.assistant.inputPlaceholder}
+          placeholder={assistant_placeholder()}
         />
       </div>
     </div>
