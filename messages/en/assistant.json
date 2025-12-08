@@ -1,0 +1,13 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "assistant_header": "Assistant",
+  "assistant_welcome": "Ready for some fun facts about my human?",
+  "assistant_placeholder": "Ask me about D...",
+  "assistant_suggest_skills": "What are D's core skills?",
+  "assistant_suggest_experience": "Tell me about D's experience",
+  "assistant_suggest_projects": "What projects has D worked on?",
+  "assistant_tooltip": "HeyD Assistant",
+  "assistant_empty": "No commands found.",
+  "assistant_commands": "Commands"
+}

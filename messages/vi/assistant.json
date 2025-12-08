@@ -1,0 +1,13 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "assistant_header": "Trợ lý AI",
+  "assistant_welcome": "Sẵn sàng khám phá những điều thú vị về chủ nhân của tôi?",
+  "assistant_placeholder": "Hỏi tôi về D...",
+  "assistant_suggest_skills": "Kỹ năng cốt lõi của D là gì?",
+  "assistant_suggest_experience": "Kể về kinh nghiệm của D",
+  "assistant_suggest_projects": "D đã làm những dự án nào?",
+  "assistant_tooltip": "Trợ lý HeyD",
+  "assistant_empty": "Không tìm thấy lệnh.",
+  "assistant_commands": "Các lệnh"
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "ui_layout_normal": "Giao diện thường",
+  "ui_layout_stretch": "Giao diện mở rộng",
+
+  "ui_settings_title": "Cài đặt",
+  "ui_settings_language": "Ngôn ngữ",
+  "ui_settings_shortcuts": "Phím tắt",
+
+  "ui_nav_home": "Trang chủ",
+
+  "ui_search_title": "Tìm kiếm",
+  "ui_search_placeholder": "Nhập lệnh hoặc tìm kiếm...",
+  "ui_search_empty": "Không tìm thấy kết quả.",
+  "ui_search_suggestions": "Gợi ý",
+
+  "ui_cmd_calendar": "Lịch",
+  "ui_cmd_emoji": "Tìm Emoji",
+  "ui_cmd_calculator": "Máy tính",
+  "ui_cmd_profile": "Hồ sơ",
+  "ui_cmd_billing": "Thanh toán",
+
+  "ui_resume_title": "CV của tôi",
+  "ui_resume_downloading": "Đang tải...",
+
+  "ui_sidebar_careertitle": "Hành trình sự nghiệp",
+  "ui_sidebar_careerdesc": "Xem sự nghiệp của tôi qua dòng thời gian tương tác",
+
+  "ui_theme_select": "Chọn giao diện..."
+}

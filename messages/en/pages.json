@@ -1,0 +1,22 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "page_portfolio_header": "CREATIVE PORTFOLIO",
+
+  "page_welcome_title": "Welcome to",
+  "page_welcome_desc": "Designed in a {highlight} workspace",
+  "page_welcome_highlight": "Web Storm–inspired",
+
+  "page_about_shortbio": "I craft modern web experiences with clean design and thoughtful code. Dive in and explore what I've been building.",
+  "page_about_longbio": "Frontend Developer with 3 years of experience specializing in React, Vue, and modern web technologies.",
+  "page_about_interest1": "Exploring the newest frontend libraries and tools",
+  "page_about_interest2": "Building responsive, professional UIs",
+  "page_about_interest3": "Staying updated on modern development workflows and frameworks",
+
+  "page_career_heading": "> CAREER_TIMELINE",
+  "page_career_intro": "Explore my professional journey",
+  "page_career_introsub": "from education to senior engineer.",
+  "page_career_eof": "> EOF",
+  "page_career_complete": "Timeline complete.",
+  "page_career_thanks": "Thanks for exploring."
+}

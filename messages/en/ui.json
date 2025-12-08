@@ -1,0 +1,31 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "ui_layout_normal": "Normal Layout",
+  "ui_layout_stretch": "Stretch Layout",
+
+  "ui_settings_title": "Settings",
+  "ui_settings_language": "Language",
+  "ui_settings_shortcuts": "Keyboard shortcuts",
+
+  "ui_nav_home": "Home",
+
+  "ui_search_title": "Search",
+  "ui_search_placeholder": "Type a command or search...",
+  "ui_search_empty": "No results found.",
+  "ui_search_suggestions": "Suggestions",
+
+  "ui_cmd_calendar": "Calendar",
+  "ui_cmd_emoji": "Search Emoji",
+  "ui_cmd_calculator": "Calculator",
+  "ui_cmd_profile": "Profile",
+  "ui_cmd_billing": "Billing",
+
+  "ui_resume_title": "My CV",
+  "ui_resume_downloading": "Downloading...",
+
+  "ui_sidebar_careertitle": "Career Journey",
+  "ui_sidebar_careerdesc": "View my career as an interactive side-scrolling timeline",
+
+  "ui_theme_select": "Select theme..."
+}

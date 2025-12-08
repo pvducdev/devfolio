@@ -1,0 +1,16 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "action_cancel": "Hủy",
+  "action_resume_download": "Tải xuống",
+  "action_sidebar_opencareer": "Mở Career Runner",
+
+  "msg_error_fileload": "Lỗi tải tệp",
+  "msg_error_filepath": "Đảm bảo đường dẫn tệp tương đối với thư mục src/",
+  "msg_error_loadfail": "Không thể tải tệp",
+
+  "ui_state_loading": "Đang tải...",
+
+  "hint_career_clickcard": "Nhấn vào thẻ vai trò để xem công nghệ, thành tựu và chỉ số",
+  "hint_career_scroll": "Cuộn để xem các vai trò →"
+}

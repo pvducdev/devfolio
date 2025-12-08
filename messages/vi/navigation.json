@@ -1,0 +1,11 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "nav_main_about": "Về tôi",
+  "nav_main_experience": "Kinh nghiệm",
+  "nav_main_projects": "Dự án",
+
+  "nav_social_linkedin": "LinkedIn",
+  "nav_social_github": "GitHub",
+  "nav_social_gitlab": "GitLab"
+}

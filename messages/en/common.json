@@ -1,0 +1,16 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "action_cancel": "Cancel",
+  "action_resume_download": "Download now",
+  "action_sidebar_opencareer": "Open Career Runner",
+
+  "msg_error_fileload": "Error loading file",
+  "msg_error_filepath": "Make sure the file path is relative to src/ directory",
+  "msg_error_loadfail": "Failed to load file",
+
+  "ui_state_loading": "Loading...",
+
+  "hint_career_clickcard": "Click any role card to view tech stack, achievements, and impact metrics",
+  "hint_career_scroll": "Scroll to explore roles →"
+}
