@@ -2,12 +2,12 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
 
   "assistant_header": "Trợ lý AI",
-  "assistant_welcome": "Sẵn sàng khám phá những điều thú vị về chủ nhân của tôi?",
-  "assistant_placeholder": "Hỏi tôi về D...",
-  "assistant_suggest_skills": "Kỹ năng cốt lõi của D là gì?",
-  "assistant_suggest_experience": "Kể về kinh nghiệm của D",
-  "assistant_suggest_projects": "D đã làm những dự án nào?",
+  "assistant_welcome": "Tò mò về chủ nhân của tớ không? Tớ có cả câu chuyện đây",
+  "assistant_placeholder": "Cứ hỏi về D nhé...",
+  "assistant_suggest1": "D giỏi những gì?",
+  "assistant_suggest2": "Kể về hành trình của D đi",
+  "assistant_suggest3": "D đã làm được những gì?",
   "assistant_tooltip": "Trợ lý HeyD",
-  "assistant_empty": "Không tìm thấy lệnh.",
+  "assistant_empty": "Không có lệnh nào.",
   "assistant_commands": "Các lệnh"
 }

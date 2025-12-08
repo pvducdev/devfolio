@@ -6,8 +6,8 @@
   "label_career_infra": "Hạ tầng",
   "label_career_metrics": "Chỉ số",
   "label_career_year": "NĂM",
-  "label_career_protip": "MẸO HAY:",
+  "label_career_protip": "NÓI THẬT:",
 
-  "label_status_opentowork": "Sẵn sàng làm việc",
-  "label_status_hired": "Đã có việc"
+  "label_status_opentowork": "tìm_việc.exe",
+  "label_status_hired": "có_việc.exe"
 }

@@ -6,16 +6,16 @@
   "page_welcome_title": "Welcome to",
   "page_welcome_desc": "Designed in a {highlight} workspace",
 
-  "page_about_shortbio": "I craft modern web experiences with clean design and thoughtful code. Dive in and explore what I've been building.",
-  "page_about_longbio": "Frontend Developer with 3 years of experience specializing in React, Vue, and modern web technologies.",
-  "page_about_interest1": "Exploring the newest frontend libraries and tools",
-  "page_about_interest2": "Building responsive, professional UIs",
-  "page_about_interest3": "Staying updated on modern development workflows and frameworks",
+  "page_about_shortbio": "Building web experiences that actually work. Take a look around and see what I've been cooking.",
+  "page_about_longbio": "3 years in frontend. React, Vue, and whatever's trending. Keeping it real.",
+  "page_about_interest1": "Trying out new frameworks (it's an addiction at this point)",
+  "page_about_interest2": "Crafting UIs that feel modern",
+  "page_about_interest3": "Keeping up with the dev world's latest trends",
 
   "page_career_heading": "> CAREER_TIMELINE",
-  "page_career_intro": "Explore my professional journey",
-  "page_career_introsub": "from education to senior engineer.",
+  "page_career_intro": "The career arc",
+  "page_career_introsub": "from student to seasoned dev.",
   "page_career_eof": "> EOF",
-  "page_career_complete": "Timeline complete.",
-  "page_career_thanks": "Thanks for exploring."
+  "page_career_complete": "End of the road (for now).",
+  "page_career_thanks": "Thanks for scrolling through."
 }

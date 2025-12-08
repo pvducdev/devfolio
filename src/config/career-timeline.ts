@@ -26,7 +26,7 @@ export type CareerSection = {
   };
 };
 
-export const getCareerSections = (): CareerSection[] => [
+export const CAREER_SECTIONS: CareerSection[] = [
   {
     id: "education",
     year: "2020",
@@ -147,9 +147,6 @@ export const getCareerSections = (): CareerSection[] => [
     },
   },
 ];
-
-// For backward compatibility
-export const CAREER_SECTIONS = getCareerSections();
 
 export const CHARACTER_CONFIG = {
   src: "/character.riv",
