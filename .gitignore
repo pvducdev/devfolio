@@ -10,3 +10,6 @@ count.txt
 .output
 .vinxi
 todos.json
+
+# Paraglide generated files
+src/paraglide

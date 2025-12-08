@@ -3,6 +3,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { useShallow } from "zustand/react/shallow";
 import ButtonWithTooltip from "@/components/common/button-with-tooltip.tsx";
 import { Kbd, KbdGroup } from "@/components/ui/kbd.tsx";
+import { assistant_tooltip } from "@/paraglide/messages.js";
 import { useAppLayoutStore } from "@/store/app-layout.ts";
 
 const KBD = "j";
@@ -25,7 +26,7 @@ export default function AssistantTrigger() {
       size="icon"
       tooltip={
         <div className="flex items-center space-x-2">
-          <span>HeyD Assistant</span>
+          <span>{assistant_tooltip()}</span>
           <KbdGroup>
             <Kbd>⌘</Kbd>
             <Kbd>{KBD.toUpperCase()}</Kbd>

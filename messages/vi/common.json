@@ -1,0 +1,16 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "action_cancel": "Hủy",
+  "action_resume_download": "Tải ngay",
+  "action_sidebar_opencareer": "Mở Career Runner",
+
+  "msg_error_fileload": "Ối, file không tải được",
+  "msg_error_filepath": "Kiểm tra lại đường dẫn file nhé (tương đối với src/)",
+  "msg_error_loadfail": "File từ chối hợp tác",
+
+  "ui_state_loading": "Đang pha...",
+
+  "hint_career_clickcard": "Nhấn vào vai trò để xem stack, thành tựu và impact",
+  "hint_career_scroll": "Cuộn để khám phá →"
+}

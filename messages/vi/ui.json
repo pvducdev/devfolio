@@ -1,0 +1,36 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "ui_layout_normal": "Giao diện thường",
+  "ui_layout_stretch": "Giao diện mở rộng",
+
+  "ui_settings_title": "Cài đặt",
+  "ui_settings_language": "Ngôn ngữ",
+  "ui_settings_shortcuts": "Phím tắt",
+
+  "ui_nav_home": "Trang chủ",
+
+  "ui_search_title": "Tìm kiếm",
+  "ui_search_placeholder": "Nhập lệnh hoặc tìm kiếm...",
+  "ui_search_empty": "Không có gì ở đây.",
+  "ui_search_suggestions": "Gợi ý",
+
+  "ui_cmd_calendar": "Lịch",
+  "ui_cmd_emoji": "Tìm Emoji",
+  "ui_cmd_calculator": "Máy tính",
+  "ui_cmd_profile": "Hồ sơ",
+  "ui_cmd_billing": "Thanh toán",
+
+  "ui_resume_title": "CV của tớ",
+  "ui_resume_downloading": "Đang tải...",
+
+  "ui_sidebar_careertitle": "Hành trình sự nghiệp",
+  "ui_sidebar_careerdesc": "Sự nghiệp của tớ dạng side-scrolling",
+
+  "ui_theme_select": "Chọn giao diện...",
+
+  "ui_lang_en": "EN",
+  "ui_lang_vi": "VI",
+
+  "ui_error_unexpected": "Có gì đó hỏng. Không lý tưởng."
+}

@@ -1,6 +1,11 @@
 import { Play } from "lucide-react";
 import { useShallow } from "zustand/react/shallow";
 import { Button } from "@/components/ui/button";
+import {
+  action_sidebar_opencareer,
+  ui_sidebar_careerdesc,
+  ui_sidebar_careertitle,
+} from "@/paraglide/messages.js";
 import { useTabsStore } from "@/store/tabs";
 
 export default function WorkExperiences() {
@@ -14,9 +19,11 @@ export default function WorkExperiences() {
     <div className="flex h-full flex-col gap-4 overflow-auto p-2">
       {/* Interactive Career Runner */}
       <div className="rounded-lg border border-border bg-card p-3">
-        <div className="mb-2 font-medium text-sm">Career Journey</div>
+        <div className="mb-2 font-medium text-sm">
+          {ui_sidebar_careertitle()}
+        </div>
         <p className="mb-3 text-muted-foreground text-xs">
-          View my career as an interactive side-scrolling timeline
+          {ui_sidebar_careerdesc()}
         </p>
         <Button
           className="w-full gap-2"
@@ -25,7 +32,7 @@ export default function WorkExperiences() {
           variant="secondary"
         >
           <Play className="size-4" />
-          Open Career Runner
+          {action_sidebar_opencareer()}
         </Button>
       </div>
     </div>

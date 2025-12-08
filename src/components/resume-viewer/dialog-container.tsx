@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dialog.tsx";
 import { Kbd } from "@/components/ui/kbd.tsx";
 import { PERSONAL_INFO } from "@/config/personal.ts";
+import { action_cancel, ui_resume_title } from "@/paraglide/messages.js";
 
 type ResumeReviewerProps = {
   className?: string;
@@ -22,7 +23,7 @@ type ResumeReviewerProps = {
 export default function DialogContainer({ className }: ResumeReviewerProps) {
   return (
     <div className={className}>
-      <p className="text-xs">My CV</p>
+      <p className="text-xs">{ui_resume_title()}</p>
       <Dialog>
         <DialogTrigger asChild>
           <Button
@@ -46,7 +47,7 @@ export default function DialogContainer({ className }: ResumeReviewerProps) {
           <DialogFooter className="sm:justify-center">
             <DialogClose asChild>
               <Button type="button" variant="ghost">
-                Cancel <Kbd>Esc</Kbd>
+                {action_cancel()} <Kbd>Esc</Kbd>
               </Button>
             </DialogClose>
             <DownloadAction

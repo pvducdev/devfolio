@@ -1,5 +1,6 @@
 import { Dog } from "lucide-react";
 import { SITE_CONFIG } from "@/config/site.ts";
+import { assistant_welcome } from "@/paraglide/messages.js";
 
 export default function AssistantWelcome() {
   return (
@@ -7,9 +8,7 @@ export default function AssistantWelcome() {
       <span className="-top-2.5 absolute left-3 bg-background px-2">
         {SITE_CONFIG.assistant.name}
       </span>
-      <p className="mt-2 mb-6 text-pretty leading-7">
-        {SITE_CONFIG.assistant.welcome}
-      </p>
+      <p className="mt-2 mb-6 text-pretty leading-7">{assistant_welcome()}</p>
       <Dog className="size-24 text-primary" />
     </div>
   );

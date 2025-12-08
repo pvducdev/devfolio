@@ -23,7 +23,7 @@ export default function WelcomeActivity({ data }: WelcomeActionProps) {
       variant={sidebar === data.key ? "default" : "outline"}
     >
       <Icon />
-      {data.name}
+      {data.name()}
     </Button>
   );
 }

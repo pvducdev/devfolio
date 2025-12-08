@@ -1,6 +1,10 @@
 import { Download } from "lucide-react";
 import { Button } from "@/components/ui/button.tsx";
 import useFileDownload from "@/hooks/use-file-download.ts";
+import {
+  action_resume_download,
+  ui_resume_downloading,
+} from "@/paraglide/messages.js";
 
 type DownloadActionProps = {
   url: string;
@@ -20,7 +24,7 @@ export default function DownloadAction({ url, filename }: DownloadActionProps) {
         });
       }}
     >
-      {isDownloading ? "Downloading..." : "Download now"}
+      {isDownloading ? ui_resume_downloading() : action_resume_download()}
       <Download />
     </Button>
   );

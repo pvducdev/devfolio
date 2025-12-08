@@ -1,18 +1,27 @@
 import { CircleHelp } from "lucide-react";
 import { defineCommand, listCommands } from "@/lib/commands";
+import {
+  cmd_help_clear,
+  cmd_help_desc,
+  cmd_help_help,
+  cmd_help_intro,
+  cmd_help_theme,
+  cmd_help_tip,
+  cmd_help_title,
+} from "@/paraglide/messages.js";
 
 export default defineCommand({
   name: "help",
-  description: "Show available commands",
+  description: cmd_help_desc(),
   icon: CircleHelp,
   aliases: ["h", "?"],
 
   handler: () => {
     const commands = listCommands();
 
-    const helpText = `# Available Commands
+    const helpText = `# ${cmd_help_title()}
 
-Type a command starting with \`/\` to execute it.
+${cmd_help_intro()}
 
 ${commands
   .map((cmd) => {
@@ -30,7 +39,7 @@ ${examples ? `**Usage:**\n${examples}` : ""}`;
 
 ---
 
-**Tip:** Press \`Tab\` to autocomplete commands while typing.`;
+**${cmd_help_tip()}**`;
 
     return { success: true, message: helpText };
   },
@@ -38,10 +47,9 @@ ${examples ? `**Usage:**\n${examples}` : ""}`;
 
 function getCommandExamples(commandName: string): string {
   const examples: Record<string, string> = {
-    clear: "`/clear` - Clears the conversation",
-    help: "`/help` - Shows this help message",
-    theme:
-      "`/theme <name>` - Changes the theme\n\nExamples:\n- `/theme amethyst-haze`\n- `/theme bubblegum`\n- `/theme dark-twitter`\n- `/theme mocha-mousse`",
+    clear: `\`/clear\` - ${cmd_help_clear()}`,
+    help: `\`/help\` - ${cmd_help_help()}`,
+    theme: `\`/theme <name>\` - ${cmd_help_theme()}\n\nExamples:\n- \`/theme amethyst-haze\`\n- \`/theme bubblegum\`\n- \`/theme dark-twitter\`\n- \`/theme mocha-mousse\``,
   };
 
   return examples[commandName] || "";

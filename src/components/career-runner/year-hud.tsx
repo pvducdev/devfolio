@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
+import { label_career_year } from "@/paraglide/messages.js";
 import { useCareerLooping, useCareerStore } from "@/store/career.ts";
 
 const DEFAULT_YEAR = "2001";
@@ -24,7 +25,9 @@ export function YearHUD() {
   return (
     <div className="absolute top-4 right-4 z-50">
       <div className="border border-foreground bg-background px-3 py-1.5 font-mono">
-        <div className="mb-0.5 text-foreground/50 text-xs">YEAR</div>
+        <div className="mb-0.5 text-foreground/50 text-xs">
+          {label_career_year()}
+        </div>
         <div className="flex overflow-hidden font-bold text-lg">
           <AnimatePresence mode="popLayout">
             {digits.map((digit, index) => (

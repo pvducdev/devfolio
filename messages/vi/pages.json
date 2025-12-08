@@ -1,0 +1,21 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "page_portfolio_header": "PORTFOLIO SÁNG TẠO",
+
+  "page_welcome_title": "Chào mừng đến với",
+  "page_welcome_desc": "Được thiết kế theo phong cách {highlight}",
+
+  "page_about_shortbio": "Xây dựng web cho ra hồn. Lướt qua xem tớ đã làm được gì nhé.",
+  "page_about_longbio": "3 năm làm frontend. React, Vue, và mấy thứ đang hot. Thật.",
+  "page_about_interest1": "Thử nghiệm framework mới (nghiện rồi)",
+  "page_about_interest2": "Thiết kế UI hiện đại",
+  "page_about_interest3": "Theo dõi xu hướng công nghệ mới",
+
+  "page_career_heading": "> HÀNH_TRÌNH_SỰ_NGHIỆP",
+  "page_career_intro": "Hành trình sự nghiệp",
+  "page_career_introsub": "từ sinh viên đến dev có kinh nghiệm.",
+  "page_career_eof": "> KẾT_THÚC",
+  "page_career_complete": "Hết chuyện (tạm thời).",
+  "page_career_thanks": "Cảm ơn đã lướt qua nhé."
+}

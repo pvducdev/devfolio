@@ -2,6 +2,7 @@ import { Expand, GitBranch, Settings, Shrink } from "lucide-react";
 import { useHotkeys } from "react-hotkeys-hook";
 import AssistantTrigger from "@/components/assistant/trigger.tsx";
 import ButtonWithTooltip from "@/components/common/button-with-tooltip.tsx";
+import { LanguageSwitcher } from "@/components/common/language-switcher.tsx";
 import AppSearch from "@/components/layout/app-search.tsx";
 import ResumeViewer from "@/components/resume-viewer/dialog-container.tsx";
 import {
@@ -9,11 +10,19 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SITE_CONFIG } from "@/config/site.ts";
+import {
+  ui_layout_normal,
+  ui_layout_stretch,
+  ui_settings_language,
+  ui_settings_shortcuts,
+  ui_settings_title,
+} from "@/paraglide/messages.js";
 import { useAppLayoutStore } from "@/store/app-layout.ts";
 import { Badge } from "../ui/badge";
 
@@ -32,7 +41,7 @@ export default function Header() {
           className="group size-3 rounded-full bg-green-500 hover:bg-green-500"
           onClick={toggleStretchLayout}
           size="icon"
-          tooltip={isStretchLayout ? "Normal Layout" : "Stretch Layout"}
+          tooltip={isStretchLayout ? ui_layout_normal() : ui_layout_stretch()}
         >
           {isStretchLayout ? (
             <Shrink className="size-2 opacity-0 transition-opacity group-hover:opacity-100" />
@@ -62,30 +71,21 @@ export default function Header() {
             <ButtonWithTooltip
               className="size-7"
               size="icon"
-              tooltip="Settings"
+              tooltip={ui_settings_title()}
               variant="ghost"
             >
               <Settings className="size-4" />
             </ButtonWithTooltip>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                Profile
-                <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                Settings
-                <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                Keyboard shortcuts
-                <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
+            <DropdownMenuLabel>{ui_settings_language()}</DropdownMenuLabel>
+            <LanguageSwitcher />
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>Team</DropdownMenuItem>
+              <DropdownMenuItem>
+                {ui_settings_shortcuts()}
+                <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+              </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>

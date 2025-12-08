@@ -146,7 +146,7 @@ export const CAREER_SECTIONS: CareerSection[] = [
       },
     },
   },
-] as const;
+];
 
 export const CHARACTER_CONFIG = {
   src: "/character.riv",

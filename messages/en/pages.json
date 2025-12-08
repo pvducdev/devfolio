@@ -1,0 +1,21 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "page_portfolio_header": "CREATIVE PORTFOLIO",
+
+  "page_welcome_title": "Welcome to",
+  "page_welcome_desc": "Designed in a {highlight} workspace",
+
+  "page_about_shortbio": "Building web experiences that actually work. Take a look around and see what I've been cooking.",
+  "page_about_longbio": "3 years in frontend. React, Vue, and whatever's trending. Keeping it real.",
+  "page_about_interest1": "Trying out new frameworks (it's an addiction at this point)",
+  "page_about_interest2": "Crafting UIs that feel modern",
+  "page_about_interest3": "Keeping up with the dev world's latest trends",
+
+  "page_career_heading": "> CAREER_TIMELINE",
+  "page_career_intro": "The career arc",
+  "page_career_introsub": "from student to seasoned dev.",
+  "page_career_eof": "> EOF",
+  "page_career_complete": "End of the road (for now).",
+  "page_career_thanks": "Thanks for scrolling through."
+}

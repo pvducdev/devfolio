@@ -21,7 +21,7 @@ export default function Activity({ active, data, onClick }: ActivityProps) {
         onClick(data);
       }}
       size="icon"
-      tooltip={data.name}
+      tooltip={data.name()}
       tooltipProps={{ side: "right" }}
       variant={active ? "outline" : "ghost"}
     >

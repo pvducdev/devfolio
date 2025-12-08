@@ -5,10 +5,16 @@ import Response from "@/components/assistant/response.tsx";
 import Suggestions from "@/components/assistant/suggestions.tsx";
 import Welcome from "@/components/assistant/welcome.tsx";
 import ScrollAreaWithAnchor from "@/components/common/scroll-area-with-anchor.tsx";
-import { SITE_CONFIG } from "@/config/site.ts";
 import generateAssistantResponseFn from "@/fn/generate-assistant-response.ts";
 import { type CommandContext, execute } from "@/lib/commands";
 import { cn } from "@/lib/utils.ts";
+import {
+  assistant_placeholder,
+  assistant_suggest1,
+  assistant_suggest2,
+  assistant_suggest3,
+  ui_error_unexpected,
+} from "@/paraglide/messages.js";
 import { useAssistantStore } from "@/store/assistant.ts";
 import { useThemeStore } from "@/store/theme.ts";
 import "@/commands";
@@ -76,9 +82,7 @@ export default function AssistantContainer({
 
       finishStreaming();
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "An unexpected error occurred"
-      );
+      setError(err instanceof Error ? err.message : ui_error_unexpected());
     }
   };
 
@@ -109,7 +113,11 @@ export default function AssistantContainer({
       {!message && (
         <Suggestions
           onClick={sendMessage}
-          suggestions={SITE_CONFIG.assistant.defaultSuggestions}
+          suggestions={[
+            assistant_suggest1(),
+            assistant_suggest2(),
+            assistant_suggest3(),
+          ]}
         />
       )}
       <div className="space-y-1">
@@ -119,7 +127,7 @@ export default function AssistantContainer({
         <Input
           disabled={isStreaming}
           onSubmit={sendMessage}
-          placeholder={SITE_CONFIG.assistant.inputPlaceholder}
+          placeholder={assistant_placeholder()}
         />
       </div>
     </div>

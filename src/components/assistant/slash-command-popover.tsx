@@ -13,6 +13,7 @@ import {
   PopoverContent,
 } from "@/components/ui/popover.tsx";
 import { listCommands, type Command as TCommand } from "@/lib/commands";
+import { assistant_commands, assistant_empty } from "@/paraglide/messages.js";
 import "@/commands";
 
 type SlashCommandPopoverProps = {
@@ -49,8 +50,8 @@ export default function SlashCommandPopover({
             <CommandInput value={inputValue} />
           </div>
           <CommandList ref={commandRef}>
-            <CommandEmpty>No commands found.</CommandEmpty>
-            <CommandGroup heading="Commands">
+            <CommandEmpty>{assistant_empty()}</CommandEmpty>
+            <CommandGroup heading={assistant_commands()}>
               {commands.map((command) => {
                 const Icon = command.icon;
                 return (

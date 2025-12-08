@@ -1,25 +1,36 @@
-import { GitCommitVertical, PanelsTopLeft, User } from "lucide-react";
+import { PanelsTopLeft, Route, User } from "lucide-react";
+import type { ComponentType, LazyExoticComponent } from "react";
 import { lazy } from "react";
+import {
+  nav_main_about,
+  nav_main_career,
+  nav_main_projects,
+} from "@/paraglide/messages.js";
 
-export const activities = [
+export type Activity = {
+  name: () => string;
+  key: string;
+  icon: ComponentType;
+  sidebar: LazyExoticComponent<ComponentType>;
+};
+
+export const activities: Activity[] = [
   {
-    name: "About me",
+    name: nav_main_about,
     key: "about",
     icon: User,
     sidebar: lazy(() => import("@/components/sidebar/about")),
   },
   {
-    name: "Experience",
-    key: "experience",
-    icon: GitCommitVertical,
+    name: nav_main_career,
+    key: "career",
+    icon: Route,
     sidebar: lazy(() => import("@/components/sidebar/work-experiences")),
   },
   {
-    name: "Projects",
+    name: nav_main_projects,
     key: "projects",
     icon: PanelsTopLeft,
     sidebar: lazy(() => import("@/components/sidebar/projects")),
   },
-] as const;
-
-export type Activity = (typeof activities)[number];
+];
