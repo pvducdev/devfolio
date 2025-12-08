@@ -12,7 +12,11 @@ import { Gitlab } from "@/components/ui/svgs/gitlab";
 import { Linkedin } from "@/components/ui/svgs/linkedin";
 import { PERSONAL_INFO } from "@/config/personal.ts";
 import { SITE_CONFIG } from "@/config/site.ts";
-import { ui_hired, ui_home, ui_open_to_work } from "@/paraglide/messages.js";
+import {
+  label_status_hired,
+  label_status_opentowork,
+  ui_nav_home,
+} from "@/paraglide/messages.js";
 import { Badge } from "../ui/badge";
 
 export default function StatusFooter() {
@@ -28,7 +32,7 @@ export default function StatusFooter() {
           <BreadcrumbSeparator />
           <BreadcrumbItem>
             <BreadcrumbPage className="text-muted-foreground text-xs">
-              {ui_home()}
+              {ui_nav_home()}
             </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
@@ -66,11 +70,11 @@ export default function StatusFooter() {
             className="rounded-full border-green-500! text-green-500"
             variant="outline"
           >
-            {ui_open_to_work()}
+            {label_status_opentowork()}
           </Badge>
         ) : (
           <Badge className="rounded-full" variant="outline">
-            {ui_hired()}
+            {label_status_hired()}
           </Badge>
         )}
       </div>

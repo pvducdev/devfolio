@@ -1,9 +1,9 @@
 import {
-  personal_interest_1,
-  personal_interest_2,
-  personal_interest_3,
-  personal_long_bio,
-  personal_short_bio,
+  page_about_interest1,
+  page_about_interest2,
+  page_about_interest3,
+  page_about_longbio,
+  page_about_shortbio,
 } from "@/paraglide/messages.js";
 
 export const PERSONAL_INFO = {
@@ -96,18 +96,18 @@ export const PERSONAL_INFO = {
 
   get interests() {
     return [
-      personal_interest_1(),
-      personal_interest_2(),
-      personal_interest_3(),
+      page_about_interest1(),
+      page_about_interest2(),
+      page_about_interest3(),
     ];
   },
 
   about: {
     get shortBio() {
-      return personal_short_bio();
+      return page_about_shortbio();
     },
     get longBio() {
-      return personal_long_bio();
+      return page_about_longbio();
     },
   },
 };

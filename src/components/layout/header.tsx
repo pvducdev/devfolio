@@ -17,11 +17,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { SITE_CONFIG } from "@/config/site.ts";
 import {
-  ui_keyboard_shortcuts,
-  ui_language,
   ui_layout_normal,
   ui_layout_stretch,
-  ui_settings,
+  ui_settings_language,
+  ui_settings_shortcuts,
+  ui_settings_title,
 } from "@/paraglide/messages.js";
 import { useAppLayoutStore } from "@/store/app-layout.ts";
 import { Badge } from "../ui/badge";
@@ -71,19 +71,19 @@ export default function Header() {
             <ButtonWithTooltip
               className="size-7"
               size="icon"
-              tooltip={ui_settings()}
+              tooltip={ui_settings_title()}
               variant="ghost"
             >
               <Settings className="size-4" />
             </ButtonWithTooltip>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">
-            <DropdownMenuLabel>{ui_language()}</DropdownMenuLabel>
+            <DropdownMenuLabel>{ui_settings_language()}</DropdownMenuLabel>
             <LanguageSwitcher />
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                {ui_keyboard_shortcuts()}
+                {ui_settings_shortcuts()}
                 <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
               </DropdownMenuItem>
             </DropdownMenuGroup>

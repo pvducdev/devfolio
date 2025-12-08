@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/popover.tsx";
 import { THEMES } from "@/config/theme.ts";
 import { cn } from "@/lib/utils.ts";
-import { theme_select } from "@/paraglide/messages.js";
+import { ui_theme_select } from "@/paraglide/messages.js";
 import { useThemeStore } from "@/store/theme.ts";
 
 export default function ThemeSwitcher() {
@@ -34,7 +34,9 @@ export default function ThemeSwitcher() {
           variant="ghost"
         >
           <Palette className="size-4" />
-          {theme ? THEMES.find((t) => t.value === theme)?.name : theme_select()}
+          {theme
+            ? THEMES.find((t) => t.value === theme)?.name
+            : ui_theme_select()}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="max-w-60 p-0">

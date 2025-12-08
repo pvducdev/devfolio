@@ -10,9 +10,9 @@ import { type CommandContext, execute } from "@/lib/commands";
 import { cn } from "@/lib/utils.ts";
 import {
   assistant_placeholder,
-  assistant_suggestion_experience,
-  assistant_suggestion_projects,
-  assistant_suggestion_skills,
+  assistant_suggest_experience,
+  assistant_suggest_projects,
+  assistant_suggest_skills,
 } from "@/paraglide/messages.js";
 import { useAssistantStore } from "@/store/assistant.ts";
 import { useThemeStore } from "@/store/theme.ts";
@@ -115,9 +115,9 @@ export default function AssistantContainer({
         <Suggestions
           onClick={sendMessage}
           suggestions={[
-            assistant_suggestion_skills(),
-            assistant_suggestion_experience(),
-            assistant_suggestion_projects(),
+            assistant_suggest_skills(),
+            assistant_suggest_experience(),
+            assistant_suggest_projects(),
           ]}
         />
       )}

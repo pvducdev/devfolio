@@ -1,10 +1,10 @@
 import { type ComponentType, Suspense, useState } from "react";
 import { useMount } from "@/hooks/use-mount";
 import {
-  error_failed_load,
-  error_file_path_hint,
-  error_loading_file,
-  ui_loading,
+  msg_error_fileload,
+  msg_error_filepath,
+  msg_error_loadfail,
+  ui_state_loading,
 } from "@/paraglide/messages.js";
 import type { Tab } from "@/store/tabs.ts";
 
@@ -41,7 +41,7 @@ export default function MDXViewer({ tab }: MDXViewerProps) {
       const module = await moduleLoader();
       setMDXContent(() => module.default);
     } catch (err) {
-      setError(err instanceof Error ? err.message : error_failed_load());
+      setError(err instanceof Error ? err.message : msg_error_loadfail());
     }
   }
 
@@ -49,10 +49,10 @@ export default function MDXViewer({ tab }: MDXViewerProps) {
     return (
       <div className="flex h-full items-center justify-center">
         <div className="text-center">
-          <p className="mb-2 text-destructive">{error_loading_file()}</p>
+          <p className="mb-2 text-destructive">{msg_error_fileload()}</p>
           <p className="text-muted-foreground text-sm">{error}</p>
           <p className="mt-2 text-muted-foreground text-xs">
-            {error_file_path_hint()}
+            {msg_error_filepath()}
           </p>
         </div>
       </div>
@@ -66,7 +66,7 @@ export default function MDXViewer({ tab }: MDXViewerProps) {
           fallback={
             <div className="flex h-full items-center justify-center p-6">
               <p className="text-muted-foreground">
-                {ui_loading()} {tab.label}
+                {ui_state_loading()} {tab.label}
               </p>
             </div>
           }

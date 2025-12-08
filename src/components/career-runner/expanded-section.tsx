@@ -1,10 +1,10 @@
 import { motion } from "motion/react";
 import type { ExpandedContent } from "@/config/career-timeline";
 import {
-  career_infra,
-  career_metrics,
-  career_stack,
-  career_tools,
+  label_career_infra,
+  label_career_metrics,
+  label_career_stack,
+  label_career_tools,
 } from "@/paraglide/messages.js";
 import { TechStackSection } from "./tech-stack-section";
 
@@ -29,18 +29,18 @@ export function ExpandedSection({ expanded }: ExpandedSectionProps) {
         <div className="space-y-2">
           <TechStackSection
             items={expanded.techStack.primary}
-            label={career_stack()}
+            label={label_career_stack()}
           />
           {expanded.techStack.tools ? (
             <TechStackSection
               items={expanded.techStack.tools}
-              label={career_tools()}
+              label={label_career_tools()}
             />
           ) : null}
           {expanded.techStack.infrastructure ? (
             <TechStackSection
               items={expanded.techStack.infrastructure}
-              label={career_infra()}
+              label={label_career_infra()}
             />
           ) : null}
         </div>
@@ -48,7 +48,7 @@ export function ExpandedSection({ expanded }: ExpandedSectionProps) {
         {!!expanded.metrics && expanded.metrics.length > 0 ? (
           <div className="mt-3">
             <span className="mb-1 block font-semibold text-[10px] text-muted-foreground uppercase">
-              {career_metrics()}
+              {label_career_metrics()}
             </span>
             <ul className="space-y-0.5">
               {expanded.metrics.map((metric) => (
