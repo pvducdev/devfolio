@@ -7,6 +7,7 @@
   "social_linkedin": "LinkedIn",
   "social_github": "GitHub",
   "social_gitlab": "GitLab",
+  "assistant_header_title": "Assistant",
   "assistant_welcome": "Ready for some fun facts about my human?",
   "assistant_placeholder": "Ask me about D...",
   "assistant_suggestion_skills": "What are D's core skills?",
@@ -68,5 +69,45 @@
 
   "error_loading_file": "Error loading file",
   "error_file_path_hint": "Make sure the file path is relative to src/ directory",
-  "error_failed_load": "Failed to load file"
+  "error_failed_load": "Failed to load file",
+
+  "personal_short_bio": "I craft modern web experiences with clean design and thoughtful code. Dive in and explore what I've been building.",
+  "personal_long_bio": "Frontend Developer with 3 years of experience specializing in React, Vue, and modern web technologies.",
+  "personal_interest_1": "Exploring the newest frontend libraries and tools",
+  "personal_interest_2": "Building responsive, professional UIs",
+  "personal_interest_3": "Staying updated on modern development workflows and frameworks",
+
+  "career_present": "Present",
+  "career_job_education_title": "Computer Science",
+  "career_job_education_subtitle": "University Name",
+  "career_job_education_desc": "Studied computer science fundamentals, algorithms, and software engineering principles.",
+  "career_job_education_detail_1": "Bachelor's Degree",
+  "career_job_education_detail_2": "Class of 2020",
+
+  "career_job_freelance_title": "Freelance Developer",
+  "career_job_freelance_subtitle": "Remote",
+  "career_job_freelance_desc": "Built websites and web applications for small businesses and startups as a freelancer.",
+  "career_job_freelance_detail_1": "HTML/CSS/JS",
+  "career_job_freelance_detail_2": "First client projects",
+
+  "career_job_junior_title": "Junior Developer",
+  "career_job_junior_subtitle": "Startup Co.",
+  "career_job_junior_desc": "Joined an early-stage startup to build product features and learn professional development workflows.",
+  "career_job_junior_detail_1": "React",
+  "career_job_junior_detail_2": "Node.js",
+  "career_job_junior_detail_3": "Team collaboration",
+
+  "career_job_frontend_title": "Frontend Developer",
+  "career_job_frontend_subtitle": "Tech Corp",
+  "career_job_frontend_desc": "Led frontend development for enterprise SaaS products, focusing on performance and scalability.",
+  "career_job_frontend_detail_1": "TypeScript",
+  "career_job_frontend_detail_2": "React",
+  "career_job_frontend_detail_3": "CI/CD",
+
+  "career_job_senior_title": "Senior Frontend Developer",
+  "career_job_senior_subtitle": "Current Company",
+  "career_job_senior_desc": "Architecting modern web applications with cutting-edge technologies and mentoring the frontend team.",
+  "career_job_senior_detail_1": "React",
+  "career_job_senior_detail_2": "TypeScript",
+  "career_job_senior_detail_3": "TanStack"
 }

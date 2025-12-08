@@ -1,3 +1,11 @@
+import {
+  personal_interest_1,
+  personal_interest_2,
+  personal_interest_3,
+  personal_long_bio,
+  personal_short_bio,
+} from "@/paraglide/messages.js";
+
 export const PERSONAL_INFO = {
   name: "PVD",
   nickname: "D",
@@ -86,18 +94,22 @@ export const PERSONAL_INFO = {
     exploring: ["WebAssembly", "Rust"],
   },
 
-  interests: [
-    "Exploring the newest frontend libraries and tools",
-    "Building responsive, professional UIs",
-    "Staying updated on modern development workflows and frameworks",
-  ],
+  get interests() {
+    return [
+      personal_interest_1(),
+      personal_interest_2(),
+      personal_interest_3(),
+    ];
+  },
 
   about: {
-    shortBio:
-      "I craft modern web experiences with clean design and thoughtful code. Dive in and explore what I’ve been building.",
-    longBio:
-      "Frontend Developer with 3 years of experience specializing in React, Vue, and modern web technologies.",
+    get shortBio() {
+      return personal_short_bio();
+    },
+    get longBio() {
+      return personal_long_bio();
+    },
   },
-} as const;
+};
 
 export type PersonalInfo = typeof PERSONAL_INFO;

@@ -1,5 +1,36 @@
 import type { LucideIcon } from "lucide-react";
 import { Building2, Coffee, GraduationCap, Monitor, Users } from "lucide-react";
+import {
+  career_job_education_desc,
+  career_job_education_detail_1,
+  career_job_education_detail_2,
+  career_job_education_subtitle,
+  career_job_education_title,
+  career_job_freelance_desc,
+  career_job_freelance_detail_1,
+  career_job_freelance_detail_2,
+  career_job_freelance_subtitle,
+  career_job_freelance_title,
+  career_job_frontend_desc,
+  career_job_frontend_detail_1,
+  career_job_frontend_detail_2,
+  career_job_frontend_detail_3,
+  career_job_frontend_subtitle,
+  career_job_frontend_title,
+  career_job_junior_desc,
+  career_job_junior_detail_1,
+  career_job_junior_detail_2,
+  career_job_junior_detail_3,
+  career_job_junior_subtitle,
+  career_job_junior_title,
+  career_job_senior_desc,
+  career_job_senior_detail_1,
+  career_job_senior_detail_2,
+  career_job_senior_detail_3,
+  career_job_senior_subtitle,
+  career_job_senior_title,
+  career_present,
+} from "@/paraglide/messages.js";
 
 export type JobType = "fulltime" | "parttime" | "freelance" | "education";
 
@@ -26,19 +57,21 @@ export type CareerSection = {
   };
 };
 
-export const CAREER_SECTIONS: CareerSection[] = [
+export const getCareerSections = (): CareerSection[] => [
   {
     id: "education",
     year: "2020",
     icon: GraduationCap,
     jobType: "education",
     card: {
-      title: "Computer Science",
-      subtitle: "University Name",
-      details: ["Bachelor's Degree", "Class of 2020"],
+      title: career_job_education_title(),
+      subtitle: career_job_education_subtitle(),
+      details: [
+        career_job_education_detail_1(),
+        career_job_education_detail_2(),
+      ],
       expanded: {
-        description:
-          "Studied computer science fundamentals, algorithms, and software engineering principles.",
+        description: career_job_education_desc(),
         techStack: {
           primary: ["Java", "Python", "C++", "SQL"],
           tools: ["Git", "Linux", "VS Code"],
@@ -53,12 +86,14 @@ export const CAREER_SECTIONS: CareerSection[] = [
     icon: Coffee,
     jobType: "freelance",
     card: {
-      title: "Freelance Developer",
-      subtitle: "Remote",
-      details: ["HTML/CSS/JS", "First client projects"],
+      title: career_job_freelance_title(),
+      subtitle: career_job_freelance_subtitle(),
+      details: [
+        career_job_freelance_detail_1(),
+        career_job_freelance_detail_2(),
+      ],
       expanded: {
-        description:
-          "Built websites and web applications for small businesses and startups as a freelancer.",
+        description: career_job_freelance_desc(),
         techStack: {
           primary: ["HTML", "CSS", "JavaScript", "WordPress"],
           tools: ["Figma", "GitHub", "Netlify"],
@@ -77,12 +112,15 @@ export const CAREER_SECTIONS: CareerSection[] = [
     icon: Users,
     jobType: "parttime",
     card: {
-      title: "Junior Developer",
-      subtitle: "Startup Co.",
-      details: ["React", "Node.js", "Team collaboration"],
+      title: career_job_junior_title(),
+      subtitle: career_job_junior_subtitle(),
+      details: [
+        career_job_junior_detail_1(),
+        career_job_junior_detail_2(),
+        career_job_junior_detail_3(),
+      ],
       expanded: {
-        description:
-          "Joined an early-stage startup to build product features and learn professional development workflows.",
+        description: career_job_junior_desc(),
         techStack: {
           primary: ["React", "Node.js", "PostgreSQL", "Express"],
           tools: ["Jest", "ESLint", "Docker"],
@@ -102,12 +140,15 @@ export const CAREER_SECTIONS: CareerSection[] = [
     icon: Building2,
     jobType: "fulltime",
     card: {
-      title: "Frontend Developer",
-      subtitle: "Tech Corp",
-      details: ["TypeScript", "React", "CI/CD"],
+      title: career_job_frontend_title(),
+      subtitle: career_job_frontend_subtitle(),
+      details: [
+        career_job_frontend_detail_1(),
+        career_job_frontend_detail_2(),
+        career_job_frontend_detail_3(),
+      ],
       expanded: {
-        description:
-          "Led frontend development for enterprise SaaS products, focusing on performance and scalability.",
+        description: career_job_frontend_desc(),
         techStack: {
           primary: ["TypeScript", "React", "Redux", "GraphQL"],
           tools: ["Webpack", "Storybook", "Cypress", "Sentry"],
@@ -123,16 +164,19 @@ export const CAREER_SECTIONS: CareerSection[] = [
   },
   {
     id: "current",
-    year: "Present",
+    year: career_present(),
     icon: Monitor,
     jobType: "fulltime",
     card: {
-      title: "Senior Frontend Developer",
-      subtitle: "Current Company",
-      details: ["React", "TypeScript", "TanStack"],
+      title: career_job_senior_title(),
+      subtitle: career_job_senior_subtitle(),
+      details: [
+        career_job_senior_detail_1(),
+        career_job_senior_detail_2(),
+        career_job_senior_detail_3(),
+      ],
       expanded: {
-        description:
-          "Architecting modern web applications with cutting-edge technologies and mentoring the frontend team.",
+        description: career_job_senior_desc(),
         techStack: {
           primary: ["React 19", "TypeScript", "TanStack Router", "Zustand"],
           tools: ["Vite", "Vitest", "Biome", "Tailwind CSS v4"],
@@ -146,7 +190,10 @@ export const CAREER_SECTIONS: CareerSection[] = [
       },
     },
   },
-] as const;
+];
+
+// For backward compatibility
+export const CAREER_SECTIONS = getCareerSections();
 
 export const CHARACTER_CONFIG = {
   src: "/character.riv",
