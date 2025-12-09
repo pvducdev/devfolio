@@ -1,36 +1,3 @@
-export const WORK_EXPERIENCES = [
-  {
-    id: 1,
-    date: "Mar 15, 2024",
-    title: "Project Kickoff",
-    description:
-      "Initial team meeting and project scope definition. Established key milestones and resource allocation.",
-  },
-  {
-    id: 2,
-    date: "Mar 22, 2024",
-    title: "Design Phase",
-    description:
-      "Completed wireframes and user interface mockups. Stakeholder review and feedback incorporated.",
-  },
-  {
-    id: 3,
-    date: "Apr 5, 2024",
-    title: "Development Sprint",
-    description:
-      "Backend API implementation and frontend component development in progress.",
-  },
-  {
-    id: 4,
-    date: "Apr 19, 2024",
-    title: "Testing & Deployment",
-    description:
-      "Quality assurance testing, performance optimization, and production deployment preparation.",
-  },
-] as const;
-
-export type WorkExperience = (typeof WORK_EXPERIENCES)[number];
-
 export type ProjectTreeItem = {
   name: string;
   children?: string[];
@@ -76,8 +43,6 @@ export const PROJECT_TREE: Record<string, ProjectTreeItem> = {
   },
 } as const;
 
-export type ProjectTree = typeof PROJECT_TREE;
-
 export const PROJECT_TREE_CONFIG = {
   rootItemId: "engineering",
   defaultExpanded: ["engineering", "frontend"],
@@ -108,8 +73,6 @@ export const ABOUT_TREE: Record<string, AboutTreeItem> = {
     children: ["profile"],
   },
 } as const;
-
-export type AboutTree = typeof ABOUT_TREE;
 
 export const ABOUT_TREE_CONFIG = {
   rootItemId: "root",

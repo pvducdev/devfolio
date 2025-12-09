@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { THEMES, type Theme } from "@/config/theme.ts";
 
-export const storeKey = "theme";
+const storeKey = "theme";
 
 type State = {
   theme: Theme["value"];
