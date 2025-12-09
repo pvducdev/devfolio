@@ -1,4 +1,5 @@
 import type { ReactNode, RefObject } from "react";
+import { listCommands, type Command as TCommand } from "@/commands";
 import {
   Command,
   CommandEmpty,
@@ -12,7 +13,6 @@ import {
   PopoverAnchor,
   PopoverContent,
 } from "@/components/ui/popover.tsx";
-import { listCommands, type Command as TCommand } from "@/lib/commands";
 import { assistant_commands, assistant_empty } from "@/paraglide/messages.js";
 
 type SlashCommandPopoverProps = {

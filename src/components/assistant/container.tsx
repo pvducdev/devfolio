@@ -1,4 +1,5 @@
 import { useNavigate } from "@tanstack/react-router";
+import { type CommandContext, execute } from "@/commands";
 import Header from "@/components/assistant/header.tsx";
 import Input from "@/components/assistant/input.tsx";
 import Response from "@/components/assistant/response.tsx";
@@ -6,7 +7,6 @@ import Suggestions from "@/components/assistant/suggestions.tsx";
 import Welcome from "@/components/assistant/welcome.tsx";
 import ScrollAreaWithAnchor from "@/components/common/scroll-area-with-anchor.tsx";
 import generateAssistantResponseFn from "@/fn/generate-assistant-response.ts";
-import { type CommandContext, execute } from "@/lib/commands";
 import { cn } from "@/lib/utils.ts";
 import {
   assistant_placeholder,

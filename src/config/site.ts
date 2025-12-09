@@ -1,8 +1,10 @@
-import { PERSONAL_INFO } from "./personal";
+import { ABOUT } from "./about";
+import { PERSONAL_INFO } from "./personal-info";
+import { SKILLS } from "./skills";
 
 export const SITE_CONFIG = {
   title: "PVD Portfolio",
-  description: PERSONAL_INFO.about.shortBio,
+  description: ABOUT.shortBio,
   // biome-ignore lint/correctness/noUndeclaredVariables: <vite define>
   version: __APP_VERSION__,
   url: "https://your-domain.com",
@@ -12,8 +14,8 @@ export const SITE_CONFIG = {
     keywords: [
       "portfolio",
       "frontend developer",
-      ...PERSONAL_INFO.skills.core.map((s) => s.name.toLowerCase()),
-      ...PERSONAL_INFO.skills.stack.map((s) => s.name.toLowerCase()),
+      ...SKILLS.core.map((s) => s.name.toLowerCase()),
+      ...SKILLS.stack.map((s) => s.name.toLowerCase()),
     ],
     ogImage: "/og-image.png",
   },
