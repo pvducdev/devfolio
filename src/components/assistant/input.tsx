@@ -1,10 +1,10 @@
 import { type ChangeEvent, useCallback, useRef } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import SlashCommandPopover from "@/components/assistant/slash-command-popover.tsx";
+import { selectHighlightedCommand } from "@/components/assistant/utils.ts";
 import { Textarea } from "@/components/ui/textarea.tsx";
 import { useCmdNav } from "@/hooks/use-cmd-nav.ts";
 import { useSlashCommands } from "@/hooks/use-slash-commands.ts";
-import { selectHighlightedCommand } from "./utils.ts";
 
 type AssistantInputProps = {
   placeholder?: string;

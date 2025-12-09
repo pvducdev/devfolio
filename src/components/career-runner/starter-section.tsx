@@ -96,7 +96,7 @@ function TipBox({ prefersReducedMotion }: { prefersReducedMotion: boolean }) {
   );
 }
 
-export function StarterSection() {
+export default function StarterSection() {
   const prefersReducedMotion = useReducedMotion() ?? false;
 
   const animationProps = prefersReducedMotion

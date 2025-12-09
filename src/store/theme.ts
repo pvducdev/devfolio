@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { THEMES, type Theme } from "@/config/theme.ts";
 
-const storeKey = "theme";
+const STORE_KEY = "theme";
 
 type State = {
   theme: Theme["value"];
@@ -21,7 +21,7 @@ export const useThemeStore = create<State & Actions>()(
       },
     }),
     {
-      name: storeKey,
+      name: STORE_KEY,
     }
   )
 );

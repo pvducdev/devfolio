@@ -70,7 +70,7 @@ function TitleSection({
   );
 }
 
-export function EndSection() {
+export default function EndSection() {
   const prefersReducedMotion = useReducedMotion() ?? false;
 
   const animationProps = prefersReducedMotion

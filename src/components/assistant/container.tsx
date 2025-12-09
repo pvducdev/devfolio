@@ -17,7 +17,6 @@ import {
 } from "@/paraglide/messages.js";
 import { useAssistantStore } from "@/store/assistant.ts";
 import { useThemeStore } from "@/store/theme.ts";
-import "@/commands";
 
 type AssistantContainerProps = {
   onClose: () => void;

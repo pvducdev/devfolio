@@ -7,7 +7,7 @@ import {
   useCareerScrolling,
 } from "@/store/career";
 
-export function Character() {
+export default function Character() {
   const activeSection = useCareerActiveSection();
   const careerScrolling = useCareerScrolling();
   const careerLooping = useCareerLooping();

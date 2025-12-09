@@ -5,7 +5,7 @@ import { useCareerLooping, useCareerStore } from "@/store/career.ts";
 
 const DEFAULT_YEAR = "2001";
 
-export function YearHUD() {
+export default function YearHUD() {
   const activeSection = useCareerStore((s) => s.activeSection);
   const careerLooping = useCareerLooping();
   const [year, setYear] = useState<string>(DEFAULT_YEAR);

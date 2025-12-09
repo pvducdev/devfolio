@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useBoolean } from "usehooks-ts";
 import type { ExpandedContent } from "@/config/career-timeline";
 import { cn } from "@/lib/utils";
-import { ExpandedSection } from "./expanded-section";
+import ExpandedSection from "./expanded-section";
 
 const GLOW_COLOR = "oklch(from var(--primary) l c h / 0.4)";
 
@@ -16,7 +16,7 @@ type JobCardProps = {
   isActive?: boolean;
 };
 
-export function JobCard({
+export default function JobCard({
   title,
   subtitle,
   details,

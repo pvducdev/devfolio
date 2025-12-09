@@ -1,14 +1,14 @@
 import { CAREER_SECTIONS, UI_CONFIG } from "@/config/career-timeline";
 import { useCareerScroll } from "@/hooks/use-career-scroll";
 import { cn } from "@/lib/utils.ts";
-import { CareerSection } from "./career-section";
-import { Character } from "./character";
-import { EndSection } from "./end-section";
-import { Ground } from "./ground";
-import { StarterSection } from "./starter-section";
-import { YearHUD } from "./year-hud";
+import CareerSection from "./career-section";
+import Character from "./character";
+import EndSection from "./end-section";
+import Ground from "./ground";
+import StarterSection from "./starter-section";
+import YearHUD from "./year-hud";
 
-export function CareerRunner() {
+export default function CareerRunner() {
   const { containerRef } = useCareerScroll();
 
   return (

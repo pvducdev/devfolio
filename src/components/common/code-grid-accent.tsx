@@ -33,11 +33,11 @@ const COLOR_VARIANTS = {
   },
 } as const;
 
-export const CodeGridAccent = ({
+export default function CodeGridAccent({
   opacity = 1,
   variant = "neutral",
   gridSize = "medium",
-}: CodeGridAccentProps) => {
+}: CodeGridAccentProps) {
   const colors = COLOR_VARIANTS[variant];
   const gridSizePx = GRID_SIZES[gridSize];
 
@@ -96,4 +96,4 @@ export const CodeGridAccent = ({
       </div>
     </div>
   );
-};
+}

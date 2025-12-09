@@ -2,9 +2,10 @@ import { Expand, GitBranch, Settings, Shrink } from "lucide-react";
 import { useHotkeys } from "react-hotkeys-hook";
 import AssistantTrigger from "@/components/assistant/trigger.tsx";
 import ButtonWithTooltip from "@/components/common/button-with-tooltip.tsx";
-import { LanguageSwitcher } from "@/components/common/language-switcher.tsx";
+import LanguageSwitcher from "@/components/common/language-switcher.tsx";
 import AppSearch from "@/components/layout/app-search.tsx";
 import ResumeViewer from "@/components/resume-viewer/dialog-container.tsx";
+import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,7 +25,6 @@ import {
   ui_settings_title,
 } from "@/paraglide/messages.js";
 import { useAppLayoutStore } from "@/store/app-layout.ts";
-import { Badge } from "../ui/badge";
 
 export default function Header() {
   const isStretchLayout = useAppLayoutStore((state) => state.isStretchLayout);

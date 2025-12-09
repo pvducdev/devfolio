@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/popover.tsx";
 import { listCommands, type Command as TCommand } from "@/lib/commands";
 import { assistant_commands, assistant_empty } from "@/paraglide/messages.js";
-import "@/commands";
 
 type SlashCommandPopoverProps = {
   commandRef: RefObject<HTMLDivElement | null>;

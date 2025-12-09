@@ -3,7 +3,10 @@ type TechStackSectionProps = {
   items: string[];
 };
 
-export function TechStackSection({ label, items }: TechStackSectionProps) {
+export default function TechStackSection({
+  label,
+  items,
+}: TechStackSectionProps) {
   return (
     <div>
       <span className="mb-0.5 block font-semibold text-[10px] text-muted-foreground uppercase">

@@ -6,15 +6,18 @@ import {
   UI_CONFIG,
 } from "@/config/career-timeline";
 import { useCareerLooping, useCareerStore } from "@/store/career.ts";
-import { JobCard } from "./job-card";
-import { Landmark } from "./landmark";
+import JobCard from "./job-card";
+import Landmark from "./landmark";
 
 type CareerSectionProps = {
   section: TCareerSection;
   containerRef: RefObject<HTMLDivElement | null>;
 };
 
-export function CareerSection({ section, containerRef }: CareerSectionProps) {
+export default function CareerSection({
+  section,
+  containerRef,
+}: CareerSectionProps) {
   const [activeSection, setActiveSection, reset] = useCareerStore(
     useShallow((s) => [s.activeSection, s.setActiveSection, s.reset])
   );

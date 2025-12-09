@@ -6,13 +6,13 @@ import {
   label_career_stack,
   label_career_tools,
 } from "@/paraglide/messages.js";
-import { TechStackSection } from "./tech-stack-section";
+import TechStackSection from "./tech-stack-section";
 
 type ExpandedSectionProps = {
   expanded: ExpandedContent;
 };
 
-export function ExpandedSection({ expanded }: ExpandedSectionProps) {
+export default function ExpandedSection({ expanded }: ExpandedSectionProps) {
   return (
     <motion.div
       animate={{ opacity: 1, height: "auto" }}
