@@ -1,9 +1,8 @@
 import { Skeleton } from "@/components/ui/skeleton.tsx";
 
-export default function LayoutSkeleton() {
+export default function AppSkeleton() {
   return (
-    <div className="grid size-full grid-rows-[auto_1fr_auto] overflow-hidden rounded-2xl bg-sidebar">
-      {/* Header skeleton */}
+    <>
       <div className="flex h-8 w-full items-center justify-between px-3">
         <div className="flex items-center gap-4">
           <Skeleton className="size-3 rounded-full" />
@@ -17,22 +16,18 @@ export default function LayoutSkeleton() {
         </div>
       </div>
 
-      {/* Content skeleton */}
       <div className="flex h-full gap-1.5 overflow-hidden">
-        {/* Activities bar skeleton */}
         <div className="flex w-12 flex-col items-center gap-2 py-2">
           <Skeleton className="size-8 rounded" />
           <Skeleton className="size-8 rounded" />
           <Skeleton className="size-8 rounded" />
         </div>
 
-        {/* Main content area skeleton */}
         <div className="flex flex-1 gap-1.5">
           <Skeleton className="h-full flex-1 rounded-xl" />
         </div>
       </div>
 
-      {/* Footer skeleton */}
       <div className="flex h-6 w-full items-center justify-between px-3">
         <Skeleton className="h-3 w-20" />
         <div className="flex items-center gap-4">
@@ -44,6 +39,6 @@ export default function LayoutSkeleton() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

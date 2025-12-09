@@ -1,4 +1,4 @@
-import ThemeSwitcher from "@/components/theme-switcher.tsx";
+import ThemeSwitcher from "@/components/theme/theme-switcher.tsx";
 import {
   Breadcrumb,
   BreadcrumbItem,
