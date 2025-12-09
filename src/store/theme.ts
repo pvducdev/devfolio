@@ -25,3 +25,7 @@ export const useThemeStore = create<State & Actions>()(
     }
   )
 );
+
+export const useCurrentTheme = () => useThemeStore((s) => s.theme);
+
+export const useSetTheme = () => useThemeStore((s) => s.setTheme);

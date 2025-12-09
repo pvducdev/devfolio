@@ -7,19 +7,21 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable.tsx";
-import { useAppLayoutStore } from "@/store/app-layout.ts";
+import {
+  useAppLayoutActions,
+  usePanelSection,
+  usePanelSize,
+  useSidebarSection,
+  useSidebarSize,
+} from "@/store/app-layout.ts";
 
 export default function AppContent() {
-  const {
-    sidebar,
-    panel,
-    sidebarSize,
-    setSidebarSize,
-    toggleSidebar,
-    panelSize,
-    togglePanel,
-    setPanelSize,
-  } = useAppLayoutStore();
+  const sidebar = useSidebarSection();
+  const panel = usePanelSection();
+  const sidebarSize = useSidebarSize();
+  const panelSize = usePanelSize();
+  const { setSidebarSize, toggleSidebar, togglePanel, setPanelSize } =
+    useAppLayoutActions();
 
   return (
     <div className="flex h-full overflow-hidden">

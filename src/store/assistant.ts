@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { useShallow } from "zustand/shallow";
 
 const STORE_KEY = "assistant";
 
@@ -58,3 +59,27 @@ export const useAssistantStore = create<AssistantStore>()(
     }
   )
 );
+
+export const useIsAssistantStreaming = () =>
+  useAssistantStore((s) => s.isStreaming);
+
+export const useAssistantError = () => useAssistantStore((s) => s.error);
+
+export const useHasAssistantMessage = () =>
+  useAssistantStore((s) => s.message !== null);
+
+export const useAssistantMessage = () => useAssistantStore((s) => s.message);
+
+export const useAssistantActions = () =>
+  useAssistantStore(
+    useShallow((s) => ({
+      setResponse: s.setResponse,
+      setMessage: s.setMessage,
+      startStreaming: s.startStreaming,
+      appendChunk: s.appendChunk,
+      finishStreaming: s.finishStreaming,
+      setError: s.setError,
+      clearError: s.clearError,
+      clear: s.clear,
+    }))
+  );

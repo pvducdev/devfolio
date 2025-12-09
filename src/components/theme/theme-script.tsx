@@ -1,8 +1,8 @@
 import { useLayoutEffect } from "react";
-import { useThemeStore } from "@/store/theme.ts";
+import { useCurrentTheme } from "@/store/theme.ts";
 
 export default function ThemeScript() {
-  const theme = useThemeStore((state) => state.theme);
+  const theme = useCurrentTheme();
 
   useLayoutEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);

@@ -8,7 +8,7 @@ import {
   PROJECT_TREE_CONFIG,
   type ProjectTreeItem,
 } from "@/config/content.ts";
-import { useTabsStore } from "@/store/tabs";
+import { useTabsActions } from "@/store/tabs";
 
 function getTreeItemIcon(item: ItemInstance<ProjectTreeItem>) {
   const iconClass = "pointer-events-none size-4 text-muted-foreground";
@@ -24,7 +24,7 @@ function getTreeItemIcon(item: ItemInstance<ProjectTreeItem>) {
 export default function Projects() {
   "use no memo";
 
-  const openTab = useTabsStore((state) => state.openTab);
+  const { openTab } = useTabsActions();
 
   const tree = useTree<ProjectTreeItem>({
     initialState: {

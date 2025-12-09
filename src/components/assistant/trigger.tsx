@@ -3,12 +3,12 @@ import { useHotkeys } from "react-hotkeys-hook";
 import ButtonWithTooltip from "@/components/common/button-with-tooltip.tsx";
 import { Kbd, KbdGroup } from "@/components/ui/kbd.tsx";
 import { assistant_tooltip } from "@/paraglide/messages.js";
-import { useAppLayoutStore } from "@/store/app-layout.ts";
+import { useAppLayoutActions } from "@/store/app-layout.ts";
 
 const KBD = "j";
 
 export default function AssistantTrigger() {
-  const togglePanel = useAppLayoutStore((state) => state.togglePanel);
+  const { togglePanel } = useAppLayoutActions();
 
   const onToggleAssistant = () => {
     togglePanel("assistant");

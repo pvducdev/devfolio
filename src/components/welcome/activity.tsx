@@ -1,16 +1,14 @@
 import { Button } from "@/components/ui/button.tsx";
 import type { Activity as TActivity } from "@/config/routes.ts";
-import { useAppLayoutStore } from "@/store/app-layout.ts";
+import { useAppLayoutActions, useSidebarSection } from "@/store/app-layout.ts";
 
 type WelcomeActionProps = {
   data: TActivity;
 };
 
 export default function WelcomeActivity({ data }: WelcomeActionProps) {
-  const [sidebar, toggleSidebar] = useAppLayoutStore((state) => [
-    state.sidebar,
-    state.toggleSidebar,
-  ]);
+  const sidebar = useSidebarSection();
+  const { toggleSidebar } = useAppLayoutActions();
 
   const Icon = data.icon;
 

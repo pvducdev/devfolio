@@ -24,13 +24,11 @@ import {
   ui_settings_shortcuts,
   ui_settings_title,
 } from "@/paraglide/messages.js";
-import { useAppLayoutStore } from "@/store/app-layout.ts";
+import { useAppLayoutActions, useIsStretchLayout } from "@/store/app-layout.ts";
 
 export default function Header() {
-  const isStretchLayout = useAppLayoutStore((state) => state.isStretchLayout);
-  const toggleStretchLayout = useAppLayoutStore(
-    (state) => state.toggleStretchLayout
-  );
+  const isStretchLayout = useIsStretchLayout();
+  const { toggleStretchLayout } = useAppLayoutActions();
 
   useHotkeys("mod+shift+f", toggleStretchLayout);
 

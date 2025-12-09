@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { useShallow } from "zustand/shallow";
 
 const STORE_KEY = "app-layout";
 
@@ -70,3 +71,33 @@ export const useAppLayoutStore = create<AppLayoutState & AppLayoutActions>()(
     }
   )
 );
+
+export const useIsSidebarOpen = () =>
+  useAppLayoutStore((s) => s.sidebar !== undefined);
+
+export const useIsPanelOpen = () =>
+  useAppLayoutStore((s) => s.panel !== undefined);
+
+export const useIsStretchLayout = () =>
+  useAppLayoutStore((s) => s.isStretchLayout);
+
+export const useHasHydrated = () => useAppLayoutStore((s) => s._hasHydrated);
+
+export const useSidebarSection = () => useAppLayoutStore((s) => s.sidebar);
+
+export const usePanelSection = () => useAppLayoutStore((s) => s.panel);
+
+export const useSidebarSize = () => useAppLayoutStore((s) => s.sidebarSize);
+
+export const usePanelSize = () => useAppLayoutStore((s) => s.panelSize);
+
+export const useAppLayoutActions = () =>
+  useAppLayoutStore(
+    useShallow((s) => ({
+      toggleSidebar: s.toggleSidebar,
+      togglePanel: s.togglePanel,
+      setSidebarSize: s.setSidebarSize,
+      setPanelSize: s.setPanelSize,
+      toggleStretchLayout: s.toggleStretchLayout,
+    }))
+  );

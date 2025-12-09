@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { useShallow } from "zustand/shallow";
 import { getFileName, hashPath } from "@/lib/utils.ts";
 
 const STORE_KEY = "tabs-storage";
@@ -70,3 +71,23 @@ export const useTabsStore = create<TabsState & TabsActions>()(
     { name: STORE_KEY }
   )
 );
+
+export const useHasOpenTabs = () => useTabsStore((s) => s.tabs.length > 0);
+
+export const useActiveTab = () =>
+  useTabsStore((s) => s.tabs.find((t) => t.id === s.activeTabId));
+
+export const useActiveTabId = () => useTabsStore((s) => s.activeTabId);
+
+export const useTabCount = () => useTabsStore((s) => s.tabs.length);
+
+export const useOpenTabs = () => useTabsStore((s) => s.tabs);
+
+export const useTabsActions = () =>
+  useTabsStore(
+    useShallow((s) => ({
+      openTab: s.openTab,
+      closeTab: s.closeTab,
+      setActiveTab: s.setActiveTab,
+    }))
+  );

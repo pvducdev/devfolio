@@ -5,10 +5,10 @@ import {
   ui_sidebar_careerdesc,
   ui_sidebar_careertitle,
 } from "@/paraglide/messages.js";
-import { useTabsStore } from "@/store/tabs";
+import { useTabsActions } from "@/store/tabs";
 
 export default function Career() {
-  const openTab = useTabsStore((state) => state.openTab);
+  const { openTab } = useTabsActions();
 
   const handleOpenCareerRunner = () => {
     openTab("content/career.mdx");
