@@ -1,17 +1,9 @@
-import { useShallow } from "zustand/react/shallow";
-import AiContainer from "@/components/assistant/container.tsx";
-import { useAppLayoutStore } from "@/store/app-layout.ts";
+import Assistant from "@/components/assistant/container.tsx";
 
-export default function Panel() {
-  const [togglePanel] = useAppLayoutStore(
-    useShallow((state) => [state.togglePanel])
-  );
+type PanelProps = {
+  onClose: () => void;
+};
 
-  return (
-    <AiContainer
-      onClose={() => {
-        togglePanel("assistant");
-      }}
-    />
-  );
+export default function Panel({ onClose }: PanelProps) {
+  return <Assistant onClose={onClose} />;
 }

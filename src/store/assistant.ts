@@ -15,6 +15,7 @@ type AssistantActions = {
   appendChunk: (chunk: string) => void;
   finishStreaming: () => void;
   setError: (error: string) => void;
+  clearError: () => void;
   clear: () => void;
 };
 
@@ -43,6 +44,8 @@ export const useAssistantStore = create<AssistantStore>()(
       finishStreaming: () => set({ isStreaming: false }),
 
       setError: (error) => set({ error, isStreaming: false }),
+
+      clearError: () => set({ error: null }),
 
       clear: () => set(initialState),
     }),

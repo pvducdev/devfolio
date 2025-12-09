@@ -1,4 +1,3 @@
-import { useShallow } from "zustand/react/shallow";
 import CodeEditorContainer from "@/components/code-editor/container.tsx";
 import ActivitiesBar from "@/components/layout/activities-bar.tsx";
 import Panel from "@/components/layout/panel.tsx";
@@ -16,13 +15,20 @@ export default function AppContent() {
     panel,
     sidebarSize,
     setSidebarSize,
+    toggleSidebar,
     panelSize,
+    togglePanel,
     setPanelSize,
-  } = useAppLayoutStore(useShallow((state) => state));
+  } = useAppLayoutStore();
 
   return (
     <div className="flex h-full overflow-hidden">
-      <ActivitiesBar />
+      <ActivitiesBar
+        active={sidebar}
+        onClick={(key) => {
+          toggleSidebar(key);
+        }}
+      />
       <ResizablePanelGroup autoSaveId="conditional" direction="horizontal">
         {!!sidebar && (
           <>
@@ -60,7 +66,11 @@ export default function AppContent() {
               }}
               order={3}
             >
-              <Panel />
+              <Panel
+                onClose={() => {
+                  togglePanel("assistant");
+                }}
+              />
             </ResizablePanel>
           </>
         )}
