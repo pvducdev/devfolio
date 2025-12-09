@@ -1,17 +1,20 @@
 import { createServerFn } from "@tanstack/react-start";
+import { minLength, object, parse, pipe, string, transform } from "valibot";
 import { generateMessage } from "@/lib/gemini.ts";
 import { typewriterStream } from "@/lib/typewriter-stream.ts";
 
-const generateAssistantResponse = createServerFn()
-  .inputValidator((data: { prompt: string }) => {
-    const trimmedPrompt = data.prompt.trim();
-
-    if (!trimmedPrompt) {
-      throw new Error("Prompt is required");
-    }
-
-    return { prompt: trimmedPrompt };
+const InputSchema = pipe(
+  object({
+    prompt: pipe(
+      string(),
+      transform((val) => val.trim()),
+      minLength(1, "Prompt is required")
+    ),
   })
+);
+
+const generateAssistantResponse = createServerFn()
+  .inputValidator((data: unknown) => parse(InputSchema, data))
   .handler(async function* ({ data }) {
     const response = await generateMessage(data.prompt);
 

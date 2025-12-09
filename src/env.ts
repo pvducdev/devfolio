@@ -1,9 +1,18 @@
 import { createEnv } from "@t3-oss/env-core";
-import { z } from "zod";
+import {
+  type BaseIssue,
+  type BaseSchema,
+  minLength,
+  object,
+  optional,
+  parse,
+  pipe,
+  string,
+} from "valibot";
 
 export const env = createEnv({
   server: {
-    SERVER_URL: z.string().url().optional(),
+    GEMINI_API_KEY: pipe(string(), minLength(1)),
   },
 
   /**
@@ -13,7 +22,7 @@ export const env = createEnv({
   clientPrefix: "VITE_",
 
   client: {
-    VITE_APP_TITLE: z.string().min(1).optional(),
+    VITE_APP_TITLE: optional(pipe(string(), minLength(1))),
   },
 
   /**
@@ -24,10 +33,10 @@ export const env = createEnv({
 
   /**
    * By default, this library will feed the environment variables directly to
-   * the Zod validator.
+   * the validator.
    *
    * This means that if you have an empty string for a value that is supposed
-   * to be a number (e.g. `PORT=` in a ".env" file), Zod will incorrectly flag
+   * to be a number (e.g. `PORT=` in a ".env" file), the validator will incorrectly flag
    * it as a type mismatch violation. Additionally, if you have an empty string
    * for a value that is supposed to be a string with a default value (e.g.
    * `DOMAIN=` in an ".env" file), the default value will never be applied.
@@ -36,4 +45,30 @@ export const env = createEnv({
    * explicitly specify this option as true.
    */
   emptyStringAsUndefined: true,
+
+  /**
+   * Create a schema factory that returns a standard schema interface
+   * compatible with @t3-oss/env-core
+   */
+  createFinalSchema: <TSchema extends Record<string, BaseSchema>>(
+    schema: TSchema
+  ) => ({
+    "~standard": {
+      version: 1,
+      vendor: "valibot",
+      validate: (data: unknown) => {
+        try {
+          const result = parse(object(schema), data);
+          return {
+            value: result,
+            issues: undefined,
+          };
+        } catch (error) {
+          return {
+            issues: (error as { issues?: BaseIssue[] }).issues,
+          };
+        }
+      },
+    } as const,
+  }),
 });
