@@ -11,6 +11,7 @@ type AssistantState = {
 
 type AssistantActions = {
   setResponse: (content: string) => void;
+  setMessage: (content: string) => void;
   startStreaming: () => void;
   appendChunk: (chunk: string) => void;
   finishStreaming: () => void;
@@ -34,6 +35,8 @@ export const useAssistantStore = create<AssistantStore>()(
 
       setResponse: (content) =>
         set({ message: content, isStreaming: false, error: null }),
+
+      setMessage: (content) => set({ message: content }),
 
       startStreaming: () =>
         set({ message: "", isStreaming: true, error: null }),
