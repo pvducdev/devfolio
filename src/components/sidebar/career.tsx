@@ -1,5 +1,4 @@
 import { Play } from "lucide-react";
-import { useShallow } from "zustand/react/shallow";
 import { Button } from "@/components/ui/button";
 import {
   action_sidebar_opencareer,
@@ -9,7 +8,7 @@ import {
 import { useTabsStore } from "@/store/tabs";
 
 export default function Career() {
-  const openTab = useTabsStore(useShallow((state) => state.openTab));
+  const openTab = useTabsStore((state) => state.openTab);
 
   const handleOpenCareerRunner = () => {
     openTab("content/career.mdx");

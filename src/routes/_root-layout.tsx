@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useShallow } from "zustand/react/shallow";
 import AppContent from "@/components/layout/app-content.tsx";
 import AppSkeleton from "@/components/layout/app-skeleton.tsx";
 import Header from "@/components/layout/header.tsx";
@@ -13,9 +12,7 @@ export const Route = createFileRoute("/_root-layout")({
 });
 
 function RouteComponent() {
-  const hasHydrated = useAppLayoutStore(
-    useShallow((state) => state._hasHydrated)
-  );
+  const hasHydrated = useAppLayoutStore((state) => state._hasHydrated);
 
   return (
     <RootLayout>

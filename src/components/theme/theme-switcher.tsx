@@ -1,6 +1,5 @@
 import { Check, Palette } from "lucide-react";
 import { useBoolean } from "usehooks-ts";
-import { useShallow } from "zustand/react/shallow";
 import { Button } from "@/components/ui/button.tsx";
 import {
   Command,
@@ -20,9 +19,10 @@ import { useThemeStore } from "@/store/theme.ts";
 
 export default function ThemeSwitcher() {
   const { value: open, setValue: setOpen } = useBoolean(false);
-  const [theme, setTheme] = useThemeStore(
-    useShallow((state) => [state.theme, state.setTheme])
-  );
+  const [theme, setTheme] = useThemeStore((state) => [
+    state.theme,
+    state.setTheme,
+  ]);
 
   return (
     <Popover onOpenChange={setOpen} open={open}>

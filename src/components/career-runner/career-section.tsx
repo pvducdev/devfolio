@@ -1,6 +1,5 @@
 import { type RefObject, useEffect } from "react";
 import { useIntersectionObserver } from "usehooks-ts";
-import { useShallow } from "zustand/react/shallow";
 import {
   type CareerSection as TCareerSection,
   UI_CONFIG,
@@ -18,9 +17,11 @@ export default function CareerSection({
   section,
   containerRef,
 }: CareerSectionProps) {
-  const [activeSection, setActiveSection, reset] = useCareerStore(
-    useShallow((s) => [s.activeSection, s.setActiveSection, s.reset])
-  );
+  const [activeSection, setActiveSection, reset] = useCareerStore((s) => [
+    s.activeSection,
+    s.setActiveSection,
+    s.reset,
+  ]);
   const careerLooping = useCareerLooping();
 
   const isActive = activeSection?.id === section.id;

@@ -9,7 +9,6 @@ import {
 } from "motion/react";
 import { type RefObject, useEffectEvent, useRef } from "react";
 import { useEventListener, useUnmount } from "usehooks-ts";
-import { useShallow } from "zustand/react/shallow";
 import { useCareerStore } from "@/store/career.ts";
 
 type UseCareerScrollReturn = {
@@ -24,9 +23,11 @@ export function useCareerScroll(velocityThreshold = 50): UseCareerScrollReturn {
   const containerRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<AnimationPlaybackControls | null>(null);
   const { scrollX } = useScroll({ container: containerRef });
-  const [status, setStatus, reset] = useCareerStore(
-    useShallow((s) => [s.status, s.setStatus, s.reset])
-  );
+  const [status, setStatus, reset] = useCareerStore((s) => [
+    s.status,
+    s.setStatus,
+    s.reset,
+  ]);
 
   const scrollVelocity = useVelocity(scrollX);
   const isScrollingValue = useTransform(

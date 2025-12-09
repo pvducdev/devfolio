@@ -109,7 +109,6 @@ function useFileDownload(): UseFileDownloadReturn {
 
       triggerBrowserDownload(blob, filename);
 
-      // Success callback
       onSuccess?.();
     } catch (err) {
       const error =
@@ -120,12 +119,10 @@ function useFileDownload(): UseFileDownloadReturn {
         error: error.message,
       }));
 
-      // Error callback
       onError?.(error);
     } finally {
       setState((prev) => ({ ...prev, isDownloading: false }));
 
-      // Finally callback
       onFinally?.();
     }
   };

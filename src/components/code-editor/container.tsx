@@ -1,4 +1,3 @@
-import { useShallow } from "zustand/react/shallow";
 import MDXViewer from "@/components/tabs/mdx-viewer";
 import TabBar from "@/components/tabs/tab-bar";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
@@ -7,12 +6,12 @@ import { useTabsStore } from "@/store/tabs";
 
 export default function CodeEditorContainer() {
   const { tabs, activeTabId, setActiveTab, closeTab } = useTabsStore(
-    useShallow((state) => ({
+    (state) => ({
       tabs: state.tabs,
       activeTabId: state.activeTabId,
       setActiveTab: state.setActiveTab,
       closeTab: state.closeTab,
-    }))
+    })
   );
 
   if (tabs.length === 0) {

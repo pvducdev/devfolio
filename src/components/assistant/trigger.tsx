@@ -1,6 +1,5 @@
 import { Dog } from "lucide-react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { useShallow } from "zustand/react/shallow";
 import ButtonWithTooltip from "@/components/common/button-with-tooltip.tsx";
 import { Kbd, KbdGroup } from "@/components/ui/kbd.tsx";
 import { assistant_tooltip } from "@/paraglide/messages.js";
@@ -9,9 +8,7 @@ import { useAppLayoutStore } from "@/store/app-layout.ts";
 const KBD = "j";
 
 export default function AssistantTrigger() {
-  const [togglePanel] = useAppLayoutStore(
-    useShallow((state) => [state.togglePanel])
-  );
+  const togglePanel = useAppLayoutStore((state) => state.togglePanel);
 
   const onToggleAssistant = () => {
     togglePanel("assistant");

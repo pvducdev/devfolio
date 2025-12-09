@@ -2,7 +2,6 @@ import type { ItemInstance } from "@headless-tree/core";
 import { hotkeysCoreFeature, syncDataLoaderFeature } from "@headless-tree/core";
 import { useTree } from "@headless-tree/react";
 import { FileIcon, FolderIcon, FolderOpenIcon } from "lucide-react";
-import { useShallow } from "zustand/react/shallow";
 import { Tree, TreeItem, TreeItemLabel } from "@/components/ui/tree";
 import {
   PROJECT_TREE,
@@ -25,7 +24,7 @@ function getTreeItemIcon(item: ItemInstance<ProjectTreeItem>) {
 export default function Projects() {
   "use no memo";
 
-  const openTab = useTabsStore(useShallow((state) => state.openTab));
+  const openTab = useTabsStore((state) => state.openTab);
 
   const tree = useTree<ProjectTreeItem>({
     initialState: {
