@@ -58,9 +58,7 @@ export const useAppLayoutStore = create<AppLayoutState & AppLayoutActions>()(
     }),
     {
       name: STORE_KEY,
-      onRehydrateStorage: () => (state) => {
-        state?.setHasHydrated(true);
-      },
+      onRehydrateStorage: (state) => () => state.setHasHydrated(true),
       partialize: (state) => ({
         sidebar: state.sidebar,
         panel: state.panel,

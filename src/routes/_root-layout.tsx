@@ -16,12 +16,12 @@ function RouteComponent() {
 
   return (
     <RootLayout>
+      <ThemeScript />
       {hasHydrated ? (
         <>
           <Header />
           <AppContent />
           <StatusFooter />
-          <ThemeScript />
         </>
       ) : (
         <AppSkeleton />

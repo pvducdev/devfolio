@@ -1,13 +1,13 @@
-import { useLayoutEffect } from "react";
+import { useEffect } from "react";
+import { THEME_ATTRIBUTE } from "@/config/theme.ts";
 import { useCurrentTheme } from "@/store/theme.ts";
 
 export default function ThemeScript() {
   const theme = useCurrentTheme();
 
-  useLayoutEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
+  useEffect(() => {
+    document.documentElement.setAttribute(THEME_ATTRIBUTE, theme);
   }, [theme]);
 
-  // biome-ignore lint/complexity/noUselessFragments: <custom>
-  return <></>;
+  return null;
 }
