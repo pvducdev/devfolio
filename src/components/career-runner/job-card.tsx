@@ -1,9 +1,8 @@
 import { ChevronDown } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect } from "react";
 import { useBoolean } from "usehooks-ts";
 import type { ExpandedContent } from "@/config/career-timeline";
-import { cn } from "@/lib/utils";
 import ExpandedSection from "./expanded-section";
 
 const GLOW_COLOR = "oklch(from var(--primary) l c h / 0.15)";
@@ -16,6 +15,20 @@ type JobCardProps = {
   isActive?: boolean;
 };
 
+function getAnimationProps(prefersReducedMotion: boolean, isActive: boolean) {
+  if (prefersReducedMotion) {
+    return { opacity: isActive ? 1 : 0.6 };
+  }
+
+  return {
+    scale: isActive ? 1.05 : 0.9,
+    opacity: isActive ? 1 : 0.6,
+    boxShadow: isActive
+      ? `0 0 20px 5px ${GLOW_COLOR}, 0 0 40px 10px ${GLOW_COLOR}`
+      : "0 0 0 0 transparent",
+  };
+}
+
 export default function JobCard({
   title,
   subtitle,
@@ -23,6 +36,7 @@ export default function JobCard({
   expanded,
   isActive = false,
 }: JobCardProps) {
+  const prefersReducedMotion = useReducedMotion() ?? false;
   const {
     value: isExpanded,
     toggle: toggleExpanded,
@@ -49,26 +63,20 @@ export default function JobCard({
   return (
     <div className="transition-transform">
       <motion.div
-        animate={{
-          scale: isActive ? 1.05 : 0.9,
-          opacity: isActive ? 1 : 0.6,
-          boxShadow: isActive
-            ? `0 0 20px 5px ${GLOW_COLOR}, 0 0 40px 10px ${GLOW_COLOR}`
-            : "0 0 0 0 transparent",
-        }}
-        className={cn(
-          "border border-border bg-transparent p-3 font-mono",
-          isExpanded ? "w-72" : "w-48"
-        )}
+        animate={getAnimationProps(prefersReducedMotion, isActive)}
+        className="border border-border bg-transparent p-3 font-mono"
         layout
         onClick={handleClick}
         style={{
+          width: isExpanded ? 288 : 192,
           willChange: "transform, opacity, box-shadow",
           transformOrigin: "center center",
+          overflow: "hidden",
         }}
         transition={{
           duration: 0.5,
           ease: [0.25, 1, 0.5, 1],
+          layout: { duration: 0.4, ease: [0.32, 0.72, 0, 1] },
         }}
         whileHover={isActive ? undefined : { y: -2 }}
       >
@@ -99,7 +107,7 @@ export default function JobCard({
           ))}
         </ul>
 
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           {!!isExpanded && !!expanded ? (
             <ExpandedSection expanded={expanded} />
           ) : null}

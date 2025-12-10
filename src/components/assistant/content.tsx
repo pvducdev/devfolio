@@ -14,17 +14,25 @@ export default function AssistantContent({
   message,
   status,
 }: AssistantContentProps) {
+  const renderContent = () => {
+    if (status === "thinking") {
+      return (
+        <TextShimmer className="text-sm">{assistant_thinking()}</TextShimmer>
+      );
+    }
+
+    if (message) {
+      return (
+        <Response isAnimating={status === "streaming"}>{message}</Response>
+      );
+    }
+
+    return <Welcome />;
+  };
+
   return (
     <ScrollAreaWithAnchor className="size-full p-2">
-      {status === "thinking" ? (
-        <TextShimmer className="text-muted-foreground text-sm" duration={1.5}>
-          {assistant_thinking()}
-        </TextShimmer>
-      ) : message ? (
-        <Response isAnimating={status === "streaming"}>{message}</Response>
-      ) : (
-        <Welcome />
-      )}
+      {renderContent()}
     </ScrollAreaWithAnchor>
   );
 }

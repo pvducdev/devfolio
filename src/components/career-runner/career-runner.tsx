@@ -1,3 +1,4 @@
+import { LayoutGroup } from "motion/react";
 import { CAREER_SECTIONS, UI_CONFIG } from "@/config/career-timeline";
 import { useCareerScroll } from "@/hooks/use-career-scroll";
 import { cn } from "@/lib/utils.ts";
@@ -29,13 +30,15 @@ export default function CareerRunner() {
       >
         <StarterSection />
 
-        {CAREER_SECTIONS.map((section) => (
-          <CareerSection
-            containerRef={containerRef}
-            key={section.id}
-            section={section}
-          />
-        ))}
+        <LayoutGroup>
+          {CAREER_SECTIONS.map((section) => (
+            <CareerSection
+              containerRef={containerRef}
+              key={section.id}
+              section={section}
+            />
+          ))}
+        </LayoutGroup>
 
         <EndSection />
 

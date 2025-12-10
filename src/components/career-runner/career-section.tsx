@@ -22,7 +22,7 @@ export default function CareerSection({
   containerRef,
 }: CareerSectionProps) {
   const activeSectionId = useActiveSectionId();
-  const { setActiveSection, reset } = useCareerActions();
+  const { setActiveSection } = useCareerActions();
   const careerLooping = useCareerLooping();
 
   const isActive = activeSectionId === section.id;
@@ -39,10 +39,16 @@ export default function CareerSection({
 
     if (isIntersecting) {
       setActiveSection(section.id);
-    } else {
-      reset();
+    } else if (activeSectionId === section.id) {
+      setActiveSection(null);
     }
-  }, [isIntersecting, section.id, setActiveSection, reset, careerLooping]);
+  }, [
+    isIntersecting,
+    section.id,
+    setActiveSection,
+    activeSectionId,
+    careerLooping,
+  ]);
 
   return (
     <div className="relative flex shrink-0 items-end" ref={ref}>

@@ -7,6 +7,7 @@ export type AnimationState = "idle" | "running" | "milestone";
 
 type State = {
   activeSectionId: string | null;
+  lastVisitedSectionId: string | null;
   status: ScrollStatus;
 };
 
@@ -18,12 +19,17 @@ type Actions = {
 
 const initialState: State = {
   activeSectionId: null,
+  lastVisitedSectionId: null,
   status: "idle",
 };
 
 export const useCareerStore = create<State & Actions>()((set) => ({
   ...initialState,
-  setActiveSection: (sectionId) => set({ activeSectionId: sectionId }),
+  setActiveSection: (sectionId) =>
+    set((state) => ({
+      activeSectionId: sectionId,
+      lastVisitedSectionId: sectionId ?? state.lastVisitedSectionId,
+    })),
   setStatus: (status) => set({ status }),
   reset: () => set(initialState),
 }));
@@ -67,7 +73,9 @@ export const useDisplayYear = (): string =>
     if (s.status === "looping") {
       return DEFAULT_YEAR;
     }
-    const section = CAREER_SECTIONS.find((sec) => sec.id === s.activeSectionId);
+    const section = s.lastVisitedSectionId
+      ? CAREER_SECTIONS.find((sec) => sec.id === s.lastVisitedSectionId)
+      : null;
     return section?.year ?? DEFAULT_YEAR;
   });
 

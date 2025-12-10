@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion, useReducedMotion, type Variants } from "motion/react";
 import type { ExpandedContent } from "@/config/career-timeline";
 import {
   label_career_infra,
@@ -8,18 +8,40 @@ import {
 } from "@/paraglide/messages.js";
 import TechStackSection from "./tech-stack-section";
 
+const containerVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    height: 0,
+    transition: {
+      opacity: { duration: 0.2, ease: "easeIn" },
+      height: { duration: 0.4, ease: [0.32, 0.72, 0, 1] },
+    },
+  },
+  visible: {
+    opacity: 1,
+    height: "auto",
+    transition: {
+      opacity: { duration: 0.25, delay: 0.15, ease: "easeOut" },
+      height: { duration: 0.4, ease: [0.32, 0.72, 0, 1] },
+    },
+  },
+};
+
 type ExpandedSectionProps = {
   expanded: ExpandedContent;
 };
 
 export default function ExpandedSection({ expanded }: ExpandedSectionProps) {
+  const prefersReducedMotion = useReducedMotion() ?? false;
+  const hasMetrics = !!expanded.metrics && expanded.metrics.length > 0;
+
   return (
     <motion.div
-      animate={{ opacity: 1, height: "auto" }}
+      animate="visible"
       className="overflow-hidden"
-      exit={{ opacity: 0, height: 0 }}
-      initial={{ opacity: 0, height: 0 }}
-      transition={{ duration: 0.3, ease: [0.25, 1, 0.5, 1] }}
+      exit="hidden"
+      initial="hidden"
+      {...(prefersReducedMotion ? {} : { variants: containerVariants })}
     >
       <div className="mt-3 border-border border-t pt-3">
         <p className="mb-3 text-foreground text-xs leading-relaxed">
@@ -45,13 +67,13 @@ export default function ExpandedSection({ expanded }: ExpandedSectionProps) {
           ) : null}
         </div>
 
-        {!!expanded.metrics && expanded.metrics.length > 0 ? (
+        {hasMetrics ? (
           <div className="mt-3">
             <span className="mb-1 block font-semibold text-[10px] text-muted-foreground uppercase">
               {label_career_metrics()}
             </span>
             <ul className="space-y-0.5">
-              {expanded.metrics.map((metric) => (
+              {expanded.metrics?.map((metric) => (
                 <li
                   className="flex items-center gap-1.5 text-foreground text-xs"
                   key={metric}
