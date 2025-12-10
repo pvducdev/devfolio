@@ -6,7 +6,7 @@ import type { ExpandedContent } from "@/config/career-timeline";
 import { cn } from "@/lib/utils";
 import ExpandedSection from "./expanded-section";
 
-const GLOW_COLOR = "oklch(from var(--primary) l c h / 0.4)";
+const GLOW_COLOR = "oklch(from var(--primary) l c h / 0.15)";
 
 type JobCardProps = {
   title: string;
@@ -26,16 +26,19 @@ export default function JobCard({
   const {
     value: isExpanded,
     toggle: toggleExpanded,
+    setTrue: expand,
     setFalse: collapse,
   } = useBoolean(false);
 
   const canExpand = isActive && !!expanded;
 
   useEffect(() => {
-    if (!isActive) {
+    if (isActive && expanded) {
+      expand();
+    } else {
       collapse();
     }
-  }, [isActive, collapse]);
+  }, [isActive, expanded, expand, collapse]);
 
   const handleClick = () => {
     if (canExpand) {

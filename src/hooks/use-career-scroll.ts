@@ -2,12 +2,13 @@ import type { Easing } from "motion";
 import type { AnimationPlaybackControls } from "motion/react";
 import {
   animate,
+  useMotionValue,
   useMotionValueEvent,
-  useScroll,
+  useSpring,
   useTransform,
   useVelocity,
 } from "motion/react";
-import { type RefObject, useEffectEvent, useRef } from "react";
+import { type RefObject, useEffect, useRef } from "react";
 import { useEventListener, useUnmount } from "usehooks-ts";
 import { useCareerActions, useCareerLooping } from "@/store/career.ts";
 
@@ -15,45 +16,46 @@ type UseCareerScrollReturn = {
   containerRef: RefObject<HTMLDivElement | null>;
 };
 
-const LOOP_DURATION_S = 3;
-const LOOP_DURATION_EASE: Easing = [0.33, 1, 0.68, 1];
-const SCROLL_END_THRESHOLD_PX = 2;
+const SCROLL_CONFIG = {
+  spring: { stiffness: 120, damping: 20, restDelta: 0.5 },
+  velocityThreshold: 50,
+  scrollEndThreshold: 2,
+  loopDuration: 3,
+  loopEase: [0.33, 1, 0.68, 1] as Easing,
+} as const;
 
-export function useCareerScroll(velocityThreshold = 50): UseCareerScrollReturn {
+export function useCareerScroll(): UseCareerScrollReturn {
   const containerRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<AnimationPlaybackControls | null>(null);
-  const { scrollX } = useScroll({ container: containerRef });
   const { setStatus, reset } = useCareerActions();
   const isLooping = useCareerLooping();
 
-  const scrollVelocity = useVelocity(scrollX);
-  const isScrollingValue = useTransform(
+  const targetScrollX = useMotionValue(0);
+  const smoothScrollX = useSpring(targetScrollX, SCROLL_CONFIG.spring);
+  const scrollVelocity = useVelocity(smoothScrollX);
+  const isScrolling = useTransform(
     scrollVelocity,
-    (v) => Math.abs(v) > velocityThreshold
+    (v) => Math.abs(v) > SCROLL_CONFIG.velocityThreshold
   );
 
-  const triggerLoop = useEffectEvent(() => {
-    const container = containerRef.current;
-    if (!container || isLooping) {
+  useMotionValueEvent(smoothScrollX, "change", (value) => {
+    if (isLooping) {
       return;
     }
-
-    setStatus("looping");
-
-    animationRef.current = animate(container.scrollLeft, 0, {
-      duration: LOOP_DURATION_S,
-      ease: LOOP_DURATION_EASE,
-      onUpdate: (value) => {
-        container.scrollLeft = value;
-      },
-      onComplete: () => {
-        reset();
-        animationRef.current = null;
-      },
-    });
+    const container = containerRef.current;
+    if (container) {
+      container.scrollLeft = value;
+    }
   });
 
-  const handleWheel = useEffectEvent((e: WheelEvent) => {
+  useMotionValueEvent(isScrolling, "change", (scrolling) => {
+    if (isLooping) {
+      return;
+    }
+    setStatus(scrolling ? "scrolling" : "idle");
+  });
+
+  const handleWheel = (e: WheelEvent) => {
     e.preventDefault();
     const container = containerRef.current;
     if (!container || isLooping) {
@@ -61,33 +63,54 @@ export function useCareerScroll(velocityThreshold = 50): UseCareerScrollReturn {
     }
 
     const maxScroll = container.scrollWidth - container.clientWidth;
-    const isAtEnd = maxScroll - container.scrollLeft < SCROLL_END_THRESHOLD_PX;
+    const currentTarget = targetScrollX.get();
+    const isAtEnd =
+      maxScroll - currentTarget < SCROLL_CONFIG.scrollEndThreshold;
 
     if (isAtEnd && e.deltaY > 0) {
-      triggerLoop();
+      setStatus("looping");
+      animationRef.current = animate(container.scrollLeft, 0, {
+        duration: SCROLL_CONFIG.loopDuration,
+        ease: SCROLL_CONFIG.loopEase,
+        onUpdate: (value) => {
+          container.scrollLeft = value;
+          targetScrollX.jump(value);
+          smoothScrollX.jump(value);
+        },
+        onComplete: () => {
+          reset();
+          animationRef.current = null;
+        },
+      });
       return;
     }
 
-    container.scrollLeft += e.deltaY;
-  });
+    const clampedPosition = Math.max(
+      0,
+      Math.min(maxScroll, currentTarget + e.deltaY)
+    );
+    targetScrollX.set(clampedPosition);
+  };
 
-  useMotionValueEvent(isScrollingValue, "change", (scrolling) => {
-    if (!isLooping) {
-      setStatus(scrolling ? "scrolling" : "idle");
+  useEffect(() => {
+    const container = containerRef.current;
+    if (container) {
+      targetScrollX.jump(container.scrollLeft);
+      smoothScrollX.jump(container.scrollLeft);
     }
-  });
+  }, [targetScrollX, smoothScrollX]);
+
   useEventListener(
     "wheel",
     handleWheel,
     containerRef as RefObject<HTMLDivElement>,
     { passive: false }
   );
+
   useUnmount(() => {
     animationRef.current?.stop();
     reset();
   });
 
-  return {
-    containerRef,
-  };
+  return { containerRef };
 }
