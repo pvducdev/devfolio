@@ -20,6 +20,7 @@ export const useThemeStore = create<State & Actions>()(
     }),
     {
       name: THEME_STORAGE_KEY,
+      partialize: (state) => ({ theme: state.theme }),
     }
   )
 );

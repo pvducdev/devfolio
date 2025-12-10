@@ -9,7 +9,7 @@ import {
 } from "motion/react";
 import { type RefObject, useEffectEvent, useRef } from "react";
 import { useEventListener, useUnmount } from "usehooks-ts";
-import { useCareerStore } from "@/store/career.ts";
+import { useCareerActions, useCareerLooping } from "@/store/career.ts";
 
 type UseCareerScrollReturn = {
   containerRef: RefObject<HTMLDivElement | null>;
@@ -23,11 +23,8 @@ export function useCareerScroll(velocityThreshold = 50): UseCareerScrollReturn {
   const containerRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<AnimationPlaybackControls | null>(null);
   const { scrollX } = useScroll({ container: containerRef });
-  const [status, setStatus, reset] = useCareerStore((s) => [
-    s.status,
-    s.setStatus,
-    s.reset,
-  ]);
+  const { setStatus, reset } = useCareerActions();
+  const isLooping = useCareerLooping();
 
   const scrollVelocity = useVelocity(scrollX);
   const isScrollingValue = useTransform(
@@ -37,7 +34,7 @@ export function useCareerScroll(velocityThreshold = 50): UseCareerScrollReturn {
 
   const triggerLoop = useEffectEvent(() => {
     const container = containerRef.current;
-    if (!container || status === "looping") {
+    if (!container || isLooping) {
       return;
     }
 
@@ -59,7 +56,7 @@ export function useCareerScroll(velocityThreshold = 50): UseCareerScrollReturn {
   const handleWheel = useEffectEvent((e: WheelEvent) => {
     e.preventDefault();
     const container = containerRef.current;
-    if (!container || status === "looping") {
+    if (!container || isLooping) {
       return;
     }
 
@@ -75,7 +72,7 @@ export function useCareerScroll(velocityThreshold = 50): UseCareerScrollReturn {
   });
 
   useMotionValueEvent(isScrollingValue, "change", (scrolling) => {
-    if (status !== "looping") {
+    if (!isLooping) {
       setStatus(scrolling ? "scrolling" : "idle");
     }
   });

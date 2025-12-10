@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { useShallow } from "zustand/shallow";
 import type { CareerSection } from "@/config/career-timeline";
 
 export type ScrollStatus = "idle" | "scrolling" | "looping";
@@ -34,3 +35,12 @@ export const useCareerScrolling = () =>
 
 export const useCareerLooping = () =>
   useCareerStore((state) => state.status === "looping");
+
+export const useCareerActions = () =>
+  useCareerStore(
+    useShallow((s) => ({
+      setStatus: s.setStatus,
+      setActiveSection: s.setActiveSection,
+      reset: s.reset,
+    }))
+  );
