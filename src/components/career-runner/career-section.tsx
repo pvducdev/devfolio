@@ -1,11 +1,14 @@
 import { type RefObject, useEffect } from "react";
 import { useIntersectionObserver } from "usehooks-ts";
-import { useShallow } from "zustand/shallow";
 import {
   type CareerSection as TCareerSection,
   UI_CONFIG,
 } from "@/config/career-timeline";
-import { useCareerLooping, useCareerStore } from "@/store/career.ts";
+import {
+  useActiveSectionId,
+  useCareerActions,
+  useCareerLooping,
+} from "@/store/career";
 import JobCard from "./job-card";
 import Landmark from "./landmark";
 
@@ -18,12 +21,11 @@ export default function CareerSection({
   section,
   containerRef,
 }: CareerSectionProps) {
-  const [activeSection, setActiveSection, reset] = useCareerStore(
-    useShallow((s) => [s.activeSection, s.setActiveSection, s.reset])
-  );
+  const activeSectionId = useActiveSectionId();
+  const { setActiveSection, reset } = useCareerActions();
   const careerLooping = useCareerLooping();
 
-  const isActive = activeSection?.id === section.id;
+  const isActive = activeSectionId === section.id;
 
   const { ref, isIntersecting } = useIntersectionObserver({
     rootMargin: UI_CONFIG.sectionMargin,
@@ -36,11 +38,11 @@ export default function CareerSection({
     }
 
     if (isIntersecting) {
-      setActiveSection(section);
+      setActiveSection(section.id);
     } else {
       reset();
     }
-  }, [isIntersecting, section, setActiveSection, reset, careerLooping]);
+  }, [isIntersecting, section.id, setActiveSection, reset, careerLooping]);
 
   return (
     <div className="relative flex shrink-0 items-end" ref={ref}>
