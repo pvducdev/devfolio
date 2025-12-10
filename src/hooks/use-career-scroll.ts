@@ -22,11 +22,13 @@ const SCROLL_CONFIG = {
   scrollEndThreshold: 2,
   loopDuration: 3,
   loopEase: [0.33, 1, 0.68, 1] as Easing,
+  idleDebounceMs: 150,
 } as const;
 
 export function useCareerScroll(): UseCareerScrollReturn {
   const containerRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<AnimationPlaybackControls | null>(null);
+  const idleTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { setStatus, reset } = useCareerActions();
   const isLooping = useCareerLooping();
 
@@ -48,11 +50,33 @@ export function useCareerScroll(): UseCareerScrollReturn {
     }
   });
 
+  const clearPendingIdle = () => {
+    if (idleTimeoutRef.current) {
+      clearTimeout(idleTimeoutRef.current);
+      idleTimeoutRef.current = null;
+    }
+  };
+
+  const scheduleIdle = () => {
+    idleTimeoutRef.current = setTimeout(() => {
+      setStatus("idle");
+      idleTimeoutRef.current = null;
+    }, SCROLL_CONFIG.idleDebounceMs);
+  };
+
   useMotionValueEvent(isScrolling, "change", (scrolling) => {
     if (isLooping) {
       return;
     }
-    setStatus(scrolling ? "scrolling" : "idle");
+
+    clearPendingIdle();
+
+    if (scrolling) {
+      setStatus("scrolling");
+      return;
+    }
+
+    scheduleIdle();
   });
 
   const handleWheel = (e: WheelEvent) => {
@@ -109,6 +133,8 @@ export function useCareerScroll(): UseCareerScrollReturn {
 
   useUnmount(() => {
     animationRef.current?.stop();
+    // biome-ignore lint/style/noNonNullAssertion: <no need>
+    clearTimeout(idleTimeoutRef.current!);
     reset();
   });
 
