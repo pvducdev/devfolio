@@ -9,5 +9,6 @@
   "assistant_suggest3": "What has D shipped so far?",
   "assistant_tooltip": "{name} Assistant",
   "assistant_empty": "No commands here.",
-  "assistant_commands": "Commands"
+  "assistant_commands": "Commands",
+  "assistant_thinking": "Cooking up a response..."
 }

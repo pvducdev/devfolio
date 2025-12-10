@@ -3,13 +3,13 @@ import { assistant_placeholder } from "@/paraglide/messages.js";
 
 type AssistantFooterProps = {
   error: string | null;
-  isStreaming: boolean;
+  disabled: boolean;
   onSubmit: (message: string) => void;
 };
 
 export default function AssistantFooter({
   error,
-  isStreaming,
+  disabled,
   onSubmit,
 }: AssistantFooterProps) {
   return (
@@ -18,7 +18,7 @@ export default function AssistantFooter({
         <p className="text-pretty px-2 text-red-500 text-xs">{error}</p>
       )}
       <Input
-        disabled={isStreaming}
+        disabled={disabled}
         onSubmit={onSubmit}
         placeholder={assistant_placeholder()}
       />

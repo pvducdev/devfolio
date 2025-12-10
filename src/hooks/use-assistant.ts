@@ -1,31 +1,35 @@
-import { useNavigate } from "@tanstack/react-router";
 import { type CommandContext, execute } from "@/commands";
 import generateAssistantResponseFn from "@/fn/generate-assistant-response.ts";
 import { ui_error_unexpected } from "@/paraglide/messages.js";
-import { useAssistantStore } from "@/store/assistant.ts";
+import {
+  useAssistantActions,
+  useAssistantError,
+  useAssistantMessage,
+  useAssistantStatus,
+  useHasAssistantMessage,
+} from "@/store/assistant.ts";
 import { useThemeStore } from "@/store/theme.ts";
 
 export function useAssistant() {
-  const navigate = useNavigate();
   const { setTheme } = useThemeStore();
+  const message = useAssistantMessage();
+  const status = useAssistantStatus();
+  const error = useAssistantError();
+  const hasMessage = useHasAssistantMessage();
   const {
-    message,
-    isStreaming,
-    error,
     setResponse,
-    startStreaming,
+    setThinking,
     appendChunk,
-    finishStreaming,
+    setIdle,
     setError,
     clearError,
     clear,
-  } = useAssistantStore();
+  } = useAssistantActions();
 
   const handleCommand = async (input: string): Promise<boolean> => {
     const context: CommandContext = {
       clearMessages: clear,
       setTheme,
-      navigate: (path) => navigate({ to: path }),
     };
 
     const result = await execute(input, context);
@@ -55,7 +59,7 @@ export function useAssistant() {
   };
 
   const handleAssistantMessage = async (prompt: string) => {
-    startStreaming();
+    setThinking();
 
     try {
       const handler = generateAssistantResponseFn({ data: { prompt } });
@@ -64,7 +68,7 @@ export function useAssistant() {
         appendChunk(msg as string);
       }
 
-      finishStreaming();
+      setIdle();
     } catch (err) {
       setError(err instanceof Error ? err.message : ui_error_unexpected());
     }
@@ -83,9 +87,10 @@ export function useAssistant() {
 
   return {
     message,
-    isStreaming,
+    status,
     error,
     sendMessage,
+    hasMessage,
     clear,
   };
 }

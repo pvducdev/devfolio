@@ -9,7 +9,6 @@ export type CommandResult<T = unknown> = {
 export type CommandContext = {
   clearMessages: () => void;
   setTheme: (theme: string) => void;
-  navigate: (path: string) => void;
 };
 
 export type CommandHandler<T = unknown> = (

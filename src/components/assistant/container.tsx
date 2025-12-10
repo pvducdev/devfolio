@@ -17,8 +17,7 @@ type AssistantContainerProps = {
 export default function AssistantContainer({
   onClose,
 }: AssistantContainerProps) {
-  const { message, isStreaming, error, sendMessage } = useAssistant();
-  const hasMessage = message !== null;
+  const { message, hasMessage, status, error, sendMessage } = useAssistant();
 
   return (
     <div
@@ -30,7 +29,7 @@ export default function AssistantContainer({
       )}
     >
       <Header onClose={onClose} />
-      <Content isStreaming={isStreaming} message={message} />
+      <Content message={message} status={status} />
       {!hasMessage && (
         <Suggestions
           onClick={sendMessage}
@@ -41,7 +40,11 @@ export default function AssistantContainer({
           ]}
         />
       )}
-      <Footer error={error} isStreaming={isStreaming} onSubmit={sendMessage} />
+      <Footer
+        disabled={status !== "idle"}
+        error={error}
+        onSubmit={sendMessage}
+      />
     </div>
   );
 }

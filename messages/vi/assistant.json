@@ -9,5 +9,6 @@
   "assistant_suggest3": "D đã làm được những gì?",
   "assistant_tooltip": "Trợ lý {name}",
   "assistant_empty": "Không có lệnh nào.",
-  "assistant_commands": "Các lệnh"
+  "assistant_commands": "Các lệnh",
+  "assistant_thinking": "Đang nghĩ nè..."
 }

@@ -4,18 +4,21 @@ import { useShallow } from "zustand/shallow";
 
 const STORE_KEY = "assistant";
 
+export type AssistantStatus = "idle" | "thinking" | "streaming";
+
 type AssistantState = {
   message: string | null;
-  isStreaming: boolean;
+  status: AssistantStatus;
   error: string | null;
 };
 
 type AssistantActions = {
   setResponse: (content: string) => void;
   setMessage: (content: string) => void;
-  startStreaming: () => void;
+  setThinking: () => void;
+  setStreaming: () => void;
+  setIdle: () => void;
   appendChunk: (chunk: string) => void;
-  finishStreaming: () => void;
   setError: (error: string) => void;
   clearError: () => void;
   clear: () => void;
@@ -25,7 +28,7 @@ type AssistantStore = AssistantState & AssistantActions;
 
 const initialState: AssistantState = {
   message: null,
-  isStreaming: false,
+  status: "idle",
   error: null,
 };
 
@@ -35,19 +38,23 @@ export const useAssistantStore = create<AssistantStore>()(
       ...initialState,
 
       setResponse: (content) =>
-        set({ message: content, isStreaming: false, error: null }),
+        set({ message: content, status: "idle", error: null }),
 
       setMessage: (content) => set({ message: content }),
 
-      startStreaming: () =>
-        set({ message: "", isStreaming: true, error: null }),
+      setThinking: () => set({ status: "thinking", message: "", error: null }),
+
+      setStreaming: () => set({ status: "streaming" }),
+
+      setIdle: () => set({ status: "idle" }),
 
       appendChunk: (chunk) =>
-        set((state) => ({ message: (state.message ?? "") + chunk })),
+        set((state) => ({
+          message: (state.message ?? "") + chunk,
+          status: state.status === "thinking" ? "streaming" : state.status,
+        })),
 
-      finishStreaming: () => set({ isStreaming: false }),
-
-      setError: (error) => set({ error, isStreaming: false }),
+      setError: (error) => set({ error, status: "idle" }),
 
       clearError: () => set({ error: null }),
 
@@ -60,8 +67,7 @@ export const useAssistantStore = create<AssistantStore>()(
   )
 );
 
-export const useIsAssistantStreaming = () =>
-  useAssistantStore((s) => s.isStreaming);
+export const useAssistantStatus = () => useAssistantStore((s) => s.status);
 
 export const useAssistantError = () => useAssistantStore((s) => s.error);
 
@@ -75,9 +81,10 @@ export const useAssistantActions = () =>
     useShallow((s) => ({
       setResponse: s.setResponse,
       setMessage: s.setMessage,
-      startStreaming: s.startStreaming,
+      setThinking: s.setThinking,
+      setStreaming: s.setStreaming,
+      setIdle: s.setIdle,
       appendChunk: s.appendChunk,
-      finishStreaming: s.finishStreaming,
       setError: s.setError,
       clearError: s.clearError,
       clear: s.clear,
