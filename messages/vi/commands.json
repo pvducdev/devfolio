@@ -20,12 +20,6 @@
   "cmd_theme_unknown": "Chưa nghe nói về '{themeName}'. Thử: {themes}",
   "cmd_theme_success": "Đang xài {themeName} nè.",
 
-  "cmd_goto_desc": "Nhảy sang trang khác",
-  "cmd_goto_usage": "/goto <trang>",
-  "cmd_goto_missing_arg": "Đi đâu? Có: {routes}",
-  "cmd_goto_unknown": "Không tìm thấy '{route}'. Thử: {routes}",
-  "cmd_goto_success": "Đang đi {route}...",
-
   "cmd_execute_unknown": "Không biết /{name} là gì. Thử /help",
   "cmd_execute_failed": "Không chạy được."
 }

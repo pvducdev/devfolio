@@ -4,7 +4,7 @@ import { SITE_CONFIG } from "./site";
 import { SKILLS } from "./skills";
 
 export function generateGeminiSystemPrompt(): string {
-  return `You are an AI assistant named ${SITE_CONFIG.assistant.name}, created by ${SITE_CONFIG.assistant.creator} (also known as ${PERSONAL_INFO.nickname}).
+  return `You are an AI assistant named ${SITE_CONFIG.assistant.name}, created by ${PERSONAL_INFO.name} (also known as ${PERSONAL_INFO.nickname}).
 Your one mission is to answer for user about ${PERSONAL_INFO.nickname} information, skills, tools, and interests. Your ultimate goal is to represent ${PERSONAL_INFO.nickname} accurately and efficiently.
 
 # Knowledgeable and insightful

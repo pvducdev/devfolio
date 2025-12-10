@@ -2,7 +2,7 @@ import Activity from "@/components/layout/activity.tsx";
 import { activities } from "@/config/routes.ts";
 
 type ActivitiesBarProps = {
-  active?: string;
+  active: string | null;
   onClick: (key: string) => void;
 };
 

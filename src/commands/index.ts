@@ -4,7 +4,6 @@ import {
 } from "@/paraglide/messages.js";
 import { clearCommand } from "./assistant/clear";
 import { helpCommand } from "./assistant/help";
-import { gotoCommand } from "./navigation/goto";
 import { getCommand, registerCommand } from "./registry";
 import { setThemeCommand } from "./theme/set-theme";
 import type { CommandContext, CommandResult } from "./types";
@@ -16,7 +15,6 @@ export type { Command, CommandContext, CommandResult } from "./types";
 registerCommand(setThemeCommand);
 registerCommand(clearCommand);
 registerCommand(helpCommand);
-registerCommand(gotoCommand);
 
 const WHITESPACE_PATTERN = /\s+/;
 const COMMAND_PREFIX = "/";

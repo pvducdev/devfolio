@@ -5,8 +5,8 @@ import { useShallow } from "zustand/shallow";
 const STORE_KEY = "app-layout";
 
 export type AppLayoutState = {
-  sidebar?: string;
-  panel?: string;
+  sidebar: string | null;
+  panel: string | null;
   sidebarSize: number;
   panelSize: number;
   isStretchLayout: boolean;
@@ -23,7 +23,7 @@ export type AppLayoutActions = {
 };
 
 const DEFAULT_APP_LAYOUT: Omit<AppLayoutState, "_hasHydrated"> = {
-  sidebar: undefined,
+  sidebar: null,
   panel: "assistant",
   sidebarSize: 25,
   panelSize: 25,
@@ -37,11 +37,11 @@ export const useAppLayoutStore = create<AppLayoutState & AppLayoutActions>()(
       _hasHydrated: false,
       toggleSidebar: (value) => {
         set((state) => ({
-          sidebar: state.sidebar === value ? undefined : value,
+          sidebar: state.sidebar === value ? null : value,
         }));
       },
       togglePanel: (value) => {
-        set((state) => ({ panel: state.panel === value ? undefined : value }));
+        set((state) => ({ panel: state.panel === value ? null : value }));
       },
       setSidebarSize: (size) => {
         set(() => ({ sidebarSize: size }));
@@ -71,10 +71,9 @@ export const useAppLayoutStore = create<AppLayoutState & AppLayoutActions>()(
 );
 
 export const useIsSidebarOpen = () =>
-  useAppLayoutStore((s) => s.sidebar !== undefined);
+  useAppLayoutStore((s) => s.sidebar !== null);
 
-export const useIsPanelOpen = () =>
-  useAppLayoutStore((s) => s.panel !== undefined);
+export const useIsPanelOpen = () => useAppLayoutStore((s) => s.panel !== null);
 
 export const useIsStretchLayout = () =>
   useAppLayoutStore((s) => s.isStretchLayout);

@@ -20,12 +20,6 @@
   "cmd_theme_unknown": "Never heard of '{themeName}'. Try: {themes}",
   "cmd_theme_success": "Vibing with {themeName} now.",
 
-  "cmd_goto_desc": "Jump to another page",
-  "cmd_goto_usage": "/goto <route>",
-  "cmd_goto_missing_arg": "Where to? Options: {routes}",
-  "cmd_goto_unknown": "Can't find '{route}'. Try: {routes}",
-  "cmd_goto_success": "Heading to {route}...",
-
   "cmd_execute_unknown": "No clue what /{name} is. Try /help",
   "cmd_execute_failed": "That didn't work."
 }

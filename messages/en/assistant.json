@@ -7,7 +7,7 @@
   "assistant_suggest1": "What's D actually good at?",
   "assistant_suggest2": "Give me D's backstory",
   "assistant_suggest3": "What has D shipped so far?",
-  "assistant_tooltip": "HeyD Assistant",
+  "assistant_tooltip": "{name} Assistant",
   "assistant_empty": "No commands here.",
   "assistant_commands": "Commands"
 }

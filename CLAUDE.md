@@ -134,7 +134,7 @@ pnpx shadcn@latest add button    # Add shadcn components
 4. **Theme Application**: Theme changes go through `applyTheme()` function which modifies CSS variables
 5. **React Compiler**: The project uses the stable React Compiler — manual hook optimizations aren't needed
 6. **TypeScript**: Strict mode enabled with strict null checks
-7. **Coding Style**: Avoid comments, prefer Tailwind utility classes over arbitrary values (w-10 > w-[40px])
+7. **Coding Style**: Avoid comments, prefer Tailwind utility classes over arbitrary values (w-10 > w-[42px])
 8. **MDX Files**: Can be imported as components; custom components provided via `src/mdx-components.tsx`
 9. **SSR**: `streamdown` package is bundled for SSR via `ssr.noExternal` in vite.config.ts
 10. **Paraglide Files**: Never edit `src/paraglide/` - it's regenerated from message files in `messages/`
