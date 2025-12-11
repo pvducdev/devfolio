@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { PERSONAL_INFO } from "../config/personal";
+import { SKILLS } from "../config/skills";
 
 export const SkillShowcase = () => {
   const [_, setActiveSection] = useState(null);
-  const { skills } = PERSONAL_INFO;
+  const skills = SKILLS;
 
   return (
     <div className="relative bg-background text-foreground font-sans selection:bg-foreground selection:text-background p-4 md:p-8 lg:p-12">

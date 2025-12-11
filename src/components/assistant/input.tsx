@@ -1,10 +1,10 @@
-import { type ChangeEvent, useCallback, useRef } from "react";
+import { type ChangeEvent, useRef } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import SlashCommandPopover from "@/components/assistant/slash-command-popover.tsx";
+import { selectHighlightedCommand } from "@/components/assistant/utils.ts";
 import { Textarea } from "@/components/ui/textarea.tsx";
 import { useCmdNav } from "@/hooks/use-cmd-nav.ts";
 import { useSlashCommands } from "@/hooks/use-slash-commands.ts";
-import { selectHighlightedCommand } from "./utils.ts";
 
 type AssistantInputProps = {
   placeholder?: string;
@@ -53,7 +53,6 @@ export default function AssistantInput({
     updateSlashCommands(e.target.value);
   };
 
-  // Enter without shift to submit (scoped to textarea)
   const enterRef = useHotkeys<HTMLTextAreaElement>(
     "enter",
     (e) => {
@@ -65,22 +64,17 @@ export default function AssistantInput({
     { preventDefault: true, enableOnFormTags: ["TEXTAREA"] }
   );
 
-  // Double escape to clear (scoped to textarea)
   const escapeRef = useHotkeys<HTMLTextAreaElement>(
     "escape>escape",
     clearInput,
     { enableOnFormTags: ["TEXTAREA"] }
   );
 
-  // Merge refs for textarea
-  const mergedRef = useCallback(
-    (node: HTMLTextAreaElement | null) => {
-      textareaRef.current = node;
-      enterRef.current = node;
-      escapeRef.current = node;
-    },
-    [enterRef, escapeRef]
-  );
+  const mergedRef = (node: HTMLTextAreaElement | null) => {
+    textareaRef.current = node;
+    enterRef.current = node;
+    escapeRef.current = node;
+  };
 
   return (
     <div className="space-y-1 p-1">

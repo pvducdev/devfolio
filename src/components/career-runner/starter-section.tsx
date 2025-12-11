@@ -2,9 +2,7 @@ import { ChevronDown } from "lucide-react";
 import type { Variants } from "motion/react";
 import { motion, stagger, useReducedMotion } from "motion/react";
 import {
-  hint_career_clickcard,
   hint_career_scroll,
-  label_career_protip,
   page_career_heading,
   page_career_intro,
   page_career_introsub,
@@ -58,7 +56,7 @@ function TitleSection({
         )}
       </motion.h1>
       <motion.div
-        className="h-0.5 w-32 bg-gradient-to-r from-primary to-transparent"
+        className="h-0.5 w-32 bg-linear-to-r from-primary to-transparent"
         style={{ transformOrigin: "left" }}
         {...(!prefersReducedMotion && {
           initial: { scaleX: 0 },
@@ -74,29 +72,7 @@ function TitleSection({
   );
 }
 
-function TipBox({ prefersReducedMotion }: { prefersReducedMotion: boolean }) {
-  return (
-    <motion.div
-      className="mb-10 border border-border p-3"
-      {...(!prefersReducedMotion && {
-        variants: itemVariants,
-        whileHover: {
-          boxShadow: "0 0 10px 2px oklch(from var(--primary) l c h / 0.2)",
-          transition: { duration: 0.2 },
-        },
-      })}
-    >
-      <div className="mb-1 flex items-start gap-2">
-        <span className="font-bold text-[10px] text-primary uppercase tracking-wider">
-          {label_career_protip()}
-        </span>
-      </div>
-      <p className="text-foreground text-xs">{hint_career_clickcard()}</p>
-    </motion.div>
-  );
-}
-
-export function StarterSection() {
+export default function StarterSection() {
   const prefersReducedMotion = useReducedMotion() ?? false;
 
   const animationProps = prefersReducedMotion
@@ -120,8 +96,6 @@ export function StarterSection() {
         <br />
         {page_career_introsub()}
       </motion.p>
-
-      <TipBox prefersReducedMotion={prefersReducedMotion} />
 
       <motion.p
         className="mb-6 text-center text-[10px] text-muted-foreground tracking-wide"

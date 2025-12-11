@@ -1,25 +1,9 @@
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useState } from "react";
 import { label_career_year } from "@/paraglide/messages.js";
-import { useCareerLooping, useCareerStore } from "@/store/career.ts";
+import { useDisplayYear } from "@/store/career";
 
-const DEFAULT_YEAR = "2001";
-
-export function YearHUD() {
-  const activeSection = useCareerStore((s) => s.activeSection);
-  const careerLooping = useCareerLooping();
-  const [year, setYear] = useState<string>(DEFAULT_YEAR);
-
-  useEffect(() => {
-    if (careerLooping) {
-      setYear(DEFAULT_YEAR);
-      return;
-    }
-    if (activeSection) {
-      setYear(activeSection.year);
-    }
-  }, [activeSection, careerLooping]);
-
+export default function YearHUD() {
+  const year = useDisplayYear();
   const digits = year.split("");
 
   return (

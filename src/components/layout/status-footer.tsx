@@ -1,4 +1,4 @@
-import ThemeSwitcher from "@/components/theme-switcher.tsx";
+import ThemeSwitcher from "@/components/theme/theme-switcher.tsx";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -10,7 +10,7 @@ import {
 import { GithubLight } from "@/components/ui/svgs/githubLight.tsx";
 import { Gitlab } from "@/components/ui/svgs/gitlab";
 import { Linkedin } from "@/components/ui/svgs/linkedin";
-import { PERSONAL_INFO } from "@/config/personal.ts";
+import { PERSONAL_INFO } from "@/config/personal-info.ts";
 import { SITE_CONFIG } from "@/config/site.ts";
 import {
   label_status_hired,

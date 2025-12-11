@@ -1,8 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { THEMES, type Theme } from "@/config/theme.ts";
-
-export const storeKey = "theme";
+import { THEME_STORAGE_KEY, THEMES, type Theme } from "@/config/theme.ts";
 
 type State = {
   theme: Theme["value"];
@@ -21,7 +19,12 @@ export const useThemeStore = create<State & Actions>()(
       },
     }),
     {
-      name: storeKey,
+      name: THEME_STORAGE_KEY,
+      partialize: (state) => ({ theme: state.theme }),
     }
   )
 );
+
+export const useCurrentTheme = () => useThemeStore((s) => s.theme);
+
+export const useSetTheme = () => useThemeStore((s) => s.setTheme);

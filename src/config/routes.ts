@@ -25,7 +25,7 @@ export const activities: Activity[] = [
     name: nav_main_career,
     key: "career",
     icon: Route,
-    sidebar: lazy(() => import("@/components/sidebar/work-experiences")),
+    sidebar: lazy(() => import("@/components/sidebar/career")),
   },
   {
     name: nav_main_projects,

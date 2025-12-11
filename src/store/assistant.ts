@@ -1,20 +1,26 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { useShallow } from "zustand/shallow";
 
 const STORE_KEY = "assistant";
 
+export type AssistantStatus = "idle" | "thinking" | "streaming";
+
 type AssistantState = {
   message: string | null;
-  isStreaming: boolean;
+  status: AssistantStatus;
   error: string | null;
 };
 
 type AssistantActions = {
   setResponse: (content: string) => void;
-  startStreaming: () => void;
+  setMessage: (content: string) => void;
+  setThinking: () => void;
+  setStreaming: () => void;
+  setIdle: () => void;
   appendChunk: (chunk: string) => void;
-  finishStreaming: () => void;
   setError: (error: string) => void;
+  clearError: () => void;
   clear: () => void;
 };
 
@@ -22,7 +28,7 @@ type AssistantStore = AssistantState & AssistantActions;
 
 const initialState: AssistantState = {
   message: null,
-  isStreaming: false,
+  status: "idle",
   error: null,
 };
 
@@ -32,17 +38,25 @@ export const useAssistantStore = create<AssistantStore>()(
       ...initialState,
 
       setResponse: (content) =>
-        set({ message: content, isStreaming: false, error: null }),
+        set({ message: content, status: "idle", error: null }),
 
-      startStreaming: () =>
-        set({ message: "", isStreaming: true, error: null }),
+      setMessage: (content) => set({ message: content }),
+
+      setThinking: () => set({ status: "thinking", message: "", error: null }),
+
+      setStreaming: () => set({ status: "streaming" }),
+
+      setIdle: () => set({ status: "idle" }),
 
       appendChunk: (chunk) =>
-        set((state) => ({ message: (state.message ?? "") + chunk })),
+        set((state) => ({
+          message: (state.message ?? "") + chunk,
+          status: state.status === "thinking" ? "streaming" : state.status,
+        })),
 
-      finishStreaming: () => set({ isStreaming: false }),
+      setError: (error) => set({ error, status: "idle" }),
 
-      setError: (error) => set({ error, isStreaming: false }),
+      clearError: () => set({ error: null }),
 
       clear: () => set(initialState),
     }),
@@ -52,3 +66,27 @@ export const useAssistantStore = create<AssistantStore>()(
     }
   )
 );
+
+export const useAssistantStatus = () => useAssistantStore((s) => s.status);
+
+export const useAssistantError = () => useAssistantStore((s) => s.error);
+
+export const useHasAssistantMessage = () =>
+  useAssistantStore((s) => s.message !== null);
+
+export const useAssistantMessage = () => useAssistantStore((s) => s.message);
+
+export const useAssistantActions = () =>
+  useAssistantStore(
+    useShallow((s) => ({
+      setResponse: s.setResponse,
+      setMessage: s.setMessage,
+      setThinking: s.setThinking,
+      setStreaming: s.setStreaming,
+      setIdle: s.setIdle,
+      appendChunk: s.appendChunk,
+      setError: s.setError,
+      clearError: s.clearError,
+      clear: s.clear,
+    }))
+  );

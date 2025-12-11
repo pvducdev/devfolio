@@ -1,19 +1,25 @@
 {
   "$schema": "https://inlang.com/schema/inlang-message-format",
 
-  "cmd_clear_desc": "Clear all messages and reset the conversation",
-  "cmd_clear_success": "Conversation cleared",
+  "cmd_clear_desc": "Wipe the chat clean",
+  "cmd_clear_usage": "/clear",
+  "cmd_clear_success": "Chat cleared. Fresh start.",
 
-  "cmd_help_desc": "Show available commands",
-  "cmd_help_title": "Available Commands",
-  "cmd_help_intro": "Type a command starting with `/` to execute it.",
-  "cmd_help_tip": "Tip: Press `Tab` to autocomplete commands while typing.",
-  "cmd_help_clear": "Clears the conversation",
-  "cmd_help_help": "Shows this help message",
-  "cmd_help_theme": "Changes the theme",
+  "cmd_help_desc": "Show what you can do here",
+  "cmd_help_usage": "/help [command]",
+  "cmd_help_unknown": "Never heard of that one: {cmdName}",
+  "cmd_help_list_title": "Here's what you got:",
+  "cmd_help_list_footer": "Hit `/help <command>` for the details.",
+  "cmd_help_detail_usage": "Usage:",
+  "cmd_help_detail_aliases": "Aliases:",
+  "cmd_help_detail_examples": "Examples:",
 
-  "cmd_theme_desc": "Change the application theme",
-  "cmd_theme_usage": "Usage: /theme <name>",
-  "cmd_theme_invalid": "Invalid theme \"{themeName}\". Available: {themes}",
-  "cmd_theme_success": "Theme changed to \"{themeName}\""
+  "cmd_theme_desc": "Switch up the look",
+  "cmd_theme_usage": "/theme <theme-name>",
+  "cmd_theme_missing_arg": "Pick a theme. Try: {themes}",
+  "cmd_theme_unknown": "Never heard of '{themeName}'. Try: {themes}",
+  "cmd_theme_success": "Vibing with {themeName} now.",
+
+  "cmd_execute_unknown": "No clue what /{name} is. Try /help",
+  "cmd_execute_failed": "That didn't work."
 }

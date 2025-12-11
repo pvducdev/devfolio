@@ -6,7 +6,7 @@ type LandmarkProps = {
   className?: string;
 };
 
-export function Landmark({ icon: Icon, className }: LandmarkProps) {
+export default function Landmark({ icon: Icon, className }: LandmarkProps) {
   return (
     <div className={cn("flex items-end", className)}>
       <Icon className="size-10 text-foreground" />

@@ -1,7 +1,8 @@
 import type { LucideIcon } from "lucide-react";
-import { type JobType, PERSONAL_INFO } from "./personal";
+import { PERSONAL_INFO } from "@/config/personal-info.ts";
+import { CAREER_TIMELINE, type JobType } from "./career";
 
-export type { JobType } from "./personal";
+export type { JobType } from "./career";
 
 export type ExpandedContent = {
   description: string;
@@ -26,7 +27,7 @@ export type CareerSection = {
   };
 };
 
-export const CAREER_SECTIONS: CareerSection[] = PERSONAL_INFO.career.map(
+export const CAREER_SECTIONS: CareerSection[] = CAREER_TIMELINE.map(
   (entry, index) => ({
     id: `career-${index}`,
     year: entry.year,
@@ -53,3 +54,5 @@ export const UI_CONFIG = {
   sectionMargin: "0px -200px",
   sectionSpace: "space-x-400",
 } as const;
+
+export const DEFAULT_YEAR = PERSONAL_INFO.dob.toString();

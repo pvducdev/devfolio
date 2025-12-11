@@ -1,47 +1,63 @@
-import { type RefObject, useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useIntersectionObserver } from "usehooks-ts";
-import { useShallow } from "zustand/react/shallow";
 import {
   type CareerSection as TCareerSection,
   UI_CONFIG,
 } from "@/config/career-timeline";
-import { useCareerLooping, useCareerStore } from "@/store/career.ts";
-import { JobCard } from "./job-card";
-import { Landmark } from "./landmark";
+import { useCareerScrollCtx } from "@/context/career-scroll.tsx";
+import { cn } from "@/lib/utils";
+import {
+  useActiveSectionId,
+  useCareerActions,
+  useCareerLooping,
+} from "@/store/career";
+import JobCard from "./job-card";
+import Landmark from "./landmark";
 
 type CareerSectionProps = {
   section: TCareerSection;
-  containerRef: RefObject<HTMLDivElement | null>;
 };
 
-export function CareerSection({ section, containerRef }: CareerSectionProps) {
-  const [activeSection, setActiveSection, reset] = useCareerStore(
-    useShallow((s) => [s.activeSection, s.setActiveSection, s.reset])
-  );
+export default function CareerSection({ section }: CareerSectionProps) {
+  const { containerRef } = useCareerScrollCtx();
+  const activeSectionId = useActiveSectionId();
+  const { setActiveSection } = useCareerActions();
   const careerLooping = useCareerLooping();
 
-  const isActive = activeSection?.id === section.id;
+  const isActive = activeSectionId === section.id;
 
   const { ref, isIntersecting } = useIntersectionObserver({
     rootMargin: UI_CONFIG.sectionMargin,
     root: containerRef.current,
   });
 
+  const prevIntersecting = useRef(isIntersecting);
+
   useEffect(() => {
     if (careerLooping) {
       return;
     }
+    if (prevIntersecting.current === isIntersecting) {
+      return;
+    }
+    prevIntersecting.current = isIntersecting;
 
     if (isIntersecting) {
-      setActiveSection(section);
-    } else {
-      reset();
+      setActiveSection(section.id);
+    } else if (activeSectionId === section.id) {
+      setActiveSection(null);
     }
-  }, [isIntersecting, section, setActiveSection, reset, careerLooping]);
+  }, [
+    isIntersecting,
+    section.id,
+    activeSectionId,
+    careerLooping,
+    setActiveSection,
+  ]);
 
   return (
     <div className="relative flex shrink-0 items-end" ref={ref}>
-      <div className="-translate-x-1/2 absolute top-15 left-1/2">
+      <div className="-translate-x-1/2 absolute top-15 bottom-12 left-1/2 flex flex-col items-center">
         <JobCard
           details={section.card.details}
           expanded={section.card.expanded}
@@ -49,9 +65,13 @@ export function CareerSection({ section, containerRef }: CareerSectionProps) {
           subtitle={section.card.subtitle}
           title={section.card.title}
         />
+        <div
+          className={cn(
+            "w-px flex-1 bg-border transition-opacity duration-300",
+            isActive ? "opacity-100" : "opacity-30"
+          )}
+        />
       </div>
-
-      {/*<div className="-translate-x-1/2 absolute top-56 bottom-10 left-1/2 w-px bg-foreground/20" />*/}
 
       <div className="-translate-x-1/2 absolute bottom-2 left-1/2">
         <Landmark icon={section.icon} />

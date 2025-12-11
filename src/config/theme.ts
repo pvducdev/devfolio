@@ -1,3 +1,7 @@
+export const THEME_STORAGE_KEY = "theme";
+export const THEME_ATTRIBUTE = "data-theme";
+export const DEFAULT_THEME = "default";
+
 export const THEMES = [
   {
     name: "Notebook (default)",

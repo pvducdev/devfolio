@@ -2,14 +2,13 @@ import type { ItemInstance } from "@headless-tree/core";
 import { hotkeysCoreFeature, syncDataLoaderFeature } from "@headless-tree/core";
 import { useTree } from "@headless-tree/react";
 import { FileIcon, FolderIcon, FolderOpenIcon } from "lucide-react";
-import { useShallow } from "zustand/react/shallow";
 import { Tree, TreeItem, TreeItemLabel } from "@/components/ui/tree";
 import {
   ABOUT_TREE,
   ABOUT_TREE_CONFIG,
   type AboutTreeItem,
 } from "@/config/content.ts";
-import { useTabsStore } from "@/store/tabs";
+import { useTabsActions } from "@/store/tabs";
 
 function getTreeItemIcon(item: ItemInstance<AboutTreeItem>) {
   const iconClass = "pointer-events-none size-4 text-muted-foreground";
@@ -25,7 +24,7 @@ function getTreeItemIcon(item: ItemInstance<AboutTreeItem>) {
 export default function About() {
   "use no memo";
 
-  const openTab = useTabsStore(useShallow((state) => state.openTab));
+  const { openTab } = useTabsActions();
 
   const tree = useTree<AboutTreeItem>({
     initialState: {

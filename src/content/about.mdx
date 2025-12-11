@@ -1,10 +1,8 @@
-import { CodeGridAccent } from '../components/common/code-grid-accent';
-import { PERSONAL_INFO } from '../config/personal';
+import { ABOUT } from '../config/about';
+import { PERSONAL_INFO } from '../config/personal-info';
 import { page_portfolio_header } from '../paraglide/messages.js';
 
 <div className="relative min-h-screen">
-  <CodeGridAccent variant="neutral" gridSize="medium" />
-
   <main className="relative z-10">
     <article className="text-center py-8 space-y-6">
       <header className="inline-block">
@@ -72,7 +70,7 @@ import { page_portfolio_header } from '../paraglide/messages.js';
       </div>
 
       <blockquote className="border-t border-b border-gray-300 dark:border-gray-700 py-4 max-w-2xl mx-auto">
-        <p className="italic text-base">{PERSONAL_INFO.about.shortBio}</p>
+        <p className="italic text-base">{ABOUT.shortBio}</p>
       </blockquote>
     </article>
   </main>

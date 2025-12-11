@@ -1,6 +1,6 @@
 import { ArrowDown } from "lucide-react";
 import type { ComponentProps } from "react";
-import { useCallback, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useScrollY } from "@/hooks/use-scroll";
@@ -14,26 +14,23 @@ export default function ScrollAreaWithAnchor({
   ...props
 }: ScrollAreaWithAnchorProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const viewportRef = useRef<HTMLDivElement | null>(null);
 
-  const getViewport = useCallback(
-    () =>
-      containerRef.current?.querySelector<HTMLDivElement>(
-        "[data-slot='scroll-area-viewport']"
-      ),
-    []
-  );
-
-  const [{ isAtBottom }, scrollToY] = useScrollY({
-    target: getViewport,
-    behavior: "smooth",
-  });
+  const { isAtBottom } = useScrollY({ container: viewportRef });
 
   const scrollToBottom = () => {
-    const viewport = getViewport();
-    if (viewport) {
-      scrollToY(viewport.scrollHeight);
-    }
+    viewportRef.current?.scrollTo({
+      top: viewportRef.current.scrollHeight,
+      behavior: "smooth",
+    });
   };
+
+  useLayoutEffect(() => {
+    viewportRef.current =
+      containerRef.current?.querySelector<HTMLDivElement>(
+        "[data-slot='scroll-area-viewport']"
+      ) ?? null;
+  }, []);
 
   return (
     <ScrollArea

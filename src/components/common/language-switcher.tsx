@@ -7,7 +7,7 @@ const localeLabels: Record<string, () => string> = {
   vi: ui_lang_vi,
 };
 
-export function LanguageSwitcher() {
+export default function LanguageSwitcher() {
   const currentLocale = getLocale();
 
   return (

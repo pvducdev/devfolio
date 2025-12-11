@@ -1,8 +1,11 @@
-import { PERSONAL_INFO } from "./personal";
+import { env } from "@/env";
+import { ABOUT } from "./about";
+import { PERSONAL_INFO } from "./personal-info";
+import { SKILLS } from "./skills";
 
 export const SITE_CONFIG = {
-  title: "PVD Portfolio",
-  description: PERSONAL_INFO.about.shortBio,
+  title: env.VITE_APP_TITLE || "PVD Portfolio",
+  description: ABOUT.shortBio,
   // biome-ignore lint/correctness/noUndeclaredVariables: <vite define>
   version: __APP_VERSION__,
   url: "https://your-domain.com",
@@ -12,23 +15,15 @@ export const SITE_CONFIG = {
     keywords: [
       "portfolio",
       "frontend developer",
-      ...PERSONAL_INFO.skills.core.map((s) => s.name.toLowerCase()),
-      ...PERSONAL_INFO.skills.stack.map((s) => s.name.toLowerCase()),
+      ...SKILLS.core.map((s) => s.name.toLowerCase()),
+      ...SKILLS.stack.map((s) => s.name.toLowerCase()),
     ],
     ogImage: "/og-image.png",
   },
 
   assistant: {
     name: "HeyD",
-    creator: PERSONAL_INFO.name,
     model: "gemini-2.5-flash-lite",
-    defaultSuggestions: [
-      "What are D's core skills?",
-      "Tell me about D's experience",
-      "What projects has D worked on?",
-    ],
-    welcome: "Ready for some fun facts about my human?",
-    inputPlaceholder: "Ask me about D...",
     temperature: 2.0,
   },
 

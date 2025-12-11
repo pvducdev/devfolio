@@ -2,9 +2,10 @@ import { Expand, GitBranch, Settings, Shrink } from "lucide-react";
 import { useHotkeys } from "react-hotkeys-hook";
 import AssistantTrigger from "@/components/assistant/trigger.tsx";
 import ButtonWithTooltip from "@/components/common/button-with-tooltip.tsx";
-import { LanguageSwitcher } from "@/components/common/language-switcher.tsx";
+import LanguageSwitcher from "@/components/common/language-switcher.tsx";
 import AppSearch from "@/components/layout/app-search.tsx";
 import ResumeViewer from "@/components/resume-viewer/dialog-container.tsx";
+import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,14 +24,11 @@ import {
   ui_settings_shortcuts,
   ui_settings_title,
 } from "@/paraglide/messages.js";
-import { useAppLayoutStore } from "@/store/app-layout.ts";
-import { Badge } from "../ui/badge";
+import { useAppLayoutActions, useIsStretchLayout } from "@/store/app-layout.ts";
 
 export default function Header() {
-  const isStretchLayout = useAppLayoutStore((state) => state.isStretchLayout);
-  const toggleStretchLayout = useAppLayoutStore(
-    (state) => state.toggleStretchLayout
-  );
+  const isStretchLayout = useIsStretchLayout();
+  const { toggleStretchLayout } = useAppLayoutActions();
 
   useHotkeys("mod+shift+f", toggleStretchLayout);
 
