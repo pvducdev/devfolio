@@ -6,6 +6,7 @@ import { getProjectById } from "@/config/projects";
 import { cn } from "@/lib/utils";
 import { Card } from "./card";
 import { CodeBlock } from "./code-block";
+import { Terminal } from "./terminal";
 
 export type ContainerProps = {
   projectId?: string;
@@ -39,7 +40,7 @@ export function Container({
         <div className="relative z-10">
           <Card title={filename}>
             <Tabs
-              className="flex min-h-48 flex-row"
+              className="flex min-h-48 min-w-100 flex-row"
               defaultValue="package"
               orientation="vertical"
             >
@@ -60,6 +61,9 @@ export function Container({
 
               <TabsContent className="flex-1" value="package">
                 <CodeBlock json={packageJson} />
+              </TabsContent>
+              <TabsContent className="flex-1" value="usage">
+                <Terminal />
               </TabsContent>
             </Tabs>
           </Card>
