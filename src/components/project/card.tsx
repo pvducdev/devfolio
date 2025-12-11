@@ -2,12 +2,12 @@ import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 export type CardProps = {
-  filename?: string;
+  title?: string;
   className?: string;
   children: ReactNode;
 };
 
-export function Card({ filename, className, children }: CardProps) {
+export function Card({ title, className, children }: CardProps) {
   return (
     <div
       className={cn(
@@ -22,9 +22,9 @@ export function Card({ filename, className, children }: CardProps) {
           <div className="size-2.5 rounded-full bg-muted-foreground/30" />
         </div>
 
-        {!!filename && (
+        {!!title && (
           <span className="ml-2 font-mono text-muted-foreground text-xs">
-            {filename}
+            {title}
           </span>
         )}
       </div>

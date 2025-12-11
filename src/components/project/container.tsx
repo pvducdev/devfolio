@@ -33,14 +33,11 @@ export function Container({
 
   return (
     <div
-      className={cn(
-        "m-auto flex max-w-3xl items-center justify-center rounded-2xl bg-muted/20 p-20",
-        className
-      )}
+      className={cn("flex size-full items-center justify-center", className)}
     >
       <div className="grid grid-cols-[auto_240px] items-center">
         <div className="relative z-10">
-          <Card filename={filename}>
+          <Card title={filename}>
             <Tabs
               className="flex min-h-48 flex-row"
               defaultValue="package"
@@ -49,25 +46,27 @@ export function Container({
               <TabsList className="h-auto flex-col justify-start rounded-none border-border border-r bg-transparent p-1">
                 <TabsTrigger
                   className="h-auto w-full flex-none justify-start rounded-sm px-3 py-1.5 text-xs data-[state=active]:bg-muted"
+                  value="usage"
+                >
+                  Usages
+                </TabsTrigger>
+                <TabsTrigger
+                  className="h-auto w-full flex-none justify-start rounded-sm px-3 py-1.5 text-xs data-[state=active]:bg-muted"
                   value="package"
                 >
                   Dependencies
                 </TabsTrigger>
               </TabsList>
 
-              <TabsContent className="mt-0 flex-1" value="package">
+              <TabsContent className="flex-1" value="package">
                 <CodeBlock json={packageJson} />
               </TabsContent>
             </Tabs>
           </Card>
         </div>
 
-        <div className="-ml-10 relative z-20 w-full max-w-60">
-          <Iphone
-            className="drop-shadow-2xl"
-            src={screenshotSrc}
-            videoSrc={videoSrc}
-          />
+        <div className="-ml-5 relative z-20 w-full max-w-60">
+          <Iphone src={screenshotSrc} videoSrc={videoSrc} />
         </div>
       </div>
     </div>
