@@ -1,6 +1,6 @@
 import { ChevronDown } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useEffect } from "react";
+import { useRef } from "react";
 import { useBoolean } from "usehooks-ts";
 import type { ExpandedContent } from "@/config/career-timeline";
 import ExpandedSection from "./expanded-section";
@@ -37,26 +37,28 @@ export default function JobCard({
   isActive = false,
 }: JobCardProps) {
   const prefersReducedMotion = useReducedMotion() ?? false;
+
   const {
-    value: isExpanded,
-    toggle: toggleExpanded,
-    setTrue: expand,
-    setFalse: collapse,
+    value: manuallyToggled,
+    toggle: toggleManually,
+    setFalse: resetToggle,
   } = useBoolean(false);
 
-  const canExpand = isActive && !!expanded;
-
-  useEffect(() => {
-    if (isActive && expanded) {
-      expand();
-    } else {
-      collapse();
+  const prevIsActive = useRef(isActive);
+  if (prevIsActive.current !== isActive) {
+    prevIsActive.current = isActive;
+    if (!isActive) {
+      resetToggle();
     }
-  }, [isActive, expanded, expand, collapse]);
+  }
+
+  const hasExpandableContent = !!expanded;
+  const isExpanded = isActive && hasExpandableContent && !manuallyToggled;
+  const canExpand = isActive && hasExpandableContent;
 
   const handleClick = () => {
     if (canExpand) {
-      toggleExpanded();
+      toggleManually();
     }
   };
 
@@ -64,7 +66,7 @@ export default function JobCard({
     <div className="transition-transform">
       <motion.div
         animate={getAnimationProps(prefersReducedMotion, isActive)}
-        className="border border-border bg-transparent p-3 font-mono"
+        className="border border-border bg-transparent p-3"
         layout
         onClick={handleClick}
         style={{

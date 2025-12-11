@@ -1,4 +1,5 @@
 import type { LucideIcon } from "lucide-react";
+import { PERSONAL_INFO } from "@/config/personal-info.ts";
 import { CAREER_TIMELINE, type JobType } from "./career";
 
 export type { JobType } from "./career";
@@ -53,3 +54,5 @@ export const UI_CONFIG = {
   sectionMargin: "0px -200px",
   sectionSpace: "space-x-400",
 } as const;
+
+export const DEFAULT_YEAR = PERSONAL_INFO.dob.toString();

@@ -1,7 +1,6 @@
 import { LayoutGroup } from "motion/react";
-import { CAREER_SECTIONS, UI_CONFIG } from "@/config/career-timeline";
-import { useCareerScroll } from "@/hooks/use-career-scroll";
-import { cn } from "@/lib/utils.ts";
+import RunnerContainer from "@/components/career-runner/runner-container.tsx";
+import { CAREER_SECTIONS } from "@/config/career-timeline";
 import CareerSection from "./career-section";
 import Character from "./character";
 import EndSection from "./end-section";
@@ -10,8 +9,6 @@ import StarterSection from "./starter-section";
 import YearHUD from "./year-hud";
 
 export default function CareerRunner() {
-  const { containerRef } = useCareerScroll();
-
   return (
     <div className="relative size-full overflow-hidden bg-background font-mono">
       <YearHUD />
@@ -20,30 +17,16 @@ export default function CareerRunner() {
         <Character />
       </div>
 
-      <section
-        aria-label="Career timeline"
-        className={cn(
-          "scrollbar-none flex h-full overflow-x-auto",
-          UI_CONFIG.sectionSpace
-        )}
-        ref={containerRef}
-      >
+      <RunnerContainer>
         <StarterSection />
-
         <LayoutGroup>
           {CAREER_SECTIONS.map((section) => (
-            <CareerSection
-              containerRef={containerRef}
-              key={section.id}
-              section={section}
-            />
+            <CareerSection key={section.id} section={section} />
           ))}
         </LayoutGroup>
-
         <EndSection />
-
         <div className="sr-only" />
-      </section>
+      </RunnerContainer>
 
       <Ground />
     </div>

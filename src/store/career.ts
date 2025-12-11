@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { useShallow } from "zustand/shallow";
-import { CAREER_SECTIONS } from "@/config/career-timeline";
+import { CAREER_SECTIONS, DEFAULT_YEAR } from "@/config/career-timeline";
 
 export type ScrollStatus = "idle" | "scrolling" | "looping";
 export type AnimationState = "idle" | "running" | "milestone";
@@ -67,15 +67,16 @@ export const useCharacterAnimationState = (): AnimationState =>
     return "idle";
   });
 
-const DEFAULT_YEAR = "2001";
 export const useDisplayYear = (): string =>
   useCareerStore((s) => {
     if (s.status === "looping") {
       return DEFAULT_YEAR;
     }
+
     const section = s.lastVisitedSectionId
       ? CAREER_SECTIONS.find((sec) => sec.id === s.lastVisitedSectionId)
       : null;
+
     return section?.year ?? DEFAULT_YEAR;
   });
 
