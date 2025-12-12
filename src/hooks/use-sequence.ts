@@ -4,11 +4,11 @@ import { useCounter, useUnmount } from "usehooks-ts";
 const NOT_STARTED_INDEX = -1;
 const FIRST_STEP_INDEX = 0;
 
-type SequenceStatus = "idle" | "running" | "complete" | "error";
+type SequenceStatus = "idle" | "running" | "paused" | "complete" | "error";
 
 type Step<TData = unknown> = {
   id: string;
-  action?: () => Promise<TData> | TData;
+  action?: (signal: AbortSignal) => Promise<TData> | TData;
 };
 
 type UseSequenceOptions<TData> = {
@@ -16,38 +16,26 @@ type UseSequenceOptions<TData> = {
   autoStart?: boolean;
   autoSequence?: boolean;
   delay?: number;
-  loop?: number;
-  loopDelay?: number;
+  completionDelay?: number;
+  repeatCount?: number;
+  repeatDelay?: number;
   onStepComplete?: (stepId: string, data?: TData) => void;
   onComplete?: () => void;
-  onLoop?: (loopCount: number) => void;
+  onRepeat?: (count: number) => void;
   onError?: (error: Error, stepId: string) => void;
 };
-
-function useStableSteps<TData>(steps: Step<TData>[]) {
-  const stepsRef = useRef(steps);
-
-  const hasStepsChanged =
-    steps.length !== stepsRef.current.length ||
-    steps.some((step, index) => step.id !== stepsRef.current[index]?.id);
-
-  if (hasStepsChanged) {
-    stepsRef.current = steps;
-  }
-
-  return stepsRef.current;
-}
 
 export function useSequence<TData = unknown>({
   steps,
   autoStart = false,
   autoSequence = false,
   delay = 0,
-  loop = 0,
-  loopDelay,
+  completionDelay,
+  repeatCount = 0,
+  repeatDelay,
   onStepComplete,
   onComplete,
-  onLoop,
+  onRepeat,
   onError,
 }: UseSequenceOptions<TData>) {
   const [pendingIndex, setPendingIndex] = useState(
@@ -56,57 +44,69 @@ export function useSequence<TData = unknown>({
   const [status, setStatus] = useState<SequenceStatus>("idle");
   const [error, setError] = useState<Error | null>(null);
   const {
-    count: loopCount,
-    increment: incrementLoopCount,
-    reset: resetLoopCount,
+    count: currentRepeat,
+    increment: incrementRepeat,
+    reset: resetRepeat,
   } = useCounter(0);
 
-  const stableSteps = useStableSteps(steps);
   const abortControllerRef = useRef<AbortController | null>(null);
+  const onCompleteCalledRef = useRef(false);
 
-  const pendingStep = stableSteps[pendingIndex] ?? null;
+  const pendingStep = steps[pendingIndex];
   const isStarted = pendingIndex >= FIRST_STEP_INDEX;
   const progress =
-    stableSteps.length > 0 && isStarted
-      ? Math.min(pendingIndex + 1, stableSteps.length) / stableSteps.length
+    steps.length > 0 && isStarted
+      ? Math.min(pendingIndex + 1, steps.length) / steps.length
       : 0;
 
-  const hasRemainingLoops = loop > 0 && loopCount < loop - 1;
+  const hasRemainingRepeats = repeatCount > 0 && currentRepeat < repeatCount;
 
   const isRunning = status === "running";
   const isIdle = status === "idle";
+  const isPaused = status === "paused";
   const isComplete = status === "complete";
   const hasError = status === "error";
-  const isValidIndex =
-    pendingIndex >= FIRST_STEP_INDEX && pendingIndex < stableSteps.length;
-  const isFirst = isValidIndex && pendingIndex === FIRST_STEP_INDEX;
-  const isLast = isValidIndex && pendingIndex === stableSteps.length - 1;
 
-  const canAdvance = !isRunning && isValidIndex;
-  const canGoPrev = !isRunning && pendingIndex > FIRST_STEP_INDEX;
+  const isValidIndex =
+    pendingIndex >= FIRST_STEP_INDEX && pendingIndex < steps.length;
+  const isFirst = isValidIndex && pendingIndex === FIRST_STEP_INDEX;
+  const isLast = isValidIndex && pendingIndex === steps.length - 1;
+
+  const canAdvance = !(isRunning || isPaused) && isValidIndex;
+  const canGoPrev = !(isRunning || isPaused) && pendingIndex > FIRST_STEP_INDEX;
+  const canPause = isRunning;
+  const canResume = isPaused && isValidIndex;
 
   const cleanup = () => {
     abortControllerRef.current?.abort();
+    onCompleteCalledRef.current = false;
     setStatus("idle");
     setError(null);
   };
+
+  const handleComplete = useEffectEvent(() => {
+    if (onCompleteCalledRef.current) {
+      return;
+    }
+    onCompleteCalledRef.current = true;
+    onComplete?.();
+  });
 
   const executeStep = useEffectEvent(async (index: number) => {
     abortControllerRef.current?.abort();
     abortControllerRef.current = new AbortController();
     const { signal } = abortControllerRef.current;
 
-    const step = stableSteps[index];
+    const step = steps[index];
     if (!step) {
       setStatus("complete");
-      onComplete?.();
       return;
     }
 
     setStatus("running");
 
     try {
-      const result = step.action ? await step.action() : undefined;
+      const result = step.action ? await step.action(signal) : undefined;
 
       if (signal.aborted) {
         return;
@@ -115,13 +115,12 @@ export function useSequence<TData = unknown>({
       onStepComplete?.(step.id, result);
 
       const nextIndex = index + 1;
-      const isLastStep = nextIndex >= stableSteps.length;
+      const isLastStep = nextIndex >= steps.length;
 
       setPendingIndex(nextIndex);
 
       if (isLastStep) {
         setStatus("complete");
-        onComplete?.();
       } else {
         setStatus("idle");
       }
@@ -138,29 +137,33 @@ export function useSequence<TData = unknown>({
   });
 
   const start = () => {
+    if (steps.length === 0) {
+      return;
+    }
     cleanup();
     setPendingIndex(FIRST_STEP_INDEX);
-    resetLoopCount();
+    resetRepeat();
   };
 
   const advance = () => {
-    if (!canAdvance) {
+    if (isRunning || !isValidIndex) {
       return;
     }
+
     executeStep(pendingIndex);
   };
 
   const reset = () => {
     cleanup();
     setPendingIndex(NOT_STARTED_INDEX);
-    resetLoopCount();
+    resetRepeat();
   };
 
   const jumpTo = (stepId: string) => {
-    if (isRunning) {
+    if (isRunning || isPaused) {
       return;
     }
-    const index = stableSteps.findIndex((s) => s.id === stepId);
+    const index = steps.findIndex((s) => s.id === stepId);
     if (index !== -1) {
       cleanup();
       setPendingIndex(index);
@@ -168,25 +171,39 @@ export function useSequence<TData = unknown>({
   };
 
   const goPrev = () => {
-    if (isRunning || pendingIndex <= FIRST_STEP_INDEX) {
+    if (isRunning || isPaused || pendingIndex <= FIRST_STEP_INDEX) {
       return;
     }
     cleanup();
     setPendingIndex((prev) => prev - 1);
   };
 
-  const restartLoop = useEffectEvent(() => {
-    onLoop?.(loopCount + 1);
-    incrementLoopCount();
+  const pause = () => {
+    if (!isRunning) {
+      return;
+    }
+    abortControllerRef.current?.abort();
+    setStatus("paused");
+  };
+
+  const resume = () => {
+    if (!(isPaused && isValidIndex)) {
+      return;
+    }
+    setStatus("idle");
+    executeStep(pendingIndex);
+  };
+
+  const restartRepeat = useEffectEvent(() => {
+    onRepeat?.(currentRepeat + 1);
+    incrementRepeat();
     setPendingIndex(FIRST_STEP_INDEX);
     setStatus("idle");
     setError(null);
   });
 
   useEffect(() => {
-    const canAutoSequence = autoSequence && isIdle && isValidIndex;
-
-    if (!canAutoSequence) {
+    if (!autoSequence || status !== "idle" || !isValidIndex) {
       return;
     }
 
@@ -195,20 +212,33 @@ export function useSequence<TData = unknown>({
     }, delay);
 
     return () => clearTimeout(timeoutId);
-  }, [autoSequence, pendingIndex, delay, isIdle, isValidIndex]);
+  }, [autoSequence, pendingIndex, delay, status, isValidIndex]);
 
   useEffect(() => {
-    const shouldRestartLoop = status === "complete" && hasRemainingLoops;
-
-    if (!shouldRestartLoop) {
+    if (status !== "complete" || hasRemainingRepeats) {
       return;
     }
 
-    const restartDelay = loopDelay ?? delay;
-    const timeoutId = setTimeout(restartLoop, restartDelay);
+    const finalDelay = completionDelay ?? (autoSequence ? delay : 0);
 
+    if (finalDelay === 0) {
+      handleComplete();
+      return;
+    }
+
+    const timeoutId = setTimeout(handleComplete, finalDelay);
     return () => clearTimeout(timeoutId);
-  }, [status, hasRemainingLoops, loopDelay, delay]);
+  }, [status, autoSequence, hasRemainingRepeats, completionDelay, delay]);
+
+  useEffect(() => {
+    if (status !== "complete" || !hasRemainingRepeats) {
+      return;
+    }
+
+    const restartDelay = repeatDelay ?? delay;
+    const timeoutId = setTimeout(restartRepeat, restartDelay);
+    return () => clearTimeout(timeoutId);
+  }, [status, hasRemainingRepeats, repeatDelay, delay]);
 
   useUnmount(() => abortControllerRef.current?.abort());
 
@@ -218,20 +248,27 @@ export function useSequence<TData = unknown>({
     status,
     error,
     progress,
-    loopCount,
+    currentRepeat,
     isStarted,
     isFirst,
     isLast,
     isComplete,
+    isPaused,
     canAdvance,
     canGoPrev,
+    canPause,
+    canResume,
     isRunning,
     isIdle,
     hasError,
     start,
     advance,
     goPrev,
+    pause,
+    resume,
     jumpTo,
     reset,
   };
 }
+
+export type { Step, SequenceStatus, UseSequenceOptions };
