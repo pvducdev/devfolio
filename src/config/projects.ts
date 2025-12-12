@@ -2,10 +2,8 @@ export type ProjectConfig = {
   id: string;
   name: string;
   description: string;
-  screenshotSrc: string;
-  videoSrc?: string;
-  codeFilename: string;
-  packageJson: Record<string, unknown>;
+  guides: { title: string; src: string; type: "screenshot" | "video" }[];
+  package: Record<string, unknown>;
 };
 
 export const PROJECTS: ProjectConfig[] = [
@@ -13,9 +11,24 @@ export const PROJECTS: ProjectConfig[] = [
     id: "portfolio",
     name: "Portfolio Site",
     description: "Personal portfolio built with TanStack Start",
-    screenshotSrc: "https://placehold.co/900x1600?text=Hello+World",
-    codeFilename: "package.json",
-    packageJson: {
+    guides: [
+      {
+        src: "https://placehold.co/900x1600?text=Loading",
+        type: "screenshot",
+        title: "Loading",
+      },
+      {
+        src: "https://placehold.co/900x1600?text=Hello+World",
+        type: "screenshot",
+        title: "Hello",
+      },
+      {
+        src: "https://placehold.co/900x1600?text=Finish",
+        type: "screenshot",
+        title: "Finish",
+      },
+    ],
+    package: {
       name: "portfolio-site",
       description: "Personal portfolio built with TanStack Start",
       dependencies: {

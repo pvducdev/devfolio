@@ -68,6 +68,18 @@ export function useSequence<TData = unknown>({
 
   const hasRemainingLoops = loop > 0 && loopCount < loop - 1;
 
+  const isFirst = currentIndex === 0;
+  const isLast = currentIndex >= stableSteps.length - 1;
+  const canGoNext =
+    status !== "running" &&
+    currentIndex >= 0 &&
+    currentIndex < stableSteps.length;
+  const canGoPrev = status !== "running" && currentIndex > 0;
+  const stepCount = stableSteps.length;
+  const isRunning = status === "running";
+  const isIdle = status === "idle";
+  const hasError = status === "error";
+
   const executeStep = useEffectEvent(async (index: number) => {
     abortControllerRef.current?.abort();
     abortControllerRef.current = new AbortController();
@@ -120,7 +132,7 @@ export function useSequence<TData = unknown>({
     setError(null);
   };
 
-  const next = () => {
+  const goNext = () => {
     if (status === "running") {
       return;
     }
@@ -135,11 +147,21 @@ export function useSequence<TData = unknown>({
     resetLoopCount();
   };
 
-  const goTo = (stepId: string) => {
+  const jumpTo = (stepId: string) => {
     const index = stableSteps.findIndex((s) => s.id === stepId);
     if (index !== -1) {
       setCurrentIndex(index);
     }
+  };
+
+  const goPrev = () => {
+    if (status === "running" || currentIndex <= 0) {
+      return;
+    }
+    abortControllerRef.current?.abort();
+    setCurrentIndex((prev) => prev - 1);
+    setStatus("idle");
+    setError(null);
   };
 
   const restartLoop = useEffectEvent(() => {
@@ -188,11 +210,20 @@ export function useSequence<TData = unknown>({
     status,
     error,
     progress,
-    isComplete,
     loopCount,
+    isFirst,
+    isLast,
+    isComplete,
+    canGoNext,
+    canGoPrev,
+    stepCount,
+    isRunning,
+    isIdle,
+    hasError,
     start,
-    next,
+    goNext,
+    goPrev,
+    jumpTo,
     reset,
-    goTo,
   };
 }
