@@ -50,7 +50,7 @@ export function useSequence<TData = unknown>({
   onLoop,
   onError,
 }: UseSequenceOptions<TData>) {
-  const [currentIndex, setCurrentIndex] = useState(
+  const [pendingIndex, setPendingIndex] = useState(
     autoStart ? FIRST_STEP_INDEX : NOT_STARTED_INDEX
   );
   const [status, setStatus] = useState<SequenceStatus>("idle");
@@ -64,11 +64,11 @@ export function useSequence<TData = unknown>({
   const stableSteps = useStableSteps(steps);
   const abortControllerRef = useRef<AbortController | null>(null);
 
-  const currentStep = stableSteps[currentIndex] ?? null;
-  const isStarted = currentIndex >= FIRST_STEP_INDEX;
+  const pendingStep = stableSteps[pendingIndex] ?? null;
+  const isStarted = pendingIndex >= FIRST_STEP_INDEX;
   const progress =
     stableSteps.length > 0 && isStarted
-      ? Math.min(currentIndex + 1, stableSteps.length) / stableSteps.length
+      ? Math.min(pendingIndex + 1, stableSteps.length) / stableSteps.length
       : 0;
 
   const hasRemainingLoops = loop > 0 && loopCount < loop - 1;
@@ -78,13 +78,12 @@ export function useSequence<TData = unknown>({
   const isComplete = status === "complete";
   const hasError = status === "error";
   const isValidIndex =
-    currentIndex >= FIRST_STEP_INDEX && currentIndex < stableSteps.length;
-  const isFirst = isValidIndex && currentIndex === FIRST_STEP_INDEX;
-  const isLast = isValidIndex && currentIndex === stableSteps.length - 1;
+    pendingIndex >= FIRST_STEP_INDEX && pendingIndex < stableSteps.length;
+  const isFirst = isValidIndex && pendingIndex === FIRST_STEP_INDEX;
+  const isLast = isValidIndex && pendingIndex === stableSteps.length - 1;
 
-  const canGoNext = !isRunning && isValidIndex;
-  const canGoPrev = !isRunning && currentIndex > FIRST_STEP_INDEX;
-  const stepCount = stableSteps.length;
+  const canAdvance = !isRunning && isValidIndex;
+  const canGoPrev = !isRunning && pendingIndex > FIRST_STEP_INDEX;
 
   const cleanup = () => {
     abortControllerRef.current?.abort();
@@ -118,7 +117,7 @@ export function useSequence<TData = unknown>({
       const nextIndex = index + 1;
       const isLastStep = nextIndex >= stableSteps.length;
 
-      setCurrentIndex(nextIndex);
+      setPendingIndex(nextIndex);
 
       if (isLastStep) {
         setStatus("complete");
@@ -140,20 +139,20 @@ export function useSequence<TData = unknown>({
 
   const start = () => {
     cleanup();
-    setCurrentIndex(FIRST_STEP_INDEX);
+    setPendingIndex(FIRST_STEP_INDEX);
     resetLoopCount();
   };
 
-  const goNext = () => {
-    if (!canGoNext) {
+  const advance = () => {
+    if (!canAdvance) {
       return;
     }
-    executeStep(currentIndex);
+    executeStep(pendingIndex);
   };
 
   const reset = () => {
     cleanup();
-    setCurrentIndex(NOT_STARTED_INDEX);
+    setPendingIndex(NOT_STARTED_INDEX);
     resetLoopCount();
   };
 
@@ -164,22 +163,22 @@ export function useSequence<TData = unknown>({
     const index = stableSteps.findIndex((s) => s.id === stepId);
     if (index !== -1) {
       cleanup();
-      setCurrentIndex(index);
+      setPendingIndex(index);
     }
   };
 
   const goPrev = () => {
-    if (isRunning || currentIndex <= FIRST_STEP_INDEX) {
+    if (isRunning || pendingIndex <= FIRST_STEP_INDEX) {
       return;
     }
     cleanup();
-    setCurrentIndex((prev) => prev - 1);
+    setPendingIndex((prev) => prev - 1);
   };
 
   const restartLoop = useEffectEvent(() => {
     onLoop?.(loopCount + 1);
     incrementLoopCount();
-    setCurrentIndex(FIRST_STEP_INDEX);
+    setPendingIndex(FIRST_STEP_INDEX);
     setStatus("idle");
     setError(null);
   });
@@ -192,11 +191,11 @@ export function useSequence<TData = unknown>({
     }
 
     const timeoutId = setTimeout(() => {
-      executeStep(currentIndex);
+      executeStep(pendingIndex);
     }, delay);
 
     return () => clearTimeout(timeoutId);
-  }, [autoSequence, currentIndex, delay, isIdle, isValidIndex]);
+  }, [autoSequence, pendingIndex, delay, isIdle, isValidIndex]);
 
   useEffect(() => {
     const shouldRestartLoop = status === "complete" && hasRemainingLoops;
@@ -214,8 +213,8 @@ export function useSequence<TData = unknown>({
   useUnmount(() => abortControllerRef.current?.abort());
 
   return {
-    currentStep,
-    currentIndex,
+    pendingStep,
+    pendingIndex,
     status,
     error,
     progress,
@@ -224,14 +223,13 @@ export function useSequence<TData = unknown>({
     isFirst,
     isLast,
     isComplete,
-    canGoNext,
+    canAdvance,
     canGoPrev,
-    stepCount,
     isRunning,
     isIdle,
     hasError,
     start,
-    goNext,
+    advance,
     goPrev,
     jumpTo,
     reset,
