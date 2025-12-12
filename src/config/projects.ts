@@ -13,11 +13,6 @@ export const PROJECTS: ProjectConfig[] = [
     description: "Personal portfolio built with TanStack Start",
     guides: [
       {
-        src: "https://placehold.co/900x1600?text=Loading",
-        type: "screenshot",
-        title: "Loading",
-      },
-      {
         src: "https://placehold.co/900x1600?text=Hello+World",
         type: "screenshot",
         title: "Hello",

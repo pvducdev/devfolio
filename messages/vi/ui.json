@@ -32,5 +32,9 @@
   "ui_lang_en": "EN",
   "ui_lang_vi": "VI",
 
-  "ui_error_unexpected": "Có gì đó hỏng. Không lý tưởng."
+  "ui_error_unexpected": "Có gì đó hỏng. Không lý tưởng.",
+
+  "ui_project_tab_guide": "Hướng dẫn",
+  "ui_project_tab_dependencies": "Thư viện",
+  "ui_project_loading": "Làm gì đó ngu ngốc..."
 }
