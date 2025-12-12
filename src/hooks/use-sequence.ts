@@ -1,6 +1,9 @@
 import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { useCounter, useUnmount } from "usehooks-ts";
 
+const NOT_STARTED_INDEX = -1;
+const FIRST_STEP_INDEX = 0;
+
 type SequenceStatus = "idle" | "running" | "complete" | "error";
 
 type Step<TData = unknown> = {
@@ -47,7 +50,9 @@ export function useSequence<TData = unknown>({
   onLoop,
   onError,
 }: UseSequenceOptions<TData>) {
-  const [currentIndex, setCurrentIndex] = useState(autoStart ? 0 : -1);
+  const [currentIndex, setCurrentIndex] = useState(
+    autoStart ? FIRST_STEP_INDEX : NOT_STARTED_INDEX
+  );
   const [status, setStatus] = useState<SequenceStatus>("idle");
   const [error, setError] = useState<Error | null>(null);
   const {
@@ -60,25 +65,32 @@ export function useSequence<TData = unknown>({
   const abortControllerRef = useRef<AbortController | null>(null);
 
   const currentStep = stableSteps[currentIndex] ?? null;
-  const isComplete = currentIndex >= stableSteps.length;
+  const isStarted = currentIndex >= FIRST_STEP_INDEX;
   const progress =
-    stableSteps.length > 0
+    stableSteps.length > 0 && isStarted
       ? Math.min(currentIndex + 1, stableSteps.length) / stableSteps.length
       : 0;
 
   const hasRemainingLoops = loop > 0 && loopCount < loop - 1;
 
-  const isFirst = currentIndex === 0;
-  const isLast = currentIndex >= stableSteps.length - 1;
-  const canGoNext =
-    status !== "running" &&
-    currentIndex >= 0 &&
-    currentIndex < stableSteps.length;
-  const canGoPrev = status !== "running" && currentIndex > 0;
-  const stepCount = stableSteps.length;
   const isRunning = status === "running";
   const isIdle = status === "idle";
+  const isComplete = status === "complete";
   const hasError = status === "error";
+  const isValidIndex =
+    currentIndex >= FIRST_STEP_INDEX && currentIndex < stableSteps.length;
+  const isFirst = isValidIndex && currentIndex === FIRST_STEP_INDEX;
+  const isLast = isValidIndex && currentIndex === stableSteps.length - 1;
+
+  const canGoNext = !isRunning && isValidIndex;
+  const canGoPrev = !isRunning && currentIndex > FIRST_STEP_INDEX;
+  const stepCount = stableSteps.length;
+
+  const cleanup = () => {
+    abortControllerRef.current?.abort();
+    setStatus("idle");
+    setError(null);
+  };
 
   const executeStep = useEffectEvent(async (index: number) => {
     abortControllerRef.current?.abort();
@@ -101,17 +113,17 @@ export function useSequence<TData = unknown>({
         return;
       }
 
-      onStepComplete?.(step.id, result as TData);
+      onStepComplete?.(step.id, result);
 
       const nextIndex = index + 1;
       const isLastStep = nextIndex >= stableSteps.length;
 
+      setCurrentIndex(nextIndex);
+
       if (isLastStep) {
-        setCurrentIndex(nextIndex);
         setStatus("complete");
         onComplete?.();
       } else {
-        setCurrentIndex(nextIndex);
         setStatus("idle");
       }
     } catch (err) {
@@ -127,56 +139,53 @@ export function useSequence<TData = unknown>({
   });
 
   const start = () => {
-    setCurrentIndex(0);
-    setStatus("idle");
-    setError(null);
+    cleanup();
+    setCurrentIndex(FIRST_STEP_INDEX);
+    resetLoopCount();
   };
 
   const goNext = () => {
-    if (status === "running") {
+    if (!canGoNext) {
       return;
     }
     executeStep(currentIndex);
   };
 
   const reset = () => {
-    abortControllerRef.current?.abort();
-    setCurrentIndex(-1);
-    setStatus("idle");
-    setError(null);
+    cleanup();
+    setCurrentIndex(NOT_STARTED_INDEX);
     resetLoopCount();
   };
 
   const jumpTo = (stepId: string) => {
+    if (isRunning) {
+      return;
+    }
     const index = stableSteps.findIndex((s) => s.id === stepId);
     if (index !== -1) {
+      cleanup();
       setCurrentIndex(index);
     }
   };
 
   const goPrev = () => {
-    if (status === "running" || currentIndex <= 0) {
+    if (isRunning || currentIndex <= FIRST_STEP_INDEX) {
       return;
     }
-    abortControllerRef.current?.abort();
+    cleanup();
     setCurrentIndex((prev) => prev - 1);
-    setStatus("idle");
-    setError(null);
   };
 
   const restartLoop = useEffectEvent(() => {
     onLoop?.(loopCount + 1);
     incrementLoopCount();
-    setCurrentIndex(0);
+    setCurrentIndex(FIRST_STEP_INDEX);
     setStatus("idle");
+    setError(null);
   });
 
   useEffect(() => {
-    const canAutoSequence =
-      autoSequence &&
-      status === "idle" &&
-      currentIndex >= 0 &&
-      currentIndex < stableSteps.length;
+    const canAutoSequence = autoSequence && isIdle && isValidIndex;
 
     if (!canAutoSequence) {
       return;
@@ -187,7 +196,7 @@ export function useSequence<TData = unknown>({
     }, delay);
 
     return () => clearTimeout(timeoutId);
-  }, [autoSequence, status, currentIndex, stableSteps.length, delay]);
+  }, [autoSequence, currentIndex, delay, isIdle, isValidIndex]);
 
   useEffect(() => {
     const shouldRestartLoop = status === "complete" && hasRemainingLoops;
@@ -211,6 +220,7 @@ export function useSequence<TData = unknown>({
     error,
     progress,
     loopCount,
+    isStarted,
     isFirst,
     isLast,
     isComplete,
