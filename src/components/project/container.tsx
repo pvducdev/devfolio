@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { Iphone } from "@/components/ui/iphone";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import type { ProjectConfig } from "@/config/projects";
 import { getProjectById } from "@/config/projects";
-import { useSequence } from "@/hooks/use-sequence";
+import { useAutoStep } from "@/hooks/use-auto-step";
 import {
   ui_project_loading,
   ui_project_tab_dependencies,
@@ -14,8 +13,6 @@ import { CodeBlock } from "./code-block";
 import { Terminal } from "./terminal";
 import { TerminalItem } from "./terminal-item";
 
-type Guide = ProjectConfig["guides"][number];
-
 export type ContainerProps = {
   projectId: string;
 };
@@ -25,25 +22,31 @@ export function Container({ projectId }: ContainerProps) {
   const [activeTab, setActiveTab] = useState("getting-started");
 
   const guides = config?.guides ?? [];
-  const steps = guides.map((_, i) => ({ id: `guide-${i}` }));
 
-  const { pendingIndex, isFirst, start } = useSequence({
-    steps,
-    autoStart: true,
-    autoSequence: true,
+  const { currentStep, start, reset } = useAutoStep({
+    maxStep: guides.length + 1,
+    autoAdvance: true,
     delay: 3000,
-    onComplete: () => {
-      setTimeout(() => setActiveTab("dependencies"), 3000);
+    loop: true,
+    onStepChange: (step) => {
+      if (step > guides.length) {
+        setActiveTab("dependencies");
+      }
+    },
+    onLoop: () => {
+      setActiveTab("getting-started");
     },
   });
 
-  const activeGuide = guides[pendingIndex - 1] as Guide | undefined;
-  const visitedGuides = guides.slice(0, pendingIndex);
+  const visitedGuides = guides.slice(0, currentStep);
+  const latestVisitedGuides = visitedGuides.at(-1);
 
   const handleTabChange = (value: string) => {
     setActiveTab(value);
     if (value === "getting-started") {
       start();
+    } else {
+      reset();
     }
   };
 
@@ -75,18 +78,11 @@ export function Container({ projectId }: ContainerProps) {
 
               <TabsContent className="flex-1" value="getting-started">
                 <Terminal>
-                  {isFirst ? (
-                    <TerminalItem key="initial" variant="info">
-                      {ui_project_loading()}
-                    </TerminalItem>
-                  ) : null}
-                  {visitedGuides.map((guide, i) => (
-                    <TerminalItem
-                      key={guide.title}
-                      variant={
-                        i === visitedGuides.length - 1 ? "command" : "success"
-                      }
-                    >
+                  <TerminalItem key="initial" variant="info">
+                    {ui_project_loading()}
+                  </TerminalItem>
+                  {visitedGuides.map((guide) => (
+                    <TerminalItem key={guide.title} variant="command">
                       {guide.title}
                     </TerminalItem>
                   ))}
@@ -101,8 +97,16 @@ export function Container({ projectId }: ContainerProps) {
 
         <div className="-ml-5 relative z-20 w-full max-w-60">
           <Iphone
-            src={activeGuide?.type === "screenshot" ? activeGuide.src : ""}
-            videoSrc={activeGuide?.type === "video" ? activeGuide.src : ""}
+            src={
+              latestVisitedGuides?.type === "screenshot"
+                ? latestVisitedGuides.src
+                : ""
+            }
+            videoSrc={
+              latestVisitedGuides?.type === "video"
+                ? latestVisitedGuides.src
+                : ""
+            }
           />
         </div>
       </div>

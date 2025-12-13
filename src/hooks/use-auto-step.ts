@@ -1,5 +1,6 @@
 import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { useStep, useUnmount } from "usehooks-ts";
+import { useMount } from "@/hooks/use-mount.ts";
 
 type UseAutoStepOptions = {
   maxStep: number;
@@ -43,6 +44,7 @@ export function useAutoStep(options: UseAutoStepOptions): UseAutoStepReturn {
   } = options;
 
   const safeMaxStep = Math.max(1, maxStep);
+  const safeInitialStep = Math.max(1, Math.min(initialStep, safeMaxStep));
 
   const [currentStep, stepHelpers] = useStep(safeMaxStep);
   const {
@@ -58,7 +60,8 @@ export function useAutoStep(options: UseAutoStepOptions): UseAutoStepReturn {
   const [loopCount, setLoopCount] = useState(0);
 
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const initializedRef = useRef(false);
+  const isMountedRef = useRef(false);
+  const loopCountRef = useRef(0);
 
   const onStepChangeEvent = useEffectEvent((step: number) => {
     onStepChange?.(step);
@@ -72,24 +75,34 @@ export function useAutoStep(options: UseAutoStepOptions): UseAutoStepReturn {
     onLoop?.(count);
   });
 
+  // Shared loop reset logic - uses ref to avoid calling useEffectEvent during render
+  const handleLoopReset = useEffectEvent(() => {
+    onCompleteEvent();
+    loopCountRef.current += 1;
+    setLoopCount(loopCountRef.current);
+    onLoopEvent(loopCountRef.current);
+    resetStep();
+  });
+
   const advanceStep = useEffectEvent(() => {
     if (currentStep === safeMaxStep && loop) {
-      onCompleteEvent();
-      const nextLoopCount = loopCount + 1;
-      setLoopCount(nextLoopCount);
-      onLoopEvent(nextLoopCount);
-      resetStep();
+      handleLoopReset();
     } else {
       stepNext();
     }
   });
 
-  if (!initializedRef.current) {
-    initializedRef.current = true;
-    if (initialStep !== 1 && initialStep >= 1 && initialStep <= safeMaxStep) {
-      setStepInternal(initialStep);
+  useMount(() => {
+    if (safeInitialStep !== 1) {
+      setStepInternal(safeInitialStep);
     }
-  }
+  });
+
+  useEffect(() => {
+    if (currentStep > safeMaxStep) {
+      setStepInternal(safeMaxStep);
+    }
+  }, [safeMaxStep, currentStep, setStepInternal]);
 
   const isFirst = currentStep === 1;
   const isLast = currentStep === safeMaxStep;
@@ -97,6 +110,10 @@ export function useAutoStep(options: UseAutoStepOptions): UseAutoStepReturn {
     safeMaxStep === 1 ? 1 : (currentStep - 1) / (safeMaxStep - 1);
 
   useEffect(() => {
+    if (!isMountedRef.current) {
+      isMountedRef.current = true;
+      return;
+    }
     onStepChangeEvent(currentStep);
   }, [currentStep]);
 
@@ -125,6 +142,7 @@ export function useAutoStep(options: UseAutoStepOptions): UseAutoStepReturn {
   useUnmount(() => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
     }
   });
 
@@ -132,10 +150,7 @@ export function useAutoStep(options: UseAutoStepOptions): UseAutoStepReturn {
     if (canGoToNextStep) {
       stepNext();
     } else if (loop) {
-      const nextLoopCount = loopCount + 1;
-      setLoopCount(nextLoopCount);
-      onLoopEvent(nextLoopCount);
-      resetStep();
+      handleLoopReset();
     }
   };
 
@@ -152,6 +167,7 @@ export function useAutoStep(options: UseAutoStepOptions): UseAutoStepReturn {
 
   const reset = () => {
     resetStep();
+    loopCountRef.current = 0;
     setLoopCount(0);
     setIsAutoAdvancing(autoAdvance);
   };
@@ -167,7 +183,7 @@ export function useAutoStep(options: UseAutoStepOptions): UseAutoStepReturn {
     isFirst,
     isLast,
     progress,
-    canGoToNextStep: canGoToNextStep || loop,
+    canGoToNextStep,
     canGoToPrevStep,
     goToNextStep,
     goToPrevStep,
