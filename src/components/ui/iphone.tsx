@@ -1,4 +1,5 @@
 import type { HTMLAttributes } from "react"
+import {cn} from "@/lib/utils.ts";
 
 const PHONE_WIDTH = 433
 const PHONE_HEIGHT = 882
@@ -17,23 +18,23 @@ const RADIUS_H = (SCREEN_RADIUS / SCREEN_WIDTH) * 100
 const RADIUS_V = (SCREEN_RADIUS / SCREEN_HEIGHT) * 100
 
 export interface IphoneProps extends HTMLAttributes<HTMLDivElement> {
-  src?: string
+  imageSrc?: string
   videoSrc?: string
 }
 
 export function Iphone({
-  src,
+  imageSrc,
   videoSrc,
   className,
   style,
   ...props
 }: IphoneProps) {
   const hasVideo = !!videoSrc
-  const hasMedia = hasVideo || !!src
+  const hasMedia = hasVideo || !!imageSrc
 
   return (
     <div
-      className={`relative inline-block w-full align-middle leading-none ${className}`}
+      className={cn('relative inline-block w-full align-middle leading-none', className)}
       style={{
         aspectRatio: `${PHONE_WIDTH}/${PHONE_HEIGHT}`,
         ...style,
@@ -63,7 +64,7 @@ export function Iphone({
         </div>
       )}
 
-      {!hasVideo && src && (
+      {!hasVideo && imageSrc && (
         <div
           className="pointer-events-none absolute z-0 overflow-hidden"
           style={{
@@ -75,7 +76,7 @@ export function Iphone({
           }}
         >
           <img
-            src={src}
+            src={imageSrc}
             alt=""
             className="block size-full object-cover object-top"
           />

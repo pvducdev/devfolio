@@ -11,11 +11,11 @@ export function Card({ title, className, children }: CardProps) {
   return (
     <div
       className={cn(
-        "overflow-hidden rounded-lg border border-border bg-card",
+        "overflow-hidden rounded-xl border border-border bg-card",
         className
       )}
     >
-      <div className="flex items-center gap-2 border-border border-b bg-muted/30 px-3 py-2">
+      <div className="flex items-center gap-2 border-border border-b px-3 py-2">
         <div className="flex gap-1">
           <div className="size-2.5 rounded-full bg-muted-foreground/30" />
           <div className="size-2.5 rounded-full bg-muted-foreground/30" />

@@ -2,6 +2,8 @@ export type ProjectConfig = {
   id: string;
   name: string;
   description: string;
+  url: string;
+  type: "mobile" | "desktop";
   guides: { title: string; src: string; type: "screenshot" | "video" }[];
   package: Record<string, unknown>;
 };
@@ -11,6 +13,8 @@ export const PROJECTS: ProjectConfig[] = [
     id: "portfolio",
     name: "Portfolio Site",
     description: "Personal portfolio built with TanStack Start",
+    type: "mobile",
+    url: "http://example.com",
     guides: [
       {
         src: "https://placehold.co/900x1600?text=Hello+World",
@@ -18,7 +22,7 @@ export const PROJECTS: ProjectConfig[] = [
         title: "Hello",
       },
       {
-        src: "https://placehold.co/900x1600?text=Finish",
+        src: "https://picsum.photos/seed/picsum/200/300.webp",
         type: "screenshot",
         title: "Finish",
       },
@@ -41,6 +45,6 @@ export const PROJECTS: ProjectConfig[] = [
   },
 ];
 
-export function getProjectById(id: string): ProjectConfig | undefined {
-  return PROJECTS.find((p) => p.id === id);
+export function getProjectById(id: string): ProjectConfig {
+  return PROJECTS.find((p) => p.id === id) || ({} as ProjectConfig);
 }

@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Iphone } from "@/components/ui/iphone";
+import DeviceMock from "@/components/common/device-mock.tsx";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getProjectById } from "@/config/projects";
 import { useAutoStep } from "@/hooks/use-auto-step";
+import { cn } from "@/lib/utils.ts";
 import {
   ui_project_loading,
   ui_project_tab_dependencies,
@@ -21,7 +22,7 @@ export function Container({ projectId }: ContainerProps) {
   const config = getProjectById(projectId);
   const [activeTab, setActiveTab] = useState("getting-started");
 
-  const guides = config?.guides ?? [];
+  const guides = config.guides ?? [];
 
   const { currentStep, start, reset } = useAutoStep({
     maxStep: guides.length + 1,
@@ -52,9 +53,14 @@ export function Container({ projectId }: ContainerProps) {
 
   return (
     <div className="flex size-full items-center justify-center">
-      <div className="grid grid-cols-[auto_240px] items-center">
+      <div
+        className={cn(
+          "flex items-center rounded-xl bg-muted/20 p-10",
+          config.type === "mobile" ? "" : "flex-col"
+        )}
+      >
         <div className="relative z-10">
-          <Card title={config?.name ?? ""}>
+          <Card title={config.name}>
             <Tabs
               className="flex min-h-48 min-w-100 flex-row"
               onValueChange={handleTabChange}
@@ -89,19 +95,26 @@ export function Container({ projectId }: ContainerProps) {
                 </Terminal>
               </TabsContent>
               <TabsContent className="flex-1" value="dependencies">
-                <CodeBlock json={config?.package ?? {}} />
+                <CodeBlock json={config.package} />
               </TabsContent>
             </Tabs>
           </Card>
         </div>
 
-        <div className="-ml-5 relative z-20 w-full max-w-60">
-          <Iphone
-            src={
+        <div
+          className={cn(
+            "relative z-20 drop-shadow-2xl",
+            config.type === "mobile" ? "-ml-3 w-60" : "-mt-3 w-150"
+          )}
+        >
+          <DeviceMock
+            imageSrc={
               latestVisitedGuides?.type === "screenshot"
                 ? latestVisitedGuides.src
                 : ""
             }
+            type={config.type}
+            url={config.url}
             videoSrc={
               latestVisitedGuides?.type === "video"
                 ? latestVisitedGuides.src
