@@ -8,6 +8,7 @@
   "msg_error_fileload": "Oops, file didn't load",
   "msg_error_filepath": "Make sure the file path is relative to src/ directory",
   "msg_error_loadfail": "File said no",
+  "msg_error_pagenotfound": "Page went AWOL: {pageId}",
 
   "ui_state_loading": "Brewing...",
 
