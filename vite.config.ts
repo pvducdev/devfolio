@@ -1,5 +1,4 @@
 import { paraglideVitePlugin } from "@inlang/paraglide-js";
-import mdx from "@mdx-js/rollup";
 import tailwindcss from "@tailwindcss/vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
@@ -12,7 +11,6 @@ const config = defineConfig({
     __APP_VERSION__: JSON.stringify(packageJson.version),
   },
   plugins: [
-    // this is the plugin that enables path aliases
     viteTsConfigPaths({
       projects: ["./tsconfig.json"],
     }),
@@ -25,16 +23,6 @@ const config = defineConfig({
       strategy: ["cookie", "preferredLanguage", "baseLocale"],
     }),
     tanstackStart(),
-    // MDX must run in pre phase before React plugin
-    // This ensures MDX files are transformed to JSX before React processes them
-    {
-      enforce: "pre",
-      ...mdx({
-        // Point to our custom useMDXComponents implementation
-        // Using absolute path from project root
-        providerImportSource: "/src/mdx-components",
-      }),
-    },
     viteReact({
       babel: {
         plugins: ["babel-plugin-react-compiler"],

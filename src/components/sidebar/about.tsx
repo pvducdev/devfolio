@@ -6,11 +6,11 @@ import { Tree, TreeItem, TreeItemLabel } from "@/components/ui/tree";
 import {
   ABOUT_TREE,
   ABOUT_TREE_CONFIG,
-  type AboutTreeItem,
-} from "@/config/content.ts";
+  type PageTreeItem,
+} from "@/config/page";
 import { useTabsActions } from "@/store/tabs";
 
-function getTreeItemIcon(item: ItemInstance<AboutTreeItem>) {
+function getTreeItemIcon(item: ItemInstance<PageTreeItem>) {
   const iconClass = "pointer-events-none size-4 text-muted-foreground";
   if (!item.isFolder()) {
     return <FileIcon className={iconClass} />;
@@ -26,7 +26,7 @@ export default function About() {
 
   const { openTab } = useTabsActions();
 
-  const tree = useTree<AboutTreeItem>({
+  const tree = useTree<PageTreeItem>({
     initialState: {
       expandedItems: ABOUT_TREE_CONFIG.defaultExpanded as unknown as string[],
     },
@@ -41,11 +41,11 @@ export default function About() {
     features: [syncDataLoaderFeature, hotkeysCoreFeature],
   });
 
-  const handleItemDoubleClick = (item: ItemInstance<AboutTreeItem>) => {
+  const handleItemDoubleClick = (item: ItemInstance<PageTreeItem>) => {
     const itemData = item.getItemData();
 
-    if (itemData.filePath) {
-      openTab(itemData.filePath);
+    if (itemData.page) {
+      openTab(item.getId());
     }
   };
 

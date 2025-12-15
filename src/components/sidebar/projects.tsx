@@ -4,13 +4,13 @@ import { useTree } from "@headless-tree/react";
 import { FileIcon, FolderIcon, FolderOpenIcon } from "lucide-react";
 import { Tree, TreeItem, TreeItemLabel } from "@/components/ui/tree";
 import {
+  type PageTreeItem,
   PROJECT_TREE,
   PROJECT_TREE_CONFIG,
-  type ProjectTreeItem,
-} from "@/config/content.ts";
+} from "@/config/page";
 import { useTabsActions } from "@/store/tabs";
 
-function getTreeItemIcon(item: ItemInstance<ProjectTreeItem>) {
+function getTreeItemIcon(item: ItemInstance<PageTreeItem>) {
   const iconClass = "pointer-events-none size-4 text-muted-foreground";
   if (!item.isFolder()) {
     return <FileIcon className={iconClass} />;
@@ -26,7 +26,7 @@ export default function Projects() {
 
   const { openTab } = useTabsActions();
 
-  const tree = useTree<ProjectTreeItem>({
+  const tree = useTree<PageTreeItem>({
     initialState: {
       expandedItems: PROJECT_TREE_CONFIG.defaultExpanded as unknown as string[],
     },
@@ -41,11 +41,11 @@ export default function Projects() {
     features: [syncDataLoaderFeature, hotkeysCoreFeature],
   });
 
-  const handleItemDoubleClick = (item: ItemInstance<ProjectTreeItem>) => {
+  const handleItemDoubleClick = (item: ItemInstance<PageTreeItem>) => {
     const itemData = item.getItemData();
 
-    if (itemData.filePath) {
-      openTab(itemData.filePath);
+    if (itemData.page) {
+      openTab(item.getId());
     }
   };
 
