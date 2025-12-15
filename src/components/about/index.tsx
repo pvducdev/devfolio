@@ -1,14 +1,25 @@
+import { useEffect, useState } from "react";
 import { ABOUT } from "@/config/about";
 import { PERSONAL_INFO } from "@/config/personal-info";
+import fetchContributionsServer from "@/fn/fetch-contributions";
+import type { ContributionData } from "@/lib/contributions";
 import { page_portfolio_header } from "@/paraglide/messages.js";
 
 export default function AboutPage() {
+  const [_, setContributions] = useState<ContributionData[]>([]);
+
+  useEffect(() => {
+    fetchContributionsServer({ data: {} })
+      .then(setContributions)
+      .catch(() => setContributions([]));
+  }, []);
+
   return (
     <div className="relative min-h-screen">
       <main className="relative z-10">
         <article className="space-y-6 py-8 text-center">
           <header className="inline-block">
-            <div className="rounded-lg bg-gradient-to-br from-purple-500/20 via-pink-500/20 to-blue-500/20 px-8 py-3 backdrop-blur-sm">
+            <div className="rounded-lg bg-linear-to-br from-purple-500/20 via-pink-500/20 to-blue-500/20 px-8 py-3 backdrop-blur-sm">
               <span className="font-medium text-sm tracking-wider">
                 {page_portfolio_header()}
               </span>

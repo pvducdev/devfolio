@@ -1,0 +1,18 @@
+export type ContributionData = {
+  date: string;
+  count: number;
+  level: number;
+};
+
+export type ContributionSource = "github" | "gitlab";
+
+export type DateRange = {
+  from?: string;
+  to?: string;
+};
+
+export type ContributionProvider = (
+  username: string,
+  token?: string,
+  range?: DateRange
+) => Promise<ContributionData[]>;

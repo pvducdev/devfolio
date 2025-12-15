@@ -4,6 +4,7 @@ import { minLength, optional, pipe, string } from "valibot";
 export const env = createEnv({
   server: {
     GEMINI_API_KEY: pipe(string(), minLength(1)),
+    GIT_CONTRIBUTION_TOKEN: optional(pipe(string(), minLength(1))),
   },
 
   clientPrefix: "VITE_",
@@ -14,6 +15,7 @@ export const env = createEnv({
 
   runtimeEnv: {
     GEMINI_API_KEY: process.env.GEMINI_API_KEY,
+    GIT_CONTRIBUTION_TOKEN: process.env.GIT_CONTRIBUTION_TOKEN,
     VITE_APP_TITLE: import.meta.env.VITE_APP_TITLE,
   },
 
