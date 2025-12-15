@@ -11,7 +11,7 @@ export default function Career() {
   const { openTab } = useTabsActions();
 
   const handleOpenCareerRunner = () => {
-    openTab("content/career.mdx");
+    openTab("career");
   };
 
   return (

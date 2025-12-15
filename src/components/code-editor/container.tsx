@@ -1,4 +1,4 @@
-import MDXViewer from "@/components/tabs/mdx-viewer";
+import ContentViewer from "@/components/tabs/content-viewer";
 import TabBar from "@/components/tabs/tab-bar";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import PortfolioWelcome from "@/components/welcome/container.tsx";
@@ -22,7 +22,7 @@ export default function CodeEditorContainer() {
       <TabBar onTabClick={setActiveTab} onTabClose={closeTab} tabs={tabs} />
       {tabs.map((tab) => (
         <TabsContent className="overflow-hidden" key={tab.id} value={tab.id}>
-          <MDXViewer tab={tab} />
+          <ContentViewer tab={tab} />
         </TabsContent>
       ))}
     </Tabs>

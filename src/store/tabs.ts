@@ -1,13 +1,14 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { useShallow } from "zustand/shallow";
-import { getFileName, hashPath } from "@/lib/utils.ts";
+import { ABOUT_TREE, PROJECT_TREE } from "@/config/page";
+import { hashPath } from "@/lib/utils.ts";
 
 const STORE_KEY = "tabs";
 
 export type Tab = {
   id: string;
-  filePath: string;
+  pageId: string;
   label: string;
 };
 
@@ -17,10 +18,18 @@ type TabsState = {
 };
 
 type TabsActions = {
-  openTab: (filePath: string) => void;
+  openTab: (pageId: string) => void;
   closeTab: (tabId: string) => void;
   setActiveTab: (tabId: string) => void;
 };
+
+function getPageLabel(pageId: string): string {
+  if (pageId === "career") {
+    return "career.tsx";
+  }
+  const treeItem = ABOUT_TREE[pageId] || PROJECT_TREE[pageId];
+  return treeItem?.name || `${pageId}.tsx`;
+}
 
 const DEFAULT_STATE: TabsState = { tabs: [], activeTabId: null };
 
@@ -28,9 +37,9 @@ export const useTabsStore = create<TabsState & TabsActions>()(
   persist(
     (set, get) => ({
       ...DEFAULT_STATE,
-      openTab: (filePath: string) => {
+      openTab: (pageId: string) => {
         const state = get();
-        const tabId = hashPath(filePath);
+        const tabId = hashPath(pageId);
 
         const existingTab = state.tabs.find((t) => t.id === tabId);
         if (existingTab) {
@@ -40,8 +49,8 @@ export const useTabsStore = create<TabsState & TabsActions>()(
 
         const newTab: Tab = {
           id: tabId,
-          filePath,
-          label: getFileName(filePath),
+          pageId,
+          label: getPageLabel(pageId),
         };
 
         set({
