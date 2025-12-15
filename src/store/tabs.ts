@@ -2,9 +2,8 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { useShallow } from "zustand/shallow";
 import { ABOUT_TREE, PROJECT_TREE } from "@/config/page";
+import { STORE_KEYS } from "@/config/store-keys";
 import { hashPath } from "@/lib/utils.ts";
-
-const STORE_KEY = "tabs";
 
 export type Tab = {
   id: string;
@@ -78,7 +77,7 @@ export const useTabsStore = create<TabsState & TabsActions>()(
       },
     }),
     {
-      name: STORE_KEY,
+      name: STORE_KEYS.TABS,
       partialize: (state) => ({
         tabs: state.tabs,
         activeTabId: state.activeTabId,

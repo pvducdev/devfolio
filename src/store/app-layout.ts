@@ -1,8 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { useShallow } from "zustand/shallow";
-
-const STORE_KEY = "app-layout";
+import { STORE_KEYS } from "@/config/store-keys";
 
 export type AppLayoutState = {
   sidebar: string | null;
@@ -57,7 +56,7 @@ export const useAppLayoutStore = create<AppLayoutState & AppLayoutActions>()(
       },
     }),
     {
-      name: STORE_KEY,
+      name: STORE_KEYS.APP_LAYOUT,
       onRehydrateStorage: (state) => () => state.setHasHydrated(true),
       partialize: (state) => ({
         sidebar: state.sidebar,

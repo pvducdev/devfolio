@@ -1,4 +1,6 @@
-export const THEME_STORAGE_KEY = "theme";
+import { STORE_KEYS } from "./store-keys";
+
+export const THEME_STORAGE_KEY = STORE_KEYS.THEME;
 export const THEME_ATTRIBUTE = "data-theme";
 export const DEFAULT_THEME = "default";
 
