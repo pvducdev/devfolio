@@ -1,7 +1,9 @@
 import type { MDXComponents } from "mdx/types";
+import { Container as Project } from "@/components/project/container";
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
+    Project,
     h1: ({ children }) => (
       <h1 className="mb-6 font-bold text-4xl tracking-tight">{children}</h1>
     ),

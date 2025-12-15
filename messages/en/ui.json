@@ -32,5 +32,9 @@
   "ui_lang_en": "EN",
   "ui_lang_vi": "VI",
 
-  "ui_error_unexpected": "Something broke. Not ideal."
+  "ui_error_unexpected": "Something broke. Not ideal.",
+
+  "ui_project_tab_guide": "Guide",
+  "ui_project_tab_dependencies": "Dependencies",
+  "ui_project_loading": "Cooking..."
 }
