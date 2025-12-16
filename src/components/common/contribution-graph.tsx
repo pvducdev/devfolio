@@ -5,6 +5,8 @@ import { cn } from "@/lib/utils";
 import {
   ContributionGraphCell as ContributionGraphCellPrimitive,
   type ContributionGraphCellProps as ContributionGraphCellPrimitiveProps,
+  ContributionGraphContent as ContributionGraphContentPrimitive,
+  type ContributionGraphContentProps as ContributionGraphContentPrimitiveProps,
   ContributionGraphGrid as ContributionGraphGridPrimitive,
   type ContributionGraphGridProps as ContributionGraphGridPrimitiveProps,
   ContributionGraphLabel as ContributionGraphLabelPrimitive,
@@ -19,33 +21,17 @@ import {
   type ContributionGraphProps as ContributionGraphPrimitiveProps,
 } from "./contribution-graph-primitive";
 
-const contributionGraphCellVariants = cva(
-  [
-    "size-2.5 rounded-xs outline-none transition-colors",
-    "focus-visible:ring-2 focus-visible:ring-ring",
-    "data-[selected]:ring-2 data-[selected]:ring-ring",
-    "data-[today]:ring-1 data-[today]:ring-foreground/50",
-    "data-[level='0']:bg-muted/40",
-    "data-[level='1']:bg-primary/20",
-    "data-[level='2']:bg-primary/40",
-    "data-[level='3']:bg-primary/60",
-    "data-[level='4']:bg-primary/80",
-  ],
-  {
-    variants: {
-      level: {
-        0: "bg-muted/40",
-        1: "bg-primary/20",
-        2: "bg-primary/40",
-        3: "bg-primary/60",
-        4: "bg-primary/80",
-      },
-    },
-    defaultVariants: {
-      level: 0,
-    },
-  }
-);
+const contributionGraphCellVariants = cva([
+  "size-2.5 rounded-xs outline-none transition-colors",
+  "focus-visible:ring-2 focus-visible:ring-ring",
+  "data-[selected]:ring-2 data-[selected]:ring-ring",
+  "data-[today]:ring-1 data-[today]:ring-foreground/50",
+  "data-[level='0']:bg-muted/40",
+  "data-[level='1']:bg-primary/20",
+  "data-[level='2']:bg-primary/40",
+  "data-[level='3']:bg-primary/60",
+  "data-[level='4']:bg-primary/80",
+]);
 
 const contributionGraphLegendItemVariants = cva("size-2.5 rounded-xs", {
   variants: {
@@ -76,6 +62,20 @@ function ContributionGraph({
   );
 }
 
+type ContributionGraphContentProps = ContributionGraphContentPrimitiveProps;
+
+function ContributionGraphContent({
+  className,
+  ...props
+}: ContributionGraphContentProps) {
+  return (
+    <ContributionGraphContentPrimitive
+      className={cn("flex gap-1", className)}
+      {...props}
+    />
+  );
+}
+
 type ContributionGraphGridProps = ContributionGraphGridPrimitiveProps;
 
 function ContributionGraphGrid({
@@ -98,17 +98,15 @@ function ContributionGraphGrid({
   );
 }
 
-type ContributionGraphCellProps = ContributionGraphCellPrimitiveProps &
-  VariantProps<typeof contributionGraphCellVariants>;
+type ContributionGraphCellProps = ContributionGraphCellPrimitiveProps;
 
 function ContributionGraphCell({
   className,
-  level,
   ...props
 }: ContributionGraphCellProps) {
   return (
     <ContributionGraphCellPrimitive
-      className={cn(contributionGraphCellVariants({ level }), className)}
+      className={cn(contributionGraphCellVariants(), className)}
       {...props}
     />
   );
@@ -188,6 +186,7 @@ function ContributionGraphLegendItem({
 export {
   ContributionGraph,
   ContributionGraphCell,
+  ContributionGraphContent,
   ContributionGraphGrid,
   ContributionGraphLabel,
   ContributionGraphLabels,
@@ -206,6 +205,7 @@ export { useContributionGraph } from "./contribution-graph-primitive";
 
 export type {
   ContributionGraphCellProps,
+  ContributionGraphContentProps,
   ContributionGraphGridProps,
   ContributionGraphLabelProps,
   ContributionGraphLabelsProps,

@@ -271,6 +271,19 @@ function ContributionGraphCell({
   );
 }
 
+type ContributionGraphContentProps = ComponentProps<"div"> & {
+  asChild?: boolean;
+};
+
+function ContributionGraphContent({
+  asChild = false,
+  ...props
+}: ContributionGraphContentProps) {
+  const Comp = asChild ? Slot : "div";
+
+  return <Comp data-slot="contribution-graph-content" {...props} />;
+}
+
 type ContributionGraphLabelsProps = ComponentProps<"div"> & {
   type: "months" | "weekdays";
   asChild?: boolean;
@@ -354,6 +367,7 @@ function ContributionGraphLegendItem({
 export {
   ContributionGraphPrimitive,
   ContributionGraphCell,
+  ContributionGraphContent,
   ContributionGraphGrid,
   ContributionGraphLabel,
   ContributionGraphLabels,
@@ -365,6 +379,7 @@ export {
 export type {
   ContributionData,
   ContributionGraphCellProps,
+  ContributionGraphContentProps,
   ContributionGraphGridProps,
   ContributionGraphLabelProps,
   ContributionGraphLabelsProps,
