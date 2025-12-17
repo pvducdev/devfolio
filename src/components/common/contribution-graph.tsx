@@ -10,7 +10,7 @@ const cellVariants = cva([
   "focus-visible:ring-2 focus-visible:ring-ring",
   "data-[selected]:ring-2 data-[selected]:ring-ring",
   "data-[today]:ring-1 data-[today]:ring-foreground/50",
-  "data-[level='0']:bg-muted/40",
+  "data-[level='0']:bg-primary/10",
   "data-[level='1']:bg-primary/20",
   "data-[level='2']:bg-primary/40",
   "data-[level='3']:bg-primary/60",
@@ -20,7 +20,7 @@ const cellVariants = cva([
 const legendItemVariants = cva("size-2.5 rounded-xs", {
   variants: {
     level: {
-      0: "bg-muted/40",
+      0: "bg-primary/10",
       1: "bg-primary/20",
       2: "bg-primary/40",
       3: "bg-primary/60",
@@ -41,7 +41,7 @@ function Root({
   return (
     <Primitive.Root
       className={cn(
-        "flex min-w-max flex-col gap-1.5 overflow-x-auto text-xs",
+        "flex min-w-max flex-col space-y-2 overflow-x-auto text-xs",
         className
       )}
       {...props}
@@ -102,7 +102,10 @@ type LabelProps = Primitive.LabelProps;
 function Label({ className, ...props }: LabelProps) {
   return (
     <Primitive.Label
-      className={cn("text-muted-foreground text-xs leading-none", className)}
+      className={cn(
+        "font-medium text-muted-foreground text-xs leading-none",
+        className
+      )}
       {...props}
     />
   );
