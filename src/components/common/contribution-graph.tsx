@@ -197,11 +197,10 @@ export {
 };
 
 export type {
+  CellState,
   ContributionData,
   ContributionGraphProps as ContributionGraphPrimitiveProps,
 } from "./contribution-graph-primitive";
-// biome-ignore lint/performance/noBarrelFile: Re-exports needed for styled wrapper pattern
-export { useContributionGraph } from "./contribution-graph-primitive";
 
 export type {
   ContributionGraphCellProps,

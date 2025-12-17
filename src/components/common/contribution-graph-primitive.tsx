@@ -7,8 +7,12 @@ import {
   useState,
 } from "react";
 
+import { useControllableState } from "@/hooks/use-controllable-state";
 import createCtx from "@/lib/create-ctx";
-import { toISODateString } from "@/lib/utils";
+import { isWeekend as defaultIsWeekend, toISODateString } from "@/lib/utils";
+
+const defaultIsToday = (date: string): boolean =>
+  date === toISODateString(new Date());
 
 type ContributionData = {
   date: Date | string;
@@ -28,51 +32,14 @@ type ContributionGraphContextValue = {
   onSelectDate: (date: string | null) => void;
   hoveredDate: string | null;
   onHoverDate: (date: string | null) => void;
+  isWeekend: (date: string) => boolean;
+  isToday: (date: string) => boolean;
 };
 
 const [useContributionGraph, ContributionGraphProvider] =
   createCtx<ContributionGraphContextValue>(
     "useContributionGraph must be used within a ContributionGraph"
   );
-
-function useControllableState<T>({
-  prop,
-  defaultProp,
-  onChange,
-}: {
-  prop?: T;
-  defaultProp?: T;
-  onChange?: (value: T) => void;
-}): [T | undefined, (value: T) => void] {
-  const [uncontrolledValue, setUncontrolledValue] = useState(defaultProp);
-  const isControlled = prop !== undefined;
-  const value = isControlled ? prop : uncontrolledValue;
-
-  const setValue = (nextValue: T) => {
-    if (!isControlled) {
-      setUncontrolledValue(nextValue);
-    }
-    onChange?.(nextValue);
-  };
-
-  return [value, setValue];
-}
-
-function formatDateForLabel(dateStr: string): string {
-  const date = new Date(dateStr);
-  return date.toLocaleDateString(undefined, {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-}
-
-function isWeekend(dateStr: string): boolean {
-  const date = new Date(dateStr);
-  const day = date.getDay();
-  return day === 0 || day === 6;
-}
 
 function getDefaultLevelThresholds(
   levels: number
@@ -97,6 +64,8 @@ type ContributionGraphProps = ComponentProps<"div"> & {
   defaultSelectedDate?: string | null;
   onSelectedDateChange?: (date: string | null) => void;
   onHoverDateChange?: (date: string | null) => void;
+  isWeekend?: (date: string) => boolean;
+  isToday?: (date: string) => boolean;
   children: ReactNode;
 };
 
@@ -110,22 +79,21 @@ function ContributionGraphPrimitive({
   defaultSelectedDate,
   onSelectedDateChange,
   onHoverDateChange,
+  isWeekend = defaultIsWeekend,
+  isToday = defaultIsToday,
   children,
   ...props
 }: ContributionGraphProps) {
-  const endDate = useMemo(() => {
-    if (endDateProp) {
-      return endDateProp;
-    }
-    return new Date();
-  }, [endDateProp]);
+  const endDate = useMemo(() => endDateProp || new Date(), [endDateProp]);
 
   const startDate = useMemo(() => {
     if (startDateProp) {
       return startDateProp;
     }
+
     const date = new Date(endDate);
     date.setFullYear(date.getFullYear() - 1);
+
     return date;
   }, [startDateProp, endDate]);
 
@@ -133,6 +101,7 @@ function ContributionGraphPrimitive({
     prop: selectedDateProp,
     defaultProp: defaultSelectedDate ?? null,
     onChange: onSelectedDateChange,
+    caller: "ContributionGraph",
   });
 
   const [hoveredDate, setHoveredDate] = useState<string | null>(null);
@@ -145,6 +114,7 @@ function ContributionGraphPrimitive({
   const { dataMap, maxCount } = useMemo(() => {
     const map = new Map<string, ContributionData>();
     let max = 0;
+
     for (const item of data) {
       const key = toISODateString(item.date);
       map.set(key, item);
@@ -152,6 +122,7 @@ function ContributionGraphPrimitive({
         max = item.count;
       }
     }
+
     return { dataMap: map, maxCount: max };
   }, [data]);
 
@@ -175,6 +146,8 @@ function ContributionGraphPrimitive({
     onSelectDate: setSelectedDate,
     hoveredDate,
     onHoverDate: handleHoverDate,
+    isWeekend,
+    isToday,
   };
 
   return (
@@ -209,9 +182,31 @@ function ContributionGraphGrid({
   );
 }
 
-type ContributionGraphCellProps = ComponentProps<"button"> & {
+type CellState = {
+  date: string;
+  count: number;
+  level: number;
+  isSelected: boolean;
+  isToday: boolean;
+  isWeekend: boolean;
+  isEmpty: boolean;
+};
+
+type ContributionGraphCellProps = Omit<
+  ComponentProps<"button">,
+  "onClick" | "onMouseEnter" | "onMouseLeave"
+> & {
   date: string;
   asChild?: boolean;
+  onClick?: (state: CellState, event: MouseEvent<HTMLButtonElement>) => void;
+  onMouseEnter?: (
+    state: CellState,
+    event: MouseEvent<HTMLButtonElement>
+  ) => void;
+  onMouseLeave?: (
+    state: CellState,
+    event: MouseEvent<HTMLButtonElement>
+  ) => void;
 };
 
 function ContributionGraphCell({
@@ -229,30 +224,39 @@ function ContributionGraphCell({
   const count = cellData?.count ?? 0;
   const level = cellData?.level ?? ctx.getLevelForCount(count);
   const isSelected = ctx.selectedDate === date;
-  const isToday = date === toISODateString(new Date());
+  const isTodayDay = ctx.isToday(date);
   const isEmpty = !cellData;
-  const isWeekendDay = isWeekend(date);
+  const isWeekendDay = ctx.isWeekend(date);
+
+  const cellState: CellState = {
+    date,
+    count,
+    level,
+    isSelected,
+    isToday: isTodayDay,
+    isWeekend: isWeekendDay,
+    isEmpty,
+  };
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     ctx.onSelectDate(isSelected ? null : date);
-    onClick?.(event);
+    onClick?.(cellState, event);
   };
 
   const handleMouseEnter = (event: MouseEvent<HTMLButtonElement>) => {
     ctx.onHoverDate(date);
-    onMouseEnter?.(event);
+    onMouseEnter?.(cellState, event);
   };
 
   const handleMouseLeave = (event: MouseEvent<HTMLButtonElement>) => {
     ctx.onHoverDate(null);
-    onMouseLeave?.(event);
+    onMouseLeave?.(cellState, event);
   };
 
   return (
     <Comp
       // biome-ignore lint/nursery/noLeakedRender: TS requires undefined
-      aria-current={isToday ? "date" : undefined}
-      aria-label={`${count} contributions on ${formatDateForLabel(date)}`}
+      aria-current={isTodayDay ? "date" : undefined}
       aria-selected={isSelected}
       data-count={count}
       data-date={date}
@@ -260,7 +264,7 @@ function ContributionGraphCell({
       data-level={level}
       data-selected={isSelected || undefined}
       data-slot="contribution-graph-cell"
-      data-today={isToday || undefined}
+      data-today={isTodayDay || undefined}
       data-weekend={isWeekendDay || undefined}
       onClick={handleClick}
       onMouseEnter={handleMouseEnter}
@@ -373,10 +377,10 @@ export {
   ContributionGraphLabels,
   ContributionGraphLegend,
   ContributionGraphLegendItem,
-  useContributionGraph,
 };
 
 export type {
+  CellState,
   ContributionData,
   ContributionGraphCellProps,
   ContributionGraphContentProps,

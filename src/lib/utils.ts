@@ -17,7 +17,7 @@ export function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export function isPromiseLike(value: unknown): value is PromiseLike<unknown> {
+export function isPromise(value: unknown): value is PromiseLike<unknown> {
   return (
     typeof value === "object" &&
     value !== null &&
@@ -33,19 +33,35 @@ export function toISODateString(
     return "";
   }
 
-  if (typeof date === "string") {
-    if (!date.trim()) {
-      return "";
-    }
-    const parsed = new Date(date);
-    if (Number.isNaN(parsed.getTime())) {
-      return "";
-    }
-    return parsed.toISOString().split("T")[0];
-  }
-
-  if (Number.isNaN(date.getTime())) {
+  const d = typeof date === "string" ? new Date(date) : date;
+  if (Number.isNaN(d.getTime())) {
     return "";
   }
-  return date.toISOString().split("T")[0];
+
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+export function isWeekend(dateStr: string): boolean {
+  const parts = dateStr.split("-");
+  if (parts.length !== 3) {
+    return false;
+  }
+
+  const [year, month, day] = parts.map(Number);
+  if (Number.isNaN(year) || Number.isNaN(month) || Number.isNaN(day)) {
+    return false;
+  }
+
+  const date = new Date(year, month - 1, day);
+  const dayOfWeek = date.getDay();
+  return dayOfWeek === 0 || dayOfWeek === 6;
+}
+
+export function isFunction<T>(
+  value: T | ((prev: T) => T)
+): value is (prev: T) => T {
+  return typeof value === "function";
 }
