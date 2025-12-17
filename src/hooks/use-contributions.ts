@@ -2,56 +2,42 @@ import { useMemo } from "react";
 
 import { toISODateString } from "@/lib/utils";
 
-type WeekStartDay = 0 | 1; // 0 = Sunday, 1 = Monday
+type WeekStartDay = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
-type MonthLabel = {
+type MonthInfo = {
   month: number;
   year: number;
-  label: string;
   colStart: number;
   colSpan: number;
-};
-
-type WeekdayLabel = {
-  day: number;
-  label: string;
-  shortLabel: string;
 };
 
 type UseContributionGraphDatesOptions = {
   startDate?: Date;
   endDate?: Date;
   weekStartDay?: WeekStartDay;
-  monthLabelFormat?: "short" | "long";
-  weekdayLabelFormat?: "short" | "narrow";
-  locale?: string;
 };
 
 type UseContributionGraphDatesReturn = {
   dates: string[];
   weeks: string[][];
-  monthLabels: MonthLabel[];
-  weekdayLabels: WeekdayLabel[];
+  months: MonthInfo[];
+  weekdays: number[];
   totalWeeks: number;
   startDate: Date;
   endDate: Date;
 };
 
-const DEFAULT_WEEKDAY_ORDER_SUNDAY: number[] = [0, 1, 2, 3, 4, 5, 6];
-const DEFAULT_WEEKDAY_ORDER_MONDAY: number[] = [1, 2, 3, 4, 5, 6, 0];
-
 function getWeekdayOrder(weekStartDay: WeekStartDay): number[] {
-  return weekStartDay === 0
-    ? DEFAULT_WEEKDAY_ORDER_SUNDAY
-    : DEFAULT_WEEKDAY_ORDER_MONDAY;
+  const order: number[] = [];
+  for (let i = 0; i < 7; i++) {
+    order.push((weekStartDay + i) % 7);
+  }
+  return order;
 }
 
 function getDayIndex(date: Date, weekStartDay: WeekStartDay): number {
   const day = date.getDay();
-  if (weekStartDay === 0) {
-    return day;
-  }
-  return day === 0 ? 6 : day - 1;
+  return (day - weekStartDay + 7) % 7;
 }
 
 function addDays(date: Date, days: number): Date {
@@ -67,41 +53,19 @@ function getWeekStart(date: Date, weekStartDay: WeekStartDay): Date {
   return result;
 }
 
-function generateWeekdayLabels(
-  weekStartDay: WeekStartDay,
-  format: "short" | "narrow",
-  locale: string
-): WeekdayLabel[] {
-  const weekdayOrder = getWeekdayOrder(weekStartDay);
-  const baseDate = new Date(2024, 0, 7);
-
-  return weekdayOrder.map((day) => {
-    const date = addDays(baseDate, day);
-    return {
-      day,
-      label: date.toLocaleDateString(locale, { weekday: format }),
-      shortLabel: date.toLocaleDateString(locale, { weekday: "narrow" }),
-    };
-  });
+function getFirstDateInWeek(week: string[]): string | undefined {
+  return week.find((d) => d !== "");
 }
 
-function updateLastLabelColSpan(labels: MonthLabel[], weekIndex: number): void {
+function updateLastColSpan(labels: MonthInfo[], weekIndex: number): void {
   const lastLabel = labels.at(-1);
   if (lastLabel) {
     lastLabel.colSpan = weekIndex - lastLabel.colStart;
   }
 }
 
-function getFirstDateInWeek(week: string[]): string | undefined {
-  return week.find((d) => d !== "");
-}
-
-function generateMonthLabels(
-  weeks: string[][],
-  format: "short" | "long",
-  locale: string
-): MonthLabel[] {
-  const labels: MonthLabel[] = [];
+function generateMonths(weeks: string[][]): MonthInfo[] {
+  const labels: MonthInfo[] = [];
   let currentMonth = -1;
   let currentYear = -1;
 
@@ -117,13 +81,12 @@ function generateMonthLabels(
 
     if (month !== currentMonth || year !== currentYear) {
       if (currentMonth !== -1) {
-        updateLastLabelColSpan(labels, weekIndex);
+        updateLastColSpan(labels, weekIndex);
       }
 
       labels.push({
         month,
         year,
-        label: date.toLocaleDateString(locale, { month: format }),
         colStart: weekIndex,
         colSpan: 1,
       });
@@ -133,7 +96,7 @@ function generateMonthLabels(
     }
   }
 
-  updateLastLabelColSpan(labels, weeks.length);
+  updateLastColSpan(labels, weeks.length);
   return labels;
 }
 
@@ -144,9 +107,6 @@ export function useContributionGraphDates(
     endDate: endDateProp,
     startDate: startDateProp,
     weekStartDay = 0,
-    monthLabelFormat = "short",
-    weekdayLabelFormat = "short",
-    locale = "en-US",
   } = options;
 
   return useMemo(() => {
@@ -159,10 +119,7 @@ export function useContributionGraphDates(
         return date;
       })();
 
-    // Align start to beginning of week
     const alignedStart = getWeekStart(startDate, weekStartDay);
-
-    // Generate all weeks and dates
     const weeks: string[][] = [];
     const dates: string[] = [];
     let currentDate = new Date(alignedStart);
@@ -173,7 +130,6 @@ export function useContributionGraphDates(
       for (let dayIndex = 0; dayIndex < 7; dayIndex++) {
         const dateStr = toISODateString(currentDate);
 
-        // Only include dates within the actual range
         if (currentDate >= startDate && currentDate <= endDate) {
           week.push(dateStr);
           dates.push(dateStr);
@@ -187,36 +143,24 @@ export function useContributionGraphDates(
       weeks.push(week);
     }
 
-    const monthLabels = generateMonthLabels(weeks, monthLabelFormat, locale);
-    const weekdayLabels = generateWeekdayLabels(
-      weekStartDay,
-      weekdayLabelFormat,
-      locale
-    );
+    const months = generateMonths(weeks);
+    const weekdays = getWeekdayOrder(weekStartDay);
 
     return {
       dates,
       weeks,
-      monthLabels,
-      weekdayLabels,
+      months,
+      weekdays,
       totalWeeks: weeks.length,
       startDate,
       endDate,
     };
-  }, [
-    endDateProp,
-    startDateProp,
-    weekStartDay,
-    monthLabelFormat,
-    weekdayLabelFormat,
-    locale,
-  ]);
+  }, [endDateProp, startDateProp, weekStartDay]);
 }
 
 export type {
-  MonthLabel,
+  MonthInfo,
   UseContributionGraphDatesOptions,
   UseContributionGraphDatesReturn,
-  WeekdayLabel,
   WeekStartDay,
 };

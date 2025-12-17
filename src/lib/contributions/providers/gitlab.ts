@@ -1,6 +1,5 @@
 import { number, record, safeParse, string } from "valibot";
 import type { ContributionProvider } from "../types";
-import { calculateContributionLevel } from "../utils";
 
 const GitLabCalendarSchema = record(string(), number());
 
@@ -28,11 +27,9 @@ export const gitlabProvider: ContributionProvider = async (username, token) => {
   }
 
   const entries = Object.entries(result.output);
-  const maxCount = Math.max(...entries.map(([, count]) => count), 1);
 
   return entries.map(([date, count]) => ({
     date,
     count,
-    level: calculateContributionLevel(count / maxCount),
   }));
 };

@@ -65,3 +65,22 @@ export function isFunction<T>(
 ): value is (prev: T) => T {
   return typeof value === "function";
 }
+
+export function formatMonth(month: number, locale: string): string {
+  const date = new Date(2024, month, 1);
+  return date.toLocaleDateString(locale, { month: "short" });
+}
+
+export function formatWeekday(day: number, locale: string): string {
+  const date = new Date(2024, 0, 7 + day);
+  return date.toLocaleDateString(locale, { weekday: "narrow" });
+}
+
+export function formatDateShort(dateStr: string, locale: string): string {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString(locale, {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}

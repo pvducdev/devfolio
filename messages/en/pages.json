@@ -17,5 +17,11 @@
   "page_career_introsub": "from student to seasoned dev.",
   "page_career_eof": "> EOF",
   "page_career_complete": "End of the road (for now).",
-  "page_career_thanks": "Thanks for scrolling through."
+  "page_career_thanks": "Thanks for scrolling through.",
+
+  "page_about_contribution_tooltip": "{count} contributions on {date}",
+  "page_about_contribution_summary": "{count} contributions in the last year on {platform}",
+  "page_about_contribution_level_none": "No contributions",
+  "page_about_contribution_level_range": "{min}-{max} contributions",
+  "page_about_contribution_level_more": "{min}+ contributions"
 }

@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as RootLayoutRouteImport } from './routes/_root-layout'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiContributionsRouteImport } from './routes/api/contributions'
 import { Route as RootLayoutHomeRouteImport } from './routes/_root-layout/home'
 
 const RootLayoutRoute = RootLayoutRouteImport.update({
@@ -22,6 +23,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiContributionsRoute = ApiContributionsRouteImport.update({
+  id: '/api/contributions',
+  path: '/api/contributions',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RootLayoutHomeRoute = RootLayoutHomeRouteImport.update({
   id: '/home',
   path: '/home',
@@ -31,28 +37,37 @@ const RootLayoutHomeRoute = RootLayoutHomeRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/home': typeof RootLayoutHomeRoute
+  '/api/contributions': typeof ApiContributionsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/home': typeof RootLayoutHomeRoute
+  '/api/contributions': typeof ApiContributionsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_root-layout': typeof RootLayoutRouteWithChildren
   '/_root-layout/home': typeof RootLayoutHomeRoute
+  '/api/contributions': typeof ApiContributionsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/home'
+  fullPaths: '/' | '/home' | '/api/contributions'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/home'
-  id: '__root__' | '/' | '/_root-layout' | '/_root-layout/home'
+  to: '/' | '/home' | '/api/contributions'
+  id:
+    | '__root__'
+    | '/'
+    | '/_root-layout'
+    | '/_root-layout/home'
+    | '/api/contributions'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   RootLayoutRoute: typeof RootLayoutRouteWithChildren
+  ApiContributionsRoute: typeof ApiContributionsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -69,6 +84,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/contributions': {
+      id: '/api/contributions'
+      path: '/api/contributions'
+      fullPath: '/api/contributions'
+      preLoaderRoute: typeof ApiContributionsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_root-layout/home': {
@@ -96,6 +118,7 @@ const RootLayoutRouteWithChildren = RootLayoutRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   RootLayoutRoute: RootLayoutRouteWithChildren,
+  ApiContributionsRoute: ApiContributionsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
