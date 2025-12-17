@@ -159,27 +159,76 @@ function ContributionGraphPrimitive({
   );
 }
 
-type ContributionGraphGridProps = ComponentProps<"div"> & {
-  orientation?: "horizontal" | "vertical";
+type ContributionGraphGridProps = ComponentProps<"table"> & {
   asChild?: boolean;
 };
 
 function ContributionGraphGrid({
-  orientation = "horizontal",
   asChild = false,
   ...props
 }: ContributionGraphGridProps) {
-  const Comp = asChild ? Slot : "div";
+  const Comp = asChild ? Slot : "table";
 
   return (
     <Comp
       aria-label="Contribution graph"
-      data-orientation={orientation}
       data-slot="contribution-graph-grid"
       role="grid"
       {...props}
     />
   );
+}
+
+type ContributionGraphHeadProps = ComponentProps<"thead"> & {
+  asChild?: boolean;
+};
+
+function ContributionGraphHead({
+  asChild = false,
+  ...props
+}: ContributionGraphHeadProps) {
+  const Comp = asChild ? Slot : "thead";
+
+  return <Comp data-slot="contribution-graph-head" {...props} />;
+}
+
+type ContributionGraphBodyProps = ComponentProps<"tbody"> & {
+  asChild?: boolean;
+};
+
+function ContributionGraphBody({
+  asChild = false,
+  ...props
+}: ContributionGraphBodyProps) {
+  const Comp = asChild ? Slot : "tbody";
+
+  return <Comp data-slot="contribution-graph-body" {...props} />;
+}
+
+type ContributionGraphRowProps = ComponentProps<"tr"> & {
+  asChild?: boolean;
+};
+
+function ContributionGraphRow({
+  asChild = false,
+  ...props
+}: ContributionGraphRowProps) {
+  const Comp = asChild ? Slot : "tr";
+
+  return <Comp data-slot="contribution-graph-row" role="row" {...props} />;
+}
+
+type ContributionGraphHeaderCellProps = ComponentProps<"th"> & {
+  asChild?: boolean;
+};
+
+function ContributionGraphHeaderCell({
+  asChild = false,
+  ...props
+}: ContributionGraphHeaderCellProps) {
+  const Comp = asChild ? Slot : "th";
+
+  return <Comp data-slot="contribution-graph-header-cell" {...props} />;
 }
 
 type CellState = {
@@ -196,8 +245,8 @@ type ContributionGraphCellProps = Omit<
   ComponentProps<"button">,
   "onClick" | "onMouseEnter" | "onMouseLeave"
 > & {
-  date: string;
   asChild?: boolean;
+  date: string;
   onClick?: (state: CellState, event: MouseEvent<HTMLButtonElement>) => void;
   onMouseEnter?: (
     state: CellState,
@@ -210,15 +259,18 @@ type ContributionGraphCellProps = Omit<
 };
 
 function ContributionGraphCell({
-  date,
   asChild = false,
+  date,
   onClick,
   onMouseEnter,
   onMouseLeave,
   ...props
 }: ContributionGraphCellProps) {
   const ctx = useContributionGraph();
-  const Comp = asChild ? Slot : "button";
+
+  if (!date) {
+    return <td data-empty="true" data-slot="contribution-graph-cell" />;
+  }
 
   const cellData = ctx.getDataForDate(date);
   const count = cellData?.count ?? 0;
@@ -227,6 +279,8 @@ function ContributionGraphCell({
   const isTodayDay = ctx.isToday(date);
   const isEmpty = !cellData;
   const isWeekendDay = ctx.isWeekend(date);
+
+  const Comp = asChild ? Slot : "button";
 
   const cellState: CellState = {
     date,
@@ -254,59 +308,27 @@ function ContributionGraphCell({
   };
 
   return (
-    <Comp
-      // biome-ignore lint/nursery/noLeakedRender: TS requires undefined
-      aria-current={isTodayDay ? "date" : undefined}
-      aria-selected={isSelected}
-      data-count={count}
-      data-date={date}
-      data-empty={isEmpty || undefined}
-      data-level={level}
-      data-selected={isSelected || undefined}
-      data-slot="contribution-graph-cell"
-      data-today={isTodayDay || undefined}
-      data-weekend={isWeekendDay || undefined}
-      onClick={handleClick}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      role="gridcell"
-      {...props}
-    />
-  );
-}
-
-type ContributionGraphContentProps = ComponentProps<"div"> & {
-  asChild?: boolean;
-};
-
-function ContributionGraphContent({
-  asChild = false,
-  ...props
-}: ContributionGraphContentProps) {
-  const Comp = asChild ? Slot : "div";
-
-  return <Comp data-slot="contribution-graph-content" {...props} />;
-}
-
-type ContributionGraphLabelsProps = ComponentProps<"div"> & {
-  type: "months" | "weekdays";
-  asChild?: boolean;
-};
-
-function ContributionGraphLabels({
-  type,
-  asChild = false,
-  ...props
-}: ContributionGraphLabelsProps) {
-  const Comp = asChild ? Slot : "div";
-
-  return (
-    <Comp
-      aria-hidden="true"
-      data-slot="contribution-graph-labels"
-      data-type={type}
-      {...props}
-    />
+    <td data-slot="contribution-graph-cell-wrapper">
+      <Comp
+        // biome-ignore lint/nursery/noLeakedRender: TS requires undefined
+        aria-current={isTodayDay ? "date" : undefined}
+        aria-selected={isSelected}
+        data-count={count}
+        data-date={date}
+        data-empty={isEmpty || undefined}
+        data-level={level}
+        data-selected={isSelected || undefined}
+        data-slot="contribution-graph-cell"
+        data-today={isTodayDay || undefined}
+        data-weekend={isWeekendDay || undefined}
+        onClick={handleClick}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        role="gridcell"
+        type={asChild ? undefined : "button"}
+        {...props}
+      />
+    </td>
   );
 }
 
@@ -337,13 +359,7 @@ function ContributionGraphLegend({
 }: ContributionGraphLegendProps) {
   const Comp = asChild ? Slot : "div";
 
-  return (
-    <Comp
-      aria-label="Contribution levels legend"
-      data-slot="contribution-graph-legend"
-      {...props}
-    />
-  );
+  return <Comp data-slot="contribution-graph-legend" {...props} />;
 }
 
 type ContributionGraphLegendItemProps = ComponentProps<"span"> & {
@@ -369,25 +385,29 @@ function ContributionGraphLegendItem({
 }
 
 export {
-  ContributionGraphPrimitive,
+  ContributionGraphBody,
   ContributionGraphCell,
-  ContributionGraphContent,
   ContributionGraphGrid,
+  ContributionGraphHead,
+  ContributionGraphHeaderCell,
   ContributionGraphLabel,
-  ContributionGraphLabels,
   ContributionGraphLegend,
   ContributionGraphLegendItem,
+  ContributionGraphPrimitive,
+  ContributionGraphRow,
 };
 
 export type {
   CellState,
   ContributionData,
+  ContributionGraphBodyProps,
   ContributionGraphCellProps,
-  ContributionGraphContentProps,
   ContributionGraphGridProps,
+  ContributionGraphHeaderCellProps,
+  ContributionGraphHeadProps,
   ContributionGraphLabelProps,
-  ContributionGraphLabelsProps,
   ContributionGraphLegendItemProps,
   ContributionGraphLegendProps,
   ContributionGraphProps,
+  ContributionGraphRowProps,
 };

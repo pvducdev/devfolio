@@ -3,22 +3,26 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 import {
+  ContributionGraphBody as ContributionGraphBodyPrimitive,
+  type ContributionGraphBodyProps as ContributionGraphBodyPrimitiveProps,
   ContributionGraphCell as ContributionGraphCellPrimitive,
   type ContributionGraphCellProps as ContributionGraphCellPrimitiveProps,
-  ContributionGraphContent as ContributionGraphContentPrimitive,
-  type ContributionGraphContentProps as ContributionGraphContentPrimitiveProps,
   ContributionGraphGrid as ContributionGraphGridPrimitive,
   type ContributionGraphGridProps as ContributionGraphGridPrimitiveProps,
+  ContributionGraphHeaderCell as ContributionGraphHeaderCellPrimitive,
+  type ContributionGraphHeaderCellProps as ContributionGraphHeaderCellPrimitiveProps,
+  ContributionGraphHead as ContributionGraphHeadPrimitive,
+  type ContributionGraphHeadProps as ContributionGraphHeadPrimitiveProps,
   ContributionGraphLabel as ContributionGraphLabelPrimitive,
   type ContributionGraphLabelProps as ContributionGraphLabelPrimitiveProps,
-  ContributionGraphLabels as ContributionGraphLabelsPrimitive,
-  type ContributionGraphLabelsProps as ContributionGraphLabelsPrimitiveProps,
   ContributionGraphLegendItem as ContributionGraphLegendItemPrimitive,
   type ContributionGraphLegendItemProps as ContributionGraphLegendItemPrimitiveProps,
   ContributionGraphLegend as ContributionGraphLegendPrimitive,
   type ContributionGraphLegendProps as ContributionGraphLegendPrimitiveProps,
   ContributionGraphPrimitive,
   type ContributionGraphProps as ContributionGraphPrimitiveProps,
+  ContributionGraphRow as ContributionGraphRowPrimitive,
+  type ContributionGraphRowProps as ContributionGraphRowPrimitiveProps,
 } from "./contribution-graph-primitive";
 
 const contributionGraphCellVariants = cva([
@@ -56,21 +60,10 @@ function ContributionGraph({
 }: ContributionGraphProps & { className?: string; children: React.ReactNode }) {
   return (
     <ContributionGraphPrimitive
-      className={cn("flex flex-col gap-2 text-sm", className)}
-      {...props}
-    />
-  );
-}
-
-type ContributionGraphContentProps = ContributionGraphContentPrimitiveProps;
-
-function ContributionGraphContent({
-  className,
-  ...props
-}: ContributionGraphContentProps) {
-  return (
-    <ContributionGraphContentPrimitive
-      className={cn("flex gap-1", className)}
+      className={cn(
+        "flex min-w-max flex-col gap-1.5 overflow-x-auto text-xs",
+        className
+      )}
       {...props}
     />
   );
@@ -80,19 +73,57 @@ type ContributionGraphGridProps = ContributionGraphGridPrimitiveProps;
 
 function ContributionGraphGrid({
   className,
-  orientation = "horizontal",
   ...props
 }: ContributionGraphGridProps) {
   return (
     <ContributionGraphGridPrimitive
-      className={cn(
-        "grid gap-0.5",
-        orientation === "horizontal"
-          ? "auto-cols-max grid-flow-col"
-          : "grid-flow-row auto-rows-max",
-        className
-      )}
-      orientation={orientation}
+      className={cn("border-separate border-spacing-0.5", className)}
+      {...props}
+    />
+  );
+}
+
+type ContributionGraphHeadProps = ContributionGraphHeadPrimitiveProps;
+
+function ContributionGraphHead({
+  className,
+  ...props
+}: ContributionGraphHeadProps) {
+  return (
+    <ContributionGraphHeadPrimitive className={cn(className)} {...props} />
+  );
+}
+
+type ContributionGraphBodyProps = ContributionGraphBodyPrimitiveProps;
+
+function ContributionGraphBody({
+  className,
+  ...props
+}: ContributionGraphBodyProps) {
+  return (
+    <ContributionGraphBodyPrimitive className={cn(className)} {...props} />
+  );
+}
+
+type ContributionGraphRowProps = ContributionGraphRowPrimitiveProps;
+
+function ContributionGraphRow({
+  className,
+  ...props
+}: ContributionGraphRowProps) {
+  return <ContributionGraphRowPrimitive className={cn(className)} {...props} />;
+}
+
+type ContributionGraphHeaderCellProps =
+  ContributionGraphHeaderCellPrimitiveProps;
+
+function ContributionGraphHeaderCell({
+  className,
+  ...props
+}: ContributionGraphHeaderCellProps) {
+  return (
+    <ContributionGraphHeaderCellPrimitive
+      className={cn("p-0 text-left align-bottom", className)}
       {...props}
     />
   );
@@ -107,28 +138,6 @@ function ContributionGraphCell({
   return (
     <ContributionGraphCellPrimitive
       className={cn(contributionGraphCellVariants(), className)}
-      {...props}
-    />
-  );
-}
-
-type ContributionGraphLabelsProps = ContributionGraphLabelsPrimitiveProps;
-
-function ContributionGraphLabels({
-  className,
-  type,
-  ...props
-}: ContributionGraphLabelsProps) {
-  return (
-    <ContributionGraphLabelsPrimitive
-      className={cn(
-        "text-muted-foreground text-xs",
-        type === "months"
-          ? "flex justify-between"
-          : "flex flex-col justify-between",
-        className
-      )}
-      type={type}
       {...props}
     />
   );
@@ -156,10 +165,7 @@ function ContributionGraphLegend({
 }: ContributionGraphLegendProps) {
   return (
     <ContributionGraphLegendPrimitive
-      className={cn(
-        "flex items-center gap-1 text-muted-foreground text-xs",
-        className
-      )}
+      className={cn("flex items-center gap-1", className)}
       {...props}
     />
   );
@@ -185,13 +191,15 @@ function ContributionGraphLegendItem({
 
 export {
   ContributionGraph,
+  ContributionGraphBody,
   ContributionGraphCell,
-  ContributionGraphContent,
   ContributionGraphGrid,
+  ContributionGraphHead,
+  ContributionGraphHeaderCell,
   ContributionGraphLabel,
-  ContributionGraphLabels,
   ContributionGraphLegend,
   ContributionGraphLegendItem,
+  ContributionGraphRow,
   contributionGraphCellVariants,
   contributionGraphLegendItemVariants,
 };
@@ -203,12 +211,14 @@ export type {
 } from "./contribution-graph-primitive";
 
 export type {
+  ContributionGraphBodyProps,
   ContributionGraphCellProps,
-  ContributionGraphContentProps,
   ContributionGraphGridProps,
+  ContributionGraphHeaderCellProps,
+  ContributionGraphHeadProps,
   ContributionGraphLabelProps,
-  ContributionGraphLabelsProps,
   ContributionGraphLegendItemProps,
   ContributionGraphLegendProps,
   ContributionGraphProps,
+  ContributionGraphRowProps,
 };
