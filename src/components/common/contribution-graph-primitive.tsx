@@ -20,7 +20,7 @@ type ContributionData = {
   level?: number;
 };
 
-type ContributionGraphContextValue = {
+type ContextValue = {
   data: Map<string, ContributionData>;
   startDate: Date;
   endDate: Date;
@@ -36,10 +36,9 @@ type ContributionGraphContextValue = {
   isToday: (date: string) => boolean;
 };
 
-const [useContributionGraph, ContributionGraphProvider] =
-  createCtx<ContributionGraphContextValue>(
-    "useContributionGraph must be used within a ContributionGraph"
-  );
+const [useContributionGraph, Provider] = createCtx<ContextValue>(
+  "useContributionGraph must be used within a ContributionGraph"
+);
 
 function getDefaultLevelThresholds(
   levels: number
@@ -54,7 +53,7 @@ function getDefaultLevelThresholds(
   };
 }
 
-type ContributionGraphProps = ComponentProps<"div"> & {
+type RootProps = ComponentProps<"div"> & {
   data: ContributionData[];
   startDate?: Date;
   endDate?: Date;
@@ -69,7 +68,7 @@ type ContributionGraphProps = ComponentProps<"div"> & {
   children: ReactNode;
 };
 
-function ContributionGraphPrimitive({
+function Root({
   data,
   startDate: startDateProp,
   endDate: endDateProp,
@@ -83,7 +82,7 @@ function ContributionGraphPrimitive({
   isToday = defaultIsToday,
   children,
   ...props
-}: ContributionGraphProps) {
+}: RootProps) {
   const endDate = useMemo(() => endDateProp || new Date(), [endDateProp]);
 
   const startDate = useMemo(() => {
@@ -134,7 +133,7 @@ function ContributionGraphPrimitive({
   const getDataForDate = (date: string): ContributionData | undefined =>
     dataMap.get(date);
 
-  const contextValue: ContributionGraphContextValue = {
+  const contextValue: ContextValue = {
     data: dataMap,
     startDate,
     endDate,
@@ -151,22 +150,19 @@ function ContributionGraphPrimitive({
   };
 
   return (
-    <ContributionGraphProvider value={contextValue}>
+    <Provider value={contextValue}>
       <div data-slot="contribution-graph" {...props}>
         {children}
       </div>
-    </ContributionGraphProvider>
+    </Provider>
   );
 }
 
-type ContributionGraphGridProps = ComponentProps<"table"> & {
+type GridProps = ComponentProps<"table"> & {
   asChild?: boolean;
 };
 
-function ContributionGraphGrid({
-  asChild = false,
-  ...props
-}: ContributionGraphGridProps) {
+function Grid({ asChild = false, ...props }: GridProps) {
   const Comp = asChild ? Slot : "table";
 
   return (
@@ -179,53 +175,41 @@ function ContributionGraphGrid({
   );
 }
 
-type ContributionGraphHeadProps = ComponentProps<"thead"> & {
+type HeadProps = ComponentProps<"thead"> & {
   asChild?: boolean;
 };
 
-function ContributionGraphHead({
-  asChild = false,
-  ...props
-}: ContributionGraphHeadProps) {
+function Head({ asChild = false, ...props }: HeadProps) {
   const Comp = asChild ? Slot : "thead";
 
   return <Comp data-slot="contribution-graph-head" {...props} />;
 }
 
-type ContributionGraphBodyProps = ComponentProps<"tbody"> & {
+type BodyProps = ComponentProps<"tbody"> & {
   asChild?: boolean;
 };
 
-function ContributionGraphBody({
-  asChild = false,
-  ...props
-}: ContributionGraphBodyProps) {
+function Body({ asChild = false, ...props }: BodyProps) {
   const Comp = asChild ? Slot : "tbody";
 
   return <Comp data-slot="contribution-graph-body" {...props} />;
 }
 
-type ContributionGraphRowProps = ComponentProps<"tr"> & {
+type RowProps = ComponentProps<"tr"> & {
   asChild?: boolean;
 };
 
-function ContributionGraphRow({
-  asChild = false,
-  ...props
-}: ContributionGraphRowProps) {
+function Row({ asChild = false, ...props }: RowProps) {
   const Comp = asChild ? Slot : "tr";
 
   return <Comp data-slot="contribution-graph-row" role="row" {...props} />;
 }
 
-type ContributionGraphHeaderCellProps = ComponentProps<"th"> & {
+type HeaderCellProps = ComponentProps<"th"> & {
   asChild?: boolean;
 };
 
-function ContributionGraphHeaderCell({
-  asChild = false,
-  ...props
-}: ContributionGraphHeaderCellProps) {
+function HeaderCell({ asChild = false, ...props }: HeaderCellProps) {
   const Comp = asChild ? Slot : "th";
 
   return <Comp data-slot="contribution-graph-header-cell" {...props} />;
@@ -241,7 +225,7 @@ type CellState = {
   isEmpty: boolean;
 };
 
-type ContributionGraphCellProps = Omit<
+type CellProps = Omit<
   ComponentProps<"button">,
   "onClick" | "onMouseEnter" | "onMouseLeave"
 > & {
@@ -258,14 +242,14 @@ type ContributionGraphCellProps = Omit<
   ) => void;
 };
 
-function ContributionGraphCell({
+function Cell({
   asChild = false,
   date,
   onClick,
   onMouseEnter,
   onMouseLeave,
   ...props
-}: ContributionGraphCellProps) {
+}: CellProps) {
   const ctx = useContributionGraph();
 
   if (!date) {
@@ -332,16 +316,12 @@ function ContributionGraphCell({
   );
 }
 
-type ContributionGraphLabelProps = ComponentProps<"span"> & {
+type LabelProps = ComponentProps<"span"> & {
   value?: number;
   asChild?: boolean;
 };
 
-function ContributionGraphLabel({
-  value,
-  asChild = false,
-  ...props
-}: ContributionGraphLabelProps) {
+function Label({ value, asChild = false, ...props }: LabelProps) {
   const Comp = asChild ? Slot : "span";
 
   return (
@@ -349,29 +329,22 @@ function ContributionGraphLabel({
   );
 }
 
-type ContributionGraphLegendProps = ComponentProps<"div"> & {
+type LegendProps = ComponentProps<"div"> & {
   asChild?: boolean;
 };
 
-function ContributionGraphLegend({
-  asChild = false,
-  ...props
-}: ContributionGraphLegendProps) {
+function Legend({ asChild = false, ...props }: LegendProps) {
   const Comp = asChild ? Slot : "div";
 
   return <Comp data-slot="contribution-graph-legend" {...props} />;
 }
 
-type ContributionGraphLegendItemProps = ComponentProps<"span"> & {
+type LegendItemProps = ComponentProps<"span"> & {
   level: number;
   asChild?: boolean;
 };
 
-function ContributionGraphLegendItem({
-  level,
-  asChild = false,
-  ...props
-}: ContributionGraphLegendItemProps) {
+function LegendItem({ level, asChild = false, ...props }: LegendItemProps) {
   const Comp = asChild ? Slot : "span";
 
   return (
@@ -385,29 +358,29 @@ function ContributionGraphLegendItem({
 }
 
 export {
-  ContributionGraphBody,
-  ContributionGraphCell,
-  ContributionGraphGrid,
-  ContributionGraphHead,
-  ContributionGraphHeaderCell,
-  ContributionGraphLabel,
-  ContributionGraphLegend,
-  ContributionGraphLegendItem,
-  ContributionGraphPrimitive,
-  ContributionGraphRow,
+  Body,
+  Cell,
+  Grid,
+  Head,
+  HeaderCell,
+  Label,
+  Legend,
+  LegendItem,
+  Root,
+  Row,
 };
 
 export type {
+  BodyProps,
+  CellProps,
   CellState,
   ContributionData,
-  ContributionGraphBodyProps,
-  ContributionGraphCellProps,
-  ContributionGraphGridProps,
-  ContributionGraphHeaderCellProps,
-  ContributionGraphHeadProps,
-  ContributionGraphLabelProps,
-  ContributionGraphLegendItemProps,
-  ContributionGraphLegendProps,
-  ContributionGraphProps,
-  ContributionGraphRowProps,
+  GridProps,
+  HeaderCellProps,
+  HeadProps,
+  LabelProps,
+  LegendItemProps,
+  LegendProps,
+  RootProps,
+  RowProps,
 };

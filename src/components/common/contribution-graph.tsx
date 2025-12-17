@@ -2,30 +2,10 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 
-import {
-  ContributionGraphBody as ContributionGraphBodyPrimitive,
-  type ContributionGraphBodyProps as ContributionGraphBodyPrimitiveProps,
-  ContributionGraphCell as ContributionGraphCellPrimitive,
-  type ContributionGraphCellProps as ContributionGraphCellPrimitiveProps,
-  ContributionGraphGrid as ContributionGraphGridPrimitive,
-  type ContributionGraphGridProps as ContributionGraphGridPrimitiveProps,
-  ContributionGraphHeaderCell as ContributionGraphHeaderCellPrimitive,
-  type ContributionGraphHeaderCellProps as ContributionGraphHeaderCellPrimitiveProps,
-  ContributionGraphHead as ContributionGraphHeadPrimitive,
-  type ContributionGraphHeadProps as ContributionGraphHeadPrimitiveProps,
-  ContributionGraphLabel as ContributionGraphLabelPrimitive,
-  type ContributionGraphLabelProps as ContributionGraphLabelPrimitiveProps,
-  ContributionGraphLegendItem as ContributionGraphLegendItemPrimitive,
-  type ContributionGraphLegendItemProps as ContributionGraphLegendItemPrimitiveProps,
-  ContributionGraphLegend as ContributionGraphLegendPrimitive,
-  type ContributionGraphLegendProps as ContributionGraphLegendPrimitiveProps,
-  ContributionGraphPrimitive,
-  type ContributionGraphProps as ContributionGraphPrimitiveProps,
-  ContributionGraphRow as ContributionGraphRowPrimitive,
-  type ContributionGraphRowProps as ContributionGraphRowPrimitiveProps,
-} from "./contribution-graph-primitive";
+// biome-ignore lint/performance/noNamespaceImport: primitive pattern
+import * as Primitive from "./contribution-graph-primitive";
 
-const contributionGraphCellVariants = cva([
+const cellVariants = cva([
   "size-2.5 rounded-xs outline-none transition-colors",
   "focus-visible:ring-2 focus-visible:ring-ring",
   "data-[selected]:ring-2 data-[selected]:ring-ring",
@@ -37,7 +17,7 @@ const contributionGraphCellVariants = cva([
   "data-[level='4']:bg-primary/80",
 ]);
 
-const contributionGraphLegendItemVariants = cva("size-2.5 rounded-xs", {
+const legendItemVariants = cva("size-2.5 rounded-xs", {
   variants: {
     level: {
       0: "bg-muted/40",
@@ -52,14 +32,14 @@ const contributionGraphLegendItemVariants = cva("size-2.5 rounded-xs", {
   },
 });
 
-type ContributionGraphProps = Omit<ContributionGraphPrimitiveProps, "children">;
+type RootProps = Omit<Primitive.RootProps, "children">;
 
-function ContributionGraph({
+function Root({
   className,
   ...props
-}: ContributionGraphProps & { className?: string; children: React.ReactNode }) {
+}: RootProps & { className?: string; children: React.ReactNode }) {
   return (
-    <ContributionGraphPrimitive
+    <Primitive.Root
       className={cn(
         "flex min-w-max flex-col gap-1.5 overflow-x-auto text-xs",
         className
@@ -69,120 +49,83 @@ function ContributionGraph({
   );
 }
 
-type ContributionGraphGridProps = ContributionGraphGridPrimitiveProps;
+type GridProps = Primitive.GridProps;
 
-function ContributionGraphGrid({
-  className,
-  ...props
-}: ContributionGraphGridProps) {
+function Grid({ className, ...props }: GridProps) {
   return (
-    <ContributionGraphGridPrimitive
+    <Primitive.Grid
       className={cn("border-separate border-spacing-0.5", className)}
       {...props}
     />
   );
 }
 
-type ContributionGraphHeadProps = ContributionGraphHeadPrimitiveProps;
+type HeadProps = Primitive.HeadProps;
 
-function ContributionGraphHead({
-  className,
-  ...props
-}: ContributionGraphHeadProps) {
-  return (
-    <ContributionGraphHeadPrimitive className={cn(className)} {...props} />
-  );
+function Head({ className, ...props }: HeadProps) {
+  return <Primitive.Head className={cn(className)} {...props} />;
 }
 
-type ContributionGraphBodyProps = ContributionGraphBodyPrimitiveProps;
+type BodyProps = Primitive.BodyProps;
 
-function ContributionGraphBody({
-  className,
-  ...props
-}: ContributionGraphBodyProps) {
-  return (
-    <ContributionGraphBodyPrimitive className={cn(className)} {...props} />
-  );
+function Body({ className, ...props }: BodyProps) {
+  return <Primitive.Body className={cn(className)} {...props} />;
 }
 
-type ContributionGraphRowProps = ContributionGraphRowPrimitiveProps;
+type RowProps = Primitive.RowProps;
 
-function ContributionGraphRow({
-  className,
-  ...props
-}: ContributionGraphRowProps) {
-  return <ContributionGraphRowPrimitive className={cn(className)} {...props} />;
+function Row({ className, ...props }: RowProps) {
+  return <Primitive.Row className={cn(className)} {...props} />;
 }
 
-type ContributionGraphHeaderCellProps =
-  ContributionGraphHeaderCellPrimitiveProps;
+type HeaderCellProps = Primitive.HeaderCellProps;
 
-function ContributionGraphHeaderCell({
-  className,
-  ...props
-}: ContributionGraphHeaderCellProps) {
+function HeaderCell({ className, ...props }: HeaderCellProps) {
   return (
-    <ContributionGraphHeaderCellPrimitive
+    <Primitive.HeaderCell
       className={cn("p-0 text-left align-bottom", className)}
       {...props}
     />
   );
 }
 
-type ContributionGraphCellProps = ContributionGraphCellPrimitiveProps;
+type CellProps = Primitive.CellProps;
 
-function ContributionGraphCell({
-  className,
-  ...props
-}: ContributionGraphCellProps) {
+function Cell({ className, ...props }: CellProps) {
   return (
-    <ContributionGraphCellPrimitive
-      className={cn(contributionGraphCellVariants(), className)}
-      {...props}
-    />
+    <Primitive.Cell className={cn(cellVariants(), className)} {...props} />
   );
 }
 
-type ContributionGraphLabelProps = ContributionGraphLabelPrimitiveProps;
+type LabelProps = Primitive.LabelProps;
 
-function ContributionGraphLabel({
-  className,
-  ...props
-}: ContributionGraphLabelProps) {
+function Label({ className, ...props }: LabelProps) {
   return (
-    <ContributionGraphLabelPrimitive
+    <Primitive.Label
       className={cn("text-muted-foreground text-xs leading-none", className)}
       {...props}
     />
   );
 }
 
-type ContributionGraphLegendProps = ContributionGraphLegendPrimitiveProps;
+type LegendProps = Primitive.LegendProps;
 
-function ContributionGraphLegend({
-  className,
-  ...props
-}: ContributionGraphLegendProps) {
+function Legend({ className, ...props }: LegendProps) {
   return (
-    <ContributionGraphLegendPrimitive
+    <Primitive.Legend
       className={cn("flex items-center gap-1", className)}
       {...props}
     />
   );
 }
 
-type ContributionGraphLegendItemProps =
-  ContributionGraphLegendItemPrimitiveProps &
-    VariantProps<typeof contributionGraphLegendItemVariants>;
+type LegendItemProps = Primitive.LegendItemProps &
+  VariantProps<typeof legendItemVariants>;
 
-function ContributionGraphLegendItem({
-  className,
-  level,
-  ...props
-}: ContributionGraphLegendItemProps) {
+function LegendItem({ className, level, ...props }: LegendItemProps) {
   return (
-    <ContributionGraphLegendItemPrimitive
-      className={cn(contributionGraphLegendItemVariants({ level }), className)}
+    <Primitive.LegendItem
+      className={cn(legendItemVariants({ level }), className)}
       level={level ?? 0}
       {...props}
     />
@@ -190,35 +133,34 @@ function ContributionGraphLegendItem({
 }
 
 export {
-  ContributionGraph,
-  ContributionGraphBody,
-  ContributionGraphCell,
-  ContributionGraphGrid,
-  ContributionGraphHead,
-  ContributionGraphHeaderCell,
-  ContributionGraphLabel,
-  ContributionGraphLegend,
-  ContributionGraphLegendItem,
-  ContributionGraphRow,
-  contributionGraphCellVariants,
-  contributionGraphLegendItemVariants,
+  Body,
+  Cell,
+  cellVariants,
+  Grid,
+  Head,
+  HeaderCell,
+  Label,
+  Legend,
+  LegendItem,
+  legendItemVariants,
+  Root,
+  Row,
 };
 
 export type {
   CellState,
   ContributionData,
-  ContributionGraphProps as ContributionGraphPrimitiveProps,
 } from "./contribution-graph-primitive";
 
 export type {
-  ContributionGraphBodyProps,
-  ContributionGraphCellProps,
-  ContributionGraphGridProps,
-  ContributionGraphHeaderCellProps,
-  ContributionGraphHeadProps,
-  ContributionGraphLabelProps,
-  ContributionGraphLegendItemProps,
-  ContributionGraphLegendProps,
-  ContributionGraphProps,
-  ContributionGraphRowProps,
+  BodyProps,
+  CellProps,
+  GridProps,
+  HeaderCellProps,
+  HeadProps,
+  LabelProps,
+  LegendItemProps,
+  LegendProps,
+  RootProps,
+  RowProps,
 };
