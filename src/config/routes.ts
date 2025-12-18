@@ -34,3 +34,11 @@ export const activities: Activity[] = [
     sidebar: lazy(() => import("@/components/sidebar/projects")),
   },
 ];
+
+export function getRouteLabel(path: string): string {
+  return `${path.slice(1)}.tsx`;
+}
+
+export function isValidTabRoute(path: string): boolean {
+  return path !== "/" && path !== "/home";
+}

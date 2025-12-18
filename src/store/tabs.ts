@@ -1,13 +1,11 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { useShallow } from "zustand/shallow";
-import { ABOUT_TREE, PROJECT_TREE } from "@/config/page";
+import { getRouteLabel } from "@/config/routes";
 import { STORE_KEYS } from "@/config/store-keys";
-import { hashPath } from "@/lib/utils.ts";
 
 export type Tab = {
   id: string;
-  pageId: string;
   label: string;
 };
 
@@ -17,18 +15,10 @@ type TabsState = {
 };
 
 type TabsActions = {
-  openTab: (pageId: string) => void;
+  openTab: (path: string) => void;
   closeTab: (tabId: string) => void;
   setActiveTab: (tabId: string) => void;
 };
-
-function getPageLabel(pageId: string): string {
-  if (pageId === "career") {
-    return "career.tsx";
-  }
-  const treeItem = ABOUT_TREE[pageId] || PROJECT_TREE[pageId];
-  return treeItem?.name || `${pageId}.tsx`;
-}
 
 const DEFAULT_STATE: TabsState = { tabs: [], activeTabId: null };
 
@@ -36,41 +26,40 @@ export const useTabsStore = create<TabsState & TabsActions>()(
   persist(
     (set, get) => ({
       ...DEFAULT_STATE,
-      openTab: (pageId: string) => {
+      openTab: (path: string) => {
         const state = get();
-        const tabId = hashPath(pageId);
 
-        const existingTab = state.tabs.find((t) => t.id === tabId);
+        const existingTab = state.tabs.find((t) => t.id === path);
         if (existingTab) {
-          set({ activeTabId: tabId });
+          set({ activeTabId: path });
           return;
         }
 
         const newTab: Tab = {
-          id: tabId,
-          pageId,
-          label: getPageLabel(pageId),
+          id: path,
+          label: getRouteLabel(path),
         };
 
         set({
           tabs: [...state.tabs, newTab],
-          activeTabId: tabId,
+          activeTabId: path,
         });
       },
 
-      closeTab: (tabId: string) => {
-        const state = get();
-        const newTabs = state.tabs.filter((t) => t.id !== tabId);
-        set(() => ({ tabs: newTabs }));
+      closeTab: (tabId: string) =>
+        set((state) => {
+          const newTabs = state.tabs.filter((t) => t.id !== tabId);
 
-        if (state.activeTabId === tabId && newTabs.length > 0) {
+          if (state.activeTabId !== tabId) {
+            return { tabs: newTabs };
+          }
+
           const closedIndex = state.tabs.findIndex((t) => t.id === tabId);
           const nextActiveId =
-            newTabs[Math.min(closedIndex, newTabs.length - 1)]?.id || null;
+            newTabs[Math.min(closedIndex, newTabs.length - 1)]?.id ?? null;
 
-          set(() => ({ activeTabId: nextActiveId }));
-        }
-      },
+          return { tabs: newTabs, activeTabId: nextActiveId };
+        }),
 
       setActiveTab: (tabId: string) => {
         set({ activeTabId: tabId });

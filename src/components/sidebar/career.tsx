@@ -1,3 +1,4 @@
+import { useNavigate } from "@tanstack/react-router";
 import { Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -5,13 +6,12 @@ import {
   ui_sidebar_careerdesc,
   ui_sidebar_careertitle,
 } from "@/paraglide/messages.js";
-import { useTabsActions } from "@/store/tabs";
 
 export default function Career() {
-  const { openTab } = useTabsActions();
+  const navigate = useNavigate();
 
   const handleOpenCareerRunner = () => {
-    openTab("career");
+    navigate({ to: "/career" });
   };
 
   return (

@@ -1,6 +1,7 @@
 import type { ItemInstance } from "@headless-tree/core";
 import { hotkeysCoreFeature, syncDataLoaderFeature } from "@headless-tree/core";
 import { useTree } from "@headless-tree/react";
+import { useNavigate } from "@tanstack/react-router";
 import { FileIcon, FolderIcon, FolderOpenIcon } from "lucide-react";
 import { Tree, TreeItem, TreeItemLabel } from "@/components/ui/tree";
 import {
@@ -8,7 +9,6 @@ import {
   ABOUT_TREE_CONFIG,
   type PageTreeItem,
 } from "@/config/page";
-import { useTabsActions } from "@/store/tabs";
 
 function getTreeItemIcon(item: ItemInstance<PageTreeItem>) {
   const iconClass = "pointer-events-none size-4 text-muted-foreground";
@@ -24,7 +24,7 @@ function getTreeItemIcon(item: ItemInstance<PageTreeItem>) {
 export default function About() {
   "use no memo";
 
-  const { openTab } = useTabsActions();
+  const navigate = useNavigate();
 
   const tree = useTree<PageTreeItem>({
     initialState: {
@@ -42,10 +42,9 @@ export default function About() {
   });
 
   const handleItemDoubleClick = (item: ItemInstance<PageTreeItem>) => {
-    const itemData = item.getItemData();
-
-    if (itemData.page) {
-      openTab(item.getId());
+    const path = item.getItemData().path;
+    if (path) {
+      navigate({ to: path });
     }
   };
 

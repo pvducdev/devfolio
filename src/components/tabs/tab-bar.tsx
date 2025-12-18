@@ -31,7 +31,8 @@ export default function TabBar({ tabs, onTabClick, onTabClose }: TabBarProps) {
             variant="ghost"
           >
             <span
-              onPointerDown={() => {
+              onPointerDown={(e) => {
+                e.stopPropagation();
                 onTabClose(tab.id);
               }}
             >

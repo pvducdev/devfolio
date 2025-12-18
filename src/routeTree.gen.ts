@@ -12,7 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as RootLayoutRouteImport } from './routes/_root-layout'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiContributionsRouteImport } from './routes/api/contributions'
+import { Route as RootLayoutSkillsRouteImport } from './routes/_root-layout/skills'
 import { Route as RootLayoutHomeRouteImport } from './routes/_root-layout/home'
+import { Route as RootLayoutCareerRouteImport } from './routes/_root-layout/career'
+import { Route as RootLayoutAboutRouteImport } from './routes/_root-layout/about'
+import { Route as RootLayoutProjectsIdRouteImport } from './routes/_root-layout/projects.$id'
 
 const RootLayoutRoute = RootLayoutRouteImport.update({
   id: '/_root-layout',
@@ -28,40 +32,90 @@ const ApiContributionsRoute = ApiContributionsRouteImport.update({
   path: '/api/contributions',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RootLayoutSkillsRoute = RootLayoutSkillsRouteImport.update({
+  id: '/skills',
+  path: '/skills',
+  getParentRoute: () => RootLayoutRoute,
+} as any)
 const RootLayoutHomeRoute = RootLayoutHomeRouteImport.update({
   id: '/home',
   path: '/home',
   getParentRoute: () => RootLayoutRoute,
 } as any)
+const RootLayoutCareerRoute = RootLayoutCareerRouteImport.update({
+  id: '/career',
+  path: '/career',
+  getParentRoute: () => RootLayoutRoute,
+} as any)
+const RootLayoutAboutRoute = RootLayoutAboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => RootLayoutRoute,
+} as any)
+const RootLayoutProjectsIdRoute = RootLayoutProjectsIdRouteImport.update({
+  id: '/projects/$id',
+  path: '/projects/$id',
+  getParentRoute: () => RootLayoutRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof RootLayoutAboutRoute
+  '/career': typeof RootLayoutCareerRoute
   '/home': typeof RootLayoutHomeRoute
+  '/skills': typeof RootLayoutSkillsRoute
   '/api/contributions': typeof ApiContributionsRoute
+  '/projects/$id': typeof RootLayoutProjectsIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof RootLayoutAboutRoute
+  '/career': typeof RootLayoutCareerRoute
   '/home': typeof RootLayoutHomeRoute
+  '/skills': typeof RootLayoutSkillsRoute
   '/api/contributions': typeof ApiContributionsRoute
+  '/projects/$id': typeof RootLayoutProjectsIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_root-layout': typeof RootLayoutRouteWithChildren
+  '/_root-layout/about': typeof RootLayoutAboutRoute
+  '/_root-layout/career': typeof RootLayoutCareerRoute
   '/_root-layout/home': typeof RootLayoutHomeRoute
+  '/_root-layout/skills': typeof RootLayoutSkillsRoute
   '/api/contributions': typeof ApiContributionsRoute
+  '/_root-layout/projects/$id': typeof RootLayoutProjectsIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/home' | '/api/contributions'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/career'
+    | '/home'
+    | '/skills'
+    | '/api/contributions'
+    | '/projects/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/home' | '/api/contributions'
+  to:
+    | '/'
+    | '/about'
+    | '/career'
+    | '/home'
+    | '/skills'
+    | '/api/contributions'
+    | '/projects/$id'
   id:
     | '__root__'
     | '/'
     | '/_root-layout'
+    | '/_root-layout/about'
+    | '/_root-layout/career'
     | '/_root-layout/home'
+    | '/_root-layout/skills'
     | '/api/contributions'
+    | '/_root-layout/projects/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -93,6 +147,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiContributionsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_root-layout/skills': {
+      id: '/_root-layout/skills'
+      path: '/skills'
+      fullPath: '/skills'
+      preLoaderRoute: typeof RootLayoutSkillsRouteImport
+      parentRoute: typeof RootLayoutRoute
+    }
     '/_root-layout/home': {
       id: '/_root-layout/home'
       path: '/home'
@@ -100,15 +161,44 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RootLayoutHomeRouteImport
       parentRoute: typeof RootLayoutRoute
     }
+    '/_root-layout/career': {
+      id: '/_root-layout/career'
+      path: '/career'
+      fullPath: '/career'
+      preLoaderRoute: typeof RootLayoutCareerRouteImport
+      parentRoute: typeof RootLayoutRoute
+    }
+    '/_root-layout/about': {
+      id: '/_root-layout/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof RootLayoutAboutRouteImport
+      parentRoute: typeof RootLayoutRoute
+    }
+    '/_root-layout/projects/$id': {
+      id: '/_root-layout/projects/$id'
+      path: '/projects/$id'
+      fullPath: '/projects/$id'
+      preLoaderRoute: typeof RootLayoutProjectsIdRouteImport
+      parentRoute: typeof RootLayoutRoute
+    }
   }
 }
 
 interface RootLayoutRouteChildren {
+  RootLayoutAboutRoute: typeof RootLayoutAboutRoute
+  RootLayoutCareerRoute: typeof RootLayoutCareerRoute
   RootLayoutHomeRoute: typeof RootLayoutHomeRoute
+  RootLayoutSkillsRoute: typeof RootLayoutSkillsRoute
+  RootLayoutProjectsIdRoute: typeof RootLayoutProjectsIdRoute
 }
 
 const RootLayoutRouteChildren: RootLayoutRouteChildren = {
+  RootLayoutAboutRoute: RootLayoutAboutRoute,
+  RootLayoutCareerRoute: RootLayoutCareerRoute,
   RootLayoutHomeRoute: RootLayoutHomeRoute,
+  RootLayoutSkillsRoute: RootLayoutSkillsRoute,
+  RootLayoutProjectsIdRoute: RootLayoutProjectsIdRoute,
 }
 
 const RootLayoutRouteWithChildren = RootLayoutRoute._addFileChildren(
