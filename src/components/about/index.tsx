@@ -2,13 +2,15 @@ import { ABOUT } from "@/config/about";
 import { PERSONAL_INFO } from "@/config/personal-info";
 import { page_portfolio_header } from "@/paraglide/messages.js";
 
+import ContributionSection from "./contribution-section";
+
 export default function AboutPage() {
   return (
     <div className="relative min-h-screen">
       <main className="relative z-10">
         <article className="space-y-6 py-8 text-center">
           <header className="inline-block">
-            <div className="rounded-lg bg-gradient-to-br from-purple-500/20 via-pink-500/20 to-blue-500/20 px-8 py-3 backdrop-blur-sm">
+            <div className="rounded-lg bg-linear-to-br from-purple-500/20 via-pink-500/20 to-blue-500/20 px-8 py-3 backdrop-blur-sm">
               <span className="font-medium text-sm tracking-wider">
                 {page_portfolio_header()}
               </span>
@@ -83,6 +85,8 @@ export default function AboutPage() {
           <blockquote className="mx-auto max-w-2xl border-gray-300 border-y py-4 dark:border-gray-700">
             <p className="text-base italic">{ABOUT.shortBio}</p>
           </blockquote>
+
+          <ContributionSection />
         </article>
       </main>
     </div>

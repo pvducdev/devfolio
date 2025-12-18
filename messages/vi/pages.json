@@ -17,5 +17,11 @@
   "page_career_introsub": "từ sinh viên đến dev có kinh nghiệm.",
   "page_career_eof": "> KẾT_THÚC",
   "page_career_complete": "Hết chuyện (tạm thời).",
-  "page_career_thanks": "Cảm ơn đã lướt qua nhé."
+  "page_career_thanks": "Cảm ơn đã lướt qua nhé.",
+
+  "page_about_contribution_tooltip": "{count} đóng góp vào {date}",
+  "page_about_contribution_summary": "{count} đóng góp trong năm qua trên {platform}",
+  "page_about_contribution_level_none": "Không có đóng góp",
+  "page_about_contribution_level_range": "{min}-{max} đóng góp",
+  "page_about_contribution_level_more": "{min}+ đóng góp"
 }

@@ -17,11 +17,17 @@ export function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export function isPromiseLike(value: unknown): value is PromiseLike<unknown> {
+export function isPromise(value: unknown): value is PromiseLike<unknown> {
   return (
     typeof value === "object" &&
     value !== null &&
     "then" in value &&
     typeof value.then === "function"
   );
+}
+
+export function isFunction<T>(
+  value: T | ((prev: T) => T)
+): value is (prev: T) => T {
+  return typeof value === "function";
 }
