@@ -100,7 +100,7 @@ function generateMonths(weeks: string[][]): MonthInfo[] {
   return labels;
 }
 
-export function useContributionGraphDates(
+export function useContributionGraph(
   options: UseContributionGraphDatesOptions = {}
 ): UseContributionGraphDatesReturn {
   const {

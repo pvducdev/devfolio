@@ -1,7 +1,7 @@
 import type { ContributionSource } from "@/lib/contributions";
 import { PERSONAL_INFO } from "./personal-info";
 
-const SOURCE: ContributionSource = "gitlab";
+const SOURCE: ContributionSource = "GitLab";
 const TRAILING_SLASH = /\/$/;
 
 const extractUsername = (url: string): string =>

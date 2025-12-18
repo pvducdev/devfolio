@@ -3,7 +3,7 @@ export type ContributionData = {
   count: number;
 };
 
-export type ContributionSource = "github" | "gitlab";
+export type ContributionSource = "GitHub" | "GitLab";
 
 export type DateRange = {
   from: string;

@@ -1,5 +1,8 @@
 import { Suspense, use, useMemo } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 
+import ContributionCell from "@/components/about/contribution-cell";
+import ContributionErrorFallback from "@/components/about/contribution-error-fallback";
 import { ContributionSectionSkeleton } from "@/components/about/contribution-section-skeleton";
 // biome-ignore lint/performance/noNamespaceImport: component pattern
 import * as ContributionGraph from "@/components/common/contribution-graph";
@@ -8,20 +11,15 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useContributionGraphDates } from "@/hooks/use-contributions";
+import { CONTRIBUTIONS_CONFIG } from "@/config/contributions";
+import { useContributionGraph } from "@/hooks/use-contributions-graph.ts";
 import type { ContributionData } from "@/lib/contributions/types";
-import {
-  formatDateShort,
-  formatMonth,
-  formatWeekday,
-  toISODateString,
-} from "@/lib/utils";
+import { formatMonth, formatWeekday, toISODateString } from "@/lib/utils";
 import {
   page_about_contribution_level_more,
   page_about_contribution_level_none,
   page_about_contribution_level_range,
   page_about_contribution_summary,
-  page_about_contribution_tooltip,
 } from "@/paraglide/messages.js";
 import { getLocale } from "@/paraglide/runtime.js";
 
@@ -50,31 +48,42 @@ function formatLevelLabel(threshold: LevelThreshold): string {
   });
 }
 
-function formatTooltipContent(
-  count: number,
-  dateStr: string,
-  locale: string
-): string {
-  const date = formatDateShort(dateStr, locale);
-  return page_about_contribution_tooltip({ count, date });
-}
-
-const PLATFORM = "GitLab";
-
-function formatSummary(count: number, platform = PLATFORM): string {
-  return page_about_contribution_summary({ count, platform });
+function formatSummary(count: number): string {
+  return page_about_contribution_summary({
+    count,
+    platform: CONTRIBUTIONS_CONFIG.source,
+  });
 }
 
 function fetchContributions(
   from: string,
   to: string
 ): Promise<ContributionData[]> {
-  return fetch(`/api/contributions?from=${from}&to=${to}`).then((res) =>
-    res.json()
-  );
+  return fetch(`/api/contributions?from=${from}&to=${to}`).then((res) => {
+    if (!res.ok) {
+      throw new Error(`Failed to fetch contributions: ${res.status}`);
+    }
+    return res.json();
+  });
 }
 
-type ContributionGraphDates = ReturnType<typeof useContributionGraphDates>;
+function getLevelForCount(count: number): number {
+  if (count === 0) {
+    return 0;
+  }
+  if (count <= 2) {
+    return 1;
+  }
+  if (count <= 5) {
+    return 2;
+  }
+  if (count <= 9) {
+    return 3;
+  }
+  return 4;
+}
+
+type ContributionGraphDates = ReturnType<typeof useContributionGraph>;
 
 type ContributionSectionContentProps = ContributionGraphDates & {
   dataPromise: Promise<ContributionData[]>;
@@ -92,14 +101,6 @@ function ContributionSectionContent({
   const data = use(dataPromise);
   const visibleWeekdays = [1, 3, 5];
 
-  const dataMap = useMemo(() => {
-    const map = new Map<string, number>();
-    for (const item of data) {
-      map.set(item.date, item.count);
-    }
-    return map;
-  }, [data]);
-
   const totalContributions = useMemo(
     () => data.reduce((sum, item) => sum + item.count, 0),
     [data]
@@ -110,6 +111,7 @@ function ContributionSectionContent({
       <ContributionGraph.Root
         data={data}
         endDate={endDate}
+        levelThresholds={getLevelForCount}
         startDate={startDate}
       >
         <ContributionGraph.Grid>
@@ -148,16 +150,8 @@ function ContributionSectionContent({
                       />
                     );
                   }
-                  const count = dataMap.get(date) ?? 0;
                   return (
-                    <Tooltip key={date}>
-                      <TooltipTrigger asChild>
-                        <ContributionGraph.Cell date={date} />
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        {formatTooltipContent(count, date, locale)}
-                      </TooltipContent>
-                    </Tooltip>
+                    <ContributionCell date={date} key={date} locale={locale} />
                   );
                 })}
               </ContributionGraph.Row>
@@ -187,18 +181,20 @@ function ContributionSectionContent({
 }
 
 export default function ContributionSection() {
-  const graphDates = useContributionGraphDates({ weekStartDay: 0 });
+  const graphDates = useContributionGraph({ weekStartDay: 0 });
   const { startDate, endDate } = graphDates;
 
   return (
-    <Suspense fallback={<ContributionSectionSkeleton />}>
-      <ContributionSectionContent
-        dataPromise={fetchContributions(
-          toISODateString(startDate),
-          toISODateString(endDate)
-        )}
-        {...graphDates}
-      />
-    </Suspense>
+    <ErrorBoundary FallbackComponent={ContributionErrorFallback}>
+      <Suspense fallback={<ContributionSectionSkeleton />}>
+        <ContributionSectionContent
+          dataPromise={fetchContributions(
+            toISODateString(startDate),
+            toISODateString(endDate)
+          )}
+          {...graphDates}
+        />
+      </Suspense>
+    </ErrorBoundary>
   );
 }
