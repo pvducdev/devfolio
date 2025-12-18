@@ -1,4 +1,3 @@
-import { ABOUT } from "@/config/about";
 import { PERSONAL_INFO } from "@/config/personal-info";
 import { page_portfolio_header } from "@/paraglide/messages.js";
 
@@ -83,7 +82,7 @@ export default function AboutPage() {
           </div>
 
           <blockquote className="mx-auto max-w-2xl border-gray-300 border-y py-4 dark:border-gray-700">
-            <p className="text-base italic">{ABOUT.shortBio}</p>
+            <p className="text-base italic">{PERSONAL_INFO.shortBio}</p>
           </blockquote>
 
           <ContributionSection />

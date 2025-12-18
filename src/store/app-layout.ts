@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { useShallow } from "zustand/shallow";
 import { STORE_KEYS } from "@/config/store-keys";
+import { LAYOUT_CONFIG } from "@/config/ui";
 
 export type AppLayoutState = {
   sidebar: string | null;
@@ -22,11 +23,11 @@ export type AppLayoutActions = {
 };
 
 const DEFAULT_APP_LAYOUT: Omit<AppLayoutState, "_hasHydrated"> = {
-  sidebar: null,
-  panel: "assistant",
-  sidebarSize: 25,
-  panelSize: 25,
-  isStretchLayout: false,
+  sidebar: LAYOUT_CONFIG.sidebar.defaultSection,
+  panel: LAYOUT_CONFIG.panel.defaultSection,
+  sidebarSize: LAYOUT_CONFIG.sidebar.defaultSize,
+  panelSize: LAYOUT_CONFIG.panel.defaultSize,
+  isStretchLayout: LAYOUT_CONFIG.stretchLayout,
 };
 
 export const useAppLayoutStore = create<AppLayoutState & AppLayoutActions>()(

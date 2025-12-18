@@ -1,5 +1,5 @@
 import { motion, useReducedMotion, type Variants } from "motion/react";
-import type { ExpandedContent } from "@/config/career-timeline";
+import type { ExpandedContent } from "@/components/career-timeline/config";
 import {
   label_career_infra,
   label_career_metrics,

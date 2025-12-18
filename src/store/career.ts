@@ -1,6 +1,9 @@
 import { create } from "zustand";
 import { useShallow } from "zustand/shallow";
-import { CAREER_SECTIONS, DEFAULT_YEAR } from "@/config/career-timeline";
+import {
+  CAREER_SECTIONS,
+  DEFAULT_YEAR,
+} from "@/components/career-timeline/config";
 
 export type ScrollStatus = "idle" | "scrolling" | "looping";
 export type AnimationState = "idle" | "running" | "milestone";

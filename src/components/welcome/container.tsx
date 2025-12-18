@@ -1,7 +1,6 @@
 import { Gitlab } from "@/components/ui/svgs/gitlab.tsx";
 import { Linkedin } from "@/components/ui/svgs/linkedin.tsx";
 import WelcomeActivity from "@/components/welcome/activity.tsx";
-import { ABOUT } from "@/config/about.ts";
 import { PERSONAL_INFO } from "@/config/personal-info.ts";
 import { activities } from "@/config/routes.ts";
 import { SITE_CONFIG } from "@/config/site.ts";
@@ -15,7 +14,9 @@ export default function WelcomeContainer() {
           {page_welcome_title()}{" "}
           <span className="text-primary">{SITE_CONFIG.title}</span>
         </h1>
-        <p className="mb-10 text-gray-600 leading-relaxed">{ABOUT.shortBio}</p>
+        <p className="mb-10 text-gray-600 leading-relaxed">
+          {PERSONAL_INFO.shortBio}
+        </p>
 
         <div className="mb-8 grid gap-3">
           {activities.map((act) => (

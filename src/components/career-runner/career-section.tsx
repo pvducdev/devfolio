@@ -3,7 +3,7 @@ import { useIntersectionObserver } from "usehooks-ts";
 import {
   type CareerSection as TCareerSection,
   UI_CONFIG,
-} from "@/config/career-timeline";
+} from "@/components/career-timeline/config";
 import { useCareerScrollCtx } from "@/context/career-scroll.tsx";
 import { cn } from "@/lib/utils";
 import {

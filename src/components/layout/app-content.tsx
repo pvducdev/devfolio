@@ -7,6 +7,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable.tsx";
+import { LAYOUT_CONFIG } from "@/config/ui";
 import {
   useAppLayoutActions,
   usePanelSection,
@@ -38,6 +39,8 @@ export default function AppContent() {
               className="overflow-auto! rounded-xl bg-background"
               defaultSize={sidebarSize}
               id="sidebar"
+              maxSize={LAYOUT_CONFIG.sidebar.maxSize}
+              minSize={LAYOUT_CONFIG.sidebar.minSize}
               onResize={(e) => {
                 setSidebarSize(e);
               }}
@@ -50,7 +53,7 @@ export default function AppContent() {
         )}
         <ResizablePanel
           className="rounded-xl bg-background"
-          defaultSize={50}
+          defaultSize={LAYOUT_CONFIG.editor.defaultSize}
           id="code-editor"
           order={2}
         >
@@ -63,6 +66,8 @@ export default function AppContent() {
               className="rounded-xl bg-background"
               defaultSize={panelSize}
               id="panel"
+              maxSize={LAYOUT_CONFIG.panel.maxSize}
+              minSize={LAYOUT_CONFIG.panel.minSize}
               onResize={(e) => {
                 setPanelSize(e);
               }}

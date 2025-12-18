@@ -1,6 +1,6 @@
 import { LayoutGroup } from "motion/react";
 import RunnerContainer from "@/components/career-runner/runner-container.tsx";
-import { CAREER_SECTIONS } from "@/config/career-timeline";
+import { CAREER_SECTIONS } from "@/components/career-timeline/config";
 import CareerSection from "./career-section";
 import Character from "./character";
 import EndSection from "./end-section";

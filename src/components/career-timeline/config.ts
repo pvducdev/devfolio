@@ -1,8 +1,8 @@
 import type { LucideIcon } from "lucide-react";
+import { CAREER_TIMELINE, type JobType } from "@/config/career";
 import { PERSONAL_INFO } from "@/config/personal-info.ts";
-import { CAREER_TIMELINE, type JobType } from "./career";
 
-export type { JobType } from "./career";
+export type { JobType } from "@/config/career";
 
 export type ExpandedContent = {
   description: string;
