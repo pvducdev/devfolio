@@ -5,7 +5,7 @@ import ContributionSection from "./contribution-section";
 
 export default function AboutPage() {
   return (
-    <main className="relative z-10 size-full min-h-screen overflow-auto">
+    <main className="z-10 min-h-screen">
       <article className="space-y-6 py-8 text-center">
         <header className="inline-block">
           <div className="rounded-lg bg-linear-to-br from-purple-500/20 via-pink-500/20 to-blue-500/20 px-8 py-3 backdrop-blur-sm">
