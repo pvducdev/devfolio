@@ -8,7 +8,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { formatDateShort } from "@/lib/utils";
+import { formatDateShort } from "@/lib/date";
 import { page_about_contribution_tooltip } from "@/paraglide/messages.js";
 
 type ContributionCellProps = {

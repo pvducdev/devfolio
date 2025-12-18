@@ -26,61 +26,8 @@ export function isPromise(value: unknown): value is PromiseLike<unknown> {
   );
 }
 
-export function toISODateString(
-  date: Date | string | null | undefined
-): string {
-  if (date === null || date === undefined) {
-    return "";
-  }
-
-  const d = typeof date === "string" ? new Date(date) : date;
-  if (Number.isNaN(d.getTime())) {
-    return "";
-  }
-
-  const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-}
-
-export function isWeekend(dateStr: string): boolean {
-  const parts = dateStr.split("-");
-  if (parts.length !== 3) {
-    return false;
-  }
-
-  const [year, month, day] = parts.map(Number);
-  if (Number.isNaN(year) || Number.isNaN(month) || Number.isNaN(day)) {
-    return false;
-  }
-
-  const date = new Date(year, month - 1, day);
-  const dayOfWeek = date.getDay();
-  return dayOfWeek === 0 || dayOfWeek === 6;
-}
-
 export function isFunction<T>(
   value: T | ((prev: T) => T)
 ): value is (prev: T) => T {
   return typeof value === "function";
-}
-
-export function formatMonth(month: number, locale: string): string {
-  const date = new Date(2024, month, 1);
-  return date.toLocaleDateString(locale, { month: "short" });
-}
-
-export function formatWeekday(day: number, locale: string): string {
-  const date = new Date(2024, 0, 7 + day);
-  return date.toLocaleDateString(locale, { weekday: "narrow" });
-}
-
-export function formatDateShort(dateStr: string, locale: string): string {
-  const date = new Date(dateStr);
-  return date.toLocaleDateString(locale, {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
 }

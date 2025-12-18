@@ -9,7 +9,7 @@ import {
 
 import { useControllableState } from "@/hooks/use-controllable-state";
 import createCtx from "@/lib/create-ctx";
-import { isWeekend as defaultIsWeekend, toISODateString } from "@/lib/utils";
+import { isWeekend as defaultIsWeekend, toISODateString } from "@/lib/date";
 
 const defaultIsToday = (date: string): boolean =>
   date === toISODateString(new Date());
@@ -22,8 +22,8 @@ type ContributionData = {
 
 type ContextValue = {
   data: Map<string, ContributionData>;
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
   levels: number;
   maxCount: number;
   getLevelForCount: (count: number) => number;
@@ -55,8 +55,8 @@ function getDefaultLevelThresholds(
 
 type RootProps = ComponentProps<"div"> & {
   data: ContributionData[];
-  startDate?: Date;
-  endDate?: Date;
+  startDate?: string;
+  endDate?: string;
   levels?: number;
   levelThresholds?: (count: number, max: number) => number;
   selectedDate?: string | null;
@@ -83,7 +83,10 @@ function Root({
   children,
   ...props
 }: RootProps) {
-  const endDate = useMemo(() => endDateProp || new Date(), [endDateProp]);
+  const endDate = useMemo(
+    () => endDateProp ?? toISODateString(new Date()),
+    [endDateProp]
+  );
 
   const startDate = useMemo(() => {
     if (startDateProp) {
@@ -93,7 +96,7 @@ function Root({
     const date = new Date(endDate);
     date.setFullYear(date.getFullYear() - 1);
 
-    return date;
+    return toISODateString(date);
   }, [startDateProp, endDate]);
 
   const [selectedDate, setSelectedDate] = useControllableState({

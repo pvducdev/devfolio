@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import { toISODateString } from "@/lib/utils";
+import { toISODateString } from "@/lib/date";
 
 type WeekStartDay = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
@@ -23,8 +23,8 @@ type UseContributionGraphDatesReturn = {
   months: MonthInfo[];
   weekdays: number[];
   totalWeeks: number;
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
 };
 
 function getWeekdayOrder(weekStartDay: WeekStartDay): number[] {
@@ -152,8 +152,8 @@ export function useContributionGraph(
       months,
       weekdays,
       totalWeeks: weeks.length,
-      startDate,
-      endDate,
+      startDate: toISODateString(startDate),
+      endDate: toISODateString(endDate),
     };
   }, [endDateProp, startDateProp, weekStartDay]);
 }

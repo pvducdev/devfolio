@@ -14,7 +14,7 @@ import {
 import { CONTRIBUTIONS_CONFIG } from "@/config/contributions";
 import { useContributionGraph } from "@/hooks/use-contributions-graph.ts";
 import type { ContributionData } from "@/lib/contributions/types";
-import { formatMonth, formatWeekday, toISODateString } from "@/lib/utils";
+import { formatMonth, formatWeekday } from "@/lib/date";
 import {
   page_about_contribution_level_more,
   page_about_contribution_level_none,
@@ -188,10 +188,7 @@ export default function ContributionSection() {
     <ErrorBoundary FallbackComponent={ContributionErrorFallback}>
       <Suspense fallback={<ContributionSectionSkeleton />}>
         <ContributionSectionContent
-          dataPromise={fetchContributions(
-            toISODateString(startDate),
-            toISODateString(endDate)
-          )}
+          dataPromise={fetchContributions(startDate, endDate)}
           {...graphDates}
         />
       </Suspense>
