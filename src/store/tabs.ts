@@ -16,7 +16,7 @@ type TabsState = {
 
 type TabsActions = {
   openTab: (path: string) => void;
-  closeTab: (tabId: string) => void;
+  closeTab: (tabId: string) => string | null;
   setActiveTab: (tabId: string) => void;
 };
 
@@ -46,20 +46,23 @@ export const useTabsStore = create<TabsState & TabsActions>()(
         });
       },
 
-      closeTab: (tabId: string) =>
-        set((state) => {
-          const newTabs = state.tabs.filter((t) => t.id !== tabId);
+      closeTab: (tabId: string) => {
+        const state = get();
+        const newTabs = state.tabs.filter((t) => t.id !== tabId);
 
-          if (state.activeTabId !== tabId) {
-            return { tabs: newTabs };
-          }
+        if (state.activeTabId !== tabId) {
+          set({ tabs: newTabs });
+          return state.activeTabId;
+        }
 
-          const closedIndex = state.tabs.findIndex((t) => t.id === tabId);
-          const nextActiveId =
-            newTabs[Math.min(closedIndex, newTabs.length - 1)]?.id ?? null;
+        const closedIndex = state.tabs.findIndex((t) => t.id === tabId);
+        const nextActiveId =
+          newTabs[Math.min(closedIndex, newTabs.length - 1)]?.id ?? null;
 
-          return { tabs: newTabs, activeTabId: nextActiveId };
-        }),
+        set({ tabs: newTabs, activeTabId: nextActiveId });
+
+        return nextActiveId;
+      },
 
       setActiveTab: (tabId: string) => {
         set({ activeTabId: tabId });
