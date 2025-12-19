@@ -2,24 +2,22 @@ import { Outlet } from "@tanstack/react-router";
 import TabBar from "@/components/tabs/tab-bar";
 import { Tabs } from "@/components/ui/tabs";
 import PortfolioWelcome from "@/components/welcome/container.tsx";
-import { useActiveTabId, useOpenTabs, useTabsActions } from "@/store/tabs";
+import { useActiveTabId, useHasOpenTabs } from "@/store/tabs";
 
 export default function CodeEditorContainer() {
-  const tabs = useOpenTabs();
+  const hasOpenTabs = useHasOpenTabs();
   const activeTabId = useActiveTabId();
-  const { closeTab, setActiveTab } = useTabsActions();
 
-  if (tabs.length === 0) {
+  if (!hasOpenTabs) {
     return <PortfolioWelcome />;
   }
 
   return (
     <Tabs
       className="flex size-full flex-col overflow-hidden"
-      onValueChange={setActiveTab}
       value={activeTabId || undefined}
     >
-      <TabBar onTabClick={setActiveTab} onTabClose={closeTab} tabs={tabs} />
+      <TabBar />
       <div className="size-full overflow-auto">
         <Outlet />
       </div>

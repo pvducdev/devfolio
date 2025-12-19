@@ -5,11 +5,14 @@ import viteReact from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import viteTsConfigPaths from "vite-tsconfig-paths";
 import packageJson from "./package.json" with { type: "json" };
+// noinspection ES6PreferShortImport
+import { PROJECTS } from "./src/config/projects";
 
 const config = defineConfig({
   define: {
     __APP_VERSION__: JSON.stringify(packageJson.version),
   },
+  assetsInclude: ["**/*.wasm"],
   plugins: [
     viteTsConfigPaths({
       projects: ["./tsconfig.json"],
@@ -22,7 +25,20 @@ const config = defineConfig({
       cookieName: "PARAGLIDE_LOCALE",
       strategy: ["cookie", "preferredLanguage", "baseLocale"],
     }),
-    tanstackStart(),
+    tanstackStart({
+      prerender: {
+        enabled: true,
+        autoStaticPathsDiscovery: true,
+        crawlLinks: true,
+        concurrency: 10,
+        failOnError: true,
+        filter: ({ path }) => !path.startsWith("/about"),
+      },
+      pages: [
+        { path: "/home" },
+        ...PROJECTS.map((p) => ({ path: `/projects/${p.id}` })),
+      ],
+    }),
     viteReact({
       babel: {
         plugins: ["babel-plugin-react-compiler"],
