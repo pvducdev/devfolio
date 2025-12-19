@@ -16,7 +16,8 @@
       "!**/src/components/ui/**/*",
       "!**/src/components/ai-elements",
       "!**/src/styles.css",
-      "!**/src/paraglide/**/*"
+      "!**/src/paraglide/**/*",
+      "!**/src/routes/**/*.$*.tsx"
     ]
   },
   "formatter": {

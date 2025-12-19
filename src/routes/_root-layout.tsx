@@ -5,6 +5,7 @@ import Header from "@/components/layout/header.tsx";
 import RootLayout from "@/components/layout/root-layout.tsx";
 import StatusFooter from "@/components/layout/status-footer.tsx";
 import ThemeScript from "@/components/theme/theme-script.tsx";
+import { useRouteTabSync } from "@/hooks/use-route-tab-sync";
 import { useHasHydrated } from "@/store/app-layout.ts";
 
 export const Route = createFileRoute("/_root-layout")({
@@ -13,6 +14,7 @@ export const Route = createFileRoute("/_root-layout")({
 
 function RouteComponent() {
   const hasHydrated = useHasHydrated();
+  useRouteTabSync();
 
   return (
     <RootLayout>

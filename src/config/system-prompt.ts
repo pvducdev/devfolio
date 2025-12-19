@@ -1,4 +1,3 @@
-import { ABOUT } from "./about";
 import { PERSONAL_INFO } from "./personal-info";
 import { SITE_CONFIG } from "./site";
 import { SKILLS } from "./skills";
@@ -59,7 +58,7 @@ ${SKILLS.workflow.map((item) => `* ${item.name}`).join("\n")}
 ${SKILLS.exploring.map((item) => `* ${item}`).join("\n")}
 
 # Interests:
-${ABOUT.interests.map((interest) => `* ${interest}`).join("\n")}
+${PERSONAL_INFO.interests.map((interest) => `* ${interest}`).join("\n")}
 
 # Style and formatting
 * Match the tone implied by the user's query.
