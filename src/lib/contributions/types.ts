@@ -12,6 +12,6 @@ export type DateRange = {
 
 export type ContributionProvider = (
   username: string,
-  token?: string,
+  token: string,
   range?: DateRange
 ) => Promise<ContributionData[]>;

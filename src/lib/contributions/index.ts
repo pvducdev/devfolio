@@ -11,6 +11,6 @@ export const fetchContributions = createServerOnlyFn(
     const { source, username } = CONTRIBUTIONS_CONFIG;
     const provider = getProvider(source);
 
-    return provider(username, env.GIT_CONTRIBUTION_TOKEN, range);
+    return provider(username, env.GIT_CONTRIBUTION_TOKEN as string, range);
   }
 );

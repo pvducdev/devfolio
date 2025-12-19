@@ -1,8 +1,8 @@
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef } from "react";
-import { isValidTabRoute } from "@/config/routes";
+import { isValidTabRoute, ROUTES } from "@/config/routes";
 import { useHasHydrated } from "@/store/app-layout";
-import { useActiveTabId, useTabsStore } from "@/store/tabs";
+import { useActiveTabId, useTabCount, useTabsActions } from "@/store/tabs";
 
 type SyncSource = "route" | "tab" | null;
 
@@ -10,7 +10,8 @@ export function useRouteTabSync() {
   const navigate = useNavigate();
   const location = useLocation();
   const activeTabId = useActiveTabId();
-  const { openTab, tabs } = useTabsStore();
+  const { openTab } = useTabsActions();
+  const tabCount = useTabCount();
   const isHydrated = useHasHydrated();
   const lastSyncSource = useRef<SyncSource>(null);
 
@@ -44,9 +45,9 @@ export function useRouteTabSync() {
     }
 
     if (!activeTabId) {
-      if (tabs.length === 0 && location.pathname !== "/home") {
+      if (tabCount === 0 && location.pathname !== ROUTES.HOME) {
         lastSyncSource.current = "tab";
-        navigate({ to: "/home" });
+        navigate({ to: ROUTES.HOME });
       }
       return;
     }
@@ -55,5 +56,5 @@ export function useRouteTabSync() {
       lastSyncSource.current = "tab";
       navigate({ to: activeTabId });
     }
-  }, [activeTabId, tabs.length, navigate, location.pathname, isHydrated]);
+  }, [activeTabId, tabCount, navigate, location.pathname, isHydrated]);
 }
