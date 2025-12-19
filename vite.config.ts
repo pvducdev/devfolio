@@ -4,8 +4,8 @@ import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import viteTsConfigPaths from "vite-tsconfig-paths";
-import { ROUTES } from "@/config/routes.ts";
 import packageJson from "./package.json" with { type: "json" };
+// noinspection ES6PreferShortImport
 import { PROJECTS } from "./src/config/projects";
 
 const config = defineConfig({
@@ -35,7 +35,7 @@ const config = defineConfig({
         filter: ({ path }) => !path.startsWith("/about"),
       },
       pages: [
-        { path: ROUTES.HOME },
+        { path: "/home" },
         ...PROJECTS.map((p) => ({ path: `/projects/${p.id}` })),
       ],
     }),
