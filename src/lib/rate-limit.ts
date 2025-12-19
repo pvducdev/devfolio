@@ -13,6 +13,20 @@ const requestHistory = new Map<string, RateLimitEntry>();
 
 const DEFAULT_MAX_REQUESTS = 100;
 const DEFAULT_WINDOW_MS = 60_000;
+const CLEANUP_INTERVAL_MS = 60_000;
+
+function cleanupExpiredEntries() {
+  const now = Date.now();
+  for (const [clientId, entry] of requestHistory.entries()) {
+    if (now > entry.windowExpiresAt) {
+      requestHistory.delete(clientId);
+    }
+  }
+}
+
+if (typeof globalThis !== "undefined" && typeof setInterval !== "undefined") {
+  setInterval(cleanupExpiredEntries, CLEANUP_INTERVAL_MS);
+}
 
 export function checkRateLimit(
   clientId: string,

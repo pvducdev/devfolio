@@ -5,6 +5,8 @@ import {
   DEFAULT_YEAR,
 } from "@/components/career-timeline/config";
 
+const SECTIONS_BY_ID = new Map(CAREER_SECTIONS.map((s) => [s.id, s]));
+
 export type ScrollStatus = "idle" | "scrolling" | "looping";
 export type AnimationState = "idle" | "running" | "milestone";
 
@@ -42,9 +44,7 @@ export const useActiveSectionId = () =>
 
 export const useActiveSection = () =>
   useCareerStore((s) =>
-    s.activeSectionId
-      ? (CAREER_SECTIONS.find((sec) => sec.id === s.activeSectionId) ?? null)
-      : null
+    s.activeSectionId ? (SECTIONS_BY_ID.get(s.activeSectionId) ?? null) : null
   );
 
 export const useCareerActiveSection = () =>
@@ -77,7 +77,7 @@ export const useDisplayYear = (): string =>
     }
 
     const section = s.lastVisitedSectionId
-      ? CAREER_SECTIONS.find((sec) => sec.id === s.lastVisitedSectionId)
+      ? SECTIONS_BY_ID.get(s.lastVisitedSectionId)
       : null;
 
     return section?.year ?? DEFAULT_YEAR;

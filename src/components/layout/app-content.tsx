@@ -75,7 +75,9 @@ export default function AppContent() {
             >
               <Panel
                 onClose={() => {
-                  togglePanel("assistant");
+                  if (panel) {
+                    togglePanel(panel);
+                  }
                 }}
               />
             </ResizablePanel>

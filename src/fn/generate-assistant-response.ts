@@ -16,16 +16,21 @@ const InputSchema = pipe(
 const generateAssistantResponse = createServerFn()
   .inputValidator((data: unknown) => parse(InputSchema, data))
   .handler(async function* ({ data }) {
-    const response = await generateMessage(data.prompt);
+    try {
+      const response = await generateMessage(data.prompt);
 
-    const chunks = (async function* () {
-      for await (const chunk of response) {
-        yield chunk.text;
+      const chunks = (async function* () {
+        for await (const chunk of response) {
+          yield chunk.text;
+        }
+      })();
+
+      for await (const word of typewriterStream(chunks)) {
+        yield word;
       }
-    })();
-
-    for await (const word of typewriterStream(chunks)) {
-      yield word;
+    } catch (error) {
+      console.error("[generateAssistantResponse] Stream error:", error);
+      yield "\n\n*An error occurred while generating the response.*";
     }
   });
 
