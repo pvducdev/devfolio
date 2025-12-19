@@ -5,7 +5,7 @@ export async function* typewriterStream(
   delayMs = 30
 ): AsyncGenerator<string> {
   let buffer = "";
-  let pos = 0;
+  let startIndex = 0;
 
   for await (const chunk of chunks) {
     if (!chunk) {
@@ -14,22 +14,19 @@ export async function* typewriterStream(
 
     buffer += chunk;
 
-    while (pos < buffer.length) {
-      const char = buffer[pos];
+    for (let i = startIndex; i < buffer.length; i++) {
+      const char = buffer[i];
       const isWhitespace = char === " " || char === "\n" || char === "\t";
 
       if (isWhitespace) {
-        yield buffer.slice(0, pos + 1);
-        buffer = buffer.slice(pos + 1);
-        pos = 0;
+        yield buffer.substring(startIndex, i + 1);
+        startIndex = i + 1;
         await delay(delayMs);
-      } else {
-        pos += 1;
       }
     }
   }
 
-  if (buffer) {
-    yield buffer;
+  if (startIndex < buffer.length) {
+    yield buffer.substring(startIndex);
   }
 }

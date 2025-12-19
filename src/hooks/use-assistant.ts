@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { type CommandContext, execute } from "@/commands";
 import generateAssistantResponseFn from "@/fn/generate-assistant-response.ts";
 import { ui_error_unexpected } from "@/paraglide/messages.js";
@@ -25,6 +26,8 @@ export function useAssistant() {
     clearError,
     clear,
   } = useAssistantActions();
+
+  const abortRef = useRef<AbortController | null>(null);
 
   const handleCommand = async (input: string): Promise<boolean> => {
     const context: CommandContext = {
@@ -58,23 +61,37 @@ export function useAssistant() {
     return true;
   };
 
-  const handleAssistantMessage = async (prompt: string) => {
+  const handleAssistantMessage = async (
+    prompt: string,
+    signal: AbortSignal
+  ) => {
     setThinking();
 
     try {
       const handler = generateAssistantResponseFn({ data: { prompt } });
 
       for await (const msg of await handler) {
+        if (signal.aborted) {
+          break;
+        }
         appendChunk(msg as string);
       }
 
-      setIdle();
+      if (!signal.aborted) {
+        setIdle();
+      }
     } catch (err) {
+      if (signal.aborted) {
+        return;
+      }
       setError(err instanceof Error ? err.message : ui_error_unexpected());
     }
   };
 
   const sendMessage = async (input: string): Promise<void> => {
+    abortRef.current?.abort();
+    abortRef.current = new AbortController();
+
     const trimmedMsg = input.trim();
 
     const isCommand = await handleCommand(trimmedMsg);
@@ -82,7 +99,12 @@ export function useAssistant() {
       return;
     }
 
-    await handleAssistantMessage(trimmedMsg);
+    await handleAssistantMessage(trimmedMsg, abortRef.current.signal);
+  };
+
+  const cancel = () => {
+    abortRef.current?.abort();
+    setIdle();
   };
 
   return {
@@ -92,5 +114,6 @@ export function useAssistant() {
     sendMessage,
     hasMessage,
     clear,
+    cancel,
   };
 }

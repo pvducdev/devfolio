@@ -31,6 +31,16 @@ export const SITE_CONFIG = {
     showResumeViewer: true,
     showThemeSwitcher: true,
   },
+
+  rateLimit: {
+    maxRequests: 100,
+    windowMs: 60_000,
+  },
+
+  cache: {
+    maxAge: 86_400,
+    staleWhileRevalidate: 604_800,
+  },
 } as const;
 
 export type SiteConfig = typeof SITE_CONFIG;

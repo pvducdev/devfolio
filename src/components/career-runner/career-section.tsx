@@ -57,7 +57,7 @@ export default function CareerSection({ section }: CareerSectionProps) {
 
   return (
     <div className="relative flex shrink-0 items-end" ref={ref}>
-      <div className="-translate-x-1/2 absolute top-15 bottom-12 left-1/2 flex flex-col items-center">
+      <div className="absolute top-15 bottom-12 left-1/2 flex -translate-x-1/2 flex-col items-center">
         <JobCard
           details={section.card.details}
           expanded={section.card.expanded}
@@ -73,7 +73,7 @@ export default function CareerSection({ section }: CareerSectionProps) {
         />
       </div>
 
-      <div className="-translate-x-1/2 absolute bottom-2 left-1/2">
+      <div className="absolute bottom-2 left-1/2 -translate-x-1/2">
         <Landmark icon={section.icon} />
       </div>
     </div>

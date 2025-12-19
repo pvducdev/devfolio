@@ -1,9 +1,5 @@
-import { Suspense, use, useMemo } from "react";
-import { ErrorBoundary } from "react-error-boundary";
-
+import { getRouteApi } from "@tanstack/react-router";
 import ContributionCell from "@/components/about/contribution-cell";
-import ContributionErrorFallback from "@/components/about/contribution-error-fallback";
-import { ContributionSectionSkeleton } from "@/components/about/contribution-section-skeleton";
 // biome-ignore lint/performance/noNamespaceImport: component pattern
 import * as ContributionGraph from "@/components/common/contribution-graph";
 import {
@@ -55,18 +51,6 @@ function formatSummary(count: number): string {
   });
 }
 
-function fetchContributions(
-  from: string,
-  to: string
-): Promise<ContributionData[]> {
-  return fetch(`/api/contributions?from=${from}&to=${to}`).then((res) => {
-    if (!res.ok) {
-      throw new Error(`Failed to fetch contributions: ${res.status}`);
-    }
-    return res.json();
-  });
-}
-
 function getLevelForCount(count: number): number {
   if (count === 0) {
     return 0;
@@ -83,27 +67,18 @@ function getLevelForCount(count: number): number {
   return 4;
 }
 
-type ContributionGraphDates = ReturnType<typeof useContributionGraph>;
-
-type ContributionSectionContentProps = ContributionGraphDates & {
-  dataPromise: Promise<ContributionData[]>;
-};
-
-function ContributionSectionContent({
-  dataPromise,
-  weeks,
-  months,
-  weekdays,
-  startDate,
-  endDate,
-}: ContributionSectionContentProps) {
+export default function ContributionSection() {
+  const { weeks, months, weekdays, startDate, endDate } = useContributionGraph({
+    weekStartDay: 0,
+  });
+  const api = getRouteApi("/_root-layout/about");
+  const { contributions: data } = api.useLoaderData();
   const locale = getLocale();
-  const data = use(dataPromise);
   const visibleWeekdays = [1, 3, 5];
 
-  const totalContributions = useMemo(
-    () => data.reduce((sum, item) => sum + item.count, 0),
-    [data]
+  const totalContributions = data.reduce(
+    (sum, item: ContributionData) => sum + item.count,
+    0
   );
 
   return (
@@ -159,9 +134,9 @@ function ContributionSectionContent({
           </ContributionGraph.Body>
         </ContributionGraph.Grid>
         <ContributionGraph.Legend className="justify-between">
-          <div className="text-left text-sm">
+          <p className="text-left text-sm">
             {formatSummary(totalContributions)}
-          </div>
+          </p>
           <div className="flex items-center space-x-0.5">
             {DEFAULT_THRESHOLDS.map((threshold, idx) => (
               <Tooltip key={threshold.min}>
@@ -177,21 +152,5 @@ function ContributionSectionContent({
         </ContributionGraph.Legend>
       </ContributionGraph.Root>
     </section>
-  );
-}
-
-export default function ContributionSection() {
-  const graphDates = useContributionGraph({ weekStartDay: 0 });
-  const { startDate, endDate } = graphDates;
-
-  return (
-    <ErrorBoundary FallbackComponent={ContributionErrorFallback}>
-      <Suspense fallback={<ContributionSectionSkeleton />}>
-        <ContributionSectionContent
-          dataPromise={fetchContributions(startDate, endDate)}
-          {...graphDates}
-        />
-      </Suspense>
-    </ErrorBoundary>
   );
 }

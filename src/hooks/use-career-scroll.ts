@@ -92,6 +92,7 @@ export function useCareerScroll(): UseCareerScrollReturn {
       maxScroll - currentTarget < SCROLL_CONFIG.scrollEndThreshold;
 
     if (isAtEnd && e.deltaY > 0) {
+      clearPendingIdle();
       setStatus("looping");
       animationRef.current = animate(container.scrollLeft, 0, {
         duration: SCROLL_CONFIG.loopDuration,
