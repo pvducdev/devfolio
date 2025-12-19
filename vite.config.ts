@@ -4,7 +4,9 @@ import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import viteTsConfigPaths from "vite-tsconfig-paths";
+import { ROUTES } from "@/config/routes.ts";
 import packageJson from "./package.json" with { type: "json" };
+import { PROJECTS } from "./src/config/projects";
 
 const config = defineConfig({
   define: {
@@ -26,8 +28,16 @@ const config = defineConfig({
     tanstackStart({
       prerender: {
         enabled: true,
-        failOnError: false,
+        autoStaticPathsDiscovery: true,
+        crawlLinks: true,
+        concurrency: 10,
+        failOnError: true,
+        filter: ({ path }) => !path.startsWith("/about"),
       },
+      pages: [
+        { path: ROUTES.HOME },
+        ...PROJECTS.map((p) => ({ path: `/projects/${p.id}` })),
+      ],
     }),
     viteReact({
       babel: {
