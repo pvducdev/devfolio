@@ -10,6 +10,7 @@ const config = defineConfig({
   define: {
     __APP_VERSION__: JSON.stringify(packageJson.version),
   },
+  assetsInclude: ["**/*.wasm"],
   plugins: [
     viteTsConfigPaths({
       projects: ["./tsconfig.json"],

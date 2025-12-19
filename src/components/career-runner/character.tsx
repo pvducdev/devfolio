@@ -1,6 +1,7 @@
 import { useRive, useStateMachineInput } from "@rive-app/react-canvas";
 import { useEffect } from "react";
 import { CHARACTER_CONFIG } from "@/components/career-timeline/config";
+import "@/lib/rive-init.ts";
 import { cn } from "@/lib/utils.ts";
 import { useCareerLooping, useCharacterAnimationState } from "@/store/career";
 
@@ -36,6 +37,7 @@ export default function Character() {
       style={{
         width: CHARACTER_CONFIG.size.width,
         height: CHARACTER_CONFIG.size.height,
+        aspectRatio: `${CHARACTER_CONFIG.size.width} / ${CHARACTER_CONFIG.size.height}`,
       }}
     >
       <RiveComponent />
