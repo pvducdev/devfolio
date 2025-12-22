@@ -2,6 +2,7 @@ import riveWASMResource from "@rive-app/canvas/rive.wasm";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
+import { FontLoaderScript } from "@/components/theme/font-loader-script.tsx";
 import { ThemeInitScript } from "@/components/theme/theme-init-script.tsx";
 import { SITE_CONFIG } from "@/config/site.ts";
 import "@/lib/rive-init.ts";
@@ -36,6 +37,15 @@ export const Route = createRootRoute({
     ],
     links: [
       {
+        rel: "preconnect",
+        href: "https://fonts.googleapis.com",
+      },
+      {
+        rel: "preconnect",
+        href: "https://fonts.gstatic.com",
+        crossOrigin: "anonymous",
+      },
+      {
         rel: "preload",
         href: riveWASMResource,
         as: "fetch",
@@ -62,6 +72,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     <html lang={getLocale()} suppressHydrationWarning>
       <head>
         <ThemeInitScript />
+        <FontLoaderScript />
         <HeadContent />
         <title />
       </head>

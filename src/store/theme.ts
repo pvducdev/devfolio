@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { THEME_STORAGE_KEY, THEMES, type Theme } from "@/config/theme.ts";
+import { isFunction } from "@/lib/utils.ts";
 
 type State = {
   theme: Theme["value"];
@@ -16,6 +17,12 @@ export const useThemeStore = create<State & Actions>()(
       theme: THEMES.find((t) => t.value === "default")?.value || "",
       setTheme: (theme) => {
         set({ theme });
+        if (
+          typeof window !== "undefined" &&
+          isFunction(window.__loadThemeFonts)
+        ) {
+          window.__loadThemeFonts(theme);
+        }
       },
     }),
     {

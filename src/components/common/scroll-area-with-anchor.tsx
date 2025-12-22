@@ -41,7 +41,7 @@ export default function ScrollAreaWithAnchor({
       {children}
       <Button
         className={cn(
-          "absolute bottom-2 left-1/2 z-10 size-8 -translate-x-1/2 rounded-full shadow-md backdrop-blur-sm transition-all duration-300 ease-out",
+          "-translate-x-1/2 absolute bottom-2 left-1/2 z-10 size-8 rounded-full shadow-md backdrop-blur-sm transition-all duration-300 ease-out",
           isAtBottom
             ? "pointer-events-none translate-y-4 opacity-0"
             : "translate-y-0 opacity-100"

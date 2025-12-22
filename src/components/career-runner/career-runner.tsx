@@ -13,7 +13,7 @@ export default function CareerRunner() {
     <div className="relative size-full overflow-hidden bg-background font-mono">
       <YearHUD />
 
-      <div className="absolute -bottom-2 left-1/2 z-10 -translate-x-1/2">
+      <div className="-bottom-2 -translate-x-1/2 absolute left-1/2 z-10">
         <Character />
       </div>
 
