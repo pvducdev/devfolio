@@ -297,6 +297,7 @@ function Cell({
   return (
     <td data-slot="contribution-graph-cell-wrapper">
       <Comp
+        // biome-ignore lint/nursery/noLeakedRender: <conflict with ts>
         aria-current={isTodayDay ? "date" : undefined}
         aria-selected={isSelected}
         data-count={count}
