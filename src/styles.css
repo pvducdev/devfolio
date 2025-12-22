@@ -117,3 +117,30 @@
         display: none;
     }
 }
+
+::view-transition-old(root) {
+    animation: none;
+}
+
+::view-transition-new(root) {
+    animation: diagonal-sweep 500ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    ::view-transition-new(root) {
+        animation: none;
+    }
+}
+
+@keyframes diagonal-sweep {
+    from {
+        clip-path: polygon(0 0, 0 0, 0 0);
+    }
+    to {
+        clip-path: polygon(0 0, 200% 0, 0 200%);
+    }
+}
+
+body > * {
+    view-transition-name: none;
+}

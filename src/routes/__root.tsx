@@ -5,6 +5,7 @@ import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { FontLoaderScript } from "@/components/theme/font-loader-script.tsx";
 import { ThemeInitScript } from "@/components/theme/theme-init-script.tsx";
 import { SITE_CONFIG } from "@/config/site.ts";
+import { DEFAULT_THEME, THEME_FONT_URLS } from "@/config/theme.ts";
 import "@/lib/rive-init.ts";
 import { getLocale } from "@/paraglide/runtime.js";
 import appCss from "../styles.css?url";
@@ -44,6 +45,11 @@ export const Route = createRootRoute({
         rel: "preconnect",
         href: "https://fonts.gstatic.com",
         crossOrigin: "anonymous",
+      },
+      {
+        rel: "preload",
+        href: THEME_FONT_URLS[DEFAULT_THEME],
+        as: "style",
       },
       {
         rel: "preload",
