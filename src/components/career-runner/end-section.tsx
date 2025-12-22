@@ -36,7 +36,7 @@ function TitleSection({
   return (
     <div className="mb-12">
       <motion.h1
-        className="mb-1 font-bold text-foreground text-xl uppercase tracking-wide"
+        className="mb-1 text-foreground text-xl uppercase tracking-wide"
         {...(!prefersReducedMotion && { variants: itemVariants })}
       >
         {page_career_eof()}

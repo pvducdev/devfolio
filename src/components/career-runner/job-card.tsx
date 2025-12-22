@@ -84,7 +84,7 @@ export default function JobCard({
       >
         <div className="mb-2 border-border border-b pb-2">
           <div className="flex items-start justify-between gap-1">
-            <h3 className="font-bold text-foreground text-xs uppercase tracking-wide">
+            <h3 className="text-foreground text-xs uppercase tracking-wide">
               {title}
             </h3>
             {canExpand ? (
