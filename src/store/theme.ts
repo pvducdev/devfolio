@@ -19,8 +19,10 @@ export const useThemeStore = create<State & Actions>()(
         set({ theme });
         if (
           typeof window !== "undefined" &&
+          // @ts-expect-error
           isFunction(window.__loadThemeFonts)
         ) {
+          // @ts-expect-error
           window.__loadThemeFonts(theme);
         }
       },

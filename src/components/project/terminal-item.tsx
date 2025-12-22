@@ -8,11 +8,6 @@ const terminalItemVariants = cva("", {
     variant: {
       command: "text-foreground",
       output: "text-muted-foreground",
-      success: "text-emerald-500",
-      error: "text-red-500",
-      warning: "text-amber-500",
-      info: "text-blue-500",
-      prompt: "text-purple-500",
     },
   },
   defaultVariants: {

@@ -84,7 +84,7 @@ export function Container({ projectId }: ContainerProps) {
 
               <TabsContent className="flex-1" value="getting-started">
                 <Terminal>
-                  <TerminalItem key="initial" variant="info">
+                  <TerminalItem key="initial" variant="output">
                     {ui_project_loading()}
                   </TerminalItem>
                   {visitedGuides.map((guide) => (

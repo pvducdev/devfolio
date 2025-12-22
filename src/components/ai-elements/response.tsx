@@ -10,7 +10,7 @@ export function Response({ className, ...props }: ResponseProps) {
   return (
     <Streamdown
       className={cn(
-        "size-full font-serif [&>*:first-child]:mt-0 [&>*:last-child]:mb-0",
+        "size-full font-mono [&>*:first-child]:mt-0 [&>*:last-child]:mb-0",
         className
       )}
       {...props}
