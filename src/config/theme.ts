@@ -6,28 +6,22 @@ export const DEFAULT_THEME = "default";
 
 export const THEMES = [
   {
-    name: "Notebook (default)",
+    name: "C x J (default)",
     value: "default",
     fontUrl:
-      "https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap",
+      "https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap",
   },
   {
-    name: "Bubblegum",
-    value: "bubblegum",
+    name: "Mono",
+    value: "mono",
     fontUrl:
-      "https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Lora:wght@400;600&family=Poppins:wght@400;500;600;700&display=swap",
+      "https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap",
   },
   {
-    name: "Dark Twitter",
-    value: "twitter",
+    name: "Notebook",
+    value: "notebook",
     fontUrl:
-      "https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap",
-  },
-  {
-    name: "Mocha Mousse",
-    value: "mocha-mousse",
-    fontUrl:
-      "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap",
+      "https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Fira+Code:wght@300..700&display=swap",
   },
 ];
 

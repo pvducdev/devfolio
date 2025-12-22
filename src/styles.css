@@ -2,9 +2,8 @@
 @import "tw-animate-css";
 
 @import "./themes/default.css";
-@import "./themes/bubblegum.css";
-@import "./themes/mocha-mousse.css";
-@import "./themes/twitter.css";
+@import "./themes/mono.css";
+@import "./themes/note-book.css";
 
 @source "../node_modules/streamdown/dist/index.js";
 
