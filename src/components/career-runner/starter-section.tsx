@@ -38,7 +38,7 @@ function TitleSection({
   return (
     <div className="mb-12">
       <motion.h1
-        className="mb-1 font-bold text-foreground text-xl uppercase tracking-wide"
+        className="mb-1 text-foreground text-xl uppercase tracking-wide"
         {...(!prefersReducedMotion && { variants: itemVariants })}
       >
         {page_career_heading()}
@@ -98,7 +98,7 @@ export default function StarterSection() {
       </motion.p>
 
       <motion.p
-        className="mb-6 text-center text-[10px] text-muted-foreground tracking-wide"
+        className="mb-6 text-center text-muted-foreground text-xs tracking-wide"
         {...(!prefersReducedMotion && { variants: itemVariants })}
       >
         {hint_career_scroll()}

@@ -18,7 +18,7 @@ export default function AboutPage() {
         <div className="flex justify-center">
           <div
             aria-label="Developer profile avatar"
-            className="flex size-32 items-center justify-center rounded-full border-2 border-gray-300 text-6xl dark:border-gray-700"
+            className="flex size-32 items-center justify-center rounded-full border-2 border-border text-6xl"
             role="img"
           >
             👨‍💻
@@ -26,14 +26,12 @@ export default function AboutPage() {
         </div>
 
         <section className="space-y-2">
-          <h1 className="font-bold text-4xl tracking-tight">
-            {PERSONAL_INFO.name}
-          </h1>
-          <div className="mx-auto max-w-md border-gray-300 border-y-2 py-3 dark:border-gray-700">
+          <h1>{PERSONAL_INFO.name}</h1>
+          <div className="mx-auto max-w-md border-border border-y-2 py-3">
             <p className="font-medium">
               {PERSONAL_INFO.role} · {PERSONAL_INFO.location}
             </p>
-            <p className="text-gray-600 text-sm dark:text-gray-400">
+            <p className="text-muted-foreground text-sm">
               Age {new Date().getFullYear() - PERSONAL_INFO.dob}
             </p>
           </div>
@@ -71,7 +69,7 @@ export default function AboutPage() {
           </a>
         </nav>
 
-        <div className="text-gray-600 text-sm dark:text-gray-400">
+        <div className="text-muted-foreground text-sm">
           <a
             className="hover:underline"
             href={`mailto:${PERSONAL_INFO.contact.email}`}
@@ -80,7 +78,7 @@ export default function AboutPage() {
           </a>
         </div>
 
-        <blockquote className="mx-auto max-w-2xl border-gray-300 border-y py-4 dark:border-gray-700">
+        <blockquote className="mx-auto max-w-2xl border-border border-y py-4 font-serif">
           <p className="text-base italic">{PERSONAL_INFO.shortBio}</p>
         </blockquote>
 

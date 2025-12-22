@@ -10,11 +10,11 @@ export default function WelcomeContainer() {
   return (
     <div className="flex h-screen flex-col items-center justify-center px-4 font-sans">
       <div className="w-full max-w-md text-center">
-        <h1 className="mb-3 font-semibold text-4xl tracking-tight">
+        <h1 className="mb-3">
           {page_welcome_title()}{" "}
           <span className="text-primary">{SITE_CONFIG.title}</span>
         </h1>
-        <p className="mb-10 text-gray-600 leading-relaxed">
+        <p className="mb-10 font-serif text-muted-foreground leading-relaxed">
           {PERSONAL_INFO.shortBio}
         </p>
 
@@ -24,9 +24,9 @@ export default function WelcomeContainer() {
           ))}
         </div>
 
-        <div className="mx-auto my-6 w-48 border-gray-200 border-t" />
+        <div className="mx-auto my-6 w-48 border-border border-t" />
 
-        <div className="flex justify-center space-x-5 text-gray-500">
+        <div className="flex justify-center space-x-5 text-muted-foreground">
           <a
             className="transition-colors hover:text-[#FC6D26]"
             href={PERSONAL_INFO.contact.gitlab}
@@ -45,7 +45,7 @@ export default function WelcomeContainer() {
           </a>
         </div>
 
-        <p className="mt-10 text-gray-400 text-xs">
+        <p className="mt-10 text-muted-foreground text-xs">
           {page_welcome_desc({ highlight: "WebStorm" })}
         </p>
       </div>

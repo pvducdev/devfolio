@@ -69,7 +69,7 @@ export default function ExpandedSection({ expanded }: ExpandedSectionProps) {
 
         {hasMetrics ? (
           <div className="mt-3">
-            <span className="mb-1 block font-semibold text-[10px] text-muted-foreground uppercase">
+            <span className="mb-1 block font-semibold text-muted-foreground text-xs uppercase">
               {label_career_metrics()}
             </span>
             <ul className="space-y-0.5">

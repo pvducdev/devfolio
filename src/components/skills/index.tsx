@@ -27,14 +27,14 @@ export default function SkillsPage() {
               className={`group relative cursor-crosshair ${index > 0 ? "-mt-2 md:-mt-4 md:ml-[15%]" : ""}`}
               key={skill.name}
             >
-              <h1 className="font-black text-[10vw] leading-[0.85] tracking-[-0.05em] opacity-90 transition-opacity duration-500 group-hover/section:opacity-20 group-hover:opacity-100 group-hover/section:hover:opacity-100 md:text-[5rem] lg:text-[6rem]">
+              <h1 className="text-[10vw] leading-[0.85] tracking-[-0.05em] opacity-90 transition-opacity duration-500 group-hover/section:opacity-20 group-hover:opacity-100 group-hover/section:hover:opacity-100 md:text-[5rem] lg:text-[6rem]">
                 {skill.name.toUpperCase()}
               </h1>
               <div
                 className={`pointer-events-none absolute top-1/2 z-1 hidden translate-y-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 md:block ${index === 0 ? "left-[25%]" : "right-[10%]"}`}
               >
                 <div className="bg-foreground p-3 text-background shadow-xl">
-                  <p className="mb-1.5 font-mono text-[9px] text-muted uppercase">
+                  <p className="mb-1.5 font-mono text-muted text-xs uppercase">
                     {skill.tag}
                   </p>
                   <p className="max-w-[180px] text-xs leading-tight">
@@ -62,7 +62,7 @@ export default function SkillsPage() {
                 className="group flex cursor-default items-center justify-between border-transparent border-b pb-1.5 transition-all hover:border-border"
                 key={item.name}
               >
-                <h2 className="font-bold text-2xl text-foreground/80 tracking-tight transition-transform group-hover:translate-x-2 group-hover:text-foreground md:text-3xl">
+                <h2 className="text-2xl text-foreground/80 transition-transform group-hover:translate-x-2 group-hover:text-foreground md:text-3xl">
                   {item.name}
                 </h2>
                 <span className="font-mono text-muted-foreground text-xs opacity-0 transition-opacity duration-300 group-hover:opacity-100">
@@ -113,7 +113,7 @@ export default function SkillsPage() {
 
           <div className="grid grid-cols-1 gap-7 md:col-span-3 md:grid-cols-3">
             <div className="bg-card/50 p-4 backdrop-blur-sm transition-colors duration-300 hover:bg-card">
-              <h3 className="mb-1.5 font-bold text-base">Web Performance</h3>
+              <h3 className="mb-1.5 text-base">Web Performance</h3>
               <ul className="space-y-0.5 font-mono text-muted-foreground text-xs">
                 {skills.standards.performance.map((item) => (
                   <li key={item}>{item}</li>
@@ -122,9 +122,7 @@ export default function SkillsPage() {
             </div>
 
             <div className="bg-card/50 p-4 backdrop-blur-sm transition-colors duration-300 hover:bg-card">
-              <h3 className="mb-1.5 font-bold text-base">
-                Accessibility (A11y)
-              </h3>
+              <h3 className="mb-1.5 text-base">Accessibility (A11y)</h3>
               <ul className="space-y-0.5 font-mono text-muted-foreground text-xs">
                 {skills.standards.accessibility.map((item) => (
                   <li key={item}>{item}</li>
@@ -133,7 +131,7 @@ export default function SkillsPage() {
             </div>
 
             <div className="bg-card/50 p-4 backdrop-blur-sm transition-colors duration-300 hover:bg-card">
-              <h3 className="mb-1.5 font-bold text-base">Best Practices</h3>
+              <h3 className="mb-1.5 text-base">Best Practices</h3>
               <ul className="space-y-0.5 font-mono text-muted-foreground text-xs">
                 {skills.standards.bestPractices.map((item) => (
                   <li key={item}>{item}</li>
@@ -170,7 +168,7 @@ export default function SkillsPage() {
 
       <footer className="absolute bottom-4 left-4 z-1 md:left-8">
         <div className="flex flex-col gap-0.5">
-          <span className="font-bold text-[9px] text-muted-foreground uppercase tracking-widest">
+          <span className="font-bold text-muted-foreground text-xs uppercase tracking-widest">
             Currently Exploring
           </span>
           <div className="flex items-center gap-1.5">

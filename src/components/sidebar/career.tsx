@@ -20,7 +20,7 @@ export default function Career() {
         <div className="mb-2 font-medium text-sm">
           {ui_sidebar_careertitle()}
         </div>
-        <p className="mb-3 text-muted-foreground text-xs">
+        <p className="mb-3 font-serif text-muted-foreground text-xs">
           {ui_sidebar_careerdesc()}
         </p>
         <Button
