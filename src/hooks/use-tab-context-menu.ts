@@ -1,61 +1,13 @@
-import { useNavigate } from "@tanstack/react-router";
-import { ROUTES } from "@/config/routes";
+import { useTabActions } from "@/hooks/use-tab-actions";
 import { isMac } from "@/lib/utils";
-import {
-  useActiveTabId,
-  useIsFirstTab,
-  useIsLastTab,
-  useTabCount,
-  useTabsActions,
-} from "@/store/tabs";
+import { useIsFirstTab, useIsLastTab, useTabCount } from "@/store/tabs";
 
 export function useTabContextMenu(tabId: string) {
-  const navigate = useNavigate();
-  const activeTabId = useActiveTabId();
   const tabCount = useTabCount();
   const isFirst = useIsFirstTab(tabId);
   const isLast = useIsLastTab(tabId);
-
-  const {
-    closeTab,
-    closeOtherTabs,
-    closeAllTabs,
-    closeTabsToRight,
-    closeTabsToLeft,
-  } = useTabsActions();
-
-  const handleClose = () => {
-    const nextActiveId = closeTab(tabId);
-    if (nextActiveId !== activeTabId) {
-      navigate({ to: nextActiveId ?? ROUTES.HOME });
-    }
-  };
-
-  const handleCloseOthers = () => {
-    const nextActiveId = closeOtherTabs(tabId);
-    if (nextActiveId !== activeTabId) {
-      navigate({ to: nextActiveId });
-    }
-  };
-
-  const handleCloseAll = () => {
-    closeAllTabs();
-    navigate({ to: ROUTES.HOME });
-  };
-
-  const handleCloseToRight = () => {
-    const nextActiveId = closeTabsToRight(tabId);
-    if (nextActiveId !== activeTabId) {
-      navigate({ to: nextActiveId });
-    }
-  };
-
-  const handleCloseToLeft = () => {
-    const nextActiveId = closeTabsToLeft(tabId);
-    if (nextActiveId !== activeTabId) {
-      navigate({ to: nextActiveId });
-    }
-  };
+  const { close, closeOthers, closeAll, closeToRight, closeToLeft } =
+    useTabActions();
 
   const handleCopyPath = () => {
     navigator.clipboard.writeText(tabId);
@@ -63,11 +15,11 @@ export function useTabContextMenu(tabId: string) {
 
   return {
     actions: {
-      close: handleClose,
-      closeOthers: handleCloseOthers,
-      closeAll: handleCloseAll,
-      closeToRight: handleCloseToRight,
-      closeToLeft: handleCloseToLeft,
+      close: () => close(tabId),
+      closeOthers: () => closeOthers(tabId),
+      closeAll,
+      closeToRight: () => closeToRight(tabId),
+      closeToLeft: () => closeToLeft(tabId),
       copyPath: handleCopyPath,
     },
     visibility: {

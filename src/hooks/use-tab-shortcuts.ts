@@ -1,31 +1,20 @@
-import { useNavigate } from "@tanstack/react-router";
 import { useHotkeys } from "react-hotkeys-hook";
-import { ROUTES } from "@/config/routes";
-import { useActiveTabId, useTabsActions } from "@/store/tabs";
+import { useTabActions } from "@/hooks/use-tab-actions";
+import { useActiveTabId } from "@/store/tabs";
 
 export function useTabShortcuts() {
-  const navigate = useNavigate();
   const activeTabId = useActiveTabId();
-  const { closeTab, closeAllTabs } = useTabsActions();
+  const { close, closeAll } = useTabActions();
 
   useHotkeys(
     "alt+w",
     () => {
-      if (!activeTabId) {
-        return;
+      if (activeTabId) {
+        close(activeTabId);
       }
-      const nextActiveId = closeTab(activeTabId);
-      navigate({ to: nextActiveId ?? ROUTES.HOME });
     },
     { preventDefault: true }
   );
 
-  useHotkeys(
-    "alt+shift+w",
-    () => {
-      closeAllTabs();
-      navigate({ to: ROUTES.HOME });
-    },
-    { preventDefault: true }
-  );
+  useHotkeys("alt+shift+w", closeAll, { preventDefault: true });
 }
