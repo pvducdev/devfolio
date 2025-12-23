@@ -1,5 +1,5 @@
 import { useTabActions } from "@/hooks/use-tab-actions";
-import { isMac } from "@/lib/utils";
+import { isMac } from "@/lib/platform";
 import { useIsFirstTab, useIsLastTab, useTabCount } from "@/store/tabs";
 
 export function useTabContextMenu(tabId: string) {
