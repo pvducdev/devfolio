@@ -11,12 +11,17 @@ export const env = createEnv({
 
   client: {
     VITE_APP_TITLE: optional(pipe(string(), minLength(1))),
+    VITE_BASE_URL: optional(
+      pipe(string(), minLength(1)),
+      "http://localhost:3000"
+    ),
   },
 
   runtimeEnv: {
     GEMINI_API_KEY: process.env.GEMINI_API_KEY,
     GIT_CONTRIBUTION_TOKEN: process.env.GIT_CONTRIBUTION_TOKEN,
     VITE_APP_TITLE: import.meta.env.VITE_APP_TITLE,
+    VITE_BASE_URL: import.meta.env.VITE_BASE_URL,
   },
 
   emptyStringAsUndefined: true,
