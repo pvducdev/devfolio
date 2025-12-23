@@ -17,10 +17,10 @@ import {
   ui_tab_copy_path,
 } from "@/paraglide/messages.js";
 
-type TabContextMenuProps = {
+interface TabContextMenuProps {
   tabId: string;
   children: ReactNode;
-};
+}
 
 export function TabContextMenu({ tabId, children }: TabContextMenuProps) {
   const { actions, visibility, shortcuts } = useTabContextMenu(tabId);

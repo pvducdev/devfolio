@@ -1,15 +1,15 @@
 import { useMotionValueEvent, useScroll } from "motion/react";
 import { type RefObject, useState } from "react";
 
-type ScrollOptions = {
+interface ScrollOptions {
   container?: RefObject<HTMLElement | null>;
   threshold?: number;
-};
+}
 
-export type ScrollState = {
+export interface ScrollState {
   isAtTop: boolean;
   isAtBottom: boolean;
-};
+}
 
 export function useScrollY(options: ScrollOptions = {}): ScrollState {
   const { container, threshold = 0.05 } = options;

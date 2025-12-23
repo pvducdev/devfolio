@@ -6,11 +6,11 @@ import { Textarea } from "@/components/ui/textarea.tsx";
 import { useCmdNav } from "@/hooks/use-cmd-nav.ts";
 import { useSlashCommands } from "@/hooks/use-slash-commands.ts";
 
-type AssistantInputProps = {
+interface AssistantInputProps {
   placeholder?: string;
   disabled?: boolean;
   onSubmit: (message: string) => void;
-};
+}
 
 export default function AssistantInput({
   placeholder = "Type something...",

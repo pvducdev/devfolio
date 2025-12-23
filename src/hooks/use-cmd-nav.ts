@@ -3,11 +3,11 @@ import { useKeyboardForwarding } from "./use-keyboard-forwarding.ts";
 
 const INTERACTIVE_KEYS = ["ArrowUp", "ArrowDown", "Enter", "Escape"] as const;
 
-type UseCmdNavOptions = {
+interface UseCmdNavOptions {
   commandRef: RefObject<HTMLDivElement | null>;
   showCommands: boolean;
   onTabSelect: () => void;
-};
+}
 
 export function useCmdNav({
   commandRef,

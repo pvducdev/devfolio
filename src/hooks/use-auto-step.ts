@@ -2,7 +2,7 @@ import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { useStep, useUnmount } from "usehooks-ts";
 import { useMount } from "@/hooks/use-mount.ts";
 
-type UseAutoStepOptions = {
+interface UseAutoStepOptions {
   maxStep: number;
   initialStep?: number;
   autoAdvance?: boolean;
@@ -11,9 +11,9 @@ type UseAutoStepOptions = {
   onStepChange?: (step: number) => void;
   onComplete?: () => void;
   onLoop?: (count: number) => void;
-};
+}
 
-type UseAutoStepReturn = {
+interface UseAutoStepReturn {
   currentStep: number;
   loopCount: number;
   isAutoAdvancing: boolean;
@@ -29,7 +29,7 @@ type UseAutoStepReturn = {
   start: () => void;
   pause: () => void;
   toggle: () => void;
-};
+}
 
 export function useAutoStep(options: UseAutoStepOptions): UseAutoStepReturn {
   const {

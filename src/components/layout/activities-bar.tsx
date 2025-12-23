@@ -1,10 +1,10 @@
 import Activity from "@/components/layout/activity.tsx";
 import { activities } from "@/config/routes.ts";
 
-type ActivitiesBarProps = {
+interface ActivitiesBarProps {
   active: string | null;
   onClick: (key: string) => void;
-};
+}
 
 export default function ActivitiesBar({ active, onClick }: ActivitiesBarProps) {
   return (

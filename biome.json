@@ -15,7 +15,6 @@
       "!**/src/routeTree.gen.ts",
       "!**/src/components/ui/**/*",
       "!**/src/components/ai-elements",
-      "!**/src/styles.css",
       "!**/src/paraglide/**/*",
       "!**/src/routes/**/*.$*.tsx"
     ]

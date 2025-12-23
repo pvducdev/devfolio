@@ -21,9 +21,9 @@ const ResumeViewer = lazy(
   () => import("@/components/resume-viewer/pdf-viewer.tsx")
 );
 
-type ResumeReviewerProps = {
+interface ResumeReviewerProps {
   className?: string;
-};
+}
 
 export default function DialogContainer({ className }: ResumeReviewerProps) {
   return (

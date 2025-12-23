@@ -5,17 +5,17 @@ import { FileIcon, FolderIcon, FolderOpenIcon } from "lucide-react";
 import { Tree, TreeItem, TreeItemLabel } from "@/components/ui/tree";
 import type { PageTreeItem } from "@/config/page";
 
-type TreeConfig = {
+interface TreeConfig {
   rootItemId: string;
   defaultExpanded: readonly string[];
   indent: number;
-};
+}
 
-type PageTreeProps = {
+interface PageTreeProps {
   treeData: Record<string, PageTreeItem>;
   config: TreeConfig;
   onItemSelect: (path: string) => void;
-};
+}
 
 function getTreeItemIcon(item: ItemInstance<PageTreeItem>) {
   const iconClass = "pointer-events-none size-4 text-muted-foreground";

@@ -3,13 +3,13 @@ import { persist } from "zustand/middleware";
 import { THEME_STORAGE_KEY, THEMES, type Theme } from "@/config/theme.ts";
 import { isFunction } from "@/lib/utils.ts";
 
-type State = {
+interface State {
   theme: Theme["value"];
-};
+}
 
-type Actions = {
+interface Actions {
   setTheme: (v: Theme["value"]) => void;
-};
+}
 
 export const useThemeStore = create<State & Actions>()(
   persist(

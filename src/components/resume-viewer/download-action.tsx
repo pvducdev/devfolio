@@ -6,10 +6,10 @@ import {
   ui_resume_downloading,
 } from "@/paraglide/messages.js";
 
-type DownloadActionProps = {
+interface DownloadActionProps {
   url: string;
   filename: string;
-};
+}
 
 export default function DownloadAction({ url, filename }: DownloadActionProps) {
   const { downloadFile, isDownloading } = useFileDownload();

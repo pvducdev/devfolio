@@ -7,12 +7,12 @@ import {
   nav_main_projects,
 } from "@/paraglide/messages.js";
 
-export type Activity = {
+export interface Activity {
   name: () => string;
   key: string;
   icon: ComponentType;
   sidebar: LazyExoticComponent<ComponentType>;
-};
+}
 
 export const activities: Activity[] = [
   {

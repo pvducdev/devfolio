@@ -13,10 +13,10 @@ import {
 } from "@embedpdf/plugin-viewport/react";
 import ResumeViewerSkeleton from "@/components/resume-viewer/skeleton.tsx";
 
-type ResumePDFViewerProps = {
+interface ResumePDFViewerProps {
   className?: string;
   url: string;
-};
+}
 
 export default function PdfViewer({ className, url }: ResumePDFViewerProps) {
   const { engine, isLoading } = usePdfiumEngine();

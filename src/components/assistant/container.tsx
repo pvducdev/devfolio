@@ -10,9 +10,9 @@ import {
   assistant_suggest3,
 } from "@/paraglide/messages.js";
 
-type AssistantContainerProps = {
+interface AssistantContainerProps {
   onClose: () => void;
-};
+}
 
 export default function AssistantContainer({
   onClose,

@@ -6,7 +6,6 @@ declare module "*.wasm" {
 }
 
 declare global {
-  // biome-ignore lint/style/useConsistentTypeDefinitions: Interface required for Window declaration merging
   interface Window {
     __loadThemeFonts?: (theme: string) => void;
   }

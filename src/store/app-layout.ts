@@ -4,23 +4,23 @@ import { useShallow } from "zustand/shallow";
 import { STORE_KEYS } from "@/config/store-keys";
 import { LAYOUT_CONFIG } from "@/config/ui";
 
-export type AppLayoutState = {
+export interface AppLayoutState {
   sidebar: string | null;
   panel: string | null;
   sidebarSize: number;
   panelSize: number;
   isStretchLayout: boolean;
   _hasHydrated: boolean;
-};
+}
 
-export type AppLayoutActions = {
+export interface AppLayoutActions {
   toggleSidebar: (value?: string) => void;
   togglePanel: (value?: string) => void;
   setSidebarSize: (size: number) => void;
   setPanelSize: (size: number) => void;
   toggleStretchLayout: () => void;
   setHasHydrated: (state: boolean) => void;
-};
+}
 
 const DEFAULT_APP_LAYOUT: Omit<AppLayoutState, "_hasHydrated"> = {
   sidebar: LAYOUT_CONFIG.sidebar.defaultSection,

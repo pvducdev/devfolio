@@ -7,13 +7,13 @@ import ExpandedSection from "./expanded-section";
 
 const GLOW_COLOR = "oklch(from var(--primary) l c h / 0.15)";
 
-type JobCardProps = {
+interface JobCardProps {
   title: string;
   subtitle: string;
   details: string[];
   expanded?: ExpandedContent;
   isActive?: boolean;
-};
+}
 
 function getAnimationProps(prefersReducedMotion: boolean, isActive: boolean) {
   if (prefersReducedMotion) {

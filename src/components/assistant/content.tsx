@@ -5,10 +5,10 @@ import { TextShimmer } from "@/components/ui/text-shimmer.tsx";
 import { assistant_thinking } from "@/paraglide/messages.js";
 import type { AssistantStatus } from "@/store/assistant.ts";
 
-type AssistantContentProps = {
+interface AssistantContentProps {
   message: string | null;
   status: AssistantStatus;
-};
+}
 
 export default function AssistantContent({
   message,

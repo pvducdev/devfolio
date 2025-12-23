@@ -4,9 +4,9 @@ import {
   msg_error_pagenotfound,
 } from "@/paraglide/messages.js";
 
-type PageNotFoundProps = {
+interface PageNotFoundProps {
   pageId: string;
-};
+}
 
 export default function PageNotFound({ pageId }: PageNotFoundProps) {
   return (

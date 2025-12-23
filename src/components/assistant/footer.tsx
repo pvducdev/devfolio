@@ -1,11 +1,11 @@
 import Input from "@/components/assistant/input.tsx";
 import { assistant_placeholder } from "@/paraglide/messages.js";
 
-type AssistantFooterProps = {
+interface AssistantFooterProps {
   error: string | null;
   disabled: boolean;
   onSubmit: (message: string) => void;
-};
+}
 
 export default function AssistantFooter({
   error,

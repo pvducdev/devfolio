@@ -14,9 +14,9 @@ import {
 import JobCard from "./job-card";
 import Landmark from "./landmark";
 
-type CareerSectionProps = {
+interface CareerSectionProps {
   section: TCareerSection;
-};
+}
 
 export default function CareerSection({ section }: CareerSectionProps) {
   const { containerRef } = useCareerScrollCtx();

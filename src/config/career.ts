@@ -3,7 +3,7 @@ import { Building2, Coffee, GraduationCap, Monitor, Users } from "lucide-react";
 
 export type JobType = "fulltime" | "parttime" | "freelance" | "education";
 
-export type CareerEntry = {
+export interface CareerEntry {
   year: string;
   jobType: JobType;
   icon: LucideIcon;
@@ -19,7 +19,7 @@ export type CareerEntry = {
     };
     metrics?: string[];
   };
-};
+}
 
 export const CAREER_TIMELINE: CareerEntry[] = [
   {

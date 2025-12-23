@@ -4,7 +4,7 @@ import { PERSONAL_INFO } from "@/config/personal-info.ts";
 
 export type { JobType } from "@/config/career";
 
-export type ExpandedContent = {
+export interface ExpandedContent {
   description: string;
   techStack: {
     primary: string[];
@@ -12,9 +12,9 @@ export type ExpandedContent = {
     infrastructure?: string[];
   };
   metrics?: string[];
-};
+}
 
-export type CareerSection = {
+export interface CareerSection {
   id: string;
   year: string;
   icon: LucideIcon;
@@ -25,7 +25,7 @@ export type CareerSection = {
     details: string[];
     expanded?: ExpandedContent;
   };
-};
+}
 
 export const CAREER_SECTIONS: CareerSection[] = CAREER_TIMELINE.map(
   (entry, index) => ({

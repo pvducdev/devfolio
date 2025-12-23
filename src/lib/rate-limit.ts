@@ -1,13 +1,13 @@
-type RateLimitEntry = {
+interface RateLimitEntry {
   requestCount: number;
   windowExpiresAt: number;
-};
+}
 
-type RateLimitResult = {
+interface RateLimitResult {
   allowed: boolean;
   remaining: number;
   retryAfterMs: number;
-};
+}
 
 const requestHistory = new Map<string, RateLimitEntry>();
 

@@ -1,11 +1,11 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-export type CardProps = {
+export interface CardProps {
   title?: string;
   className?: string;
   children: ReactNode;
-};
+}
 
 export function Card({ title, className, children }: CardProps) {
   return (

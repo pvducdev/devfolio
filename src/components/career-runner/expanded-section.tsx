@@ -27,9 +27,9 @@ const containerVariants: Variants = {
   },
 };
 
-type ExpandedSectionProps = {
+interface ExpandedSectionProps {
   expanded: ExpandedContent;
-};
+}
 
 export default function ExpandedSection({ expanded }: ExpandedSectionProps) {
   const prefersReducedMotion = useReducedMotion() ?? false;

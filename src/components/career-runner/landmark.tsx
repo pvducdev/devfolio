@@ -1,10 +1,10 @@
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-type LandmarkProps = {
+interface LandmarkProps {
   icon: LucideIcon;
   className?: string;
-};
+}
 
 export default function Landmark({ icon: Icon, className }: LandmarkProps) {
   return (

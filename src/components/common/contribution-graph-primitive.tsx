@@ -14,13 +14,13 @@ import { isWeekend as defaultIsWeekend, toISODateString } from "@/lib/date";
 const defaultIsToday = (date: string): boolean =>
   date === toISODateString(new Date());
 
-type ContributionData = {
+interface ContributionData {
   date: Date | string;
   count: number;
   level?: number;
-};
+}
 
-type ContextValue = {
+interface ContextValue {
   data: Map<string, ContributionData>;
   startDate: string;
   endDate: string;
@@ -34,7 +34,7 @@ type ContextValue = {
   onHoverDate: (date: string | null) => void;
   isWeekend: (date: string) => boolean;
   isToday: (date: string) => boolean;
-};
+}
 
 const [useContributionGraph, Provider] = createCtx<ContextValue>(
   "useContributionGraph must be used within a ContributionGraph"
@@ -218,7 +218,7 @@ function HeaderCell({ asChild = false, ...props }: HeaderCellProps) {
   return <Comp data-slot="contribution-graph-header-cell" {...props} />;
 }
 
-type CellState = {
+interface CellState {
   date: string;
   count: number;
   level: number;
@@ -226,7 +226,7 @@ type CellState = {
   isToday: boolean;
   isWeekend: boolean;
   isEmpty: boolean;
-};
+}
 
 type CellProps = Omit<
   ComponentProps<"button">,

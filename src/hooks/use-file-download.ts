@@ -1,34 +1,34 @@
 import { useState } from "react";
 
-type DownloadState = {
+interface DownloadState {
   isDownloading: boolean;
   error: string | null;
-};
+}
 
-type DownloadFileOptions = {
+interface DownloadFileOptions {
   url: string;
   filename?: string;
   onSuccess?: () => void;
   onError?: (error: Error) => void;
   onFinally?: () => void;
-};
+}
 
-type DownloadDataOptions = {
+interface DownloadDataOptions {
   data: BlobPart;
   filename: string;
   mimeType?: string;
   onSuccess?: () => void;
   onError?: (error: Error) => void;
   onFinally?: () => void;
-};
+}
 
-type UseFileDownloadReturn = {
+interface UseFileDownloadReturn {
   downloadFile: (options: DownloadFileOptions) => Promise<void>;
   downloadData: (options: DownloadDataOptions) => void;
   isDownloading: boolean;
   error: string | null;
   clearError: () => void;
-};
+}
 
 function useFileDownload(): UseFileDownloadReturn {
   const [state, setState] = useState<DownloadState>({

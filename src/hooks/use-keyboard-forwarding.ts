@@ -1,9 +1,9 @@
 import type { KeyboardEvent, RefObject } from "react";
 
-type KeyboardForwardingConfig<
+interface KeyboardForwardingConfig<
   TSource extends HTMLElement = HTMLElement,
   TTarget extends HTMLElement = HTMLElement,
-> = {
+> {
   targetRef: RefObject<TTarget | null>;
   forwardKeys: readonly string[];
   shouldForward?: boolean | (() => boolean);
@@ -12,7 +12,7 @@ type KeyboardForwardingConfig<
   >;
   preventDefaultOnForward?: boolean;
   eventProperties?: Partial<KeyboardEventInit>;
-};
+}
 
 export function useKeyboardForwarding<
   TSource extends HTMLElement = HTMLElement,

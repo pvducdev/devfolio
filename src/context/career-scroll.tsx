@@ -1,9 +1,9 @@
 import type { ReactNode, RefObject } from "react";
 import createCtx from "@/lib/create-ctx.ts";
 
-type CareerScrollContextValue = {
+interface CareerScrollContextValue {
   containerRef: RefObject<HTMLDivElement | null>;
-};
+}
 
 export const [useCareerScrollCtx, Provider] =
   createCtx<CareerScrollContextValue>(

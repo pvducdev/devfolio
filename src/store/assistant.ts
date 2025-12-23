@@ -5,13 +5,13 @@ import { STORE_KEYS } from "@/config/store-keys";
 
 export type AssistantStatus = "idle" | "thinking" | "streaming";
 
-type AssistantState = {
+interface AssistantState {
   message: string | null;
   status: AssistantStatus;
   error: string | null;
-};
+}
 
-type AssistantActions = {
+interface AssistantActions {
   setResponse: (content: string) => void;
   setMessage: (content: string) => void;
   setThinking: () => void;
@@ -21,7 +21,7 @@ type AssistantActions = {
   setError: (error: string) => void;
   clearError: () => void;
   clear: () => void;
-};
+}
 
 type AssistantStore = AssistantState & AssistantActions;
 

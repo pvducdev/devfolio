@@ -1,7 +1,7 @@
-type TechStackSectionProps = {
+interface TechStackSectionProps {
   label: string;
   items: string[];
-};
+}
 
 export default function TechStackSection({
   label,

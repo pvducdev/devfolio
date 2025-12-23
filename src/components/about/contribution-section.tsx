@@ -19,7 +19,10 @@ import {
 } from "@/paraglide/messages.js";
 import { getLocale } from "@/paraglide/runtime.js";
 
-type LevelThreshold = { min: number; max?: number };
+interface LevelThreshold {
+  min: number;
+  max?: number;
+}
 
 const DEFAULT_THRESHOLDS: LevelThreshold[] = [
   { min: 0, max: 0 },

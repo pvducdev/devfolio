@@ -1,4 +1,4 @@
-export type ProjectConfig = {
+export interface ProjectConfig {
   id: string;
   name: string;
   description: string;
@@ -6,7 +6,7 @@ export type ProjectConfig = {
   type: "mobile" | "desktop";
   guides: { title: string; src: string; type: "screenshot" | "video" }[];
   package: Record<string, unknown>;
-};
+}
 
 export const PROJECTS: ProjectConfig[] = [
   {

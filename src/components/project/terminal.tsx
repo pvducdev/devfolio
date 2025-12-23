@@ -2,11 +2,11 @@ import { AnimatePresence } from "motion/react";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-export type TerminalProps = {
+export interface TerminalProps {
   children: ReactNode;
   mode?: ComponentPropsWithoutRef<typeof AnimatePresence>["mode"];
   className?: string;
-};
+}
 
 export function Terminal({
   children,

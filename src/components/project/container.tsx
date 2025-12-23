@@ -14,9 +14,9 @@ import { CodeBlock } from "./code-block";
 import { Terminal } from "./terminal";
 import { TerminalItem } from "./terminal-item";
 
-export type ContainerProps = {
+export interface ContainerProps {
   projectId: string;
-};
+}
 
 export function Container({ projectId }: ContainerProps) {
   const config = getProjectById(projectId);

@@ -2,10 +2,10 @@
 
 import { cn } from "@/lib/utils";
 
-export type CodeBlockProps = {
+export interface CodeBlockProps {
   json: Record<string, unknown>;
   className?: string;
-};
+}
 
 export function CodeBlock({ json, className }: CodeBlockProps) {
   return (

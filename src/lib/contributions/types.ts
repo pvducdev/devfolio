@@ -1,14 +1,14 @@
-export type ContributionData = {
+export interface ContributionData {
   date: string;
   count: number;
-};
+}
 
 export type ContributionSource = "GitHub" | "GitLab";
 
-export type DateRange = {
+export interface DateRange {
   from: string;
   to: string;
-};
+}
 
 export type ContributionProvider = (
   username: string,

@@ -11,10 +11,10 @@ import {
 import { formatDateShort } from "@/lib/date";
 import { page_about_contribution_tooltip } from "@/paraglide/messages.js";
 
-type ContributionCellProps = {
+interface ContributionCellProps {
   date: string;
   locale: string;
-};
+}
 
 export default function ContributionCell({
   date,

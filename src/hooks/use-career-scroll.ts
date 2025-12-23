@@ -12,9 +12,9 @@ import { type RefObject, useEffect, useRef } from "react";
 import { useEventListener, useUnmount } from "usehooks-ts";
 import { useCareerActions, useCareerLooping } from "@/store/career.ts";
 
-type UseCareerScrollReturn = {
+interface UseCareerScrollReturn {
   containerRef: RefObject<HTMLDivElement | null>;
-};
+}
 
 const SCROLL_CONFIG = {
   spring: { stiffness: 120, damping: 20, restDelta: 0.5 },

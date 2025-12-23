@@ -4,17 +4,17 @@ import { useShallow } from "zustand/shallow";
 import { getRouteLabel } from "@/config/routes";
 import { STORE_KEYS } from "@/config/store-keys";
 
-export type Tab = {
+export interface Tab {
   id: string;
   label: string;
-};
+}
 
-type TabsState = {
+interface TabsState {
   tabs: Tab[];
   activeTabId: string | null;
-};
+}
 
-type TabsActions = {
+interface TabsActions {
   openTab: (path: string) => void;
   closeTab: (tabId: string) => string | null;
   setActiveTab: (tabId: string) => void;
@@ -22,7 +22,7 @@ type TabsActions = {
   closeAllTabs: () => void;
   closeTabsToRight: (tabId: string) => string;
   closeTabsToLeft: (tabId: string) => string;
-};
+}
 
 const DEFAULT_STATE: TabsState = { tabs: [], activeTabId: null };
 

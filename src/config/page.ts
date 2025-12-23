@@ -1,8 +1,8 @@
-export type PageTreeItem = {
+export interface PageTreeItem {
   name: string;
   children?: string[];
   path?: string;
-};
+}
 
 export const ABOUT_TREE: Record<string, PageTreeItem> = {
   root: {

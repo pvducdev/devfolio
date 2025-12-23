@@ -2,11 +2,11 @@ import ButtonWithTooltip from "@/components/common/button-with-tooltip.tsx";
 import type { Activity as TActivity } from "@/config/routes.ts";
 import { cn } from "@/lib/utils.ts";
 
-type ActivityProps = {
+interface ActivityProps {
   active: boolean;
   data: TActivity;
   onClick: (data: TActivity) => void;
-};
+}
 
 export default function Activity({ active, data, onClick }: ActivityProps) {
   const Icon = data.icon;

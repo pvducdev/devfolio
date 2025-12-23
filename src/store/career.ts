@@ -10,17 +10,17 @@ const SECTIONS_BY_ID = new Map(CAREER_SECTIONS.map((s) => [s.id, s]));
 export type ScrollStatus = "idle" | "scrolling" | "looping";
 export type AnimationState = "idle" | "running" | "milestone";
 
-type State = {
+interface State {
   activeSectionId: string | null;
   lastVisitedSectionId: string | null;
   status: ScrollStatus;
-};
+}
 
-type Actions = {
+interface Actions {
   setActiveSection: (sectionId: string | null) => void;
   setStatus: (status: ScrollStatus) => void;
   reset: () => void;
-};
+}
 
 const initialState: State = {
   activeSectionId: null,

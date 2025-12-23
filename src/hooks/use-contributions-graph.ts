@@ -4,20 +4,20 @@ import { toISODateString } from "@/lib/date";
 
 type WeekStartDay = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
-type MonthInfo = {
+interface MonthInfo {
   month: number;
   year: number;
   colStart: number;
   colSpan: number;
-};
+}
 
-type UseContributionGraphDatesOptions = {
+interface UseContributionGraphDatesOptions {
   startDate?: Date;
   endDate?: Date;
   weekStartDay?: WeekStartDay;
-};
+}
 
-type UseContributionGraphDatesReturn = {
+interface UseContributionGraphDatesReturn {
   dates: string[];
   weeks: string[][];
   months: MonthInfo[];
@@ -25,7 +25,7 @@ type UseContributionGraphDatesReturn = {
   totalWeeks: number;
   startDate: string;
   endDate: string;
-};
+}
 
 function getWeekdayOrder(weekStartDay: WeekStartDay): number[] {
   const order: number[] = [];

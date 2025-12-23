@@ -15,12 +15,12 @@ import { isFunction } from "@/lib/utils.ts";
 type ChangeHandler<T> = (state: T) => void;
 type SetStateFn<T> = Dispatch<SetStateAction<T>>;
 
-type UseControllableStateParams<T> = {
+interface UseControllableStateParams<T> {
   prop?: T | undefined;
   defaultProp: T;
   onChange?: ChangeHandler<T>;
   caller?: string;
-};
+}
 
 export function useControllableState<T>({
   prop,

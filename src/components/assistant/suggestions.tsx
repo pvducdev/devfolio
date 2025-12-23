@@ -1,10 +1,10 @@
 import { useTransition } from "react";
 import { Button } from "@/components/ui/button.tsx";
 
-type AiSuggestionsProps = {
+interface AiSuggestionsProps {
   suggestions: readonly string[];
   onClick: (suggestion: string) => Promise<void>;
-};
+}
 
 export default function AssistantSuggestions({
   suggestions = [],

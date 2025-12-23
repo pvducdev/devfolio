@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { type Command, SLASH_PREFIX } from "@/commands";
 
-type UseSlashCommandsOptions = {
+interface UseSlashCommandsOptions {
   onCommandSelect?: (command: Command) => void;
-};
+}
 
 export function useSlashCommands(options: UseSlashCommandsOptions = {}) {
   const [inputValue, setInputValue] = useState("");

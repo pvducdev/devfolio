@@ -15,14 +15,14 @@ import {
 } from "@/components/ui/popover.tsx";
 import { assistant_commands, assistant_empty } from "@/paraglide/messages.js";
 
-type SlashCommandPopoverProps = {
+interface SlashCommandPopoverProps {
   commandRef: RefObject<HTMLDivElement | null>;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   inputValue: string;
   onCommandSelect: (command: TCommand) => void;
   children: ReactNode;
-};
+}
 
 export default function SlashCommandPopover({
   commandRef,
