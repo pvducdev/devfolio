@@ -31,3 +31,12 @@ export function isFunction<T>(
 ): value is (prev: T) => T {
   return typeof value === "function";
 }
+
+const MAC_PLATFORM_REGEX = /Mac|iPod|iPhone|iPad/;
+
+export function isMac(): boolean {
+  if (typeof navigator === "undefined") {
+    return false;
+  }
+  return MAC_PLATFORM_REGEX.test(navigator.platform);
+}

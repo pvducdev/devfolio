@@ -36,5 +36,12 @@
 
   "ui_project_tab_guide": "Guide",
   "ui_project_tab_dependencies": "Dependencies",
-  "ui_project_loading": "Cooking..."
+  "ui_project_loading": "Cooking...",
+
+  "ui_tab_close": "Close",
+  "ui_tab_close_others": "Close Others",
+  "ui_tab_close_all": "Close All",
+  "ui_tab_close_right": "Close to the Right",
+  "ui_tab_close_left": "Close to the Left",
+  "ui_tab_copy_path": "Copy Path"
 }
