@@ -1,4 +1,4 @@
-import { PanelsTopLeft, Route, User } from "lucide-react";
+import { GitCommitVertical, PanelsTopLeft, User } from "lucide-react";
 import type { ComponentType, LazyExoticComponent } from "react";
 import { lazy } from "react";
 import {
@@ -24,7 +24,7 @@ export const activities: Activity[] = [
   {
     name: nav_main_career,
     key: "career",
-    icon: Route,
+    icon: GitCommitVertical,
     sidebar: lazy(() => import("@/components/sidebar/career")),
   },
   {

@@ -1,4 +1,5 @@
-import type { ReactNode } from "react";
+import { Slot } from "@radix-ui/react-slot";
+import type { ComponentPropsWithoutRef } from "react";
 import {
   ContextMenu,
   ContextMenuContent,
@@ -17,18 +18,23 @@ import {
   ui_tab_copy_path,
 } from "@/paraglide/messages.js";
 
-interface TabContextMenuProps {
+interface TabContextMenuProps extends ComponentPropsWithoutRef<typeof Slot> {
   tabId: string;
-  children: ReactNode;
 }
 
-export function TabContextMenu({ tabId, children }: TabContextMenuProps) {
+export function TabContextMenu({
+  tabId,
+  children,
+  ...slotProps
+}: TabContextMenuProps) {
   const { actions, visibility, shortcuts } = useTabContextMenu(tabId);
 
   return (
     <ContextMenu>
-      <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
-      <ContextMenuContent className="min-w-52">
+      <ContextMenuTrigger asChild>
+        <Slot {...slotProps}>{children}</Slot>
+      </ContextMenuTrigger>
+      <ContextMenuContent className="min-w-52 rounded-lg">
         <ContextMenuItem onSelect={actions.close}>
           {ui_tab_close()}
           <ContextMenuShortcut>{shortcuts.close}</ContextMenuShortcut>

@@ -15,12 +15,13 @@ export default function TabBar() {
   return (
     <TabsList className="h-auto w-full justify-start space-x-0.5 overflow-x-auto rounded-none border-b bg-transparent p-0.5">
       {tabs.map((tab) => (
-        <TabContextMenu key={tab.id} tabId={tab.id}>
-          <TabsTrigger
-            asChild
-            className="group relative flex flex-initial items-center space-x-0.5 rounded-lg px-1 text-xs shadow-none! hover:bg-accent hover:text-accent-foreground data-[state=active]:border-border data-[state=active]:bg-accent data-[state=active]:text-accent-foreground"
-            value={tab.id}
-          >
+        <TabsTrigger
+          asChild
+          className="group relative flex flex-initial items-center space-x-0.5 rounded-lg px-1 text-xs shadow-none! hover:bg-accent hover:text-accent-foreground data-[state=active]:border-border data-[state=active]:bg-accent data-[state=active]:text-accent-foreground"
+          key={tab.id}
+          value={tab.id}
+        >
+          <TabContextMenu tabId={tab.id}>
             <Link to={tab.id}>
               <ReactLight className="size-4" />
               <span className="max-w-28 truncate">{tab.label}</span>
@@ -41,8 +42,8 @@ export default function TabBar() {
                 </span>
               </Button>
             </Link>
-          </TabsTrigger>
-        </TabContextMenu>
+          </TabContextMenu>
+        </TabsTrigger>
       ))}
     </TabsList>
   );

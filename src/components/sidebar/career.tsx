@@ -16,7 +16,7 @@ export default function Career() {
 
   return (
     <div className="flex h-full flex-col gap-4 overflow-auto p-2">
-      <div className="rounded-lg border border-border bg-card p-3">
+      <div className="rounded-xl border border-border bg-card p-3">
         <div className="mb-2 font-medium text-sm">
           {ui_sidebar_careertitle()}
         </div>

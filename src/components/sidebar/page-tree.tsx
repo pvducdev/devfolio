@@ -73,7 +73,7 @@ export default function PageTree({
                 handleItemDoubleClick(item);
               }}
             >
-              <TreeItemLabel className="relative before:absolute before:inset-x-0 before:-inset-y-0.5 before:-z-10 before:bg-background">
+              <TreeItemLabel className="relative before:absolute before:inset-x-0 before:-inset-y-0.5 before:-z-10 before:bg-background hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50">
                 <span className="flex items-center gap-2 text-nowrap">
                   {getTreeItemIcon(item)}
                   {item.getItemName()}

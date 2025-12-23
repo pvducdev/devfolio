@@ -45,7 +45,7 @@ export default function StatusFooter() {
         </small>
         {PERSONAL_INFO.openToWork ? (
           <Badge
-            className="rounded-full border-green-500! text-green-500"
+            className="rounded-full border-green-500 text-green-500"
             variant="outline"
           >
             {label_status_opentowork()}

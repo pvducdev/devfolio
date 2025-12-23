@@ -15,7 +15,7 @@ export default function AssistantFooter({
   return (
     <div className="space-y-1">
       {!!error && (
-        <p className="text-pretty px-2 text-red-500 text-xs">{error}</p>
+        <p className="text-pretty px-2 text-destructive text-xs">{error}</p>
       )}
       <Input
         disabled={disabled}

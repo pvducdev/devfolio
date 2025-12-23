@@ -6,18 +6,18 @@ export default function SkillsPage() {
   return (
     <div className="relative bg-background p-4 font-sans text-foreground selection:bg-foreground selection:text-background md:p-8 lg:p-12">
       <header className="pointer-events-none absolute top-4 left-4 flex w-[calc(100%-2rem)] items-center justify-end text-background mix-blend-difference md:top-8 md:left-8 md:w-[calc(100%-4rem)]">
-        <span className="hidden font-mono text-xs uppercase tracking-widest opacity-40 md:block">
+        <span className="hidden font-mono text-muted-foreground text-xs uppercase tracking-widest opacity-40 md:block">
           My Skillet in {new Date().getFullYear()} and beyond.
         </span>
       </header>
 
       <main className="mx-auto mt-12 grid max-w-300 grid-cols-1 gap-x-7 gap-y-24 pb-24 md:mt-8 md:grid-cols-12">
         <section className="group/section col-span-1 flex flex-col gap-2 md:col-span-12 lg:col-span-10">
-          <div className="mb-3 flex max-w-[180px] items-center gap-3 border-border border-b pb-1.5">
+          <div className="mb-3 flex max-w-45 items-center gap-3 border-border border-b pb-1.5">
             <span className="font-bold font-mono text-muted-foreground text-xs">
               01
             </span>
-            <span className="font-bold text-muted-foreground text-xs uppercase tracking-[0.2em]">
+            <span className="font-bold text-muted-foreground text-xs uppercase tracking-wide">
               The Core
             </span>
           </div>
@@ -37,7 +37,7 @@ export default function SkillsPage() {
                   <p className="mb-1.5 font-mono text-muted text-xs uppercase">
                     {skill.tag}
                   </p>
-                  <p className="max-w-[180px] text-xs leading-tight">
+                  <p className="max-w-45 text-xs leading-tight">
                     {skill.details.join(", ")}.
                   </p>
                 </div>
@@ -106,7 +106,7 @@ export default function SkillsPage() {
                 Standards
               </span>
             </div>
-            <p className="max-w-[180px] text-muted-foreground text-xs">
+            <p className="max-w-45 text-muted-foreground text-xs">
               Philosophy regarding performance, accessibility, and code quality.
             </p>
           </div>
