@@ -1,12 +1,5 @@
+import RouteBreadcrumb from "@/components/layout/route-breadcrumb.tsx";
 import ThemeSwitcher from "@/components/theme/theme-switcher.tsx";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 import { GithubLight } from "@/components/ui/svgs/githubLight.tsx";
 import { Gitlab } from "@/components/ui/svgs/gitlab";
 import { Linkedin } from "@/components/ui/svgs/linkedin";
@@ -15,28 +8,13 @@ import { SITE_CONFIG } from "@/config/site.ts";
 import {
   label_status_hired,
   label_status_opentowork,
-  ui_nav_home,
 } from "@/paraglide/messages.js";
 import { Badge } from "../ui/badge";
 
 export default function StatusFooter() {
   return (
     <footer className="flex h-6 w-full items-center justify-between bg-sidebar px-3">
-      <Breadcrumb>
-        <BreadcrumbList className="gap-1">
-          <BreadcrumbItem>
-            <BreadcrumbLink className="text-muted-foreground text-xs">
-              /
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage className="text-muted-foreground text-xs">
-              {ui_nav_home()}
-            </BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
+      <RouteBreadcrumb />
       <div className="flex items-center space-x-4">
         {!!SITE_CONFIG.features.showThemeSwitcher && <ThemeSwitcher />}
         <div className="flex items-center space-x-2">
