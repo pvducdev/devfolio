@@ -28,7 +28,7 @@ export function TabContextMenu({ tabId, children }: TabContextMenuProps) {
   return (
     <ContextMenu>
       <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
-      <ContextMenuContent>
+      <ContextMenuContent className="min-w-52">
         <ContextMenuItem onSelect={actions.close}>
           {ui_tab_close()}
           <ContextMenuShortcut>{shortcuts.close}</ContextMenuShortcut>
@@ -44,10 +44,6 @@ export function TabContextMenu({ tabId, children }: TabContextMenuProps) {
           {ui_tab_close_all()}
           <ContextMenuShortcut>{shortcuts.closeAll}</ContextMenuShortcut>
         </ContextMenuItem>
-
-        {visibility.closeToRight || visibility.closeToLeft ? (
-          <ContextMenuSeparator />
-        ) : null}
 
         {visibility.closeToRight ? (
           <ContextMenuItem onSelect={actions.closeToRight}>
