@@ -14,6 +14,12 @@
   "ui_search_placeholder": "Nhập lệnh hoặc tìm kiếm...",
   "ui_search_empty": "Không có gì ở đây.",
   "ui_search_suggestions": "Gợi ý",
+  "ui_search_group_pages": "Trang",
+  "ui_search_group_commands": "Lệnh",
+  "ui_search_group_content": "Nội dung",
+  "ui_search_hint_navigate": "Di chuyển",
+  "ui_search_hint_select": "Chọn",
+  "ui_search_hint_close": "Đóng",
 
   "ui_cmd_calendar": "Lịch",
   "ui_cmd_emoji": "Tìm Emoji",
