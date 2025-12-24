@@ -1,38 +1,22 @@
 import { useMemo, useRef, useState } from "react";
-import { useMount } from "@/hooks/use-mount.ts";
-import { getAllGrouped, initSearchEngine, searchGrouped } from "../engine";
-import { getStaticSearchItems, registerSearchItems } from "../registry";
-import { buildCommandItems } from "../sources/commands";
-import { buildContentItems } from "../sources/content";
-import { buildPageItems } from "../sources/pages";
+import { useUnmount } from "usehooks-ts";
+import { createSearchService } from "../service";
 import type { GroupedResults } from "../types";
 
 export function useSearch() {
   const [query, setQuery] = useState("");
-  const isRegistryInitialized = useRef(false);
+  const serviceRef = useRef(createSearchService());
 
-  useMount(() => {
-    if (isRegistryInitialized.current) {
-      return;
-    }
-
-    const pageItems = buildPageItems();
-    const commandItems = buildCommandItems();
-    const contentItems = buildContentItems();
-
-    registerSearchItems([...pageItems, ...commandItems, ...contentItems]);
-    initSearchEngine([...pageItems, ...commandItems, ...contentItems]);
-    isRegistryInitialized.current = true;
+  useUnmount(() => {
+    serviceRef.current.clear();
   });
 
   const results: GroupedResults = useMemo(() => {
-    const allItems = getStaticSearchItems();
-
     if (query.trim() === "") {
-      return getAllGrouped(allItems);
+      return serviceRef.current.getAllGrouped();
     }
 
-    return searchGrouped(query);
+    return serviceRef.current.searchGrouped(query);
   }, [query]);
 
   const hasResults =
