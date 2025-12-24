@@ -1,23 +1,18 @@
-import { useMemo, useRef, useState } from "react";
-import { useUnmount } from "usehooks-ts";
+import { useMemo, useState } from "react";
 import { createSearchService } from "../service";
 import type { GroupedResults } from "../types";
 
 export function useSearch() {
   const [query, setQuery] = useState("");
-  const serviceRef = useRef(createSearchService());
-
-  useUnmount(() => {
-    serviceRef.current.clear();
-  });
+  const [service] = useState(createSearchService);
 
   const results: GroupedResults = useMemo(() => {
     if (query.trim() === "") {
-      return serviceRef.current.getAllGrouped();
+      return service.getAllGrouped();
     }
 
-    return serviceRef.current.searchGrouped(query);
-  }, [query]);
+    return service.searchGrouped(query);
+  }, [query, service]);
 
   const hasResults =
     results.pages.length > 0 ||

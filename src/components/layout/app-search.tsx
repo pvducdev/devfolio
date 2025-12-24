@@ -72,7 +72,11 @@ export default function AppSearch() {
       >
         <Search className="size-4" />
       </ButtonWithTooltip>
-      <CommandDialog onOpenChange={handleOpenChange} open={open}>
+      <CommandDialog
+        onOpenChange={handleOpenChange}
+        open={open}
+        shouldFilter={false}
+      >
         <CommandInput
           onValueChange={setQuery}
           placeholder={ui_search_placeholder()}
