@@ -8,16 +8,14 @@ export default function ThemeScript() {
   const isFirstRender = useRef(true);
 
   useEffect(() => {
-    const updateTheme = () => {
-      document.documentElement.setAttribute(THEME_ATTRIBUTE, theme);
-    };
-
     if (isFirstRender.current) {
-      updateTheme();
       isFirstRender.current = false;
-    } else {
-      startViewTransition(updateTheme);
+      return;
     }
+
+    startViewTransition(() => {
+      document.documentElement.setAttribute(THEME_ATTRIBUTE, theme);
+    });
   }, [theme]);
 
   return null;

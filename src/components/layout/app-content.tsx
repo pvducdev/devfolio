@@ -1,3 +1,4 @@
+import { useDebounceCallback } from "usehooks-ts";
 import CodeEditorContainer from "@/components/code-editor/container.tsx";
 import ActivitiesBar from "@/components/layout/activities-bar.tsx";
 import Panel from "@/components/layout/panel.tsx";
@@ -24,6 +25,9 @@ export default function AppContent() {
   const { setSidebarSize, toggleSidebar, togglePanel, setPanelSize } =
     useAppLayoutActions();
 
+  const debouncedSetSidebarSize = useDebounceCallback(setSidebarSize, 100);
+  const debouncedSetPanelSize = useDebounceCallback(setPanelSize, 100);
+
   return (
     <div className="flex h-full overflow-hidden">
       <ActivitiesBar
@@ -41,9 +45,7 @@ export default function AppContent() {
               id="sidebar"
               maxSize={LAYOUT_CONFIG.sidebar.maxSize}
               minSize={LAYOUT_CONFIG.sidebar.minSize}
-              onResize={(e) => {
-                setSidebarSize(e);
-              }}
+              onResize={debouncedSetSidebarSize}
               order={1}
             >
               <Sidebar activeView={sidebar} />
@@ -68,9 +70,7 @@ export default function AppContent() {
               id="panel"
               maxSize={LAYOUT_CONFIG.panel.maxSize}
               minSize={LAYOUT_CONFIG.panel.minSize}
-              onResize={(e) => {
-                setPanelSize(e);
-              }}
+              onResize={debouncedSetPanelSize}
               order={3}
             >
               <Panel

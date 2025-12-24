@@ -1,4 +1,3 @@
-import riveWASMResource from "@rive-app/canvas/rive.wasm";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
@@ -6,7 +5,6 @@ import { FontLoaderScript } from "@/components/theme/font-loader-script.tsx";
 import { ThemeInitScript } from "@/components/theme/theme-init-script.tsx";
 import { SITE_CONFIG } from "@/config/site.ts";
 import { DEFAULT_THEME, THEME_FONT_URLS } from "@/config/theme.ts";
-import "@/lib/rive-init.ts";
 import { getLocale } from "@/paraglide/runtime.js";
 import appCss from "../styles.css?url";
 
@@ -50,18 +48,6 @@ export const Route = createRootRoute({
         rel: "preload",
         href: THEME_FONT_URLS[DEFAULT_THEME],
         as: "style",
-      },
-      {
-        rel: "preload",
-        href: riveWASMResource,
-        as: "fetch",
-        crossOrigin: "anonymous",
-      },
-      {
-        rel: "preload",
-        href: "/character.riv",
-        as: "fetch",
-        crossOrigin: "anonymous",
       },
       {
         rel: "stylesheet",

@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import * as Primitive from "./contribution-graph-primitive";
 
 const cellVariants = cva([
-  "size-2.5 rounded-xs outline-none transition-colors",
+  "size-2.5 rounded-xs outline-none",
   "focus-visible:ring-2 focus-visible:ring-ring",
   "data-[selected]:ring-2 data-[selected]:ring-ring",
   "data-[today]:ring-1 data-[today]:ring-foreground/50",

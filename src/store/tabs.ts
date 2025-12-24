@@ -98,7 +98,8 @@ export const useTabsStore = create<TabsState & TabsActions>()(
         const activeStillExists = newTabs.some(
           (t) => t.id === state.activeTabId
         );
-        const newActiveId = activeStillExists ? state.activeTabId : tabId;
+        const newActiveId =
+          activeStillExists && state.activeTabId ? state.activeTabId : tabId;
 
         set({ tabs: newTabs, activeTabId: newActiveId });
         return newActiveId;
@@ -115,7 +116,8 @@ export const useTabsStore = create<TabsState & TabsActions>()(
         const activeStillExists = newTabs.some(
           (t) => t.id === state.activeTabId
         );
-        const newActiveId = activeStillExists ? state.activeTabId : tabId;
+        const newActiveId =
+          activeStillExists && state.activeTabId ? state.activeTabId : tabId;
 
         set({ tabs: newTabs, activeTabId: newActiveId });
         return newActiveId;
@@ -132,9 +134,6 @@ export const useTabsStore = create<TabsState & TabsActions>()(
 );
 
 export const useHasOpenTabs = () => useTabsStore((s) => s.tabs.length > 0);
-
-export const useActiveTab = () =>
-  useTabsStore((s) => s.tabs.find((t) => t.id === s.activeTabId));
 
 export const useActiveTabId = () => useTabsStore((s) => s.activeTabId);
 
@@ -154,9 +153,6 @@ export const useTabsActions = () =>
       closeTabsToLeft: s.closeTabsToLeft,
     }))
   );
-
-export const useTabIndex = (tabId: string) =>
-  useTabsStore((s) => s.tabs.findIndex((t) => t.id === tabId));
 
 export const useIsFirstTab = (tabId: string) =>
   useTabsStore((s) => s.tabs.length > 0 && s.tabs[0].id === tabId);
