@@ -3,10 +3,11 @@ import { Code } from "lucide-react";
 import { CAREER_TIMELINE } from "@/config/career";
 import { SKILLS } from "@/config/skills";
 
-import type { SearchItem } from "../types";
+import { createSource, type SearchSource } from "../core/source";
+import type { DefaultSearchItem } from "../core/types";
 
-function buildSkillItems(): SearchItem[] {
-  const items: SearchItem[] = [];
+function buildSkillItems(): DefaultSearchItem[] {
+  const items: DefaultSearchItem[] = [];
 
   for (const skill of SKILLS.core) {
     items.push({
@@ -15,7 +16,7 @@ function buildSkillItems(): SearchItem[] {
       description: skill.tag,
       keywords: skill.details,
       category: "content",
-      subtype: "skill",
+      meta: { subtype: "skill" },
       icon: Code,
       action: { type: "navigate", path: "/skills" },
     });
@@ -27,7 +28,7 @@ function buildSkillItems(): SearchItem[] {
       title: skill.name,
       description: skill.tag,
       category: "content",
-      subtype: "skill",
+      meta: { subtype: "skill" },
       icon: Code,
       action: { type: "navigate", path: "/skills" },
     });
@@ -39,7 +40,7 @@ function buildSkillItems(): SearchItem[] {
       title: tool.name,
       description: tool.tag,
       category: "content",
-      subtype: "skill",
+      meta: { subtype: "skill" },
       icon: Code,
       action: { type: "navigate", path: "/skills" },
     });
@@ -48,7 +49,7 @@ function buildSkillItems(): SearchItem[] {
   return items;
 }
 
-function buildCareerItems(): SearchItem[] {
+function buildCareerItems(): DefaultSearchItem[] {
   return CAREER_TIMELINE.map((entry) => ({
     id: `content:career:${entry.year.replace(/\s+/g, "-").toLowerCase()}`,
     title: entry.title,
@@ -60,12 +61,24 @@ function buildCareerItems(): SearchItem[] {
       ...(entry.expanded?.techStack.primary ?? []),
     ],
     category: "content" as const,
-    subtype: "career" as const,
+    meta: { subtype: "career" as const },
     icon: entry.icon,
     action: { type: "navigate" as const, path: "/career" },
   }));
 }
 
-export function buildContentItems(): SearchItem[] {
+function buildContentItems(): DefaultSearchItem[] {
   return [...buildSkillItems(), ...buildCareerItems()];
 }
+
+export function createContentSource(): SearchSource<DefaultSearchItem> {
+  return createSource({
+    id: "content",
+    name: "Content",
+    category: "content",
+    priority: 80,
+    fetch: buildContentItems,
+  });
+}
+
+export { buildContentItems };

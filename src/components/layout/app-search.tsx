@@ -12,8 +12,8 @@ import {
   CommandSeparator,
 } from "@/components/ui/command";
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
-import { useSearch } from "@/lib/search/hooks/use-search";
-import { useSearchActions } from "@/lib/search/hooks/use-search-actions";
+import type { SearchItem } from "@/lib/search";
+import { useSearch, useSearchActions } from "@/lib/search/react";
 import {
   ui_search_empty,
   ui_search_group_commands,
@@ -28,8 +28,12 @@ import {
 
 export default function AppSearch() {
   const { value: open, toggle, setFalse: close } = useBoolean(false);
-  const { query, setQuery, results, hasResults, clearQuery } = useSearch();
-  const { executeAction } = useSearchActions();
+  const { query, setQuery, groupedResults, hasResults, clearQuery } =
+    useSearch();
+  const { executeAction } = useSearchActions({
+    onClose: close,
+    onError: (error) => console.error("Search action failed:", error),
+  });
 
   useHotkeys("mod+k", toggle);
 
@@ -40,18 +44,18 @@ export default function AppSearch() {
     }
   };
 
-  const handleSelect = (item: Parameters<typeof executeAction>[0]) => {
-    executeAction(item, () => {
-      close();
-      clearQuery();
-    });
+  const handleSelect = async (item: SearchItem) => {
+    await executeAction(item);
+    clearQuery();
   };
 
-  const showPagesSeparator =
-    results.pages.length > 0 && results.commands.length > 0;
+  const pages = groupedResults.page ?? [];
+  const commands = groupedResults.command ?? [];
+  const content = groupedResults.content ?? [];
+
+  const showPagesSeparator = pages.length > 0 && commands.length > 0;
   const showCommandsSeparator =
-    (results.pages.length > 0 || results.commands.length > 0) &&
-    results.content.length > 0;
+    (pages.length > 0 || commands.length > 0) && content.length > 0;
 
   return (
     <>
@@ -88,7 +92,7 @@ export default function AppSearch() {
           <SearchGroup
             heading={ui_search_group_pages()}
             onSelect={handleSelect}
-            results={results.pages}
+            results={pages}
           />
 
           {showPagesSeparator && <CommandSeparator />}
@@ -96,7 +100,7 @@ export default function AppSearch() {
           <SearchGroup
             heading={ui_search_group_commands()}
             onSelect={handleSelect}
-            results={results.commands}
+            results={commands}
           />
 
           {showCommandsSeparator && <CommandSeparator />}
@@ -104,7 +108,7 @@ export default function AppSearch() {
           <SearchGroup
             heading={ui_search_group_content()}
             onSelect={handleSelect}
-            results={results.content}
+            results={content}
           />
         </CommandList>
         <div className="flex items-center gap-4 border-t px-3 py-2 text-muted-foreground text-xs">

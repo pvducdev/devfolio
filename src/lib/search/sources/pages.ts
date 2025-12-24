@@ -3,18 +3,19 @@ import { File } from "lucide-react";
 import { ABOUT_TREE, PROJECT_TREE } from "@/config/page";
 import { activities } from "@/config/routes";
 
-import type { SearchItem } from "../types";
+import { createSource, type SearchSource } from "../core/source";
+import type { DefaultSearchItem } from "../core/types";
 
 function extractTreeItems(
   tree: Record<string, { name: string; children?: string[]; path?: string }>,
   prefix: string
-): SearchItem[] {
-  const items: SearchItem[] = [];
+): DefaultSearchItem[] {
+  const items: DefaultSearchItem[] = [];
 
   for (const [key, node] of Object.entries(tree)) {
     if (node.path) {
       items.push({
-        id: `page:tree:${prefix}:${key}`,
+        id: `pages:tree:${prefix}:${key}`,
         title: node.name.replace(".tsx", ""),
         description: node.path,
         category: "page",
@@ -27,12 +28,12 @@ function extractTreeItems(
   return items;
 }
 
-export function buildPageItems(): SearchItem[] {
-  const items: SearchItem[] = [];
+function buildPageItems(): DefaultSearchItem[] {
+  const items: DefaultSearchItem[] = [];
 
   for (const activity of activities) {
     items.push({
-      id: `page:activity:${activity.key}`,
+      id: `pages:activity:${activity.key}`,
       title: activity.name(),
       category: "page",
       icon: activity.icon,
@@ -45,3 +46,15 @@ export function buildPageItems(): SearchItem[] {
 
   return items;
 }
+
+export function createPagesSource(): SearchSource<DefaultSearchItem> {
+  return createSource({
+    id: "pages",
+    name: "Pages",
+    category: "page",
+    priority: 100,
+    fetch: buildPageItems,
+  });
+}
+
+export { buildPageItems };
