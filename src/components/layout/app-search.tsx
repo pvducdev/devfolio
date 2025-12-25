@@ -15,8 +15,15 @@ import {
   CommandSeparator,
 } from "@/components/ui/command";
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
-import { type AppSearchItem, useSearch } from "@/lib/search";
-import { searchClient } from "@/lib/search/client";
+import { createFuseAdapter } from "@/lib/search/adapters";
+import { createSearchClient } from "@/lib/search/core";
+import { useSearch } from "@/lib/search/react";
+import {
+  type AppSearchItem,
+  buildCommandItems,
+  buildContentItems,
+  buildPageItems,
+} from "@/lib/search/sources";
 import { groupBy } from "@/lib/utils";
 import {
   ui_search_empty,
@@ -31,6 +38,20 @@ import {
 } from "@/paraglide/messages.js";
 import { useAssistantStore } from "@/store/assistant";
 import { useThemeStore } from "@/store/theme";
+
+const searchClient = createSearchClient<AppSearchItem>({
+  adapter: createFuseAdapter<AppSearchItem>({
+    keys: [
+      { name: "title", weight: 1.0 },
+      { name: "description", weight: 0.7 },
+      { name: "keywords", weight: 0.5 },
+    ],
+  }),
+});
+
+searchClient.add(buildPageItems());
+searchClient.add(buildCommandItems());
+searchClient.add(buildContentItems());
 
 export default function AppSearch() {
   const { value: open, toggle, setFalse: close } = useBoolean(false);
