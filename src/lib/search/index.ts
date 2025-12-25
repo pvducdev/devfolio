@@ -2,16 +2,11 @@
 // biome-ignore lint/performance/noBarrelFile: Library exports
 export {
   createFuseAdapter,
-  createFuseSearchClient,
   FuseAdapter,
   type FuseAdapterOptions,
-  type FuseSearchClientOptions,
+  type FuseIndexKey,
 } from "./adapters/fuse";
-export type {
-  IndexAdapter,
-  IndexAdapterOptions,
-  IndexKey,
-} from "./adapters/types";
+export type { IndexAdapter } from "./adapters/types";
 
 // Core
 export {

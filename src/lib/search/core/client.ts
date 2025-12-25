@@ -13,20 +13,22 @@ export interface SearchClientOptions<
   adapter: IndexAdapter<TItem>;
   plugins?: SearchPlugin<TItem>[];
   defaultOptions?: SearchOptions;
+  returnAllOnEmpty?: boolean;
 }
 
 export class SearchClient<TItem extends BaseSearchItem = SearchItem> {
   private readonly adapter: IndexAdapter<TItem>;
   private readonly pluginManager: PluginManager<TItem>;
   private readonly defaultOptions: SearchOptions;
+  private readonly returnAllOnEmpty: boolean;
   private initialized = false;
 
   constructor(options: SearchClientOptions<TItem>) {
     this.adapter = options.adapter;
     this.pluginManager = new PluginManager();
+    this.returnAllOnEmpty = options.returnAllOnEmpty ?? true;
     this.defaultOptions = {
       limit: 20,
-      threshold: 0.3,
       ...options.defaultOptions,
     };
 
@@ -79,9 +81,10 @@ export class SearchClient<TItem extends BaseSearchItem = SearchItem> {
     );
 
     let results: SearchResult<TItem>[];
+    const isEmptyQuery = query.trim() === "";
 
-    if (query.trim() === "") {
-      results = this.adapter.getAll().map((item) => ({ item, score: 0 }));
+    if (isEmptyQuery && this.returnAllOnEmpty) {
+      results = this.adapter.getAll().map((item) => ({ item, score: 1 }));
     } else {
       results = this.adapter.search(query, processedOptions);
     }

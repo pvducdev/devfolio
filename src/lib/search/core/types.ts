@@ -25,6 +25,5 @@ export interface SearchMatch {
 
 export interface SearchOptions {
   limit?: number;
-  threshold?: number;
   includeMatches?: boolean;
 }

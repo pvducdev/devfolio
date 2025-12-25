@@ -1,4 +1,5 @@
-import { createFuseSearchClient } from "./adapters/fuse";
+import { createFuseAdapter } from "./adapters/fuse";
+import { createSearchClient } from "./core/client";
 import {
   buildCommandItems,
   buildContentItems,
@@ -6,10 +7,11 @@ import {
 } from "./sources";
 import type { AppSearchItem } from "./sources/types";
 
-export const searchClient = createFuseSearchClient<AppSearchItem>();
+export const searchClient = createSearchClient<AppSearchItem>({
+  adapter: createFuseAdapter<AppSearchItem>(),
+});
 
-searchClient.add([
-  ...buildPageItems(),
-  ...buildCommandItems(),
-  ...buildContentItems(),
-]);
+// Automatic batching: multiple adds = single index rebuild
+searchClient.add(buildPageItems());
+searchClient.add(buildCommandItems());
+searchClient.add(buildContentItems());
