@@ -14,6 +14,8 @@ export interface SearchClientOptions<
   returnAllOnEmpty?: boolean;
 }
 
+const DEFAULT_SEARCH_LIMIT = 20;
+
 export class SearchClient<TItem extends BaseSearchItem = SearchItem> {
   private readonly adapter: IndexAdapter<TItem>;
   private readonly defaultOptions: SearchOptions;
@@ -23,7 +25,7 @@ export class SearchClient<TItem extends BaseSearchItem = SearchItem> {
     this.adapter = options.adapter;
     this.returnAllOnEmpty = options.returnAllOnEmpty ?? true;
     this.defaultOptions = {
-      limit: 20,
+      limit: DEFAULT_SEARCH_LIMIT,
       ...options.defaultOptions,
     };
   }
@@ -40,18 +42,12 @@ export class SearchClient<TItem extends BaseSearchItem = SearchItem> {
     const mergedOptions = { ...this.defaultOptions, ...options };
     const trimmedQuery = query.trim();
 
-    let results: SearchResult<TItem>[];
     if (!trimmedQuery && this.returnAllOnEmpty) {
-      results = this.adapter.getAll().map((item) => ({ item, score: 1 }));
-    } else {
-      results = this.adapter.search(trimmedQuery, mergedOptions);
+      const all = this.adapter.getAll().map((item) => ({ item, score: 1 }));
+      return mergedOptions.limit ? all.slice(0, mergedOptions.limit) : all;
     }
 
-    if (mergedOptions.limit) {
-      results = results.slice(0, mergedOptions.limit);
-    }
-
-    return results;
+    return this.adapter.search(trimmedQuery, mergedOptions);
   }
 
   get(id: string): TItem | undefined {

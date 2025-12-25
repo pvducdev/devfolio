@@ -29,6 +29,7 @@ export interface FuseAdapterOptions<TItem extends BaseSearchItem = SearchItem> {
 }
 
 const DEFAULT_THRESHOLD = 0.3;
+const DEFAULT_SEARCH_LIMIT = 20;
 
 export class FuseAdapter<TItem extends BaseSearchItem = SearchItem>
   implements IndexAdapter<TItem>
@@ -80,8 +81,7 @@ export class FuseAdapter<TItem extends BaseSearchItem = SearchItem>
   }
 
   search(query: string, options?: SearchOptions): SearchResult<TItem>[] {
-    const trimmedQuery = query.trim();
-    if (trimmedQuery === "") {
+    if (query === "") {
       return [];
     }
 
@@ -90,8 +90,9 @@ export class FuseAdapter<TItem extends BaseSearchItem = SearchItem>
       return [];
     }
 
-    const limit = options?.limit ?? 20;
-    const results = this.fuse.search(trimmedQuery, { limit });
+    const results = this.fuse.search(query, {
+      limit: options?.limit ?? DEFAULT_SEARCH_LIMIT,
+    });
 
     return results.map((result) => ({
       item: result.item,
