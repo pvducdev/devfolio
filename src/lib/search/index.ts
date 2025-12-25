@@ -14,12 +14,6 @@ export {
   SearchClient,
   type SearchClientOptions,
 } from "./core/client";
-export {
-  createPlugin,
-  type PluginContext,
-  PluginManager,
-  type SearchPlugin,
-} from "./core/plugin";
 export type {
   BaseSearchItem,
   SearchItem,

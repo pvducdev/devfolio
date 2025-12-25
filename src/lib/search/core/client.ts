@@ -1,5 +1,4 @@
 import type { IndexAdapter } from "../adapters/types";
-import { PluginManager, type SearchPlugin } from "./plugin";
 import type {
   BaseSearchItem,
   SearchItem,
@@ -11,89 +10,48 @@ export interface SearchClientOptions<
   TItem extends BaseSearchItem = SearchItem,
 > {
   adapter: IndexAdapter<TItem>;
-  plugins?: SearchPlugin<TItem>[];
   defaultOptions?: SearchOptions;
   returnAllOnEmpty?: boolean;
 }
 
 export class SearchClient<TItem extends BaseSearchItem = SearchItem> {
   private readonly adapter: IndexAdapter<TItem>;
-  private readonly pluginManager: PluginManager<TItem>;
   private readonly defaultOptions: SearchOptions;
   private readonly returnAllOnEmpty: boolean;
-  private initialized = false;
 
   constructor(options: SearchClientOptions<TItem>) {
     this.adapter = options.adapter;
-    this.pluginManager = new PluginManager();
     this.returnAllOnEmpty = options.returnAllOnEmpty ?? true;
     this.defaultOptions = {
       limit: 20,
       ...options.defaultOptions,
     };
-
-    if (options.plugins) {
-      for (const plugin of options.plugins) {
-        this.use(plugin);
-      }
-    }
-
-    this.initialize();
-  }
-
-  private initialize(): void {
-    if (this.initialized) {
-      return;
-    }
-
-    this.pluginManager.runInit({
-      getItems: () => this.adapter.getAll(),
-      search: (query, options) => this.search(query, options),
-    });
-
-    this.initialized = true;
-  }
-
-  use(plugin: SearchPlugin<TItem>): this {
-    this.pluginManager.use(plugin);
-    return this;
-  }
-
-  removePlugin(name: string): void {
-    this.pluginManager.remove(name);
   }
 
   add(items: TItem[]): void {
     this.adapter.add(items);
-    this.pluginManager.runItemsChange(this.adapter.getAll());
   }
 
   remove(ids: string[]): void {
     this.adapter.remove(ids);
-    this.pluginManager.runItemsChange(this.adapter.getAll());
   }
 
   search(query: string, options?: SearchOptions): SearchResult<TItem>[] {
     const mergedOptions = { ...this.defaultOptions, ...options };
-    const processedOptions = this.pluginManager.runBeforeSearch(
-      query,
-      mergedOptions
-    );
-
-    let results: SearchResult<TItem>[];
     const isEmptyQuery = query.trim() === "";
 
+    let results: SearchResult<TItem>[];
     if (isEmptyQuery && this.returnAllOnEmpty) {
       results = this.adapter.getAll().map((item) => ({ item, score: 1 }));
     } else {
-      results = this.adapter.search(query, processedOptions);
+      results = this.adapter.search(query, mergedOptions);
     }
 
-    if (processedOptions.limit) {
-      results = results.slice(0, processedOptions.limit);
+    if (mergedOptions.limit) {
+      results = results.slice(0, mergedOptions.limit);
     }
 
-    return this.pluginManager.runAfterSearch(results, query);
+    return results;
   }
 
   get(id: string): TItem | undefined {
@@ -106,15 +64,9 @@ export class SearchClient<TItem extends BaseSearchItem = SearchItem> {
 
   clear(): void {
     this.adapter.clear();
-    this.pluginManager.runItemsChange([]);
-  }
-
-  getPlugins(): SearchPlugin<TItem>[] {
-    return this.pluginManager.getAll();
   }
 
   destroy(): void {
-    this.pluginManager.clear();
     this.adapter.clear();
   }
 }
