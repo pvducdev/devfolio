@@ -8,10 +8,15 @@ import {
 import type { AppSearchItem } from "./sources/types";
 
 export const searchClient = createSearchClient<AppSearchItem>({
-  adapter: createFuseAdapter<AppSearchItem>(),
+  adapter: createFuseAdapter<AppSearchItem>({
+    keys: [
+      { name: "title", weight: 1.0 },
+      { name: "description", weight: 0.7 },
+      { name: "keywords", weight: 0.5 },
+    ],
+  }),
 });
 
-// Automatic batching: multiple adds = single index rebuild
 searchClient.add(buildPageItems());
 searchClient.add(buildCommandItems());
 searchClient.add(buildContentItems());

@@ -38,13 +38,13 @@ export class SearchClient<TItem extends BaseSearchItem = SearchItem> {
 
   search(query: string, options?: SearchOptions): SearchResult<TItem>[] {
     const mergedOptions = { ...this.defaultOptions, ...options };
-    const isEmptyQuery = query.trim() === "";
+    const trimmedQuery = query.trim();
 
     let results: SearchResult<TItem>[];
-    if (isEmptyQuery && this.returnAllOnEmpty) {
+    if (!trimmedQuery && this.returnAllOnEmpty) {
       results = this.adapter.getAll().map((item) => ({ item, score: 1 }));
     } else {
-      results = this.adapter.search(query, mergedOptions);
+      results = this.adapter.search(trimmedQuery, mergedOptions);
     }
 
     if (mergedOptions.limit) {
@@ -58,7 +58,7 @@ export class SearchClient<TItem extends BaseSearchItem = SearchItem> {
     return this.adapter.get(id);
   }
 
-  getAll(): TItem[] {
+  getAll(): readonly TItem[] {
     return this.adapter.getAll();
   }
 

@@ -1,29 +1,32 @@
-import Fuse, { type IFuseOptions } from "fuse.js";
+import Fuse, { type FuseResultMatch, type IFuseOptions } from "fuse.js";
 
 import type {
   BaseSearchItem,
   SearchItem,
+  SearchMatch,
   SearchOptions,
   SearchResult,
 } from "../core/types";
 import type { IndexAdapter } from "./types";
 
-export interface FuseIndexKey {
-  name: string;
+type DeepKeys<T> = T extends object
+  ? {
+      [K in keyof T & string]: T[K] extends object
+        ? K | `${K}.${DeepKeys<T[K]>}`
+        : K;
+    }[keyof T & string]
+  : never;
+
+export interface FuseIndexKey<TItem> {
+  name: DeepKeys<TItem>;
   weight: number;
 }
 
 export interface FuseAdapterOptions<TItem extends BaseSearchItem = SearchItem> {
-  keys?: FuseIndexKey[];
+  keys: FuseIndexKey<TItem>[];
   threshold?: number;
   fuseOptions?: Partial<IFuseOptions<TItem>>;
 }
-
-const DEFAULT_KEYS: FuseIndexKey[] = [
-  { name: "title", weight: 1.0 },
-  { name: "description", weight: 0.7 },
-  { name: "keywords", weight: 0.5 },
-];
 
 const DEFAULT_THRESHOLD = 0.3;
 
@@ -32,13 +35,13 @@ export class FuseAdapter<TItem extends BaseSearchItem = SearchItem>
 {
   private readonly items = new Map<string, TItem>();
   private fuse: Fuse<TItem> | null = null;
-  private readonly keys: FuseIndexKey[];
+  private readonly keys: FuseIndexKey<TItem>[];
   private readonly threshold: number;
   private readonly fuseOptions: Partial<IFuseOptions<TItem>>;
-  private rebuildScheduled = false;
+  private dirty = false;
 
-  constructor(options: FuseAdapterOptions<TItem> = {}) {
-    this.keys = options.keys ?? DEFAULT_KEYS;
+  constructor(options: FuseAdapterOptions<TItem>) {
+    this.keys = options.keys;
     this.threshold = options.threshold ?? DEFAULT_THRESHOLD;
     this.fuseOptions = options.fuseOptions ?? {};
   }
@@ -48,35 +51,42 @@ export class FuseAdapter<TItem extends BaseSearchItem = SearchItem>
   }
 
   add(items: TItem[]): void {
-    for (const item of items) {
-      this.items.set(item.id, item);
+    if (items.length === 0) {
+      return;
     }
-    this.scheduleRebuild();
+
+    for (const item of items) {
+      const exists = this.items.has(item.id);
+      this.items.set(item.id, item);
+
+      if (this.fuse && !exists) {
+        this.fuse.add(item);
+      } else if (exists) {
+        this.dirty = true;
+      }
+    }
   }
 
   remove(ids: string[]): void {
-    for (const id of ids) {
-      this.items.delete(id);
+    if (ids.length === 0) {
+      return;
     }
-    this.scheduleRebuild();
-  }
 
-  update(items: TItem[]): void {
-    for (const item of items) {
-      this.items.set(item.id, item);
+    for (const id of ids) {
+      if (this.items.delete(id)) {
+        this.dirty = true;
+      }
     }
-    this.scheduleRebuild();
   }
 
   search(query: string, options?: SearchOptions): SearchResult<TItem>[] {
     const trimmedQuery = query.trim();
-
-    if (this.rebuildScheduled) {
-      this.rebuild();
-      this.rebuildScheduled = false;
+    if (trimmedQuery === "") {
+      return [];
     }
 
-    if (!this.fuse || trimmedQuery === "") {
+    this.ensureIndex();
+    if (!this.fuse) {
       return [];
     }
 
@@ -92,7 +102,7 @@ export class FuseAdapter<TItem extends BaseSearchItem = SearchItem>
     }));
   }
 
-  getAll(): TItem[] {
+  getAll(): readonly TItem[] {
     return [...this.items.values()];
   }
 
@@ -103,36 +113,24 @@ export class FuseAdapter<TItem extends BaseSearchItem = SearchItem>
   clear(): void {
     this.items.clear();
     this.fuse = null;
-    this.rebuildScheduled = false;
+    this.dirty = false;
   }
 
   flush(): void {
-    if (this.rebuildScheduled) {
-      this.rebuild();
-      this.rebuildScheduled = false;
+    if (this.dirty) {
+      this.rebuildIndex();
     }
   }
 
-  private scheduleRebuild(): void {
-    if (this.rebuildScheduled) {
-      return;
+  private ensureIndex(): void {
+    if (!this.fuse || this.dirty) {
+      this.rebuildIndex();
     }
-
-    this.rebuildScheduled = true;
-    queueMicrotask(() => {
-      if (this.rebuildScheduled) {
-        this.rebuild();
-        this.rebuildScheduled = false;
-      }
-    });
   }
 
-  private rebuild(): void {
+  private rebuildIndex(): void {
     const fuseOptions: IFuseOptions<TItem> = {
-      keys: this.keys.map((k) => ({
-        name: k.name,
-        weight: k.weight,
-      })),
+      keys: this.keys,
       threshold: this.threshold,
       isCaseSensitive: false,
       ignoreLocation: true,
@@ -144,25 +142,28 @@ export class FuseAdapter<TItem extends BaseSearchItem = SearchItem>
     };
 
     this.fuse = new Fuse([...this.items.values()], fuseOptions);
+    this.dirty = false;
   }
 
   private mapMatches(
-    matches: readonly Fuse.FuseResultMatch[] | undefined
-  ): { key: string; value: string; indices: [number, number][] }[] | undefined {
+    matches: readonly FuseResultMatch[] | undefined
+  ): SearchMatch[] | undefined {
     if (!matches) {
       return undefined;
     }
 
-    return matches.map((m) => ({
-      key: m.key ?? "",
-      value: m.value ?? "",
-      indices: m.indices.map(([start, end]): [number, number] => [start, end]),
-    }));
+    return matches.map(
+      (m): SearchMatch => ({
+        key: m.key ?? "",
+        value: m.value ?? "",
+        indices: m.indices as unknown as [number, number][],
+      })
+    );
   }
 }
 
 export function createFuseAdapter<TItem extends BaseSearchItem = SearchItem>(
-  options?: FuseAdapterOptions<TItem>
+  options: FuseAdapterOptions<TItem>
 ): FuseAdapter<TItem> {
   return new FuseAdapter(options);
 }

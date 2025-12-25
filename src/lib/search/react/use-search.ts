@@ -50,15 +50,14 @@ export function useSearch<TItem extends BaseSearchItem = SearchItem>(
     grouped = true,
     groupBy = defaultGroupBy,
     limit,
-    threshold,
     includeMatches,
   } = options;
 
   const [query, setQueryState] = useState("");
 
   const memoizedOptions = useMemo<SearchOptions>(
-    () => ({ limit, threshold, includeMatches }),
-    [limit, threshold, includeMatches]
+    () => ({ limit, includeMatches }),
+    [limit, includeMatches]
   );
 
   const results = useMemo(() => {

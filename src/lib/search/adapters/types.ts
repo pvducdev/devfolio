@@ -8,10 +8,10 @@ import type {
 export interface IndexAdapter<TItem extends BaseSearchItem = SearchItem> {
   add(items: TItem[]): void;
   remove(ids: string[]): void;
-  update(items: TItem[]): void;
   search(query: string, options?: SearchOptions): SearchResult<TItem>[];
-  getAll(): TItem[];
+  getAll(): readonly TItem[];
   get(id: string): TItem | undefined;
   clear(): void;
+  flush(): void;
   readonly size: number;
 }
