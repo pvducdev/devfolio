@@ -3,14 +3,13 @@ import { File } from "lucide-react";
 import { ABOUT_TREE, PROJECT_TREE } from "@/config/page";
 import { activities } from "@/config/routes";
 
-import { createSource, type SearchSource } from "../core/source";
-import type { DefaultSearchItem } from "../core/types";
+import type { AppSearchItem } from "../react/types";
 
 function extractTreeItems(
   tree: Record<string, { name: string; children?: string[]; path?: string }>,
   prefix: string
-): DefaultSearchItem[] {
-  const items: DefaultSearchItem[] = [];
+): AppSearchItem[] {
+  const items: AppSearchItem[] = [];
 
   for (const [key, node] of Object.entries(tree)) {
     if (node.path) {
@@ -18,9 +17,11 @@ function extractTreeItems(
         id: `pages:tree:${prefix}:${key}`,
         title: node.name.replace(".tsx", ""),
         description: node.path,
-        category: "page",
-        icon: File,
-        action: { type: "navigate", path: node.path },
+        meta: {
+          category: "page" as const,
+          icon: File,
+          action: { type: "navigate" as const, path: node.path },
+        },
       });
     }
   }
@@ -28,16 +29,18 @@ function extractTreeItems(
   return items;
 }
 
-function buildPageItems(): DefaultSearchItem[] {
-  const items: DefaultSearchItem[] = [];
+export function buildPageItems(): AppSearchItem[] {
+  const items: AppSearchItem[] = [];
 
   for (const activity of activities) {
     items.push({
       id: `pages:activity:${activity.key}`,
       title: activity.name(),
-      category: "page",
-      icon: activity.icon,
-      action: { type: "navigate", path: `/${activity.key}` },
+      meta: {
+        category: "page" as const,
+        icon: activity.icon,
+        action: { type: "navigate" as const, path: `/${activity.key}` },
+      },
     });
   }
 
@@ -46,15 +49,3 @@ function buildPageItems(): DefaultSearchItem[] {
 
   return items;
 }
-
-export function createPagesSource(): SearchSource<DefaultSearchItem> {
-  return createSource({
-    id: "pages",
-    name: "Pages",
-    category: "page",
-    priority: 100,
-    fetch: buildPageItems,
-  });
-}
-
-export { buildPageItems };

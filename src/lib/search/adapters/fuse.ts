@@ -1,5 +1,10 @@
 import Fuse, { type IFuseOptions } from "fuse.js";
 
+import {
+  createSearchClient,
+  type SearchClient,
+  type SearchClientOptions,
+} from "../core/client";
 import type {
   BaseSearchItem,
   SearchItem,
@@ -112,4 +117,20 @@ export function createFuseAdapter<TItem extends BaseSearchItem = SearchItem>(
   options?: FuseAdapterOptions<TItem>
 ): FuseAdapter<TItem> {
   return new FuseAdapter(options);
+}
+
+export interface FuseSearchClientOptions<
+  TItem extends BaseSearchItem = SearchItem,
+> extends Omit<SearchClientOptions<TItem>, "adapter"> {
+  adapterOptions?: FuseAdapterOptions<TItem>;
+}
+
+export function createFuseSearchClient<
+  TItem extends BaseSearchItem = SearchItem,
+>(options: FuseSearchClientOptions<TItem> = {}): SearchClient<TItem> {
+  const { adapterOptions, ...clientOptions } = options;
+  return createSearchClient({
+    ...clientOptions,
+    adapter: createFuseAdapter<TItem>(adapterOptions),
+  });
 }

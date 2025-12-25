@@ -1,7 +1,9 @@
+import { useNavigate } from "@tanstack/react-router";
 import { Search } from "lucide-react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useBoolean } from "usehooks-ts";
 
+import { execute } from "@/commands";
 import ButtonWithTooltip from "@/components/common/button-with-tooltip";
 import { SearchGroup } from "@/components/search/search-group";
 import {
@@ -12,8 +14,7 @@ import {
   CommandSeparator,
 } from "@/components/ui/command";
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
-import type { SearchItem } from "@/lib/search";
-import { useSearch, useSearchActions } from "@/lib/search/react";
+import { type AppSearchItem, useSearch } from "@/lib/search/react";
 import {
   ui_search_empty,
   ui_search_group_commands,
@@ -25,15 +26,16 @@ import {
   ui_search_placeholder,
   ui_search_title,
 } from "@/paraglide/messages.js";
+import { useAssistantStore } from "@/store/assistant";
+import { useThemeStore } from "@/store/theme";
 
 export default function AppSearch() {
   const { value: open, toggle, setFalse: close } = useBoolean(false);
   const { query, setQuery, groupedResults, hasResults, clearQuery } =
-    useSearch();
-  const { executeAction } = useSearchActions({
-    onClose: close,
-    onError: (error) => console.error("Search action failed:", error),
-  });
+    useSearch<AppSearchItem>();
+  const navigate = useNavigate();
+  const clear = useAssistantStore((s) => s.clear);
+  const setTheme = useThemeStore((s) => s.setTheme);
 
   useHotkeys("mod+k", toggle);
 
@@ -44,9 +46,20 @@ export default function AppSearch() {
     }
   };
 
-  const handleSelect = async (item: SearchItem) => {
-    await executeAction(item);
+  const handleSelect = (item: AppSearchItem) => {
+    const action = item.meta?.action;
+    if (!action) {
+      return;
+    }
+
+    if (action.type === "navigate") {
+      navigate({ to: action.path });
+    } else if (action.type === "command") {
+      execute(`/${action.commandName}`, { clearMessages: clear, setTheme });
+    }
+
     clearQuery();
+    close();
   };
 
   const pages = groupedResults.page ?? [];

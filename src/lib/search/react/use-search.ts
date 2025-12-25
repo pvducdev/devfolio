@@ -3,15 +3,20 @@ import { useCallback, useMemo, useState } from "react";
 import type { SearchClient } from "../core/client";
 import type {
   BaseSearchItem,
-  GroupedResults,
   SearchItem,
   SearchOptions,
   SearchResult,
 } from "../core/types";
 import { useSearchClient } from "./provider";
 
+export type GroupedResults<TItem extends BaseSearchItem = SearchItem> = Record<
+  string,
+  SearchResult<TItem>[]
+>;
+
 export interface UseSearchOptions extends SearchOptions {
   grouped?: boolean;
+  groupBy?: (item: BaseSearchItem) => string;
 }
 
 export interface UseSearchReturn<TItem extends BaseSearchItem = SearchItem> {
@@ -26,6 +31,16 @@ export interface UseSearchReturn<TItem extends BaseSearchItem = SearchItem> {
   isEmpty: boolean;
 }
 
+function defaultGroupBy(item: BaseSearchItem): string {
+  if ("meta" in item && item.meta && typeof item.meta === "object") {
+    const meta = item.meta as Record<string, unknown>;
+    if (typeof meta.category === "string") {
+      return meta.category;
+    }
+  }
+  return "default";
+}
+
 export function useSearch<TItem extends BaseSearchItem = SearchItem>(
   options: UseSearchOptions = {}
 ): UseSearchReturn<TItem> {
@@ -34,15 +49,15 @@ export function useSearch<TItem extends BaseSearchItem = SearchItem>(
 
   const {
     grouped = true,
+    groupBy = defaultGroupBy,
     limit,
-    categories,
     threshold,
     includeMatches,
   } = options;
 
   const memoizedOptions = useMemo<SearchOptions>(
-    () => ({ limit, categories, threshold, includeMatches }),
-    [limit, categories, threshold, includeMatches]
+    () => ({ limit, threshold, includeMatches }),
+    [limit, threshold, includeMatches]
   );
 
   const results = useMemo(() => {
@@ -53,8 +68,17 @@ export function useSearch<TItem extends BaseSearchItem = SearchItem>(
     if (!grouped) {
       return {} as GroupedResults<TItem>;
     }
-    return client.searchGrouped(query, memoizedOptions);
-  }, [client, query, grouped, memoizedOptions]);
+
+    const groups: GroupedResults<TItem> = {};
+    for (const result of results) {
+      const category = groupBy(result.item);
+      if (!groups[category]) {
+        groups[category] = [];
+      }
+      groups[category].push(result);
+    }
+    return groups;
+  }, [results, grouped, groupBy]);
 
   const setQuery = useCallback((newQuery: string) => {
     setQueryState(newQuery);

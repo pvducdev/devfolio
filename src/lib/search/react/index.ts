@@ -4,13 +4,16 @@ export {
   type SearchProviderProps,
   useSearchClient,
 } from "./provider";
+export type {
+  AppAction,
+  AppSearchItem,
+  AppSearchMeta,
+  CommandAction,
+  NavigateAction,
+} from "./types";
 export {
+  type GroupedResults,
   type UseSearchOptions,
   type UseSearchReturn,
   useSearch,
 } from "./use-search";
-export {
-  type UseSearchActionsOptions,
-  type UseSearchActionsReturn,
-  useSearchActions,
-} from "./use-search-actions";

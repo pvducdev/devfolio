@@ -1,4 +1,4 @@
-// biome-ignore lint/performance/noBarrelFile: Built-in source exports
-export { buildCommandItems, createCommandsSource } from "./commands";
-export { buildContentItems, createContentSource } from "./content";
-export { buildPageItems, createPagesSource } from "./pages";
+// biome-ignore lint/performance/noBarrelFile: Item builder exports
+export { buildCommandItems } from "./commands";
+export { buildContentItems } from "./content";
+export { buildPageItems } from "./pages";

@@ -1,6 +1,4 @@
-import type { SearchSource } from "./source";
 import type {
-  BaseAction,
   BaseSearchItem,
   SearchItem,
   SearchOptions,
@@ -18,12 +16,6 @@ export interface SearchPlugin<TItem extends BaseSearchItem = SearchItem> {
     results: SearchResult<TItem>[],
     query: string
   ): SearchResult<TItem>[];
-
-  onSourceRegister?(source: SearchSource<TItem>): void;
-  onSourceUnregister?(sourceId: string): void;
-
-  onBeforeAction?(action: BaseAction, item: TItem): boolean;
-  onAfterAction?(action: BaseAction, item: TItem): void;
 
   onItemsChange?(items: TItem[]): void;
 }
@@ -91,36 +83,6 @@ export class PluginManager<TItem extends BaseSearchItem = SearchItem> {
       }
     }
     return result;
-  }
-
-  runSourceRegister(source: SearchSource<TItem>): void {
-    for (const plugin of this.plugins.values()) {
-      plugin.onSourceRegister?.(source);
-    }
-  }
-
-  runSourceUnregister(sourceId: string): void {
-    for (const plugin of this.plugins.values()) {
-      plugin.onSourceUnregister?.(sourceId);
-    }
-  }
-
-  runBeforeAction(action: BaseAction, item: TItem): boolean {
-    for (const plugin of this.plugins.values()) {
-      if (plugin.onBeforeAction) {
-        const shouldContinue = plugin.onBeforeAction(action, item);
-        if (!shouldContinue) {
-          return false;
-        }
-      }
-    }
-    return true;
-  }
-
-  runAfterAction(action: BaseAction, item: TItem): void {
-    for (const plugin of this.plugins.values()) {
-      plugin.onAfterAction?.(action, item);
-    }
   }
 
   runItemsChange(items: TItem[]): void {

@@ -3,11 +3,10 @@ import { Code } from "lucide-react";
 import { CAREER_TIMELINE } from "@/config/career";
 import { SKILLS } from "@/config/skills";
 
-import { createSource, type SearchSource } from "../core/source";
-import type { DefaultSearchItem } from "../core/types";
+import type { AppSearchItem } from "../react/types";
 
-function buildSkillItems(): DefaultSearchItem[] {
-  const items: DefaultSearchItem[] = [];
+function buildSkillItems(): AppSearchItem[] {
+  const items: AppSearchItem[] = [];
 
   for (const skill of SKILLS.core) {
     items.push({
@@ -15,10 +14,12 @@ function buildSkillItems(): DefaultSearchItem[] {
       title: skill.name,
       description: skill.tag,
       keywords: skill.details,
-      category: "content",
-      meta: { subtype: "skill" },
-      icon: Code,
-      action: { type: "navigate", path: "/skills" },
+      meta: {
+        category: "content" as const,
+        subtype: "skill" as const,
+        icon: Code,
+        action: { type: "navigate" as const, path: "/skills" },
+      },
     });
   }
 
@@ -27,10 +28,12 @@ function buildSkillItems(): DefaultSearchItem[] {
       id: `content:skill:stack:${skill.name.toLowerCase().replace(/\s+/g, "-")}`,
       title: skill.name,
       description: skill.tag,
-      category: "content",
-      meta: { subtype: "skill" },
-      icon: Code,
-      action: { type: "navigate", path: "/skills" },
+      meta: {
+        category: "content" as const,
+        subtype: "skill" as const,
+        icon: Code,
+        action: { type: "navigate" as const, path: "/skills" },
+      },
     });
   }
 
@@ -39,17 +42,19 @@ function buildSkillItems(): DefaultSearchItem[] {
       id: `content:skill:devops:${tool.name.toLowerCase().replace(/\s+/g, "-")}`,
       title: tool.name,
       description: tool.tag,
-      category: "content",
-      meta: { subtype: "skill" },
-      icon: Code,
-      action: { type: "navigate", path: "/skills" },
+      meta: {
+        category: "content" as const,
+        subtype: "skill" as const,
+        icon: Code,
+        action: { type: "navigate" as const, path: "/skills" },
+      },
     });
   }
 
   return items;
 }
 
-function buildCareerItems(): DefaultSearchItem[] {
+function buildCareerItems(): AppSearchItem[] {
   return CAREER_TIMELINE.map((entry) => ({
     id: `content:career:${entry.year.replace(/\s+/g, "-").toLowerCase()}`,
     title: entry.title,
@@ -60,25 +65,15 @@ function buildCareerItems(): DefaultSearchItem[] {
       ...entry.details,
       ...(entry.expanded?.techStack.primary ?? []),
     ],
-    category: "content" as const,
-    meta: { subtype: "career" as const },
-    icon: entry.icon,
-    action: { type: "navigate" as const, path: "/career" },
+    meta: {
+      category: "content" as const,
+      subtype: "career" as const,
+      icon: entry.icon,
+      action: { type: "navigate" as const, path: "/career" },
+    },
   }));
 }
 
-function buildContentItems(): DefaultSearchItem[] {
+export function buildContentItems(): AppSearchItem[] {
   return [...buildSkillItems(), ...buildCareerItems()];
 }
-
-export function createContentSource(): SearchSource<DefaultSearchItem> {
-  return createSource({
-    id: "content",
-    name: "Content",
-    category: "content",
-    priority: 80,
-    fetch: buildContentItems,
-  });
-}
-
-export { buildContentItems };
