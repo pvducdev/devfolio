@@ -24,7 +24,6 @@ export type {
 
 // React adapter
 export {
-  type GroupedResults,
   type UseSearchOptions,
   type UseSearchReturn,
   useSearch,

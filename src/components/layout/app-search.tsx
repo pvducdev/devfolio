@@ -1,5 +1,6 @@
 import { useNavigate } from "@tanstack/react-router";
 import { Search } from "lucide-react";
+import { useMemo } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useBoolean } from "usehooks-ts";
 
@@ -16,6 +17,7 @@ import {
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
 import { type AppSearchItem, useSearch } from "@/lib/search";
 import { searchClient } from "@/lib/search/client";
+import { groupBy } from "@/lib/utils";
 import {
   ui_search_empty,
   ui_search_group_commands,
@@ -32,21 +34,24 @@ import { useThemeStore } from "@/store/theme";
 
 export default function AppSearch() {
   const { value: open, toggle, setFalse: close } = useBoolean(false);
-  const { query, setQuery, groupedResults, hasResults, clearQuery } = useSearch(
-    {
-      client: searchClient,
-    }
-  );
+  const { query, setQuery, results } = useSearch({ client: searchClient });
   const navigate = useNavigate();
   const clear = useAssistantStore((s) => s.clear);
   const setTheme = useThemeStore((s) => s.setTheme);
+
+  const grouped = useMemo(
+    () => groupBy(results, (r) => r.item.meta?.category ?? "default"),
+    [results]
+  );
+
+  const hasResults = results.length > 0;
 
   useHotkeys("mod+k", toggle);
 
   const handleOpenChange = (isOpen: boolean) => {
     if (!isOpen) {
       close();
-      clearQuery();
+      setQuery("");
     }
   };
 
@@ -62,13 +67,13 @@ export default function AppSearch() {
       execute(`/${action.commandName}`, { clearMessages: clear, setTheme });
     }
 
-    clearQuery();
+    setQuery("");
     close();
   };
 
-  const pages = groupedResults.page ?? [];
-  const commands = groupedResults.command ?? [];
-  const content = groupedResults.content ?? [];
+  const pages = grouped.page ?? [];
+  const commands = grouped.command ?? [];
+  const content = grouped.content ?? [];
 
   const showPagesSeparator = pages.length > 0 && commands.length > 0;
   const showCommandsSeparator =
