@@ -3,8 +3,7 @@ import {
   CommandItem,
   CommandShortcut,
 } from "@/components/ui/command";
-import type { SearchResult } from "@/lib/search";
-import type { AppSearchItem } from "@/lib/search/react/types";
+import type { AppSearchItem, SearchResult } from "@/lib/search";
 
 interface SearchGroupProps {
   heading: string;

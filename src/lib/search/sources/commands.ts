@@ -1,6 +1,6 @@
 import { listCommands } from "@/commands";
 
-import type { AppSearchItem } from "../react/types";
+import type { AppSearchItem } from "./types";
 
 export function buildCommandItems(): AppSearchItem[] {
   const commands = listCommands();

@@ -7,16 +7,17 @@ import type {
   SearchOptions,
   SearchResult,
 } from "../core/types";
-import { useSearchClient } from "./provider";
 
 export type GroupedResults<TItem extends BaseSearchItem = SearchItem> = Record<
   string,
   SearchResult<TItem>[]
 >;
 
-export interface UseSearchOptions extends SearchOptions {
+export interface UseSearchOptions<TItem extends BaseSearchItem = SearchItem>
+  extends SearchOptions {
+  client: SearchClient<TItem>;
   grouped?: boolean;
-  groupBy?: (item: BaseSearchItem) => string;
+  groupBy?: (item: TItem) => string;
 }
 
 export interface UseSearchReturn<TItem extends BaseSearchItem = SearchItem> {
@@ -31,7 +32,7 @@ export interface UseSearchReturn<TItem extends BaseSearchItem = SearchItem> {
   isEmpty: boolean;
 }
 
-function defaultGroupBy(item: BaseSearchItem): string {
+function defaultGroupBy<TItem extends BaseSearchItem>(item: TItem): string {
   if ("meta" in item && item.meta && typeof item.meta === "object") {
     const meta = item.meta as Record<string, unknown>;
     if (typeof meta.category === "string") {
@@ -42,18 +43,18 @@ function defaultGroupBy(item: BaseSearchItem): string {
 }
 
 export function useSearch<TItem extends BaseSearchItem = SearchItem>(
-  options: UseSearchOptions = {}
+  options: UseSearchOptions<TItem>
 ): UseSearchReturn<TItem> {
-  const client = useSearchClient() as SearchClient<TItem>;
-  const [query, setQueryState] = useState("");
-
   const {
+    client,
     grouped = true,
     groupBy = defaultGroupBy,
     limit,
     threshold,
     includeMatches,
   } = options;
+
+  const [query, setQueryState] = useState("");
 
   const memoizedOptions = useMemo<SearchOptions>(
     () => ({ limit, threshold, includeMatches }),

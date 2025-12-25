@@ -1,6 +1,5 @@
-// Core
-
-// biome-ignore lint/performance/noBarrelFile: Library exports require barrel file
+// Adapters
+// biome-ignore lint/performance/noBarrelFile: Library exports
 export {
   createFuseAdapter,
   createFuseSearchClient,
@@ -13,6 +12,8 @@ export type {
   IndexAdapterOptions,
   IndexKey,
 } from "./adapters/types";
+
+// Core
 export {
   createSearchClient,
   SearchClient,
@@ -32,25 +33,22 @@ export type {
   SearchResult,
 } from "./core/types";
 
-// React
+// React adapter
+export {
+  type GroupedResults,
+  type UseSearchOptions,
+  type UseSearchReturn,
+  useSearch,
+} from "./react";
+
+// App-specific sources (item builders and types)
 export {
   type AppAction,
   type AppSearchItem,
   type AppSearchMeta,
-  type CommandAction,
-  type GroupedResults,
-  type NavigateAction,
-  SearchProvider,
-  type SearchProviderProps,
-  type UseSearchOptions,
-  type UseSearchReturn,
-  useSearch,
-  useSearchClient,
-} from "./react";
-
-// Item Builders
-export {
   buildCommandItems,
   buildContentItems,
   buildPageItems,
+  type CommandAction,
+  type NavigateAction,
 } from "./sources";

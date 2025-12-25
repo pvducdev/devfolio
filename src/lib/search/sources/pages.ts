@@ -3,7 +3,7 @@ import { File } from "lucide-react";
 import { ABOUT_TREE, PROJECT_TREE } from "@/config/page";
 import { activities } from "@/config/routes";
 
-import type { AppSearchItem } from "../react/types";
+import type { AppSearchItem } from "./types";
 
 function extractTreeItems(
   tree: Record<string, { name: string; children?: string[]; path?: string }>,

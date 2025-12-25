@@ -3,7 +3,7 @@ import { Code } from "lucide-react";
 import { CAREER_TIMELINE } from "@/config/career";
 import { SKILLS } from "@/config/skills";
 
-import type { AppSearchItem } from "../react/types";
+import type { AppSearchItem } from "./types";
 
 function buildSkillItems(): AppSearchItem[] {
   const items: AppSearchItem[] = [];

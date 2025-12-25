@@ -14,7 +14,8 @@ import {
   CommandSeparator,
 } from "@/components/ui/command";
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
-import { type AppSearchItem, useSearch } from "@/lib/search/react";
+import { type AppSearchItem, useSearch } from "@/lib/search";
+import { searchClient } from "@/lib/search/client";
 import {
   ui_search_empty,
   ui_search_group_commands,
@@ -31,8 +32,11 @@ import { useThemeStore } from "@/store/theme";
 
 export default function AppSearch() {
   const { value: open, toggle, setFalse: close } = useBoolean(false);
-  const { query, setQuery, groupedResults, hasResults, clearQuery } =
-    useSearch<AppSearchItem>();
+  const { query, setQuery, groupedResults, hasResults, clearQuery } = useSearch(
+    {
+      client: searchClient,
+    }
+  );
   const navigate = useNavigate();
   const clear = useAssistantStore((s) => s.clear);
   const setTheme = useThemeStore((s) => s.setTheme);

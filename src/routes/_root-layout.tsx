@@ -8,18 +8,6 @@ import RootLayout from "@/components/layout/root-layout.tsx";
 import StatusFooter from "@/components/layout/status-footer.tsx";
 import ThemeScript from "@/components/theme/theme-script.tsx";
 import { useRouteTabSync } from "@/hooks/use-route-tab-sync";
-import {
-  buildCommandItems,
-  buildContentItems,
-  buildPageItems,
-} from "@/lib/search";
-import { SearchProvider } from "@/lib/search/react";
-
-const searchItems = [
-  ...buildPageItems(),
-  ...buildCommandItems(),
-  ...buildContentItems(),
-];
 
 export const Route = createFileRoute("/_root-layout")({
   component: RouteComponent,
@@ -29,15 +17,13 @@ function RouteComponent() {
   useRouteTabSync();
 
   return (
-    <SearchProvider items={searchItems}>
-      <RootLayout>
-        <ThemeScript />
-        <HydrationGate fallback={<AppSkeleton />}>
-          <Header />
-          <AppContent />
-          <StatusFooter />
-        </HydrationGate>
-      </RootLayout>
-    </SearchProvider>
+    <RootLayout>
+      <ThemeScript />
+      <HydrationGate fallback={<AppSkeleton />}>
+        <Header />
+        <AppContent />
+        <StatusFooter />
+      </HydrationGate>
+    </RootLayout>
   );
 }
