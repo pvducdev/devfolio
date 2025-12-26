@@ -2,7 +2,5 @@
 export {
   createFuseAdapter,
   FuseAdapter,
-  type FuseAdapterOptions,
-  type FuseIndexKey,
 } from "./fuse";
-export type { IndexAdapter } from "./types";
+export type { FuseAdapterOptions, FuseIndexKey, IndexAdapter } from "./types";

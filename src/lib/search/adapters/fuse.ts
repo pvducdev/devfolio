@@ -7,26 +7,7 @@ import type {
   SearchOptions,
   SearchResult,
 } from "../core/types";
-import type { IndexAdapter } from "./types";
-
-type DeepKeys<T> = T extends object
-  ? {
-      [K in keyof T & string]: T[K] extends object
-        ? K | `${K}.${DeepKeys<T[K]>}`
-        : K;
-    }[keyof T & string]
-  : never;
-
-export interface FuseIndexKey<TItem> {
-  name: DeepKeys<TItem>;
-  weight: number;
-}
-
-export interface FuseAdapterOptions<TItem extends BaseSearchItem = SearchItem> {
-  keys: FuseIndexKey<TItem>[];
-  threshold?: number;
-  fuseOptions?: Partial<IFuseOptions<TItem>>;
-}
+import type { FuseAdapterOptions, FuseIndexKey, IndexAdapter } from "./types";
 
 const DEFAULT_THRESHOLD = 0.3;
 const DEFAULT_SEARCH_LIMIT = 20;

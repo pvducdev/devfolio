@@ -1,18 +1,11 @@
 import type { IndexAdapter } from "../adapters/types";
 import type {
   BaseSearchItem,
+  SearchClientOptions,
   SearchItem,
   SearchOptions,
   SearchResult,
 } from "./types";
-
-export interface SearchClientOptions<
-  TItem extends BaseSearchItem = SearchItem,
-> {
-  adapter: IndexAdapter<TItem>;
-  defaultOptions?: SearchOptions;
-  returnAllOnEmpty?: boolean;
-}
 
 const DEFAULT_SEARCH_LIMIT = 20;
 
@@ -40,14 +33,13 @@ export class SearchClient<TItem extends BaseSearchItem = SearchItem> {
 
   search(query: string, options?: SearchOptions): SearchResult<TItem>[] {
     const mergedOptions = { ...this.defaultOptions, ...options };
-    const trimmedQuery = query.trim();
 
-    if (!trimmedQuery && this.returnAllOnEmpty) {
+    if (!query && this.returnAllOnEmpty) {
       const all = this.adapter.getAll().map((item) => ({ item, score: 1 }));
       return mergedOptions.limit ? all.slice(0, mergedOptions.limit) : all;
     }
 
-    return this.adapter.search(trimmedQuery, mergedOptions);
+    return this.adapter.search(query, mergedOptions);
   }
 
   get(id: string): TItem | undefined {

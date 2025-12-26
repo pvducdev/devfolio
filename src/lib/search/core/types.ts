@@ -1,3 +1,5 @@
+import type { IndexAdapter } from "@/lib/search/adapters";
+
 export interface BaseSearchItem {
   id: string;
   title: string;
@@ -21,6 +23,14 @@ export interface SearchMatch {
   key: string;
   value: string;
   indices: [number, number][];
+}
+
+export interface SearchClientOptions<
+  TItem extends BaseSearchItem = SearchItem,
+> {
+  adapter: IndexAdapter<TItem>;
+  defaultOptions?: SearchOptions;
+  returnAllOnEmpty?: boolean;
 }
 
 export interface SearchOptions {

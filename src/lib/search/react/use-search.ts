@@ -1,27 +1,9 @@
 import { useState } from "react";
 import { useDebounceValue } from "usehooks-ts";
+import type { BaseSearchItem, SearchItem } from "@/lib/search/core";
+import type { UseSearchOptions, UseSearchReturn } from "./types.ts";
 
-import type { SearchClient } from "../core/client";
-import type {
-  BaseSearchItem,
-  SearchItem,
-  SearchOptions,
-  SearchResult,
-} from "../core/types";
-
-export interface UseSearchOptions<TItem extends BaseSearchItem = SearchItem>
-  extends SearchOptions {
-  client: SearchClient<TItem>;
-  debounceMs?: number;
-}
-
-export interface UseSearchReturn<TItem extends BaseSearchItem = SearchItem> {
-  query: string;
-  setQuery: (query: string) => void;
-  results: SearchResult<TItem>[];
-}
-
-const DEFAULT_DEBOUNCE_MS = 100;
+const DEFAULT_DEBOUNCE_MS = 300;
 
 export function useSearch<TItem extends BaseSearchItem = SearchItem>(
   options: UseSearchOptions<TItem>

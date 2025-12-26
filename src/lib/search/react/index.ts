@@ -1,6 +1,4 @@
-// biome-ignore lint/performance/noBarrelFile: React adapter exports
-export {
-  type UseSearchOptions,
-  type UseSearchReturn,
-  useSearch,
-} from "./use-search";
+/** biome-ignore-all lint/performance/noBarrelFile: <React adapter exports> */
+
+export type { UseSearchOptions, UseSearchReturn } from "./types";
+export { useSearch } from "./use-search";

@@ -2,10 +2,10 @@
 export {
   createSearchClient,
   SearchClient,
-  type SearchClientOptions,
 } from "./client";
 export type {
   BaseSearchItem,
+  SearchClientOptions,
   SearchItem,
   SearchMatch,
   SearchOptions,
