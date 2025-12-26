@@ -7,9 +7,8 @@ import type {
   SearchOptions,
   SearchResult,
 } from "../core/types";
-import type { FuseAdapterOptions, FuseIndexKey, IndexAdapter } from "./types";
+import type { FuseAdapterOptions, IndexAdapter } from "./types";
 
-const DEFAULT_THRESHOLD = 0.3;
 const DEFAULT_SEARCH_LIMIT = 20;
 
 export class FuseAdapter<TItem extends BaseSearchItem = SearchItem>
@@ -17,15 +16,11 @@ export class FuseAdapter<TItem extends BaseSearchItem = SearchItem>
 {
   private readonly items = new Map<string, TItem>();
   private fuse: Fuse<TItem> | null = null;
-  private readonly keys: FuseIndexKey<TItem>[];
-  private readonly threshold: number;
-  private readonly fuseOptions: Partial<IFuseOptions<TItem>>;
+  private readonly options: FuseAdapterOptions<TItem>;
   private dirty = false;
 
   constructor(options: FuseAdapterOptions<TItem>) {
-    this.keys = options.keys;
-    this.threshold = options.threshold ?? DEFAULT_THRESHOLD;
-    this.fuseOptions = options.fuseOptions ?? {};
+    this.options = options;
   }
 
   get size(): number {
@@ -77,7 +72,7 @@ export class FuseAdapter<TItem extends BaseSearchItem = SearchItem>
 
     return results.map((result) => ({
       item: result.item,
-      score: 1 - (result.score ?? 0),
+      score: result.score ?? 0,
       matches: options?.includeMatches
         ? this.mapMatches(result.matches)
         : undefined,
@@ -112,15 +107,9 @@ export class FuseAdapter<TItem extends BaseSearchItem = SearchItem>
 
   private rebuildIndex(): void {
     const fuseOptions: IFuseOptions<TItem> = {
-      keys: this.keys,
-      threshold: this.threshold,
-      isCaseSensitive: false,
-      ignoreLocation: true,
       includeScore: true,
       includeMatches: true,
-      minMatchCharLength: 1,
-      distance: 100,
-      ...this.fuseOptions,
+      ...this.options,
     };
 
     this.fuse = new Fuse([...this.items.values()], fuseOptions);

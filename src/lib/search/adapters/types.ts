@@ -19,10 +19,9 @@ export interface FuseIndexKey<TItem> {
   weight: number;
 }
 
-export interface FuseAdapterOptions<TItem extends BaseSearchItem = SearchItem> {
+export interface FuseAdapterOptions<TItem extends BaseSearchItem = SearchItem>
+  extends Omit<Partial<IFuseOptions<TItem>>, "keys"> {
   keys: FuseIndexKey<TItem>[];
-  threshold?: number;
-  fuseOptions?: Partial<IFuseOptions<TItem>>;
 }
 
 export interface IndexAdapter<TItem extends BaseSearchItem = SearchItem> {

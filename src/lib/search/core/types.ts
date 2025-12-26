@@ -25,15 +25,13 @@ export interface SearchMatch {
   indices: [number, number][];
 }
 
-export interface SearchClientOptions<
-  TItem extends BaseSearchItem = SearchItem,
-> {
-  adapter: IndexAdapter<TItem>;
-  defaultOptions?: SearchOptions;
-  returnAllOnEmpty?: boolean;
-}
-
 export interface SearchOptions {
   limit?: number;
   includeMatches?: boolean;
+  returnAllOnEmpty?: boolean;
+}
+
+export interface SearchClientOptions<TItem extends BaseSearchItem = SearchItem>
+  extends SearchOptions {
+  adapter: IndexAdapter<TItem>;
 }
