@@ -9,19 +9,15 @@ import type {
 
 const DEFAULT_OPTIONS: SearchOptions = {
   limit: 20,
+  includeMatches: false,
   returnAllOnEmpty: true,
 };
 
 export class SearchClient<TItem extends BaseSearchItem = SearchItem> {
   private readonly adapter: IndexAdapter<TItem>;
-  private readonly options: Required<SearchOptions>;
 
-  constructor({ adapter, ...options }: SearchClientOptions<TItem>) {
+  constructor({ adapter }: SearchClientOptions<TItem>) {
     this.adapter = adapter;
-    this.options = {
-      ...DEFAULT_OPTIONS,
-      ...options,
-    } as Required<SearchOptions>;
   }
 
   add(items: TItem[]): void {
@@ -33,10 +29,10 @@ export class SearchClient<TItem extends BaseSearchItem = SearchItem> {
   }
 
   search(query: string, options?: SearchOptions): SearchResult<TItem>[] {
-    const merged = { ...this.options, ...options };
+    const merged = { ...DEFAULT_OPTIONS, ...options };
 
     if (!query && merged.returnAllOnEmpty) {
-      const all = this.adapter.getAll().map((item) => ({ item, score: 0 }));
+      const all = this.getAll().map((item) => ({ item, score: 0 }));
       return merged.limit ? all.slice(0, merged.limit) : all;
     }
 

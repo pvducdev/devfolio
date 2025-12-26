@@ -31,7 +31,8 @@ export interface SearchOptions {
   returnAllOnEmpty?: boolean;
 }
 
-export interface SearchClientOptions<TItem extends BaseSearchItem = SearchItem>
-  extends SearchOptions {
+export interface SearchClientOptions<
+  TItem extends BaseSearchItem = SearchItem,
+> {
   adapter: IndexAdapter<TItem>;
 }

@@ -1,10 +1,8 @@
 import { useNavigate } from "@tanstack/react-router";
 import { Search } from "lucide-react";
-import { useMemo } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useBoolean } from "usehooks-ts";
 
-import { execute } from "@/commands";
 import ButtonWithTooltip from "@/components/common/button-with-tooltip";
 import { SearchGroup } from "@/components/search/search-group";
 import {
@@ -15,19 +13,10 @@ import {
   CommandSeparator,
 } from "@/components/ui/command";
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
-import { createFuseAdapter } from "@/lib/search/adapters";
-import { createSearchClient } from "@/lib/search/core";
-import { useSearch } from "@/lib/search/react";
-import {
-  type AppSearchItem,
-  buildCommandItems,
-  buildContentItems,
-  buildPageItems,
-} from "@/lib/search/sources";
-import { groupBy } from "@/lib/utils";
+import type { AppSearchItem } from "@/config/search";
+import { useAppSearch } from "@/hooks/use-search";
 import {
   ui_search_empty,
-  ui_search_group_commands,
   ui_search_group_content,
   ui_search_group_pages,
   ui_search_hint_close,
@@ -36,36 +25,11 @@ import {
   ui_search_placeholder,
   ui_search_title,
 } from "@/paraglide/messages.js";
-import { useAssistantStore } from "@/store/assistant";
-import { useThemeStore } from "@/store/theme";
-
-const searchClient = createSearchClient<AppSearchItem>({
-  adapter: createFuseAdapter<AppSearchItem>({
-    keys: [
-      { name: "title", weight: 1.0 },
-      { name: "description", weight: 0.7 },
-      { name: "keywords", weight: 0.5 },
-    ],
-  }),
-});
-
-searchClient.add(buildPageItems());
-searchClient.add(buildCommandItems());
-searchClient.add(buildContentItems());
 
 export default function AppSearch() {
   const { value: open, toggle, setFalse: close } = useBoolean(false);
-  const { query, setQuery, results } = useSearch({ client: searchClient });
+  const { query, setQuery, grouped, hasResults } = useAppSearch();
   const navigate = useNavigate();
-  const clear = useAssistantStore((s) => s.clear);
-  const setTheme = useThemeStore((s) => s.setTheme);
-
-  const grouped = useMemo(
-    () => groupBy(results, (r) => r.item.meta?.category ?? "default"),
-    [results]
-  );
-
-  const hasResults = results.length > 0;
 
   useHotkeys("mod+k", toggle);
 
@@ -84,21 +48,15 @@ export default function AppSearch() {
 
     if (action.type === "navigate") {
       navigate({ to: action.path });
-    } else if (action.type === "command") {
-      execute(`/${action.commandName}`, { clearMessages: clear, setTheme });
     }
 
     setQuery("");
     close();
   };
 
-  const pages = grouped.page ?? [];
-  const commands = grouped.command ?? [];
-  const content = grouped.content ?? [];
+  const { pages, content } = grouped;
 
-  const showPagesSeparator = pages.length > 0 && commands.length > 0;
-  const showCommandsSeparator =
-    (pages.length > 0 || commands.length > 0) && content.length > 0;
+  const showPagesSeparator = pages.length > 0 && content.length > 0;
 
   return (
     <>
@@ -139,14 +97,6 @@ export default function AppSearch() {
           />
 
           {showPagesSeparator && <CommandSeparator />}
-
-          <SearchGroup
-            heading={ui_search_group_commands()}
-            onSelect={handleSelect}
-            results={commands}
-          />
-
-          {showCommandsSeparator && <CommandSeparator />}
 
           <SearchGroup
             heading={ui_search_group_content()}
