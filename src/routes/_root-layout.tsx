@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+
 import AppContent from "@/components/layout/app-content.tsx";
 import AppSkeleton from "@/components/layout/app-skeleton.tsx";
 import Header from "@/components/layout/header.tsx";

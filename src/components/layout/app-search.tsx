@@ -1,43 +1,69 @@
-import {
-  Calculator,
-  Calendar,
-  CreditCard,
-  Search,
-  Settings,
-  Smile,
-  User,
-} from "lucide-react";
+import { useNavigate } from "@tanstack/react-router";
+import { Search } from "lucide-react";
+import { Fragment } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useBoolean } from "usehooks-ts";
-import ButtonWithTooltip from "@/components/common/button-with-tooltip.tsx";
+
+import ButtonWithTooltip from "@/components/common/button-with-tooltip";
+import { SearchGroup } from "@/components/search/search-group";
 import {
   CommandDialog,
   CommandEmpty,
-  CommandGroup,
   CommandInput,
-  CommandItem,
   CommandList,
   CommandSeparator,
-  CommandShortcut,
-} from "@/components/ui/command.tsx";
-import { Kbd, KbdGroup } from "@/components/ui/kbd.tsx";
+} from "@/components/ui/command";
+import { Kbd, KbdGroup } from "@/components/ui/kbd";
+import type { AppSearchItem } from "@/config/search";
+import { type CategoryKey, useAppSearch } from "@/hooks/use-search";
 import {
-  ui_cmd_billing,
-  ui_cmd_calculator,
-  ui_cmd_calendar,
-  ui_cmd_emoji,
-  ui_cmd_profile,
   ui_search_empty,
+  ui_search_group_career,
+  ui_search_group_pages,
+  ui_search_group_skills,
+  ui_search_hint_close,
+  ui_search_hint_navigate,
+  ui_search_hint_select,
   ui_search_placeholder,
-  ui_search_suggestions,
   ui_search_title,
-  ui_settings_title,
 } from "@/paraglide/messages.js";
 
+const getHeading = (key: CategoryKey): string => {
+  const headings = {
+    page: ui_search_group_pages(),
+    skill: ui_search_group_skills(),
+    career: ui_search_group_career(),
+  };
+  return headings[key];
+};
+
 export default function AppSearch() {
-  const { value: open, toggle, setValue: setOpen } = useBoolean(false);
+  const { value: open, toggle, setFalse: close } = useBoolean(false);
+  const { query, setQuery, groups, hasResults } = useAppSearch();
+  const navigate = useNavigate();
 
   useHotkeys("mod+k", toggle);
+
+  const handleOpenChange = (isOpen: boolean) => {
+    if (!isOpen) {
+      close();
+      setQuery("");
+    }
+  };
+
+  const handleSelect = (item: AppSearchItem) => {
+    const action = item.meta?.action;
+    if (!action) {
+      return;
+    }
+
+    if (action.type === "navigate") {
+      navigate({ to: action.path });
+    }
+
+    setQuery("");
+    close();
+  };
 
   return (
     <>
@@ -58,43 +84,45 @@ export default function AppSearch() {
       >
         <Search className="size-4" />
       </ButtonWithTooltip>
-      <CommandDialog onOpenChange={setOpen} open={open}>
-        <CommandInput placeholder={ui_search_placeholder()} />
+      <CommandDialog
+        onOpenChange={handleOpenChange}
+        open={open}
+        shouldFilter={false}
+      >
+        <CommandInput
+          onValueChange={setQuery}
+          placeholder={ui_search_placeholder()}
+          value={query}
+        />
         <CommandList>
-          <CommandEmpty>{ui_search_empty()}</CommandEmpty>
-          <CommandGroup heading={ui_search_suggestions()}>
-            <CommandItem>
-              <Calendar />
-              <span>{ui_cmd_calendar()}</span>
-            </CommandItem>
-            <CommandItem>
-              <Smile />
-              <span>{ui_cmd_emoji()}</span>
-            </CommandItem>
-            <CommandItem>
-              <Calculator />
-              <span>{ui_cmd_calculator()}</span>
-            </CommandItem>
-          </CommandGroup>
-          <CommandSeparator />
-          <CommandGroup heading={ui_settings_title()}>
-            <CommandItem>
-              <User />
-              <span>{ui_cmd_profile()}</span>
-              <CommandShortcut>⌘P</CommandShortcut>
-            </CommandItem>
-            <CommandItem>
-              <CreditCard />
-              <span>{ui_cmd_billing()}</span>
-              <CommandShortcut>⌘B</CommandShortcut>
-            </CommandItem>
-            <CommandItem>
-              <Settings />
-              <span>{ui_settings_title()}</span>
-              <CommandShortcut>⌘S</CommandShortcut>
-            </CommandItem>
-          </CommandGroup>
+          {!hasResults && <CommandEmpty>{ui_search_empty()}</CommandEmpty>}
+
+          {groups.map((group, index) => (
+            <Fragment key={group.key}>
+              {index > 0 && <CommandSeparator />}
+              <SearchGroup
+                heading={getHeading(group.key)}
+                onSelect={handleSelect}
+                results={group.results}
+              />
+            </Fragment>
+          ))}
         </CommandList>
+        <div className="flex items-center gap-4 border-t px-3 py-2 text-muted-foreground text-xs">
+          <span className="flex items-center space-x-1">
+            <Kbd>↑</Kbd>
+            <Kbd>↓</Kbd>
+            <span>{ui_search_hint_navigate()}</span>
+          </span>
+          <span className="flex items-center space-x-1">
+            <Kbd>↵</Kbd>
+            <span>{ui_search_hint_select()}</span>
+          </span>
+          <span className="flex items-center space-x-1">
+            <Kbd>esc</Kbd>
+            <span>{ui_search_hint_close()}</span>
+          </span>
+        </div>
       </CommandDialog>
     </>
   );

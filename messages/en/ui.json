@@ -14,6 +14,12 @@
   "ui_search_placeholder": "Type a command or search...",
   "ui_search_empty": "Nothing here, chief.",
   "ui_search_suggestions": "Suggestions",
+  "ui_search_group_pages": "Pages",
+  "ui_search_group_skills": "Skills",
+  "ui_search_group_career": "Career",
+  "ui_search_hint_navigate": "Navigate",
+  "ui_search_hint_select": "Select",
+  "ui_search_hint_close": "Close",
 
   "ui_cmd_calendar": "Calendar",
   "ui_cmd_emoji": "Search Emoji",

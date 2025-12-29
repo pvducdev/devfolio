@@ -31,3 +31,18 @@ export function isFunction<T>(
 ): value is (prev: T) => T {
   return typeof value === "function";
 }
+
+export function groupBy<T>(
+  items: T[],
+  keyFn: (item: T) => string
+): Record<string, T[]> {
+  const groups: Record<string, T[]> = {};
+  for (const item of items) {
+    const key = keyFn(item);
+    if (!groups[key]) {
+      groups[key] = [];
+    }
+    groups[key].push(item);
+  }
+  return groups;
+}
