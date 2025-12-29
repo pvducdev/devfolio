@@ -1,5 +1,6 @@
 import { useNavigate } from "@tanstack/react-router";
 import { Search } from "lucide-react";
+import { Fragment } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useBoolean } from "usehooks-ts";
 
@@ -14,7 +15,7 @@ import {
 } from "@/components/ui/command";
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
 import type { AppSearchItem } from "@/config/search";
-import { useAppSearch } from "@/hooks/use-search";
+import { type CategoryKey, useAppSearch } from "@/hooks/use-search";
 import {
   ui_search_empty,
   ui_search_group_career,
@@ -27,9 +28,18 @@ import {
   ui_search_title,
 } from "@/paraglide/messages.js";
 
+const getHeading = (key: CategoryKey): string => {
+  const headings = {
+    page: ui_search_group_pages(),
+    skill: ui_search_group_skills(),
+    career: ui_search_group_career(),
+  };
+  return headings[key];
+};
+
 export default function AppSearch() {
   const { value: open, toggle, setFalse: close } = useBoolean(false);
-  const { query, setQuery, grouped, hasResults } = useAppSearch();
+  const { query, setQuery, groups, hasResults } = useAppSearch();
   const navigate = useNavigate();
 
   useHotkeys("mod+k", toggle);
@@ -54,12 +64,6 @@ export default function AppSearch() {
     setQuery("");
     close();
   };
-
-  const { page, skill, career } = grouped;
-
-  const showSkillSeparator = page.length > 0 && skill.length > 0;
-  const showCareerSeparator =
-    (page.length > 0 || skill.length > 0) && career.length > 0;
 
   return (
     <>
@@ -93,27 +97,16 @@ export default function AppSearch() {
         <CommandList>
           {!hasResults && <CommandEmpty>{ui_search_empty()}</CommandEmpty>}
 
-          <SearchGroup
-            heading={ui_search_group_pages()}
-            onSelect={handleSelect}
-            results={page}
-          />
-
-          {showSkillSeparator && <CommandSeparator />}
-
-          <SearchGroup
-            heading={ui_search_group_skills()}
-            onSelect={handleSelect}
-            results={skill}
-          />
-
-          {showCareerSeparator && <CommandSeparator />}
-
-          <SearchGroup
-            heading={ui_search_group_career()}
-            onSelect={handleSelect}
-            results={career}
-          />
+          {groups.map((group, index) => (
+            <Fragment key={group.key}>
+              {index > 0 && <CommandSeparator />}
+              <SearchGroup
+                heading={getHeading(group.key)}
+                onSelect={handleSelect}
+                results={group.results}
+              />
+            </Fragment>
+          ))}
         </CommandList>
         <div className="flex items-center gap-4 border-t px-3 py-2 text-muted-foreground text-xs">
           <span className="flex items-center space-x-1">

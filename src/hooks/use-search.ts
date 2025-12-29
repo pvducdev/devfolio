@@ -12,17 +12,17 @@ interface UseAppSearchOptions {
   debounceMs?: number;
 }
 
-interface GroupedResults {
-  page: SearchResult<AppSearchItem>[];
-  skill: SearchResult<AppSearchItem>[];
-  career: SearchResult<AppSearchItem>[];
+export type CategoryKey = "page" | "skill" | "career";
+
+export interface SearchResultGroup {
+  key: CategoryKey;
+  results: SearchResult<AppSearchItem>[];
 }
 
 interface UseAppSearchReturn {
   query: string;
   setQuery: (query: string) => void;
-  results: SearchResult<AppSearchItem>[];
-  grouped: GroupedResults;
+  groups: SearchResultGroup[];
   hasResults: boolean;
 }
 
@@ -32,7 +32,7 @@ const SEARCH_KEYS = [
   { name: "keywords", weight: 0.5 },
 ] as const;
 
-type CategoryKeys = "page" | "skill" | "career";
+const DEFAULT_ORDER: CategoryKey[] = ["page", "skill", "career"];
 
 const adapter = createFuseAdapter<AppSearchItem>({ keys: [...SEARCH_KEYS] });
 
@@ -49,14 +49,29 @@ function getInitialData(): AppSearchItem[] {
   return cachedData;
 }
 
+function getBestScore(results: SearchResult<AppSearchItem>[]): number {
+  if (results.length === 0) {
+    return Number.POSITIVE_INFINITY;
+  }
+  return Math.min(...results.map((r) => r.score));
+}
+
+function sortGroupsByRelevance(
+  groups: SearchResultGroup[]
+): SearchResultGroup[] {
+  return [...groups].sort(
+    (a, b) => getBestScore(a.results) - getBestScore(b.results)
+  );
+}
+
 export function useAppSearch(
   options?: UseAppSearchOptions
 ): UseAppSearchReturn {
   const { debounceMs } = options ?? {};
 
-  const { query, setQuery, filtered, grouped, hasResults } = useSearch<
+  const { query, setQuery, grouped, hasResults } = useSearch<
     AppSearchItem,
-    CategoryKeys
+    CategoryKey
   >({
     adapter,
     data: getInitialData(),
@@ -65,15 +80,12 @@ export function useAppSearch(
     groupBy: (item) => item.meta?.category,
   });
 
-  return {
-    query,
-    setQuery,
-    results: filtered,
-    grouped: {
-      page: grouped.page ?? [],
-      skill: grouped.skill ?? [],
-      career: grouped.career ?? [],
-    },
-    hasResults,
-  };
+  const allGroups = DEFAULT_ORDER.map((key) => ({
+    key,
+    results: grouped[key] ?? [],
+  })).filter((group) => group.results.length > 0);
+
+  const groups = query ? sortGroupsByRelevance(allGroups) : allGroups;
+
+  return { query, setQuery, groups, hasResults };
 }
