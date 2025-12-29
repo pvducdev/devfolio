@@ -23,5 +23,12 @@
   "page_about_contribution_summary": "{count} contributions in the last year on {platform}",
   "page_about_contribution_level_none": "No contributions",
   "page_about_contribution_level_range": "{min}-{max} contributions",
-  "page_about_contribution_level_more": "{min}+ contributions"
+  "page_about_contribution_level_more": "{min}+ contributions",
+
+  "page_error_404_title": "Page not found",
+  "page_error_404_description": "The page you're looking for doesn't exist or has been moved.",
+  "page_error_generic_title": "Something went wrong",
+  "page_error_generic_description": "An unexpected error occurred. Please try again.",
+  "page_error_action_home": "Go Home",
+  "page_error_action_retry": "Try Again"
 }

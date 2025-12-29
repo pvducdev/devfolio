@@ -23,5 +23,12 @@
   "page_about_contribution_summary": "{count} đóng góp trong năm qua trên {platform}",
   "page_about_contribution_level_none": "Không có đóng góp",
   "page_about_contribution_level_range": "{min}-{max} đóng góp",
-  "page_about_contribution_level_more": "{min}+ đóng góp"
+  "page_about_contribution_level_more": "{min}+ đóng góp",
+
+  "page_error_404_title": "Trang không tồn tại",
+  "page_error_404_description": "Trang bạn tìm không tồn tại hoặc đã được di chuyển.",
+  "page_error_generic_title": "Đã xảy ra lỗi",
+  "page_error_generic_description": "Có lỗi không mong muốn. Vui lòng thử lại.",
+  "page_error_action_home": "Về trang chủ",
+  "page_error_action_retry": "Thử lại"
 }

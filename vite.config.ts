@@ -3,6 +3,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
+import svgr from "vite-plugin-svgr";
 import viteTsConfigPaths from "vite-tsconfig-paths";
 import packageJson from "./package.json" with { type: "json" };
 // noinspection ES6PreferShortImport
@@ -17,6 +18,7 @@ const config = defineConfig({
     viteTsConfigPaths({
       projects: ["./tsconfig.json"],
     }),
+    svgr(),
     tailwindcss(),
     paraglideVitePlugin({
       project: "./project.inlang",
