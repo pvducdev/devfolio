@@ -4,12 +4,46 @@ import type {
   BaseSearchItem,
   SearchItem,
   SearchMatch,
-  SearchOptions,
+  SearchQueryOptions,
   SearchResult,
 } from "../core/types";
-import type { FuseAdapterOptions, IndexAdapter } from "./types";
+import type { IndexAdapter } from "./types";
+
+type DeepKeys<T> = T extends object
+  ? {
+      [K in keyof T & string]: T[K] extends object
+        ? K | `${K}.${DeepKeys<T[K]>}`
+        : K;
+    }[keyof T & string]
+  : never;
+
+export interface FuseIndexKey<TItem> {
+  name: DeepKeys<TItem>;
+  weight: number;
+}
+
+export interface FuseAdapterOptions<TItem extends BaseSearchItem = SearchItem>
+  extends Omit<Partial<IFuseOptions<TItem>>, "keys"> {
+  keys: FuseIndexKey<TItem>[];
+}
 
 const DEFAULT_SEARCH_LIMIT = 20;
+
+const DEFAULT_FUSE_OPTIONS: Partial<IFuseOptions<unknown>> = {
+  includeScore: true,
+  includeMatches: true,
+  // Ignore pattern position - match anywhere in the field
+  ignoreLocation: true,
+  // Fuzzy matching sensitivity: 0 = exact, 1 = match anything
+  // 0.4 provides good balance for search UX
+  threshold: 0.4,
+  // Minimum characters to trigger a match (filter out single chars)
+  minMatchCharLength: 2,
+  // Results are sorted by score
+  shouldSort: true,
+  // Don't penalize longer fields - existence matters more than frequency
+  ignoreFieldNorm: true,
+};
 
 export class FuseAdapter<TItem extends BaseSearchItem = SearchItem>
   implements IndexAdapter<TItem>
@@ -56,7 +90,7 @@ export class FuseAdapter<TItem extends BaseSearchItem = SearchItem>
     }
   }
 
-  search(query: string, options?: SearchOptions): SearchResult<TItem>[] {
+  search(query: string, options?: SearchQueryOptions): SearchResult<TItem>[] {
     if (query === "") {
       return [];
     }
@@ -107,8 +141,7 @@ export class FuseAdapter<TItem extends BaseSearchItem = SearchItem>
 
   private rebuildIndex(): void {
     const fuseOptions: IFuseOptions<TItem> = {
-      includeScore: true,
-      includeMatches: true,
+      ...DEFAULT_FUSE_OPTIONS,
       ...this.options,
     };
 

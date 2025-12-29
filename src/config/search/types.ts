@@ -12,8 +12,7 @@ export type AppAction = NavigateAction;
 export type AppSearchMeta = {
   icon?: ComponentType;
   shortcut?: string;
-  category?: "page" | "content";
-  subtype?: "skill" | "project" | "career";
+  category?: "page" | "skill" | "career";
   action?: AppAction;
 } & Record<string, unknown>;
 

@@ -17,8 +17,9 @@ import type { AppSearchItem } from "@/config/search";
 import { useAppSearch } from "@/hooks/use-search";
 import {
   ui_search_empty,
-  ui_search_group_content,
+  ui_search_group_career,
   ui_search_group_pages,
+  ui_search_group_skills,
   ui_search_hint_close,
   ui_search_hint_navigate,
   ui_search_hint_select,
@@ -54,9 +55,11 @@ export default function AppSearch() {
     close();
   };
 
-  const { pages, content } = grouped;
+  const { page, skill, career } = grouped;
 
-  const showPagesSeparator = pages.length > 0 && content.length > 0;
+  const showSkillSeparator = page.length > 0 && skill.length > 0;
+  const showCareerSeparator =
+    (page.length > 0 || skill.length > 0) && career.length > 0;
 
   return (
     <>
@@ -93,15 +96,23 @@ export default function AppSearch() {
           <SearchGroup
             heading={ui_search_group_pages()}
             onSelect={handleSelect}
-            results={pages}
+            results={page}
           />
 
-          {showPagesSeparator && <CommandSeparator />}
+          {showSkillSeparator && <CommandSeparator />}
 
           <SearchGroup
-            heading={ui_search_group_content()}
+            heading={ui_search_group_skills()}
             onSelect={handleSelect}
-            results={content}
+            results={skill}
+          />
+
+          {showCareerSeparator && <CommandSeparator />}
+
+          <SearchGroup
+            heading={ui_search_group_career()}
+            onSelect={handleSelect}
+            results={career}
           />
         </CommandList>
         <div className="flex items-center gap-4 border-t px-3 py-2 text-muted-foreground text-xs">

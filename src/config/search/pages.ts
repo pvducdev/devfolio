@@ -18,9 +18,9 @@ function extractTreeItems(
         title: node.name.replace(".tsx", ""),
         description: node.path,
         meta: {
-          category: "page" as const,
+          category: "page",
           icon: File,
-          action: { type: "navigate" as const, path: node.path },
+          action: { type: "navigate", path: node.path },
         },
       });
     }
@@ -37,9 +37,9 @@ export function buildPageItems(): AppSearchItem[] {
       id: `pages:activity:${activity.key}`,
       title: activity.name(),
       meta: {
-        category: "page" as const,
+        category: "page",
         icon: activity.icon,
-        action: { type: "navigate" as const, path: `/${activity.key}` },
+        action: { type: "navigate", path: `/${activity.key}` },
       },
     });
   }

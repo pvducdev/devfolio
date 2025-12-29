@@ -3,8 +3,8 @@ import {
   CommandItem,
   CommandShortcut,
 } from "@/components/ui/command";
+import type { AppSearchItem } from "@/config/search";
 import type { SearchResult } from "@/lib/search/core";
-import type { AppSearchItem } from "@/lib/search/sources";
 
 interface SearchGroupProps {
   heading: string;
