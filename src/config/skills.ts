@@ -2,12 +2,13 @@ export const SKILLS = {
   core: [
     {
       name: "React",
+      alternates: ["Vue"],
       tag: "Mastery",
       details: [
-        "Custom Hooks",
-        "Context API",
-        "Concurrent Features",
-        "Re-render Optimization",
+        "Component Composition",
+        "State Management",
+        "Reactivity Patterns",
+        "Performance Optimization",
       ],
     },
     {
@@ -16,7 +17,7 @@ export const SKILLS = {
       details: [
         "Generics",
         "Utility Types",
-        "Zod Integration",
+        "Schema validation Integration",
         "Declaration Merging",
       ],
     },
@@ -24,17 +25,15 @@ export const SKILLS = {
   stack: [
     { name: "Next.js", tag: "App Router / SSR" },
     { name: "Svelte", tag: "SvelteKit / SSR" },
-    { name: "Tailwind", tag: "Design Systems" },
-    { name: "Zustand", tag: "Global State" },
-    { name: "TanStack Query", tag: "Server State" },
+    { name: "NestJS", tag: "Modular / DI" },
+    { name: "Zustand / Redux", tag: "Global State" },
   ],
   devops: [
     { name: "GitHub Actions", tag: "CI/CD Pipelines" },
     { name: "Docker", tag: "Containerization" },
-    { name: "Jest / Cypress", tag: "Unit & E2E Testing" },
-    { name: "TurboRepo / Nx", tag: "Package Manager" },
+    { name: "Cypress", tag: "Unit & E2E Testing" },
     { name: "Vite / Webpack", tag: "Module Bundler" },
-    { name: "Sanity / Strapi", tag: "Headless CMS" },
+    { name: "Strapi", tag: "Headless CMS" },
   ],
   standards: {
     performance: [
@@ -56,9 +55,7 @@ export const SKILLS = {
   workflow: [
     { name: "Agile/Scrum", highlighted: true },
     { name: "Code Reviews", highlighted: false },
-    { name: "TDD", highlighted: true },
     { name: "Pair Programming", highlighted: false },
-    { name: "Mentorship", highlighted: false },
     { name: "Technical Writing", highlighted: true },
     { name: "Problem Solving", highlighted: false },
   ],
