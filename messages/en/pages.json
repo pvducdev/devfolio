@@ -23,5 +23,12 @@
   "page_about_contribution_summary": "{count} contributions in the last year on {platform}",
   "page_about_contribution_level_none": "No contributions",
   "page_about_contribution_level_range": "{min}-{max} contributions",
-  "page_about_contribution_level_more": "{min}+ contributions"
+  "page_about_contribution_level_more": "{min}+ contributions",
+
+  "page_error_404_title": "Lost in the void",
+  "page_error_404_description": "This page pulled a vanishing act. Maybe it's on vacation?",
+  "page_error_generic_title": "Well, that wasn't supposed to happen",
+  "page_error_generic_description": "Something broke. Give it another shot?",
+  "page_error_action_home": "Take me home",
+  "page_error_action_retry": "Try again"
 }
