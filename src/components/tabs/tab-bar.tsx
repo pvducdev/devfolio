@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ReactLight } from "@/components/ui/svgs/reactLight.tsx";
 import { TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useCloseTab } from "@/hooks/use-close-tab";
-import { useHorizontalScroll } from "@/hooks/use-scroll";
+import { useWheelToHorizontal } from "@/hooks/use-scroll";
 import { useActiveTabId, useOpenTabs } from "@/store/tabs";
 
 export default function TabBar() {
@@ -15,7 +15,7 @@ export default function TabBar() {
   const closeTab = useCloseTab();
   const listRef = useRef<HTMLDivElement>(null);
 
-  useHorizontalScroll(listRef);
+  useWheelToHorizontal(listRef);
 
   return (
     <TabsList

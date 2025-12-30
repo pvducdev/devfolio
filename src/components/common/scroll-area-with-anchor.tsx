@@ -3,7 +3,7 @@ import type { ComponentProps } from "react";
 import { useLayoutEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useScrollY } from "@/hooks/use-scroll";
+import { useScrollEdges } from "@/hooks/use-scroll";
 import { cn } from "@/lib/utils.ts";
 
 type ScrollAreaWithAnchorProps = ComponentProps<typeof ScrollArea>;
@@ -16,7 +16,7 @@ export default function ScrollAreaWithAnchor({
   const containerRef = useRef<HTMLDivElement>(null);
   const viewportRef = useRef<HTMLDivElement | null>(null);
 
-  const { isAtBottom } = useScrollY({ container: viewportRef });
+  const { isAtBottom } = useScrollEdges({ container: viewportRef });
 
   const scrollToBottom = () => {
     viewportRef.current?.scrollTo({

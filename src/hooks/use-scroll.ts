@@ -12,7 +12,7 @@ export interface ScrollState {
   isAtBottom: boolean;
 }
 
-export function useScrollY(options: ScrollOptions = {}): ScrollState {
+export function useScrollEdges(options: ScrollOptions = {}): ScrollState {
   const { container, threshold = 0.05 } = options;
   const [state, setState] = useState<ScrollState>({
     isAtTop: true,
@@ -31,7 +31,7 @@ export function useScrollY(options: ScrollOptions = {}): ScrollState {
   return state;
 }
 
-export function useHorizontalScroll(ref: RefObject<HTMLElement | null>) {
+export function useWheelToHorizontal(ref: RefObject<HTMLElement | null>) {
   useEventListener(
     "wheel",
     (e) => {
