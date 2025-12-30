@@ -25,10 +25,10 @@
   "page_about_contribution_level_range": "{min}-{max} contributions",
   "page_about_contribution_level_more": "{min}+ contributions",
 
-  "page_error_404_title": "Page not found",
-  "page_error_404_description": "The page you're looking for doesn't exist or has been moved.",
-  "page_error_generic_title": "Something went wrong",
-  "page_error_generic_description": "An unexpected error occurred. Please try again.",
-  "page_error_action_home": "Go Home",
-  "page_error_action_retry": "Try Again"
+  "page_error_404_title": "Lost in the void",
+  "page_error_404_description": "This page pulled a vanishing act. Maybe it's on vacation?",
+  "page_error_generic_title": "Well, that wasn't supposed to happen",
+  "page_error_generic_description": "Something broke. Give it another shot?",
+  "page_error_action_home": "Take me home",
+  "page_error_action_retry": "Try again"
 }
