@@ -49,5 +49,14 @@
   "ui_tab_close_all": "Close All",
   "ui_tab_close_right": "Close to the Right",
   "ui_tab_close_left": "Close to the Left",
-  "ui_tab_copy_path": "Copy Path"
+  "ui_tab_copy_path": "Copy Path",
+
+  "ui_shortcuts_general": "General",
+  "ui_shortcuts_tabs": "Tabs",
+  "ui_shortcuts_open_search": "Open search",
+  "ui_shortcuts_toggle_assistant": "Toggle assistant",
+  "ui_shortcuts_toggle_layout": "Toggle layout",
+  "ui_shortcuts_show_hotkeys": "Show hotkeys",
+  "ui_shortcuts_close_tab": "Close tab",
+  "ui_shortcuts_close_all_tabs": "Close all tabs"
 }
