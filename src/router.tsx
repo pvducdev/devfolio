@@ -1,5 +1,7 @@
 import { createRouter } from "@tanstack/react-router";
 import ErrorPage from "@/components/common/error-page.tsx";
+import { Error as ErrorIcon } from "@/components/ui/svgs/error";
+import { NotFound } from "@/components/ui/svgs/not-found";
 import {
   page_error_404_description,
   page_error_404_title,
@@ -19,18 +21,18 @@ export const getRouter = () =>
     defaultStaleTime: Number.POSITIVE_INFINITY,
     defaultNotFoundComponent: () => (
       <ErrorPage
+        actionHref="/home"
         actionLabel={page_error_action_home()}
-        code="404"
         description={page_error_404_description()}
-        showCode={false}
+        illustration={<NotFound className="h-64 w-auto text-foreground" />}
         title={page_error_404_title()}
       />
     ),
     defaultErrorComponent: ({ error, reset }) => (
       <ErrorPage
         actionLabel={page_error_action_retry()}
-        code="500"
         description={error.message || page_error_generic_description()}
+        illustration={<ErrorIcon className="h-64 w-auto text-foreground" />}
         onAction={reset}
         title={page_error_generic_title()}
       />

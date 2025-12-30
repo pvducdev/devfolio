@@ -1,11 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
-import { NotFoundIllustration } from "./not-found-illustration";
 
 interface ErrorPageProps {
   code?: string;
-  showCode?: boolean;
   title?: string;
   description?: string;
   illustration?: ReactNode;
@@ -14,29 +12,21 @@ interface ErrorPageProps {
   onAction?: () => void;
 }
 
-const CODE_ILLUSTRATIONS: Record<string, ReactNode> = {
-  "404": <NotFoundIllustration className="h-64 w-auto" />,
-};
-
 export default function ErrorPage({
   code,
-  showCode = !!code,
   title,
   description,
   illustration,
   actionLabel,
-  actionHref = "/home",
+  actionHref,
   onAction,
 }: ErrorPageProps) {
-  const resolvedIllustration =
-    illustration ?? (code ? CODE_ILLUSTRATIONS[code] : null);
-
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-6 p-4">
-      {resolvedIllustration}
+      {illustration}
 
       <div className="text-center">
-        {showCode && (
+        {code && (
           <p className="font-bold font-mono text-6xl tracking-tight">{code}</p>
         )}
         {title && <h1 className="mt-2 font-medium text-xl">{title}</h1>}
@@ -45,13 +35,13 @@ export default function ErrorPage({
         )}
       </div>
 
-      {onAction ? (
-        <Button onClick={onAction} variant="outline">
-          {actionLabel}
-        </Button>
-      ) : (
+      {actionHref ? (
         <Button asChild variant="outline">
           <Link to={actionHref}>{actionLabel}</Link>
+        </Button>
+      ) : (
+        <Button onClick={onAction} variant="outline">
+          {actionLabel}
         </Button>
       )}
     </div>
