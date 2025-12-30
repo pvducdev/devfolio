@@ -71,3 +71,18 @@ VITE_BASE_URL=<optional>            # Defaults to "http://localhost:3000"
 - Prefer Tailwind utility classes over arbitrary values (`w-10` > `w-[42px]`)
 
 **Excluded from linting**: `routeTree.gen.ts`, `components/ui/*`, `paraglide/*`, route variants (`.$*.tsx`)
+
+## i18n / Translations
+
+**Location**: `messages/{en,vi}/*.json` → generates `src/paraglide/`
+
+**Key Naming**: `{domain}_{context}_{element}` (e.g., `page_career_label_stack`, `ui_theme_select`)
+
+**Translation Vibe**: "Chill Dev with Terminal Aesthetics"
+- Casual & conversational, not corporate
+- Dev culture references (`.exe`, `> EOF`, "push", "cooking")
+- Punchy & direct phrases
+- Gen-Z friendly but not cringe
+- Examples: "Nothing here, chief", "Pick a vibe...", "File said no"
+
+**Keep formal**: Action labels (`Cancel`, `Close`) and technical labels (`Stack`, `Tools`, `Infra`)

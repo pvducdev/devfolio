@@ -18,10 +18,17 @@
   "page_career_eof": "> EOF",
   "page_career_complete": "End of the road (for now).",
   "page_career_thanks": "Thanks for scrolling through.",
+  "page_career_hint_scroll": "Scroll to explore →",
+
+  "page_career_label_stack": "Stack",
+  "page_career_label_tools": "Tools",
+  "page_career_label_infra": "Infra",
+  "page_career_label_metrics": "Metrics",
+  "page_career_label_year": "YEAR",
 
   "page_about_contribution_tooltip": "{count} contributions on {date}",
   "page_about_contribution_summary": "{count} contributions in the last year on {platform}",
-  "page_about_contribution_level_none": "No contributions",
+  "page_about_contribution_level_none": "Nothing pushed yet",
   "page_about_contribution_level_range": "{min}-{max} contributions",
   "page_about_contribution_level_more": "{min}+ contributions",
 

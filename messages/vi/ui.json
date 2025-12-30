@@ -12,7 +12,7 @@
 
   "ui_search_title": "Tìm kiếm",
   "ui_search_placeholder": "Nhập lệnh hoặc tìm kiếm...",
-  "ui_search_empty": "Không có gì ở đây.",
+  "ui_search_empty": "Trống trơn luôn.",
   "ui_search_suggestions": "Gợi ý",
   "ui_search_group_pages": "Trang",
   "ui_search_group_skills": "Kỹ năng",
@@ -28,17 +28,17 @@
   "ui_cmd_billing": "Thanh toán",
 
   "ui_resume_title": "CV của tớ",
-  "ui_resume_downloading": "Đang tải...",
+  "ui_resume_downloading": "Đang lấy...",
 
   "ui_sidebar_careertitle": "Hành trình sự nghiệp",
   "ui_sidebar_careerdesc": "Sự nghiệp của tớ dạng side-scrolling",
 
-  "ui_theme_select": "Chọn giao diện...",
+  "ui_theme_select": "Chọn vibe...",
 
   "ui_lang_en": "EN",
   "ui_lang_vi": "VI",
 
-  "ui_error_unexpected": "Có gì đó hỏng. Không lý tưởng.",
+  "ui_error_unexpected": "Hỏng rồi. Không hay lắm.",
 
   "ui_project_tab_guide": "Hướng dẫn",
   "ui_project_tab_dependencies": "Thư viện",

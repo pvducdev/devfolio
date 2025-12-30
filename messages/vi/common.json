@@ -11,6 +11,6 @@
   "msg_error_pagenotfound": "Trang {pageId} đi đâu mất tiêu rồi",
 
   "ui_state_loading": "Đang pha...",
-
-  "hint_career_scroll": "Cuộn để khám phá →"
+  "ui_state_opentowork": "opentowork.exe",
+  "ui_state_hired": "Hired.exe"
 }

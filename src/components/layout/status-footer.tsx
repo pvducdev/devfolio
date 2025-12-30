@@ -5,10 +5,7 @@ import { Gitlab } from "@/components/ui/svgs/gitlab";
 import { Linkedin } from "@/components/ui/svgs/linkedin";
 import { PERSONAL_INFO } from "@/config/personal-info.ts";
 import { SITE_CONFIG } from "@/config/site.ts";
-import {
-  label_status_hired,
-  label_status_opentowork,
-} from "@/paraglide/messages.js";
+import { ui_state_hired, ui_state_opentowork } from "@/paraglide/messages.js";
 import { Badge } from "../ui/badge";
 
 export default function StatusFooter() {
@@ -48,11 +45,11 @@ export default function StatusFooter() {
             className="rounded-full border-green-500 text-green-500"
             variant="outline"
           >
-            {label_status_opentowork()}
+            {ui_state_opentowork()}
           </Badge>
         ) : (
           <Badge className="rounded-full" variant="outline">
-            {label_status_hired()}
+            {ui_state_hired()}
           </Badge>
         )}
       </div>

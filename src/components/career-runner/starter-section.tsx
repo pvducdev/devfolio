@@ -2,8 +2,8 @@ import { ChevronDown } from "lucide-react";
 import type { Variants } from "motion/react";
 import { motion, stagger, useReducedMotion } from "motion/react";
 import {
-  hint_career_scroll,
   page_career_heading,
+  page_career_hint_scroll,
   page_career_intro,
   page_career_introsub,
 } from "@/paraglide/messages.js";
@@ -101,7 +101,7 @@ export default function StarterSection() {
         className="mb-6 text-center text-muted-foreground text-xs tracking-wide"
         {...(!prefersReducedMotion && { variants: itemVariants })}
       >
-        {hint_career_scroll()}
+        {page_career_hint_scroll()}
       </motion.p>
 
       <motion.div

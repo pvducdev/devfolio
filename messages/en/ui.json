@@ -6,7 +6,7 @@
 
   "ui_settings_title": "Settings",
   "ui_settings_language": "Language",
-  "ui_settings_shortcuts": "Keyboard shortcuts",
+  "ui_settings_shortcuts": "Hotkeys",
 
   "ui_nav_home": "Home",
 
@@ -28,12 +28,12 @@
   "ui_cmd_billing": "Billing",
 
   "ui_resume_title": "My CV",
-  "ui_resume_downloading": "Downloading...",
+  "ui_resume_downloading": "Grabbing...",
 
   "ui_sidebar_careertitle": "Career Journey",
   "ui_sidebar_careerdesc": "My career as a side-scrolling adventure",
 
-  "ui_theme_select": "Select theme...",
+  "ui_theme_select": "Pick a vibe...",
 
   "ui_lang_en": "EN",
   "ui_lang_vi": "VI",
