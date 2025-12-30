@@ -1,19 +1,27 @@
 import { Link } from "@tanstack/react-router";
 import { X } from "lucide-react";
+import { useRef } from "react";
 import { TabContextMenu } from "@/components/tabs/tab-context-menu";
 import { Button } from "@/components/ui/button";
 import { ReactLight } from "@/components/ui/svgs/reactLight.tsx";
 import { TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useCloseTab } from "@/hooks/use-close-tab";
+import { useHorizontalScroll } from "@/hooks/use-scroll";
 import { useActiveTabId, useOpenTabs } from "@/store/tabs";
 
 export default function TabBar() {
   const tabs = useOpenTabs();
   const activeTabId = useActiveTabId();
   const closeTab = useCloseTab();
+  const listRef = useRef<HTMLDivElement>(null);
+
+  useHorizontalScroll(listRef);
 
   return (
-    <TabsList className="h-auto w-full justify-start space-x-0.5 overflow-x-auto rounded-none border-b bg-transparent p-0.5">
+    <TabsList
+      className="scrollbar-thin h-auto w-full justify-start space-x-0.5 overflow-x-auto rounded-none border-b bg-transparent p-0.5"
+      ref={listRef}
+    >
       {tabs.map((tab) => (
         <TabsTrigger
           asChild
