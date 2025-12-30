@@ -28,7 +28,36 @@ export default function CoreSkillItem({
     >
       <h1 className="text-7xl leading-[0.85] tracking-tighter opacity-90 transition-opacity duration-500 group-hover/section:opacity-20 group-hover:opacity-100 group-hover/section:hover:opacity-100 lg:text-8xl">
         {hasAlternates ? (
-          <TextLoop pauseOnHover>
+          <TextLoop
+            className="overflow-y-clip"
+            pauseOnHover
+            transition={{
+              type: "spring",
+              stiffness: 900,
+              damping: 80,
+              mass: 10,
+            }}
+            variants={{
+              initial: {
+                y: 20,
+                rotateX: 90,
+                opacity: 0,
+                filter: "blur(4px)",
+              },
+              animate: {
+                y: 0,
+                rotateX: 0,
+                opacity: 1,
+                filter: "blur(0px)",
+              },
+              exit: {
+                y: -20,
+                rotateX: -90,
+                opacity: 0,
+                filter: "blur(4px)",
+              },
+            }}
+          >
             {displayNames.map((displayName) => (
               <span key={displayName}>{displayName.toUpperCase()}</span>
             ))}

@@ -117,22 +117,6 @@
   }
 }
 
-@utility scrollbar-thin {
-  scrollbar-width: thin;
-  scrollbar-color: var(--color-muted-foreground) transparent;
-  &::-webkit-scrollbar {
-    height: 4px;
-    width: 4px;
-  }
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: var(--color-muted-foreground);
-    border-radius: 2px;
-  }
-}
-
 ::view-transition-old(root) {
   animation: none;
 }

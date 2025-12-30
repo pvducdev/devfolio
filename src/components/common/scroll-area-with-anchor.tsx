@@ -1,6 +1,6 @@
 import { ArrowDown } from "lucide-react";
 import type { ComponentProps } from "react";
-import { useLayoutEffect, useRef } from "react";
+import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useScrollEdges } from "@/hooks/use-scroll";
@@ -25,17 +25,11 @@ export default function ScrollAreaWithAnchor({
     });
   };
 
-  useLayoutEffect(() => {
-    viewportRef.current =
-      containerRef.current?.querySelector<HTMLDivElement>(
-        "[data-slot='scroll-area-viewport']"
-      ) ?? null;
-  }, []);
-
   return (
     <ScrollArea
       className={cn("overflow-hidden", className)}
       ref={containerRef}
+      viewportRef={viewportRef}
       {...props}
     >
       {children}
