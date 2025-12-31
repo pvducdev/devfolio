@@ -6,7 +6,7 @@ import ContributionSection from "./contribution-section";
 export default function AboutPage() {
   return (
     <main className="z-10 min-h-screen">
-      <article className="space-y-6 py-8 text-center">
+      <article className="mx-auto max-w-4xl space-y-6 py-8 text-center">
         <header className="inline-block">
           <div className="rounded-lg bg-linear-to-br from-primary/10 via-accent/10 to-secondary/10 px-8 py-3 backdrop-blur-sm">
             <span className="font-medium text-sm tracking-wider">

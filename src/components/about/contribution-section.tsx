@@ -85,7 +85,7 @@ export default function ContributionSection() {
   );
 
   return (
-    <section className="mx-auto w-full p-4">
+    <section aria-label="contributions" className="mx-auto w-full p-4">
       <ContributionGraph.Root
         data={data}
         endDate={endDate}

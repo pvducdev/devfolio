@@ -16,6 +16,7 @@ import {
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
 import type { AppSearchItem } from "@/config/search";
 import { type CategoryKey, useAppSearch } from "@/hooks/use-search";
+import { getDisplayKeys, getHotkeyCombo } from "@/lib/hotkeys";
 import {
   ui_search_empty,
   ui_search_group_career,
@@ -42,7 +43,7 @@ export default function AppSearch() {
   const { query, setQuery, groups, hasResults } = useAppSearch();
   const navigate = useNavigate();
 
-  useHotkeys("mod+k", toggle);
+  useHotkeys(getHotkeyCombo("search"), toggle);
 
   const handleOpenChange = (isOpen: boolean) => {
     if (!isOpen) {
@@ -75,8 +76,9 @@ export default function AppSearch() {
           <div className="flex items-center space-x-2">
             <span>{ui_search_title()}</span>
             <KbdGroup>
-              <Kbd>⌘</Kbd>
-              <Kbd>K</Kbd>
+              {getDisplayKeys("search").map((key) => (
+                <Kbd key={key}>{key}</Kbd>
+              ))}
             </KbdGroup>
           </div>
         }

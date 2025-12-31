@@ -1,8 +1,10 @@
 import { Expand, GitBranch, Settings, Shrink } from "lucide-react";
 import { useHotkeys } from "react-hotkeys-hook";
+import { useBoolean } from "usehooks-ts";
 import AssistantTrigger from "@/components/assistant/trigger.tsx";
 import ButtonWithTooltip from "@/components/common/button-with-tooltip.tsx";
 import LanguageSwitcher from "@/components/common/language-switcher.tsx";
+import KeyboardShortcutsModal from "@/components/keyboard-shortcuts/modal.tsx";
 import AppSearch from "@/components/layout/app-search.tsx";
 import ResumeViewer from "@/components/resume-viewer/dialog-container.tsx";
 import { Badge } from "@/components/ui/badge";
@@ -17,6 +19,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SITE_CONFIG } from "@/config/site.ts";
+import { getDisplayKeys, getHotkeyCombo } from "@/lib/hotkeys";
 import {
   ui_layout_normal,
   ui_layout_stretch,
@@ -29,8 +32,14 @@ import { useAppLayoutActions, useIsStretchLayout } from "@/store/app-layout.ts";
 export default function Header() {
   const isStretchLayout = useIsStretchLayout();
   const { toggleStretchLayout } = useAppLayoutActions();
+  const {
+    value: shortcutsOpen,
+    toggle: toggleShortcuts,
+    setValue: setShortcutsOpen,
+  } = useBoolean(false);
 
-  useHotkeys("mod+shift+f", toggleStretchLayout);
+  useHotkeys(getHotkeyCombo("toggleLayout"), toggleStretchLayout);
+  useHotkeys(getHotkeyCombo("showShortcuts"), toggleShortcuts);
 
   return (
     <header className="flex h-8 w-full items-center justify-between bg-sidebar">
@@ -80,13 +89,19 @@ export default function Header() {
             <LanguageSwitcher />
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={toggleShortcuts}>
                 {ui_settings_shortcuts()}
-                <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+                <DropdownMenuShortcut>
+                  {getDisplayKeys("showShortcuts").join("")}
+                </DropdownMenuShortcut>
               </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
+        <KeyboardShortcutsModal
+          onOpenChange={setShortcutsOpen}
+          open={shortcutsOpen}
+        />
       </div>
     </header>
   );
