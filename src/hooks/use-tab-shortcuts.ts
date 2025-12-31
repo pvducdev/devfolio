@@ -1,5 +1,6 @@
 import { useHotkeys } from "react-hotkeys-hook";
 import { useTabActions } from "@/hooks/use-tab-actions";
+import { getHotkeyCombo } from "@/lib/hotkeys";
 import { useActiveTabId } from "@/store/tabs";
 
 export function useTabShortcuts() {
@@ -7,7 +8,7 @@ export function useTabShortcuts() {
   const { close, closeAll } = useTabActions();
 
   useHotkeys(
-    "alt+w",
+    getHotkeyCombo("closeTab"),
     () => {
       if (activeTabId) {
         close(activeTabId);
@@ -16,5 +17,7 @@ export function useTabShortcuts() {
     { preventDefault: true }
   );
 
-  useHotkeys("alt+shift+w", closeAll, { preventDefault: true });
+  useHotkeys(getHotkeyCombo("closeAllTabs"), closeAll, {
+    preventDefault: true,
+  });
 }

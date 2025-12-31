@@ -19,6 +19,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SITE_CONFIG } from "@/config/site.ts";
+import { getDisplayKeys, getHotkeyCombo } from "@/lib/hotkeys";
 import {
   ui_layout_normal,
   ui_layout_stretch,
@@ -37,8 +38,8 @@ export default function Header() {
     setValue: setShortcutsOpen,
   } = useBoolean(false);
 
-  useHotkeys("mod+shift+f", toggleStretchLayout);
-  useHotkeys("mod+alt+k", toggleShortcuts);
+  useHotkeys(getHotkeyCombo("toggleLayout"), toggleStretchLayout);
+  useHotkeys(getHotkeyCombo("showShortcuts"), toggleShortcuts);
 
   return (
     <header className="flex h-8 w-full items-center justify-between bg-sidebar">
@@ -90,7 +91,9 @@ export default function Header() {
             <DropdownMenuGroup>
               <DropdownMenuItem onClick={toggleShortcuts}>
                 {ui_settings_shortcuts()}
-                <DropdownMenuShortcut>⌘⌥K</DropdownMenuShortcut>
+                <DropdownMenuShortcut>
+                  {getDisplayKeys("showShortcuts").join("")}
+                </DropdownMenuShortcut>
               </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>
