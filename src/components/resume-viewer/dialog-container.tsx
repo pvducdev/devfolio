@@ -39,7 +39,7 @@ export default function DialogContainer({ className }: ResumeReviewerProps) {
           </Button>
         </DialogTrigger>
         <DialogContent
-          className="min-w-150 rounded-xl p-4 sm:max-w-fit"
+          className="min-w-160 rounded-xl px-0 sm:max-w-fit"
           showCloseButton={false}
         >
           <DialogHeader>

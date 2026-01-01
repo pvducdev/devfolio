@@ -16,12 +16,12 @@
     "doctor": "ultracite doctor"
   },
   "dependencies": {
-    "@embedpdf/core": "^1.4.1",
-    "@embedpdf/engines": "^1.4.1",
-    "@embedpdf/plugin-loader": "^1.4.1",
-    "@embedpdf/plugin-render": "^1.4.1",
-    "@embedpdf/plugin-scroll": "^1.4.1",
-    "@embedpdf/plugin-viewport": "^1.4.1",
+    "@embedpdf/core": "^2.1.1",
+    "@embedpdf/engines": "^2.1.1",
+    "@embedpdf/plugin-document-manager": "^2.1.1",
+    "@embedpdf/plugin-render": "^2.1.1",
+    "@embedpdf/plugin-scroll": "^2.1.1",
+    "@embedpdf/plugin-viewport": "^2.1.1",
     "@google/genai": "^1.30.0",
     "@headless-tree/core": "^1.5.1",
     "@headless-tree/react": "^1.5.1",

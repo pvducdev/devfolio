@@ -1,7 +1,10 @@
 import { createPluginRegistration } from "@embedpdf/core";
 import { EmbedPDF } from "@embedpdf/core/react";
 import { usePdfiumEngine } from "@embedpdf/engines/react";
-import { LoaderPluginPackage } from "@embedpdf/plugin-loader/react";
+import {
+  DocumentContent,
+  DocumentManagerPluginPackage,
+} from "@embedpdf/plugin-document-manager/react";
 import {
   RenderLayer,
   RenderPluginPackage,
@@ -11,25 +14,25 @@ import {
   Viewport,
   ViewportPluginPackage,
 } from "@embedpdf/plugin-viewport/react";
+import type { HTMLAttributes } from "react";
 import ResumeViewerSkeleton from "@/components/resume-viewer/skeleton.tsx";
 
 interface ResumePDFViewerProps {
   className?: string;
   url: string;
+  viewportProps?: HTMLAttributes<HTMLDivElement>;
 }
 
-export default function PdfViewer({ className, url }: ResumePDFViewerProps) {
+export default function PdfViewer({
+  className,
+  url,
+  viewportProps,
+}: ResumePDFViewerProps) {
   const { engine, isLoading } = usePdfiumEngine();
 
   const plugins = [
-    createPluginRegistration(LoaderPluginPackage, {
-      loadingOptions: {
-        type: "url",
-        pdfFile: {
-          id: "my-resume",
-          url,
-        },
-      },
+    createPluginRegistration(DocumentManagerPluginPackage, {
+      initialDocuments: [{ url }],
     }),
     createPluginRegistration(ViewportPluginPackage),
     createPluginRegistration(ScrollPluginPackage),
@@ -43,15 +46,29 @@ export default function PdfViewer({ className, url }: ResumePDFViewerProps) {
   return (
     <div className={className}>
       <EmbedPDF engine={engine} plugins={plugins}>
-        <Viewport>
-          <Scroller
-            renderPage={({ width, height, pageIndex, scale }) => (
-              <div style={{ width, height }}>
-                <RenderLayer pageIndex={pageIndex} scale={scale} />
-              </div>
-            )}
-          />
-        </Viewport>
+        {({ activeDocumentId }) =>
+          activeDocumentId && (
+            <DocumentContent documentId={activeDocumentId}>
+              {({ isLoaded }) =>
+                isLoaded && (
+                  <Viewport {...viewportProps} documentId={activeDocumentId}>
+                    <Scroller
+                      documentId={activeDocumentId}
+                      renderPage={({ width, height, pageIndex }) => (
+                        <div style={{ width, height }}>
+                          <RenderLayer
+                            documentId={activeDocumentId}
+                            pageIndex={pageIndex}
+                          />
+                        </div>
+                      )}
+                    />
+                  </Viewport>
+                )
+              }
+            </DocumentContent>
+          )
+        }
       </EmbedPDF>
     </div>
   );
