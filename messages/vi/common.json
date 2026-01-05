@@ -10,7 +10,7 @@
   "msg_error_loadfail": "File từ chối hợp tác",
   "msg_error_pagenotfound": "Trang {pageId} đi đâu mất tiêu rồi",
   "msg_error_unsupported_browser": "Trình duyệt cổ quá, không chơi được",
-  "msg_error_mobile_only": "Mobile chưa xong — dùng desktop trước nha",
+  "msg_error_mobile_only": "Qua desktop nha — mobile đang dev",
 
   "ui_state_loading": "Đang pha...",
   "ui_state_opentowork": "opentowork.exe",

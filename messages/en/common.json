@@ -10,7 +10,7 @@
   "msg_error_loadfail": "File said no",
   "msg_error_pagenotfound": "Page went AWOL: {pageId}",
   "msg_error_unsupported_browser": "Your browser's too vintage for this",
-  "msg_error_mobile_only": "Mobile's still cooking — desktop for now",
+  "msg_error_mobile_only": "Hop on desktop — mobile's loading...",
 
   "ui_state_loading": "Brewing...",
   "ui_state_opentowork": "opentowork.exe",
