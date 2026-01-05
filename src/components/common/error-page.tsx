@@ -22,28 +22,40 @@ export default function ErrorPage({
   onAction,
 }: ErrorPageProps) {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-6 p-4">
-      {illustration}
+    <div className="flex min-h-svh flex-col items-center justify-center px-4 py-8 sm:px-6 md:py-12">
+      <div className="w-full max-w-md space-y-6 sm:space-y-8">
+        {illustration && (
+          <div className="flex justify-center [&>svg]:h-40 [&>svg]:w-auto sm:[&>svg]:h-52 md:[&>svg]:h-64">
+            {illustration}
+          </div>
+        )}
 
-      <div className="text-center">
-        {code && (
-          <p className="font-bold font-mono text-6xl tracking-tight">{code}</p>
-        )}
-        {title && <h1 className="mt-2 font-medium text-xl">{title}</h1>}
-        {description && (
-          <p className="mt-1 text-muted-foreground text-sm">{description}</p>
-        )}
+        <div className="space-y-2 text-center sm:space-y-3">
+          {code && (
+            <p className="font-bold font-mono text-5xl tracking-tighter sm:text-6xl md:text-7xl">
+              {code}
+            </p>
+          )}
+          {title && <h1 className="font-medium text-lg sm:text-xl">{title}</h1>}
+          {description && (
+            <p className="mx-auto max-w-xs text-muted-foreground text-sm sm:max-w-sm sm:text-base">
+              {description}
+            </p>
+          )}
+        </div>
+
+        <div className="flex justify-center pt-2">
+          {actionHref ? (
+            <Button asChild size="default" variant="outline">
+              <Link to={actionHref}>{actionLabel}</Link>
+            </Button>
+          ) : (
+            <Button onClick={onAction} size="default" variant="outline">
+              {actionLabel}
+            </Button>
+          )}
+        </div>
       </div>
-
-      {actionHref ? (
-        <Button asChild variant="outline">
-          <Link to={actionHref}>{actionLabel}</Link>
-        </Button>
-      ) : (
-        <Button onClick={onAction} variant="outline">
-          {actionLabel}
-        </Button>
-      )}
     </div>
   );
 }
