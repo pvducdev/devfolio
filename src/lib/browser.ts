@@ -4,7 +4,7 @@ import Bowser from "bowser";
 import { SUPPORTED_BROWSERS } from "@/config/browser";
 
 export const isMobile = createIsomorphicFn()
-  .server(() => true)
+  .server(() => false)
   .client(
     () => Bowser.getParser(navigator.userAgent).getPlatformType() === "mobile"
   );
