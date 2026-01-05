@@ -9,6 +9,8 @@
   "msg_error_filepath": "Make sure the file path is relative to src/ directory",
   "msg_error_loadfail": "File said no",
   "msg_error_pagenotfound": "Page went AWOL: {pageId}",
+  "msg_error_unsupported_browser": "Your browser's too vintage for this",
+  "msg_error_mobile_only": "Mobile's still cooking — desktop for now",
 
   "ui_state_loading": "Brewing...",
   "ui_state_opentowork": "opentowork.exe",
