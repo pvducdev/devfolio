@@ -5,6 +5,7 @@ import { paraglideMiddleware } from "./paraglide/server.js";
 function cloneRequest(request: Request): Request {
   return new Request(request.url, {
     ...request,
+    headers: new Headers(request.headers),
   });
 }
 
