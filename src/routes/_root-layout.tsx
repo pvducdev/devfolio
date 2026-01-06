@@ -20,7 +20,7 @@ export const Route = createFileRoute("/_root-layout")({
       throw new Error(msg_error_unsupported_browser());
     }
 
-    if (isMobile()) {
+    if (!isMobile()) {
       throw new Error(msg_error_mobile_only());
     }
   },

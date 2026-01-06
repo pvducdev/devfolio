@@ -7,12 +7,12 @@ export const getLogger = createIsomorphicFn()
   .server(
     () =>
       new NodeLogtail(env.LOGTAIL_SOURCE_TOKEN, {
-        endpoint: env.LOGTAIL_ENDPOINT,
+        endpoint: `https://${env.LOGTAIL_INGESTING_HOST}`,
       })
   )
   .client(
     () =>
       new BrowserLogtail(env.VITE_LOGTAIL_SOURCE_TOKEN, {
-        endpoint: env.VITE_LOGTAIL_ENDPOINT,
+        endpoint: `https://${env.VITE_LOGTAIL_INGESTING_HOST}`,
       })
   );

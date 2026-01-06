@@ -28,8 +28,7 @@ const generateAssistantResponse = createServerFn()
       for await (const word of typewriterStream(chunks)) {
         yield word;
       }
-    } catch (error) {
-      console.error("[generateAssistantResponse] Stream error:", error);
+    } catch {
       yield "\n\n*An error occurred while generating the response.*";
     }
   });
