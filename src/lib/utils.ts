@@ -1,3 +1,4 @@
+import { createIsomorphicFn } from "@tanstack/react-start";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -46,3 +47,7 @@ export function groupBy<T>(
   }
   return groups;
 }
+
+export const isProd = createIsomorphicFn()
+  .server(() => process.env.NODE_ENV === "production")
+  .client(() => import.meta.env.PROD);
