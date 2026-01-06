@@ -6,14 +6,13 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { ReactLight } from "@/components/ui/svgs/reactLight.tsx";
 import { TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useCloseTab } from "@/hooks/use-close-tab";
 import { useWheelToHorizontal } from "@/hooks/use-scroll";
-import { useActiveTabId, useOpenTabs } from "@/store/tabs";
+import { useTabActions } from "@/hooks/use-tab-actions";
+import { useOpenTabs } from "@/store/tabs";
 
 export default function TabBar() {
   const tabs = useOpenTabs();
-  const activeTabId = useActiveTabId();
-  const closeTab = useCloseTab();
+  const { close } = useTabActions();
   const listRef = useRef<HTMLDivElement>(null);
 
   useWheelToHorizontal(listRef);
@@ -42,7 +41,7 @@ export default function TabBar() {
                     onPointerDown={(e) => {
                       e.stopPropagation();
                       e.preventDefault();
-                      closeTab(tab.id, activeTabId);
+                      close(tab.id);
                     }}
                   >
                     <X className="size-full" />
