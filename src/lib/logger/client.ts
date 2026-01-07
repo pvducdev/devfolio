@@ -1,18 +1,19 @@
 import { Logtail as BrowserLogtail } from "@logtail/browser";
 import { Logtail as NodeLogtail } from "@logtail/node";
 import { createIsomorphicFn } from "@tanstack/react-start";
-import { env } from "@/env";
+import { env as clientEnv } from "@/env/client";
+import { env as serverEnv } from "@/env/server";
 
 export const getLogger = createIsomorphicFn()
   .server(
     () =>
-      new NodeLogtail(env.LOGTAIL_SOURCE_TOKEN, {
-        endpoint: `https://${env.LOGTAIL_INGESTING_HOST}`,
+      new NodeLogtail(serverEnv.LOGTAIL_SOURCE_TOKEN, {
+        endpoint: `https://${serverEnv.LOGTAIL_INGESTING_HOST}`,
       })
   )
   .client(
     () =>
-      new BrowserLogtail(env.VITE_LOGTAIL_SOURCE_TOKEN, {
-        endpoint: `https://${env.VITE_LOGTAIL_INGESTING_HOST}`,
+      new BrowserLogtail(clientEnv.VITE_LOGTAIL_SOURCE_TOKEN, {
+        endpoint: `https://${clientEnv.VITE_LOGTAIL_INGESTING_HOST}`,
       })
   );

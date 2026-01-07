@@ -1,4 +1,4 @@
-import { env } from "@/env";
+import { env } from "@/env/client";
 import { PERSONAL_INFO } from "./personal-info";
 import { SKILLS } from "./skills";
 

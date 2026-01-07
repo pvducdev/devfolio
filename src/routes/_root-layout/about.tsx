@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import AboutPage from "@/components/about";
-import { env } from "@/env";
+import { env } from "@/env/client";
 import type { ContributionData } from "@/lib/contributions";
 
 export const Route = createFileRoute("/_root-layout/about")({
