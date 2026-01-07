@@ -2,7 +2,7 @@ import { GoogleGenAI } from "@google/genai";
 import { createServerOnlyFn } from "@tanstack/react-start";
 import { SITE_CONFIG } from "@/config/site.ts";
 import systemInstruction from "@/config/system-prompt";
-import { env } from "@/env";
+import { env } from "@/env/server";
 import { getLogger } from "@/lib/logger/client.ts";
 
 const getClient = createServerOnlyFn(
@@ -31,5 +31,7 @@ export const generateMessage = createServerOnlyFn(async (prompt: string) => {
       model: SITE_CONFIG.assistant.model,
       userPrompt: prompt,
     });
+
+    throw err;
   }
 });

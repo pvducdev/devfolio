@@ -3,6 +3,10 @@ import Bowser from "bowser";
 
 import { SUPPORTED_BROWSERS } from "@/config/browser";
 
+export const isMac = createIsomorphicFn()
+  .server(() => false)
+  .client(() => Bowser.getParser(navigator.userAgent).getOSName() === "macOS");
+
 export const isMobile = createIsomorphicFn()
   .server(() => false)
   .client(
@@ -10,7 +14,7 @@ export const isMobile = createIsomorphicFn()
   );
 
 export const isSupportedBrowser = createIsomorphicFn()
-  .server(() => true)
+  .server(() => false)
   .client(
     () =>
       Bowser.getParser(navigator.userAgent).satisfies(SUPPORTED_BROWSERS) ??

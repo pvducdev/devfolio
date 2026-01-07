@@ -3,7 +3,7 @@ import { useShallow } from "zustand/shallow";
 import {
   CAREER_SECTIONS,
   DEFAULT_YEAR,
-} from "@/components/career-timeline/config";
+} from "@/components/career-runner/config";
 
 const SECTIONS_BY_ID = new Map(CAREER_SECTIONS.map((s) => [s.id, s]));
 
@@ -41,17 +41,6 @@ export const useCareerStore = create<State & Actions>()((set) => ({
 
 export const useActiveSectionId = () =>
   useCareerStore((s) => s.activeSectionId);
-
-export const useActiveSection = () =>
-  useCareerStore((s) =>
-    s.activeSectionId ? (SECTIONS_BY_ID.get(s.activeSectionId) ?? null) : null
-  );
-
-export const useCareerActiveSection = () =>
-  useCareerStore((s) => !!s.activeSectionId);
-
-export const useCareerScrolling = () =>
-  useCareerStore((s) => s.status === "scrolling");
 
 export const useCareerLooping = () =>
   useCareerStore((s) => s.status === "looping");

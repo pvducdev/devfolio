@@ -2,7 +2,7 @@ import { ChevronDown } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useRef } from "react";
 import { useBoolean } from "usehooks-ts";
-import type { ExpandedContent } from "@/components/career-timeline/config";
+import type { ExpandedContent } from "./config";
 import ExpandedSection from "./expanded-section";
 
 const GLOW_COLOR = "oklch(from var(--primary) l c h / 0.15)";

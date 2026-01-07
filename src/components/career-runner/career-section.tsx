@@ -1,9 +1,5 @@
 import { useEffect, useRef } from "react";
 import { useIntersectionObserver } from "usehooks-ts";
-import {
-  type CareerSection as TCareerSection,
-  UI_CONFIG,
-} from "@/components/career-timeline/config";
 import { useCareerScrollCtx } from "@/context/career-scroll.tsx";
 import { cn } from "@/lib/utils";
 import {
@@ -11,6 +7,7 @@ import {
   useCareerActions,
   useCareerLooping,
 } from "@/store/career";
+import { type CareerSection as TCareerSection, UI_CONFIG } from "./config";
 import JobCard from "./job-card";
 import Landmark from "./landmark";
 

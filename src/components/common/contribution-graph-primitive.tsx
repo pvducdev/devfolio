@@ -103,7 +103,6 @@ function Root({
     prop: selectedDateProp,
     defaultProp: defaultSelectedDate ?? null,
     onChange: onSelectedDateChange,
-    caller: "ContributionGraph",
   });
 
   const [hoveredDate, setHoveredDate] = useState<string | null>(null);

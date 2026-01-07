@@ -1,8 +1,8 @@
 import type { PropsWithChildren } from "react";
-import { UI_CONFIG } from "@/components/career-timeline/config";
 import { CareerScrollProvider } from "@/context/career-scroll.tsx";
 import { useCareerScroll } from "@/hooks/use-career-scroll.ts";
 import { cn } from "@/lib/utils.ts";
+import { UI_CONFIG } from "./config";
 
 export default function RunnerContainer({ children }: PropsWithChildren) {
   const { containerRef } = useCareerScroll();

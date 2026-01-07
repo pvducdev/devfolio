@@ -1,11 +1,11 @@
 import { motion, useReducedMotion, type Variants } from "motion/react";
-import type { ExpandedContent } from "@/components/career-timeline/config";
 import {
   page_career_label_infra,
   page_career_label_metrics,
   page_career_label_stack,
   page_career_label_tools,
 } from "@/paraglide/messages.js";
+import type { ExpandedContent } from "./config";
 import TechStackSection from "./tech-stack-section";
 
 const containerVariants: Variants = {
