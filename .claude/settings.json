@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(tree:*)",
+      "Bash(bun outdated)",
+      "Bash(npm outdated:*)",
+      "WebSearch",
+      "WebFetch(domain:motion.dev)",
+      "Bash(xargs:*)",
+      "Skill(example-skills:frontend-design)",
+      "Bash(grep:*)",
+      "Bash(ls:*)",
+      "WebFetch(domain:www.tailwind-variants.org)"
+    ],
+    "deny": [],
+    "ask": [],
+    "hooks": {
+      "PostToolUse": [
+        {
+          "matcher": "Write|Edit",
+          "hooks": [
+            {
+              "type": "command",
+              "command": "bun run fix || true"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

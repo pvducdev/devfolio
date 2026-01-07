@@ -16,5 +16,3 @@ export const LAYOUT_CONFIG = {
   },
   stretchLayout: false,
 } as const;
-
-export type LayoutConfig = typeof LAYOUT_CONFIG;
