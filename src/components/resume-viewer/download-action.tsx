@@ -1,6 +1,7 @@
 import { Download } from "lucide-react";
 import { Button } from "@/components/ui/button.tsx";
 import useFileDownload from "@/hooks/use-file-download.ts";
+import { getLogger } from "@/lib/logger/client.ts";
 import {
   action_resume_download,
   ui_resume_downloading,
@@ -18,6 +19,8 @@ export default function DownloadAction({ url, filename }: DownloadActionProps) {
     <Button
       disabled={isDownloading}
       onClick={() => {
+        getLogger().info("Download resume");
+
         downloadFile({
           url,
           filename,
