@@ -31,5 +31,7 @@ export const generateMessage = createServerOnlyFn(async (prompt: string) => {
       model: SITE_CONFIG.assistant.model,
       userPrompt: prompt,
     });
+
+    throw err;
   }
 });
