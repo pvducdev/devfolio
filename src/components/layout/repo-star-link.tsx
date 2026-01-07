@@ -1,16 +1,15 @@
-import { getRouteApi } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { Star } from "lucide-react";
 import { use } from "react";
 import { Badge } from "@/components/ui/badge";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { SITE_CONFIG } from "@/config/site";
+import getRepoStarsFn from "@/fn/get-repo-stars.ts";
 import { ui_settings_star_repo } from "@/paraglide/messages.js";
 
-const routeApi = getRouteApi("/_root-layout");
-
 export default function RepoStarLink() {
-  const { repoStarsPromise } = routeApi.useLoaderData();
-  const stars = use(repoStarsPromise);
+  const getRepoStars = useServerFn(getRepoStarsFn);
+  const stars = use(getRepoStars());
 
   const handleClick = () => {
     window.open(SITE_CONFIG.repository.url, "_blank", "noopener,noreferrer");

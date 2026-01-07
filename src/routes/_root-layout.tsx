@@ -7,8 +7,6 @@ import { HydrationGate } from "@/components/layout/hydration-gate.tsx";
 import RootLayout from "@/components/layout/root-layout.tsx";
 import StatusFooter from "@/components/layout/status-footer.tsx";
 import ThemeScript from "@/components/theme/theme-script.tsx";
-import { SITE_CONFIG } from "@/config/site";
-import getRepoStars from "@/fn/get-repo-stars";
 import { useRouteTabSync } from "@/hooks/use-route-tab-sync";
 import { isMobile, isSupportedBrowser } from "@/lib/browser";
 import {
@@ -26,11 +24,6 @@ export const Route = createFileRoute("/_root-layout")({
       throw new Error(msg_error_mobile_only());
     }
   },
-  loader: () => ({
-    repoStarsPromise: SITE_CONFIG.features.showRepoStars
-      ? getRepoStars()
-      : Promise.resolve(null),
-  }),
   component: RouteComponent,
 });
 
