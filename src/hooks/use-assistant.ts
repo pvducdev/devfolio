@@ -1,6 +1,6 @@
 import { useRef } from "react";
-import { type CommandContext, execute } from "@/commands";
 import generateAssistantResponseFn from "@/fn/generate-assistant-response.ts";
+import { type CommandContext, execute } from "@/lib/commands";
 import { ui_error_unexpected } from "@/paraglide/messages.js";
 import {
   useAssistantActions,

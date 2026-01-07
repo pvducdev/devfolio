@@ -3,7 +3,7 @@ import { useShallow } from "zustand/shallow";
 import {
   CAREER_SECTIONS,
   DEFAULT_YEAR,
-} from "@/components/career-timeline/config";
+} from "@/components/career-runner/config";
 
 const SECTIONS_BY_ID = new Map(CAREER_SECTIONS.map((s) => [s.id, s]));
 

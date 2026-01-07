@@ -1,6 +1,6 @@
 import { useRive, useStateMachineInput } from "@rive-app/react-canvas";
 import { useEffect } from "react";
-import { CHARACTER_CONFIG } from "@/components/career-timeline/config";
+import { CHARACTER_CONFIG } from "./config";
 import "@/lib/rive-init.ts";
 import { cn } from "@/lib/utils.ts";
 import { useCareerLooping, useCharacterAnimationState } from "@/store/career";
