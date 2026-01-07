@@ -9,6 +9,7 @@ import StatusFooter from "@/components/layout/status-footer.tsx";
 import ThemeScript from "@/components/theme/theme-script.tsx";
 import { useRouteTabSync } from "@/hooks/use-route-tab-sync";
 import { isMobile, isSupportedBrowser } from "@/lib/browser";
+import { isServer } from "@/lib/utils.ts";
 import {
   msg_error_mobile_only,
   msg_error_unsupported_browser,
@@ -16,6 +17,10 @@ import {
 
 export const Route = createFileRoute("/_root-layout")({
   beforeLoad: () => {
+    if (isServer()) {
+      return;
+    }
+
     if (!isSupportedBrowser()) {
       throw new Error(msg_error_unsupported_browser());
     }

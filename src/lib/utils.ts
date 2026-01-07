@@ -28,3 +28,7 @@ export function isFunction<T>(
 export const isProd = createIsomorphicFn()
   .server(() => process.env.NODE_ENV === "production")
   .client(() => import.meta.env.PROD);
+
+export const isServer = createIsomorphicFn()
+  .server(() => true)
+  .client(() => false);
