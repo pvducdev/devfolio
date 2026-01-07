@@ -1,4 +1,5 @@
 import { Expand, GitBranch, Settings, Shrink } from "lucide-react";
+import { Suspense } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useBoolean } from "usehooks-ts";
 import AssistantTrigger from "@/components/assistant/trigger.tsx";
@@ -6,6 +7,7 @@ import ButtonWithTooltip from "@/components/common/button-with-tooltip.tsx";
 import LanguageSwitcher from "@/components/common/language-switcher.tsx";
 import KeyboardShortcutsModal from "@/components/keyboard-shortcuts/modal.tsx";
 import AppSearch from "@/components/layout/app-search.tsx";
+import RepoStarLink from "@/components/layout/repo-star-link.tsx";
 import ResumeViewer from "@/components/resume-viewer/dialog-container.tsx";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -96,6 +98,14 @@ export default function Header() {
                 </DropdownMenuShortcut>
               </DropdownMenuItem>
             </DropdownMenuGroup>
+            {!!SITE_CONFIG.features.showRepoStars && (
+              <Suspense>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                  <RepoStarLink />
+                </DropdownMenuGroup>
+              </Suspense>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
         <KeyboardShortcutsModal

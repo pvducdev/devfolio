@@ -26,10 +26,17 @@ export const SITE_CONFIG = {
     temperature: 2.0,
   },
 
+  repository: {
+    owner: "pvducdev",
+    name: "devfolio",
+    url: "https://github.com/pvducdev/devfolio",
+  },
+
   features: {
     showAssistant: true,
     showResumeViewer: true,
     showThemeSwitcher: true,
+    showRepoStars: true,
   },
 
   rateLimit: {
