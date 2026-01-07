@@ -1,3 +1,4 @@
+import { useServerFn } from "@tanstack/react-start";
 import { Expand, GitBranch, Settings, Shrink } from "lucide-react";
 import { Suspense } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -21,6 +22,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SITE_CONFIG } from "@/config/site.ts";
+import getRepoStarsFn from "@/fn/get-repo-stars.ts";
 import { getDisplayKeys, getHotkeyCombo } from "@/lib/hotkeys";
 import {
   ui_layout_normal,
@@ -39,6 +41,7 @@ export default function Header() {
     toggle: toggleShortcuts,
     setValue: setShortcutsOpen,
   } = useBoolean(false);
+  const getRepoStars = useServerFn(getRepoStarsFn);
 
   useHotkeys(getHotkeyCombo("toggleLayout"), toggleStretchLayout);
   useHotkeys(getHotkeyCombo("showShortcuts"), toggleShortcuts);
@@ -102,7 +105,7 @@ export default function Header() {
               <Suspense>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  <RepoStarLink />
+                  <RepoStarLink starPromise={getRepoStars()} />
                 </DropdownMenuGroup>
               </Suspense>
             )}

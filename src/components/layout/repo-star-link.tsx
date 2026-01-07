@@ -1,15 +1,16 @@
-import { useServerFn } from "@tanstack/react-start";
 import { Star } from "lucide-react";
 import { use } from "react";
 import { Badge } from "@/components/ui/badge";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { SITE_CONFIG } from "@/config/site";
-import getRepoStarsFn from "@/fn/get-repo-stars.ts";
 import { ui_settings_star_repo } from "@/paraglide/messages.js";
 
-export default function RepoStarLink() {
-  const getRepoStars = useServerFn(getRepoStarsFn);
-  const stars = use(getRepoStars());
+interface RepoStarLinkProps {
+  starPromise: Promise<number | null>;
+}
+
+export default function RepoStarLink({ starPromise }: RepoStarLinkProps) {
+  const stars = use(starPromise);
 
   const handleClick = () => {
     window.open(SITE_CONFIG.repository.url, "_blank", "noopener,noreferrer");
