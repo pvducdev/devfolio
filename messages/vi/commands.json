@@ -21,5 +21,11 @@
   "cmd_theme_success": "Đang xài {themeName} nè.",
 
   "cmd_execute_unknown": "Không biết /{name} là gì. Thử /help",
-  "cmd_execute_failed": "Không chạy được."
+  "cmd_execute_failed": "Không chạy được.",
+
+  "cmd_feedback_desc": "Gửi tin nhắn cho mình",
+  "cmd_feedback_usage": "/feedback <tin nhắn>",
+  "cmd_feedback_empty": "Nói gì đi! Không gửi được tin rỗng",
+  "cmd_feedback_success": "Đã gửi! Cảm ơn bạn đã góp ý",
+  "cmd_feedback_failed": "Lỗi rồi, thử lại nhé?"
 }

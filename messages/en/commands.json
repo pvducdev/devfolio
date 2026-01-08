@@ -21,5 +21,11 @@
   "cmd_theme_success": "Vibing with {themeName} now.",
 
   "cmd_execute_unknown": "No clue what /{name} is. Try /help",
-  "cmd_execute_failed": "That didn't work."
+  "cmd_execute_failed": "That didn't work.",
+
+  "cmd_feedback_desc": "Drop me a message",
+  "cmd_feedback_usage": "/feedback <message>",
+  "cmd_feedback_empty": "Say something! Can't send empty vibes",
+  "cmd_feedback_success": "Message sent! Thanks for the feedback",
+  "cmd_feedback_failed": "Oops, couldn't send that. Try again?"
 }
