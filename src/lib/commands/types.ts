@@ -13,7 +13,7 @@ export interface CommandContext {
 
 export type CommandHandler<T = unknown> = (
   args: string[],
-  context: CommandContext
+  context?: CommandContext
 ) => Promise<CommandResult<T>> | CommandResult<T>;
 
 export interface Command<T = unknown> {
