@@ -41,7 +41,7 @@
         "fuse.js": "^7.1.0",
         "groq-sdk": "^0.37.0",
         "lucide-react": "^0.555.0",
-        "motion": "^12.23.26",
+        "motion": "^12.25.0",
         "react": "^19.2.0",
         "react-dom": "^19.2.0",
         "react-error-boundary": "^6.0.0",
