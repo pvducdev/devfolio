@@ -3,16 +3,19 @@ import { useHotkeys } from "react-hotkeys-hook";
 import SlashCommandPopover from "@/components/assistant/slash-command-popover.tsx";
 import { selectHighlightedCommand } from "@/components/assistant/utils.ts";
 import { Textarea } from "@/components/ui/textarea.tsx";
+import type { CommandItem } from "@/hooks/use-assistant";
 import { useCmdNav } from "@/hooks/use-cmd-nav.ts";
 import { useSlashCommands } from "@/hooks/use-slash-commands.ts";
 
 interface AssistantInputProps {
+  commands: CommandItem[];
   placeholder?: string;
   disabled?: boolean;
   onSubmit: (message: string) => void;
 }
 
 export default function AssistantInput({
+  commands,
   placeholder = "Type something...",
   disabled = false,
   onSubmit,
@@ -80,6 +83,7 @@ export default function AssistantInput({
     <div className="space-y-1 p-1">
       <SlashCommandPopover
         commandRef={commandRef}
+        commands={commands}
         inputValue={formattedInput}
         onCommandSelect={selectSlashCommand}
         onOpenChange={setShowCommands}

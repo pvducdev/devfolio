@@ -6,20 +6,21 @@
   "cmd_clear_success": "Chat cleared. Fresh start.",
 
   "cmd_help_desc": "Show what you can do here",
-  "cmd_help_usage": "/help [command]",
-  "cmd_help_unknown": "Never heard of that one: {cmdName}",
   "cmd_help_list_title": "Here's what you got:",
-  "cmd_help_list_footer": "Hit `/help <command>` for the details.",
-  "cmd_help_detail_usage": "Usage:",
-  "cmd_help_detail_aliases": "Aliases:",
-  "cmd_help_detail_examples": "Examples:",
+  "cmd_help_list_footer": "Try any command to get started.",
+  "cmd_help_pro_tip": "**Pro tip:** Double tap `Esc` to clear input",
 
   "cmd_theme_desc": "Switch up the look",
   "cmd_theme_usage": "/theme <theme-name>",
   "cmd_theme_missing_arg": "Pick a theme. Try: {themes}",
   "cmd_theme_unknown": "Never heard of '{themeName}'. Try: {themes}",
-  "cmd_theme_success": "Vibing with {themeName} now.",
 
   "cmd_execute_unknown": "No clue what /{name} is. Try /help",
-  "cmd_execute_failed": "That didn't work."
+  "cmd_execute_failed": "That didn't work.",
+
+  "cmd_feedback_desc": "Drop me a message",
+  "cmd_feedback_usage": "/feedback <message>",
+  "cmd_feedback_empty": "Say something! Can't send empty vibes",
+  "cmd_feedback_success": "Message sent! Thanks for the feedback",
+  "cmd_feedback_failed": "Oops, couldn't send that. Try again?"
 }

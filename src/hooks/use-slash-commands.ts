@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { type Command, SLASH_PREFIX } from "@/lib/commands";
+import { type CommandItem, SLASH_PREFIX } from "./use-assistant";
 
 interface UseSlashCommandsOptions {
-  onCommandSelect?: (command: Command) => void;
+  onCommandSelect?: (command: CommandItem) => void;
 }
 
 export function useSlashCommands(options: UseSlashCommandsOptions = {}) {
@@ -21,7 +21,7 @@ export function useSlashCommands(options: UseSlashCommandsOptions = {}) {
     setShowCommands(shouldShowCommands(value));
   };
 
-  const handleCommandSelect = (command: Command) => {
+  const handleCommandSelect = (command: CommandItem) => {
     setInputValue(`${SLASH_PREFIX}${command.name} `);
     setShowCommands(false);
     options.onCommandSelect?.(command);

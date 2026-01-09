@@ -6,20 +6,21 @@
   "cmd_clear_success": "Xóa xong. Bắt đầu lại thôi.",
 
   "cmd_help_desc": "Xem mình làm được gì",
-  "cmd_help_usage": "/help [lệnh]",
-  "cmd_help_unknown": "Chưa nghe nói về cái này: {cmdName}",
   "cmd_help_list_title": "Đây là những gì bạn có:",
-  "cmd_help_list_footer": "Gõ `/help <lệnh>` để xem chi tiết nhé.",
-  "cmd_help_detail_usage": "Cách dùng:",
-  "cmd_help_detail_aliases": "Tên khác:",
-  "cmd_help_detail_examples": "Ví dụ:",
+  "cmd_help_list_footer": "Thử bất kỳ lệnh nào để bắt đầu.",
+  "cmd_help_pro_tip": "**Mẹo:** Nhấn đúp `Esc` để xóa input",
 
   "cmd_theme_desc": "Đổi giao diện",
   "cmd_theme_usage": "/theme <tên-giao-diện>",
   "cmd_theme_missing_arg": "Chọn giao diện đi. Thử: {themes}",
   "cmd_theme_unknown": "Chưa nghe nói về '{themeName}'. Thử: {themes}",
-  "cmd_theme_success": "Đang xài {themeName} nè.",
 
   "cmd_execute_unknown": "Không biết /{name} là gì. Thử /help",
-  "cmd_execute_failed": "Không chạy được."
+  "cmd_execute_failed": "Không chạy được.",
+
+  "cmd_feedback_desc": "Gửi tin nhắn cho mình",
+  "cmd_feedback_usage": "/feedback <tin nhắn>",
+  "cmd_feedback_empty": "Nói gì đi! Không gửi được tin rỗng",
+  "cmd_feedback_success": "Đã gửi! Cảm ơn bạn đã góp ý",
+  "cmd_feedback_failed": "Lỗi rồi, thử lại nhé?"
 }

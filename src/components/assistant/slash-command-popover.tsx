@@ -12,7 +12,7 @@ import {
   PopoverAnchor,
   PopoverContent,
 } from "@/components/ui/popover.tsx";
-import { listCommands, type Command as TCommand } from "@/lib/commands";
+import type { CommandItem as TCommandItem } from "@/hooks/use-assistant";
 import { assistant_commands, assistant_empty } from "@/paraglide/messages.js";
 
 interface SlashCommandPopoverProps {
@@ -20,7 +20,8 @@ interface SlashCommandPopoverProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   inputValue: string;
-  onCommandSelect: (command: TCommand) => void;
+  commands: TCommandItem[];
+  onCommandSelect: (command: TCommandItem) => void;
   children: ReactNode;
 }
 
@@ -29,11 +30,10 @@ export default function SlashCommandPopover({
   open,
   onOpenChange,
   inputValue,
+  commands,
   onCommandSelect,
   children,
 }: SlashCommandPopoverProps) {
-  const commands = listCommands();
-
   return (
     <Popover onOpenChange={onOpenChange} open={open}>
       <PopoverAnchor asChild>{children}</PopoverAnchor>
