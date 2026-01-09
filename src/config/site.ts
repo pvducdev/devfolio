@@ -22,8 +22,8 @@ export const SITE_CONFIG = {
 
   assistant: {
     name: "HeyD",
-    model: "gemini-2.5-flash-lite",
-    temperature: 2.0,
+    model: "openai/gpt-oss-120b",
+    temperature: 0.7,
   },
 
   repository: {

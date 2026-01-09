@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { minLength, object, parse, pipe, string, transform } from "valibot";
-import { generateMessage } from "@/lib/gemini.ts";
+import { generateMessage } from "@/lib/llm.ts";
 import { typewriterStream } from "@/lib/typewriter-stream.ts";
 
 const InputSchema = pipe(
@@ -21,7 +21,7 @@ const generateAssistantResponse = createServerFn()
 
       const chunks = (async function* () {
         for await (const chunk of response) {
-          yield chunk.text;
+          yield chunk.choices[0]?.delta?.content ?? "";
         }
       })();
 
