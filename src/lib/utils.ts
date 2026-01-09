@@ -32,3 +32,10 @@ export const isProd = createIsomorphicFn()
 export const isServer = createIsomorphicFn()
   .server(() => true)
   .client(() => false);
+
+export function getInitials(text: string) {
+  return text
+    .split(" ")
+    .map((word) => word[0].toUpperCase())
+    .join("");
+}

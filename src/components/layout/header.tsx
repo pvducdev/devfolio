@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { SITE_CONFIG } from "@/config/site.ts";
 import { getDisplayKeys, getHotkeyCombo } from "@/lib/hotkeys";
+import { getInitials } from "@/lib/utils";
 import {
   ui_layout_normal,
   ui_layout_stretch,
@@ -59,7 +60,7 @@ export default function Header() {
         </ButtonWithTooltip>
         <div className="ml-14 flex items-center space-x-2">
           <Badge className="rounded bg-primary px-1 text-primary-foreground hover:bg-primary/90">
-            PP
+            {getInitials(SITE_CONFIG.title)}
           </Badge>
           <p className="font-medium text-xs">{SITE_CONFIG.title}</p>
         </div>
