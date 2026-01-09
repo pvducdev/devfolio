@@ -11,5 +11,8 @@ count.txt
 .vinxi
 todos.json
 
+# IDE
+.idea
+
 # Paraglide generated files
 src/paraglide
