@@ -3,7 +3,7 @@ import { persist } from "zustand/middleware";
 import { useShallow } from "zustand/shallow";
 import { STORE_KEYS } from "@/config/store-keys";
 
-export type AssistantStatus = "idle" | "thinking" | "streaming";
+export type AssistantStatus = "idle" | "thinking" | "streaming" | "error";
 
 interface AssistantState {
   message: string | null;
@@ -12,14 +12,9 @@ interface AssistantState {
 }
 
 interface AssistantActions {
-  setResponse: (content: string) => void;
   setMessage: (content: string) => void;
-  setThinking: () => void;
-  setStreaming: () => void;
-  setIdle: () => void;
-  appendChunk: (chunk: string) => void;
-  setError: (error: string) => void;
-  clearError: () => void;
+  setStatus: (status: AssistantStatus, error?: AssistantState["error"]) => void;
+  setChunkMessage: (chunk: string) => void;
   clear: () => void;
 }
 
@@ -36,26 +31,16 @@ export const useAssistantStore = create<AssistantStore>()(
     (set) => ({
       ...initialState,
 
-      setResponse: (content) =>
+      setMessage: (content) =>
         set({ message: content, status: "idle", error: null }),
 
-      setMessage: (content) => set({ message: content }),
+      setStatus: (status, error) => set({ status, error }),
 
-      setThinking: () => set({ status: "thinking", message: "", error: null }),
-
-      setStreaming: () => set({ status: "streaming" }),
-
-      setIdle: () => set({ status: "idle" }),
-
-      appendChunk: (chunk) =>
+      setChunkMessage: (chunk) =>
         set((state) => ({
           message: (state.message ?? "") + chunk,
           status: state.status === "thinking" ? "streaming" : state.status,
         })),
-
-      setError: (error) => set({ error, status: "idle" }),
-
-      clearError: () => set({ error: null }),
 
       clear: () => set(initialState),
     }),
@@ -78,14 +63,9 @@ export const useAssistantMessage = () => useAssistantStore((s) => s.message);
 export const useAssistantActions = () =>
   useAssistantStore(
     useShallow((s) => ({
-      setResponse: s.setResponse,
       setMessage: s.setMessage,
-      setThinking: s.setThinking,
-      setStreaming: s.setStreaming,
-      setIdle: s.setIdle,
-      appendChunk: s.appendChunk,
-      setError: s.setError,
-      clearError: s.clearError,
+      setChunkMessage: s.setChunkMessage,
+      setStatus: s.setStatus,
       clear: s.clear,
     }))
   );

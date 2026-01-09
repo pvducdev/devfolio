@@ -14,7 +14,6 @@
   "cmd_theme_usage": "/theme <tên-giao-diện>",
   "cmd_theme_missing_arg": "Chọn giao diện đi. Thử: {themes}",
   "cmd_theme_unknown": "Chưa nghe nói về '{themeName}'. Thử: {themes}",
-  "cmd_theme_success": "Đang xài {themeName} nè.",
 
   "cmd_execute_unknown": "Không biết /{name} là gì. Thử /help",
   "cmd_execute_failed": "Không chạy được.",

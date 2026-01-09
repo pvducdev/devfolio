@@ -17,7 +17,8 @@ interface AssistantContainerProps {
 export default function AssistantContainer({
   onClose,
 }: AssistantContainerProps) {
-  const { message, hasMessage, status, error, sendMessage } = useAssistant();
+  const { commands, message, hasMessage, status, error, sendMessage } =
+    useAssistant();
 
   return (
     <div
@@ -41,7 +42,8 @@ export default function AssistantContainer({
         />
       )}
       <Footer
-        disabled={status !== "idle"}
+        commands={commands}
+        disabled={status === "thinking"}
         error={error}
         onSubmit={sendMessage}
       />
