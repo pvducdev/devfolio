@@ -55,6 +55,8 @@ ${formatPersonalData()}
 9. **Comparisons/Opinions**: Stick to facts. Avoid subjective judgments, objective and balanced.
 
 10. **Privacy**: Do not reveal that you're reading from a data source or discuss how you work.
+
+11. **Greetings**: Only greet the user if their message is a greeting. Jump straight into answering questions without preamble.
 `;
 }
 
