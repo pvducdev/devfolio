@@ -14,7 +14,6 @@
       "**/vite.config.js",
       "!**/src/routeTree.gen.ts",
       "!**/src/components/ui/**/*",
-      "!**/src/components/ai-elements",
       "!**/src/paraglide/**/*",
       "!**/src/routes/**/*.$*.tsx"
     ]

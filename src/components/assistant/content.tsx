@@ -1,6 +1,6 @@
-import { Response } from "@/components/ai-elements/response.tsx";
 import Welcome from "@/components/assistant/welcome.tsx";
 import ScrollAreaWithAnchor from "@/components/common/scroll-area-with-anchor.tsx";
+import { Response } from "@/components/ui/ai-elements/response.tsx";
 import { TextShimmer } from "@/components/ui/text-shimmer.tsx";
 import { assistant_thinking } from "@/paraglide/messages.js";
 import type { AssistantStatus } from "@/store/assistant.ts";
