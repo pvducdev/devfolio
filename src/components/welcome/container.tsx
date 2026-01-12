@@ -15,7 +15,7 @@ export default function WelcomeContainer() {
           <span className="text-primary">{SITE_CONFIG.title}</span>
         </h1>
         <p className="mb-10 font-serif text-muted-foreground leading-relaxed">
-          {PERSONAL_INFO.shortBio}
+          {PERSONAL_INFO.bio}
         </p>
 
         <div className="mb-8 grid gap-3">

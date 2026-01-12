@@ -6,8 +6,7 @@
   "page_welcome_title": "Welcome to",
   "page_welcome_desc": "Designed in a {highlight} workspace",
 
-  "page_about_shortbio": "Building web experiences that actually work. Take a look around and see what I've been cooking.",
-  "page_about_longbio": "3 years in frontend. React, Vue, and whatever's trending. Keeping it real.",
+  "page_about_bio": "Building web experiences that actually work. Take a look around and see what I've been cooking.",
   "page_about_interest1": "Trying out new frameworks (it's an addiction at this point)",
   "page_about_interest2": "Crafting UIs that feel modern",
   "page_about_interest3": "Keeping up with the dev world's latest trends",

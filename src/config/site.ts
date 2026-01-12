@@ -4,10 +4,10 @@ import { SKILLS } from "./skills";
 
 export const SITE_CONFIG = {
   title: env.VITE_APP_TITLE || "PVD Portfolio",
-  description: PERSONAL_INFO.shortBio,
+  description: PERSONAL_INFO.bio,
   // biome-ignore lint/correctness/noUndeclaredVariables: <vite define>
   version: __APP_VERSION__,
-  url: "https://your-domain.com",
+  url: env.VITE_BASE_URL || "",
 
   meta: {
     author: PERSONAL_INFO.name,

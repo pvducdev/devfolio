@@ -1,16 +1,15 @@
 import {
+  page_about_bio,
   page_about_interest1,
   page_about_interest2,
   page_about_interest3,
-  page_about_longbio,
-  page_about_shortbio,
 } from "@/paraglide/messages.js";
 
 export const PERSONAL_INFO = {
   name: "PVD",
   nickname: "D",
   dob: 2001,
-  role: "Frontend Developer",
+  role: "Javascript Developer",
   location: "HCMC, Vietnam",
   experience: 3, // years
   openToWork: true,
@@ -18,7 +17,7 @@ export const PERSONAL_INFO = {
   contact: {
     email: "pvducc.dev@gmail.com",
     github: "https://github.com/pvducdev",
-    linkedin: "https://linkedin.com/in/username",
+    linkedin: "https://linkedin.com/in/pvducdev",
     gitlab: "https://gitlab.com/pvducc.dev",
   },
 
@@ -35,12 +34,8 @@ export const PERSONAL_INFO = {
     ];
   },
 
-  get shortBio() {
-    return page_about_shortbio();
-  },
-
-  get longBio() {
-    return page_about_longbio();
+  get bio() {
+    return page_about_bio();
   },
 };
 

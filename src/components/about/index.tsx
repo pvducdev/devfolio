@@ -79,7 +79,7 @@ export default function AboutPage() {
         </div>
 
         <blockquote className="mx-auto max-w-2xl border-border border-y-2 border-l-0 py-4 font-serif">
-          {PERSONAL_INFO.shortBio}
+          {PERSONAL_INFO.bio}
         </blockquote>
 
         <ContributionSection />
