@@ -59,6 +59,7 @@ export default function CareerSection({ section }: CareerSectionProps) {
           details={section.card.details}
           expanded={section.card.expanded}
           isActive={isActive}
+          jobType={section.jobType}
           subtitle={section.card.subtitle}
           title={section.card.title}
         />

@@ -5,8 +5,6 @@ import viteReact from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import viteTsConfigPaths from "vite-tsconfig-paths";
 import packageJson from "./package.json" with { type: "json" };
-// noinspection ES6PreferShortImport
-import { PROJECTS } from "./src/config/projects";
 
 const config = defineConfig({
   define: {
@@ -36,7 +34,9 @@ const config = defineConfig({
       },
       pages: [
         { path: "/home" },
-        ...PROJECTS.map((p) => ({ path: `/projects/${p.id}` })),
+        { path: "/projects/portfolio" },
+        { path: "/projects/ieltsy-bot" },
+        { path: "/projects/daily-tech-bot" },
       ],
     }),
     viteReact({

@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import ProjectPage from "@/components/project";
+import {Container} from "@/components/project/container.tsx";
 
 export const Route = createFileRoute("/_root-layout/projects/$id")({
-  component: ProjectPage,
+  component: () => <Container projectId={Route.useParams().id}/>,
 });

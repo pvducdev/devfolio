@@ -27,19 +27,20 @@ export const CAREER_TIMELINE: CareerEntry[] = [
     jobType: "education",
     icon: GraduationCap,
     title: "Software Engineering Degree",
-    company: "Person BTEC FPT",
+    company: "Pearson BTEC FPT",
     details: ["Bachelor's Degree", "Class of 2019", "Software Engineering"],
     expanded: {
       description:
         "Dove deep into core CS concepts—algorithms, data structures, OOP, and databases. Shipped several team projects and picked up solid debugging instincts along the way.",
       techStack: {
         primary: ["HTML/CSS", "Java", "Python", "C++", "SQL", "Javascript"],
-        tools: ["Git", "VS Code", "Eclipse", "IntelliJ IDEA"],
+        tools: ["Git", "VS/VS Code", "Eclipse", "IntelliJ IDEA", "Postman"],
+        infrastructure: ["GitHub", "Heroku"],
       },
       metrics: [
         "GPA: 3.0",
-        "Completed 2 English Certificates",
-        "Hackathon Good Idea Recognition",
+        "English Certificate Level 2",
+        "Hackathon Good Idea Recognition: https://shorturl.at/RwOgx",
       ],
     },
   },
@@ -49,21 +50,21 @@ export const CAREER_TIMELINE: CareerEntry[] = [
     icon: Building2,
     title: "Fresher Frontend Developer",
     company: "Koina Investment Group",
-    details: ["React", "Vue", "Typescript", "TanStack"],
+    details: ["React", "Vue", "Typescript"],
     expanded: {
       description:
         "Developed internal tools and client-facing web apps for sale and investment platforms",
       techStack: {
         primary: [
-          "React",
-          "Vue",
-          "Typescript",
+          "React Bootstrap",
           "Ant Design",
           "PrimeVue",
-          "Redux",
+          "React Query/Table",
+          "Zustand/Redux",
+          "etc.",
         ],
-        tools: ["Figma", "GitHub", "Jira"],
-        infrastructure: ["GCP"],
+        tools: ["Figma", "Docker", "ESLint/Prettier", "Vite", "Slack"],
+        infrastructure: ["Keycloak", "GCP", "Gitlab"],
       },
       metrics: [
         "Streamlined internal workflows",
@@ -83,13 +84,19 @@ export const CAREER_TIMELINE: CareerEntry[] = [
       description:
         "Developed administrative websites and applications for managing import-export goods and tracking international orders",
       techStack: {
-        primary: ["React", "Typescript", "React Native", "Ant Design", "Expo"],
+        primary: [
+          "Expo",
+          "TanStack",
+          "i18n",
+          "NativeBase",
+          "Ant Design Pro",
+          "FlashList",
+        ],
         tools: ["Expo EAS", "Docker"],
         infrastructure: [
           "AWS",
           "Firebase Notification",
-          "Apple Developer Program",
-          "Google Play Developer Program",
+          "Apple/Google Developer Program",
         ],
       },
       metrics: [
@@ -105,19 +112,28 @@ export const CAREER_TIMELINE: CareerEntry[] = [
     icon: Building2,
     title: "Frontend Executive",
     company: "KOVA Paint Group",
-    details: ["Vue", "React", "Nuxt", "TypeScript"],
+    details: ["Vue", "React", "Nuxt"],
     expanded: {
       description:
         "Built and maintained Back Office systems, dealer portals, and mobile webviews",
       techStack: {
-        primary: ["Vue", "Nuxt", "Javascript", "React"],
-        tools: ["Cypress", "Strapi", "Algolia Search", "New Relic"],
+        primary: [
+          "Refine",
+          "MUI",
+          "Pinia",
+          "Ant Design Pro",
+          "i18n",
+          "TanStack",
+          "etc.",
+        ],
+        tools: ["Cypress", "Strapi", "Algolia Search", "New Relic", "Docker"],
         infrastructure: ["AWS", "GitHub Actions", "Metabase"],
       },
       metrics: [
         "50+ reusable modules with dynamic config",
         "Scalable loyalty program for 10,000+ users",
         "Micro-frontend architecture design",
+        "Synced with multi-service backend ecosystem",
       ],
     },
   },
@@ -127,12 +143,12 @@ export const CAREER_TIMELINE: CareerEntry[] = [
     icon: Users,
     title: "Frontend Collaborator",
     company: "Hoa Cuong Farm",
-    details: ["React", "Next.js", "TypeScript", "TanStack"],
+    details: ["React", "Next.js", "TypeScript"],
     expanded: {
       description:
         "Architecting modern marketplace web applications with cutting-edge technologies and AI integration.",
       techStack: {
-        primary: ["React", "Next.js", "TanStack", "TypeScript", "Zustand"],
+        primary: ["Keycloak", "Shadcn/ui", "i18n", "TanStack"],
         tools: ["Google Analytics", "Strapi", "OpenAI API"],
         infrastructure: ["GCP", "GitHub Actions"],
       },
