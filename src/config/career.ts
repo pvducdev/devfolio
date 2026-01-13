@@ -148,9 +148,9 @@ export const CAREER_TIMELINE: CareerEntry[] = [
       description:
         "Architecting modern marketplace web applications with cutting-edge technologies and AI integration.",
       techStack: {
-        primary: ["Keycloak", "Shadcn/ui", "i18n", "TanStack"],
+        primary: ["Shadcn/ui", "i18n", "TanStack"],
         tools: ["Google Analytics", "Strapi", "OpenAI API"],
-        infrastructure: ["GCP", "GitHub Actions"],
+        infrastructure: ["AWS", "Keycloak", "GitHub Actions"],
       },
       metrics: [
         "AI-powered product recommendations",
