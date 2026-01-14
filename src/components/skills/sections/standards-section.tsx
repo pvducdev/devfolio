@@ -8,7 +8,7 @@ interface StandardsSectionProps {
 
 export default function StandardsSection({ standards }: StandardsSectionProps) {
   return (
-    <section className="col-span-1 grid grid-cols-1 gap-7 border-border border-t pt-10 md:col-span-12 md:grid-cols-4">
+    <section className="col-span-1 grid grid-cols-1 gap-7 pt-10 md:col-span-12 md:grid-cols-4">
       <div className="md:col-span-1">
         <SectionHeader
           className="mb-3 tracking-[0.2em]"

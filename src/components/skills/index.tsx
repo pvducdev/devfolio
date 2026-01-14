@@ -1,5 +1,5 @@
 import { SKILLS } from "@/config/skills";
-import ExploringFooter from "./exploring-footer";
+import ExploringSection from "./exploring-section.tsx";
 import CoreSkillsSection from "./sections/core-skills-section";
 import DevOpsSection from "./sections/devops-section";
 import StackSection from "./sections/stack-section";
@@ -18,9 +18,8 @@ export default function SkillsPage() {
         <DevOpsSection items={SKILLS.devops} />
         <StandardsSection standards={SKILLS.standards} />
         <WorkflowSection items={SKILLS.workflow} />
+        <ExploringSection items={SKILLS.exploring} />
       </main>
-
-      <ExploringFooter items={SKILLS.exploring} />
     </div>
   );
 }

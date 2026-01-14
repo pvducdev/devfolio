@@ -8,7 +8,7 @@ interface StackSectionProps {
 
 export default function StackSection({ items }: StackSectionProps) {
   return (
-    <section className="col-span-1 md:col-span-5 md:col-start-2 lg:col-span-4 lg:col-start-3">
+    <section className="col-span-1 md:col-span-6 md:col-start-2 lg:col-span-5 lg:col-start-3">
       <SectionHeader
         className="mb-6 tracking-[0.2em]"
         number="02"
