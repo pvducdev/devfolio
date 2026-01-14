@@ -3,7 +3,7 @@
 
   "action_cancel": "Hủy",
   "action_resume_download": "Tải ngay",
-  "action_sidebar_opencareer": "Mở Career Runner",
+  "action_sidebar_opencareer": "Vào xem",
 
   "msg_error_fileload": "Ối, file không tải được",
   "msg_error_filepath": "Kiểm tra lại đường dẫn file nhé (tương đối với src/)",
