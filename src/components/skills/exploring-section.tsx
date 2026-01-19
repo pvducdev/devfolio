@@ -1,14 +1,18 @@
+import SectionHeader from "@/components/skills/components/section-header.tsx";
+
 interface ExploringFooterProps {
   items: string[];
 }
 
-export default function ExploringFooter({ items }: ExploringFooterProps) {
+export default function ExploringSection({ items }: ExploringFooterProps) {
   return (
-    <footer className="absolute bottom-4 left-4 z-1 md:left-8">
+    <footer className="col-span-1 pt-10 md:col-span-8 md:col-start-3 lg:col-start-4">
       <div className="flex flex-col gap-0.5">
-        <span className="font-bold text-muted-foreground text-xs uppercase tracking-widest">
-          Currently Exploring
-        </span>
+        <SectionHeader
+          className="mb-3 tracking-[0.2em]"
+          number="06"
+          title="Currently Exploring"
+        />
         <div className="flex items-center gap-1.5">
           <span className="size-1.5 animate-pulse rounded-full bg-chart-3" />
           <span className="font-mono text-foreground text-xs">

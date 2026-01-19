@@ -2,7 +2,7 @@ import { ChevronDown } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useRef } from "react";
 import { useBoolean } from "usehooks-ts";
-import type { ExpandedContent } from "./config";
+import type { ExpandedContent, JobType } from "./config";
 import ExpandedSection from "./expanded-section";
 
 const GLOW_COLOR = "oklch(from var(--primary) l c h / 0.15)";
@@ -10,6 +10,7 @@ const GLOW_COLOR = "oklch(from var(--primary) l c h / 0.15)";
 interface JobCardProps {
   title: string;
   subtitle: string;
+  jobType: JobType;
   details: string[];
   expanded?: ExpandedContent;
   isActive?: boolean;
@@ -32,6 +33,7 @@ function getAnimationProps(prefersReducedMotion: boolean, isActive: boolean) {
 export default function JobCard({
   title,
   subtitle,
+  jobType,
   details,
   expanded,
   isActive = false,
@@ -70,7 +72,7 @@ export default function JobCard({
         layout
         onClick={handleClick}
         style={{
-          width: isExpanded ? 288 : 192,
+          width: isExpanded ? 320 : 192,
           willChange: "transform, opacity, box-shadow",
           transformOrigin: "center center",
           overflow: "hidden",
@@ -97,7 +99,9 @@ export default function JobCard({
               </motion.span>
             ) : null}
           </div>
-          <p className="text-muted-foreground text-xs">{subtitle}</p>
+          <p className="text-muted-foreground text-xs">
+            {subtitle} ({jobType})
+          </p>
         </div>
 
         <ul className="space-y-1">

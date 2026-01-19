@@ -3,7 +3,7 @@
 
   "action_cancel": "Cancel",
   "action_resume_download": "Download now",
-  "action_sidebar_opencareer": "Open Career Runner",
+  "action_sidebar_opencareer": "Let's go",
 
   "msg_error_fileload": "Oops, file didn't load",
   "msg_error_filepath": "Make sure the file path is relative to src/ directory",

@@ -6,8 +6,7 @@
   "page_welcome_title": "Chào mừng đến với",
   "page_welcome_desc": "Được thiết kế theo phong cách {highlight}",
 
-  "page_about_shortbio": "Xây dựng web cho ra hồn. Lướt qua xem tớ đã làm được gì nhé.",
-  "page_about_longbio": "3 năm làm frontend. React, Vue, và mấy thứ đang hot. Thật.",
+  "page_about_bio": "Xây dựng web cho ra hồn. Lướt qua xem tớ đã làm được gì nhé.",
   "page_about_interest1": "Thử nghiệm framework mới (nghiện rồi)",
   "page_about_interest2": "Thiết kế UI hiện đại",
   "page_about_interest3": "Theo dõi xu hướng công nghệ mới",

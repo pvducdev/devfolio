@@ -24,9 +24,9 @@ export const SKILLS = {
   ],
   stack: [
     { name: "Next.js", tag: "App Router / SSR" },
+    { name: "Nuxt.js", tag: "App Router / SSR" },
     { name: "Svelte", tag: "SvelteKit / SSR" },
     { name: "NestJS", tag: "Modular / DI" },
-    { name: "Zustand / Redux", tag: "Global State" },
   ],
   devops: [
     { name: "GitHub Actions", tag: "CI/CD Pipelines" },
@@ -55,11 +55,11 @@ export const SKILLS = {
   workflow: [
     { name: "Agile/Scrum", highlighted: true },
     { name: "Code Reviews", highlighted: false },
-    { name: "Pair Programming", highlighted: false },
     { name: "Technical Writing", highlighted: true },
-    { name: "Problem Solving", highlighted: false },
+    { name: "Pair Programming", highlighted: false },
+    { name: "Problem Solving", highlighted: true },
   ],
-  exploring: ["WebAssembly", "Rust"],
+  exploring: ["Golang"],
 };
 
 export type Skills = typeof SKILLS;

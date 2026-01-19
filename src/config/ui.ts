@@ -1,6 +1,6 @@
 export const LAYOUT_CONFIG = {
   sidebar: {
-    defaultSize: 25,
+    defaultSize: 20,
     minSize: 15,
     maxSize: 40,
     defaultSection: null,
@@ -12,7 +12,7 @@ export const LAYOUT_CONFIG = {
     defaultSection: "assistant",
   },
   editor: {
-    defaultSize: 50,
+    defaultSize: undefined,
   },
   stretchLayout: false,
 } as const;

@@ -36,35 +36,23 @@ export const PROJECT_TREE: Record<string, PageTreeItem> = {
   },
   frontend: {
     name: "Frontend",
-    children: [
-      "project-1-frontend",
-      "project-2-frontend",
-      "project-3-frontend",
-    ],
+    children: ["portfolio"],
   },
-  "project-1-frontend": {
-    name: "project-1-frontend.tsx",
-    path: "/projects/project-1-frontend",
-  },
-  "project-2-frontend": {
-    name: "projects.tsx",
-    path: "/projects/project-2-frontend",
-  },
-  "project-3-frontend": {
-    name: "projects.tsx",
-    path: "/projects/project-3-frontend",
+  portfolio: {
+    name: "portfolio.tsx",
+    path: "/projects/portfolio",
   },
   backend: {
     name: "Backend",
-    children: ["project-1-backend", "project-2-backend"],
+    children: ["ieltsy-bot", "daily-tech-bot"],
   },
-  "project-1-backend": {
-    name: "projects.tsx",
-    path: "/projects/project-1-backend",
+  "ieltsy-bot": {
+    name: "ieltsy-bot.tsx",
+    path: "/projects/ieltsy-bot",
   },
-  "project-2-backend": {
-    name: "projects.tsx",
-    path: "/projects/project-2-backend",
+  "daily-tech-bot": {
+    name: "daily-tech-bot.tsx",
+    path: "/projects/daily-tech-bot",
   },
 } as const;
 
