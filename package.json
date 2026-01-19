@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev --port 3000",
-    "start": "node .output/server/index.mjs",
     "build": "vite build",
-    "serve": "vite preview",
+    "preview": "vite preview",
+    "deploy": "bun run build && wrangler deploy",
+    "cf-typegen": "wrangler types",
     "test": "vitest run",
     "format": "biome format",
     "lint": "biome lint",
@@ -26,7 +27,7 @@
     "@headless-tree/react": "^1.5.1",
     "@inlang/paraglide-js": "^2.6.0",
     "@logtail/browser": "^0.5.6",
-    "@logtail/node": "^0.5.6",
+    "@logtail/edge": "^0.5.7",
     "@octokit/rest": "^22.0.1",
     "@radix-ui/react-context-menu": "^2.2.16",
     "@radix-ui/react-dialog": "^1.1.15",
@@ -69,6 +70,8 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.8",
+    "@cloudflare/vite-plugin": "^1.21.0",
+    "@cloudflare/workers-types": "^4.20260118.0",
     "@logtail/types": "^0.5.6",
     "@tanstack/react-devtools": "^0.8.2",
     "@tanstack/react-router-devtools": "^1.139.12",
@@ -85,6 +88,7 @@
     "ultracite": "^6.3.8",
     "vite": "^7.2.6",
     "vitest": "^4.0.14",
-    "web-vitals": "^5.1.0"
+    "web-vitals": "^5.1.0",
+    "wrangler": "^4.59.2"
   }
 }

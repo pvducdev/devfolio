@@ -1,3 +1,4 @@
+import { ClientOnly } from "@tanstack/react-router";
 import Welcome from "@/components/assistant/welcome.tsx";
 import ScrollAreaWithAnchor from "@/components/common/scroll-area-with-anchor.tsx";
 import { Response } from "@/components/ui/ai-elements/response.tsx";
@@ -23,7 +24,9 @@ export default function AssistantContent({
 
     if (message) {
       return (
-        <Response isAnimating={status === "streaming"}>{message}</Response>
+        <ClientOnly>
+          <Response isAnimating={status === "streaming"}>{message}</Response>
+        </ClientOnly>
       );
     }
 

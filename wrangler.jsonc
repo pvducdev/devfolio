@@ -1,0 +1,11 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "devfolio",
+  "compatibility_date": "2025-09-23",
+  "compatibility_flags": ["nodejs_compat"],
+  "main": "./src/server.ts",
+  "vars": {
+    "VITE_APP_TITLE": "PVD Portfolio",
+    "VITE_BASE_URL": "https://devfolio.pages.dev"
+  }
+}

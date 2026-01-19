@@ -1,3 +1,4 @@
+import { cloudflare } from "@cloudflare/vite-plugin";
 import { paraglideVitePlugin } from "@inlang/paraglide-js";
 import tailwindcss from "@tailwindcss/vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
@@ -12,6 +13,7 @@ const config = defineConfig({
   },
   assetsInclude: ["**/*.wasm"],
   plugins: [
+    cloudflare({ viteEnvironment: { name: "ssr" } }),
     viteTsConfigPaths({
       projects: ["./tsconfig.json"],
     }),
@@ -25,19 +27,8 @@ const config = defineConfig({
     }),
     tanstackStart({
       prerender: {
-        enabled: true,
-        autoStaticPathsDiscovery: true,
-        crawlLinks: true,
-        concurrency: 10,
-        failOnError: true,
-        filter: ({ path }) => !path.startsWith("/about"),
+        enabled: false,
       },
-      pages: [
-        { path: "/home" },
-        { path: "/projects/portfolio" },
-        { path: "/projects/ieltsy-bot" },
-        { path: "/projects/daily-tech-bot" },
-      ],
     }),
     viteReact({
       babel: {
