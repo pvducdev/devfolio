@@ -1,18 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import AboutPage from "@/components/about";
 import { SITE_CONFIG } from "@/config/site";
-import { env } from "@/env/client";
-import type { ContributionData } from "@/lib/contributions";
 import { nav_main_about } from "@/paraglide/messages";
 
 export const Route = createFileRoute("/_root-layout/about")({
   head: () => ({
     meta: [{ title: `${nav_main_about()} | ${SITE_CONFIG.title}` }],
-  }),
-  loader: async () => ({
-    contributions: await fetch(`${env.VITE_BASE_URL}/api/contributions`).then<
-      ContributionData[]
-    >((res) => res.json()),
   }),
   component: AboutPage,
 });

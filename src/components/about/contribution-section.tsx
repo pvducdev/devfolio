@@ -1,5 +1,5 @@
-import { getRouteApi } from "@tanstack/react-router";
 import ContributionCell from "@/components/about/contribution-cell";
+import { ContributionSectionSkeleton } from "@/components/about/contribution-section-skeleton";
 // biome-ignore lint/performance/noNamespaceImport: component pattern
 import * as ContributionGraph from "@/components/common/contribution-graph";
 import {
@@ -8,6 +8,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { CONTRIBUTIONS_CONFIG } from "@/config/contributions";
+import { useContributions } from "@/hooks/use-contributions";
 import { useContributionGraph } from "@/hooks/use-contributions-graph.ts";
 import type { ContributionData } from "@/lib/contributions/types";
 import { formatMonth, formatWeekday } from "@/lib/date";
@@ -71,11 +72,11 @@ function getLevelForCount(count: number): number {
 }
 
 export default function ContributionSection() {
+  const { data, isLoading } = useContributions();
+
   const { weeks, months, weekdays, startDate, endDate } = useContributionGraph({
     weekStartDay: 0,
   });
-  const api = getRouteApi("/_root-layout/about");
-  const { contributions: data } = api.useLoaderData();
   const locale = getLocale();
   const visibleWeekdays = [1, 3, 5];
 
@@ -83,6 +84,10 @@ export default function ContributionSection() {
     (sum, item: ContributionData) => sum + item.count,
     0
   );
+
+  if (isLoading) {
+    return <ContributionSectionSkeleton />;
+  }
 
   return (
     <section aria-label="contributions" className="mx-auto w-full p-4">
