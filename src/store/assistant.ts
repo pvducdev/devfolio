@@ -46,7 +46,10 @@ export const useAssistantStore = create<AssistantStore>()(
     }),
     {
       name: STORE_KEYS.ASSISTANT,
-      partialize: (state) => ({ message: state.message }),
+      partialize: (state) =>
+        state.status === "idle" || state.status === "error"
+          ? { message: state.message }
+          : {},
     }
   )
 );
