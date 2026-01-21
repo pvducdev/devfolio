@@ -4,8 +4,30 @@
   "compatibility_date": "2025-09-23",
   "compatibility_flags": ["nodejs_compat"],
   "main": "./src/server.ts",
+
+  "workers_dev": true,
   "vars": {
-    "VITE_APP_TITLE": "PVD Portfolio",
-    "VITE_BASE_URL": "https://devfolio.pages.dev"
+    "ENVIRONMENT": "development"
+  },
+
+  "env": {
+    "staging": {
+      "name": "devfolio-staging",
+      "workers_dev": true,
+      "vars": {
+        "ENVIRONMENT": "staging"
+      }
+    },
+    "production": {
+      "name": "devfolio-production",
+      "workers_dev": false,
+      "routes": [
+        { "pattern": "pvduc.id.vn/*", "zone_name": "pvduc.id.vn" },
+        { "pattern": "www.pvduc.id.vn/*", "zone_name": "pvduc.id.vn" }
+      ],
+      "vars": {
+        "ENVIRONMENT": "production"
+      }
+    }
   }
 }

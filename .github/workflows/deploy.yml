@@ -1,0 +1,73 @@
+name: Deploy to Cloudflare Workers
+
+on:
+  push:
+    branches: [main, develop]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy'
+        required: true
+        default: 'staging'
+        type: choice
+        options: [staging, production]
+
+concurrency:
+  group: deploy-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.environment || (github.ref_name == 'main' && 'production' || 'staging') }}
+      url: ${{ steps.deploy.outputs.deployment-url }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install --frozen-lockfile
+
+      - name: Build
+        run: bun run build
+        env:
+          VITE_APP_TITLE: ${{ vars.VITE_APP_TITLE }}
+          VITE_BASE_URL: ${{ vars.VITE_BASE_URL }}
+          VITE_LOGTAIL_SOURCE_TOKEN: ${{ secrets.VITE_LOGTAIL_SOURCE_TOKEN }}
+          VITE_LOGTAIL_INGESTING_HOST: ${{ vars.VITE_LOGTAIL_INGESTING_HOST }}
+
+      - name: Set environment
+        id: env
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "wrangler_env=${{ github.event.inputs.environment }}" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref_name }}" == "main" ]]; then
+            echo "wrangler_env=production" >> $GITHUB_OUTPUT
+          else
+            echo "wrangler_env=staging" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Deploy
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy --env ${{ steps.env.outputs.wrangler_env }}
+          secrets: |
+            LLM_API_KEY
+            GIT_CONTRIBUTION_TOKEN
+            GITHUB_TOKEN
+            LOGTAIL_SOURCE_TOKEN
+            LOGTAIL_INGESTING_HOST
+        env:
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          GIT_CONTRIBUTION_TOKEN: ${{ secrets.GIT_CONTRIBUTION_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          LOGTAIL_SOURCE_TOKEN: ${{ secrets.LOGTAIL_SOURCE_TOKEN }}
+          LOGTAIL_INGESTING_HOST: ${{ vars.LOGTAIL_INGESTING_HOST }}

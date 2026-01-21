@@ -27,12 +27,24 @@ pnpx shadcn@latest add <component>  # Add new UI component
 
 ## Environment Variables
 
-Required in `.env`:
+Required in `.env` (local dev) or `.dev.vars` (wrangler secrets):
 ```
-GEMINI_API_KEY=<required>           # Google Generative AI for chatbot
-GIT_CONTRIBUTION_TOKEN=<optional>   # GitHub contributions graph
-VITE_APP_TITLE=<optional>           # Defaults to "PVD Portfolio"
-VITE_BASE_URL=<optional>            # Defaults to "http://localhost:3000"
+# Server - Required
+LLM_API_KEY=                        # LLM provider API key (Groq)
+LOGTAIL_SOURCE_TOKEN=               # Server-side logging
+LOGTAIL_INGESTING_HOST=             # Logtail host
+
+# Server - Optional
+GIT_CONTRIBUTION_TOKEN=             # GitLab contributions
+GITHUB_TOKEN=                       # GitHub contributions
+
+# Client - Required
+VITE_LOGTAIL_SOURCE_TOKEN=          # Client-side logging
+VITE_LOGTAIL_INGESTING_HOST=        # Client-side logging host
+
+# Client - Optional
+VITE_APP_TITLE=                     # Defaults to "PVD Portfolio"
+VITE_BASE_URL=                      # Defaults to "http://localhost:3000"
 ```
 
 ## Architecture

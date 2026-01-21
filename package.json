@@ -1,6 +1,7 @@
 {
-  "name": "zxc",
+  "name": "devfolio",
   "version": "0.1",
+  "author": "pvducc.dev@gmail.com",
   "private": true,
   "type": "module",
   "scripts": {
@@ -8,6 +9,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "deploy": "bun run build && wrangler deploy",
+    "deploy:staging": "bun run build && wrangler deploy --env staging",
+    "deploy:production": "bun run build && wrangler deploy --env production",
     "cf-typegen": "wrangler types",
     "test": "vitest run",
     "format": "biome format",
