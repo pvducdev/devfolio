@@ -19,22 +19,22 @@ export const PROJECTS: ProjectConfig[] = [
     url: SITE_CONFIG.url,
     guides: [
       {
-        src: "https://res.cloudinary.com/dwzyai9vb/image/upload/v1768403440/Screenshot_2026-01-14_at_22.07.40_asegno.png",
+        src: "https://res.cloudinary.com/dwzyai9vb/image/upload/f_auto/Screenshot_2026-01-14_at_22.07.40_asegno.png",
         type: "screenshot",
         title: "Starter",
       },
       {
-        src: "https://res.cloudinary.com/dwzyai9vb/image/upload/Screenshot_2026-01-14_at_22.17.17_x6hsej.jpg",
+        src: "https://res.cloudinary.com/dwzyai9vb/image/upload/f_auto/Screenshot_2026-01-14_at_22.17.17_x6hsej.jpg",
         type: "screenshot",
         title: "About",
       },
       {
-        src: "https://res.cloudinary.com/dwzyai9vb/image/upload/v1768403920/Screenshot_2026-01-14_at_22.17.29_vskgg2.png",
+        src: "https://res.cloudinary.com/dwzyai9vb/image/upload/f_auto/Screenshot_2026-01-14_at_22.17.29_vskgg2.png",
         type: "screenshot",
         title: "Skill",
       },
       {
-        src: "https://res.cloudinary.com/dwzyai9vb/image/upload/v1768403920/Screenshot_2026-01-14_at_22.17.40_aymati.png",
+        src: "https://res.cloudinary.com/dwzyai9vb/image/upload/f_auto/Screenshot_2026-01-14_at_22.17.40_aymati.png",
         type: "screenshot",
         title: "Career",
       },
@@ -70,22 +70,22 @@ export const PROJECTS: ProjectConfig[] = [
     url: "https://t.me/pvd_stuff_bot",
     guides: [
       {
-        src: "https://res.cloudinary.com/dwzyai9vb/image/upload/v1768404624/Screenshot_2026-01-14_at_22.27.05_ptervq.png",
+        src: "https://res.cloudinary.com/dwzyai9vb/image/upload/f_auto/Screenshot_2026-01-14_at_22.27.05_ptervq.png",
         type: "screenshot",
         title: "Starter",
       },
       {
-        src: "https://res.cloudinary.com/dwzyai9vb/image/upload/v1768406229/Screenshot_2026-01-14_at_22.53.15_f0b1fm.png",
+        src: "https://res.cloudinary.com/dwzyai9vb/image/upload/f_auto/Screenshot_2026-01-14_at_22.53.15_f0b1fm.png",
         type: "screenshot",
         title: "Q&A - English quiz",
       },
       {
-        src: "https://res.cloudinary.com/dwzyai9vb/image/upload/v1768406234/Screenshot_2026-01-14_at_22.53.46_saihxj.png",
+        src: "https://res.cloudinary.com/dwzyai9vb/image/upload/f_auto/Screenshot_2026-01-14_at_22.53.46_saihxj.png",
         type: "screenshot",
         title: "Chain - Word Chain Game",
       },
       {
-        src: "https://res.cloudinary.com/dwzyai9vb/image/upload/v1768406229/Screenshot_2026-01-14_at_22.55.19_tva7yr.png",
+        src: "https://res.cloudinary.com/dwzyai9vb/image/upload/f_auto/Screenshot_2026-01-14_at_22.55.19_tva7yr.png",
         type: "screenshot",
         title: "Jumble - Word Jumble Game",
       },
@@ -115,7 +115,7 @@ export const PROJECTS: ProjectConfig[] = [
     url: "https://t.me/d_stupid_bot",
     guides: [
       {
-        src: "https://res.cloudinary.com/dwzyai9vb/image/upload/v1768406227/Screenshot_2026-01-14_at_22.31.31_ge3wjd.png",
+        src: "https://res.cloudinary.com/dwzyai9vb/image/upload/f_auto/Screenshot_2026-01-14_at_22.31.31_ge3wjd.png",
         type: "screenshot",
         title: "Usage",
       },
