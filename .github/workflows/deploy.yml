@@ -58,7 +58,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy -c wrangler.jsonc --env ${{ steps.env.outputs.wrangler_env }}
+          command: deploy --env ${{ steps.env.outputs.wrangler_env }}
           secrets: |
             LLM_API_KEY
             GIT_CONTRIBUTION_TOKEN
