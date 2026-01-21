@@ -22,7 +22,7 @@ export const PERSONAL_INFO = {
   },
 
   resume: {
-    url: "https://res.cloudinary.com/dwzyai9vb/image/upload/v1768811740/pvd-resume_wh0n3t.pdf",
+    url: "https://res.cloudinary.com/dwzyai9vb/image/upload/q_auto/pvd-resume_wh0n3t.pdf",
     fileName: "pvd-resume.pdf",
   },
 
