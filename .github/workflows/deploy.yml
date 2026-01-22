@@ -59,7 +59,8 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy
+          environment: ${{ steps.env.outputs.cloudflare_env }}
+          command: deploy --env ${{ steps.env.outputs.cloudflare_env }}
           secrets: |
             LLM_API_KEY
             GIT_CONTRIBUTION_TOKEN
