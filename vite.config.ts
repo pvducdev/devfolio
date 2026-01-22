@@ -11,7 +11,6 @@ const config = defineConfig({
   define: {
     __APP_VERSION__: JSON.stringify(packageJson.version),
   },
-  assetsInclude: ["**/*.wasm"],
   plugins: [
     cloudflare({ viteEnvironment: { name: "ssr" } }),
     viteTsConfigPaths({
