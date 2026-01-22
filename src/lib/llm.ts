@@ -14,7 +14,7 @@ const getClient = createServerOnlyFn(
 
 export const generateMessage = createServerOnlyFn(async (prompt: string) => {
   try {
-    const stream = await getClient().chat.completions.create({
+    return await getClient().chat.completions.create({
       messages: [
         { role: "system", content: systemInstruction },
         { role: "user", content: prompt },
@@ -23,8 +23,6 @@ export const generateMessage = createServerOnlyFn(async (prompt: string) => {
       temperature: SITE_CONFIG.assistant.temperature,
       stream: true,
     });
-
-    return stream;
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
 
@@ -32,6 +30,8 @@ export const generateMessage = createServerOnlyFn(async (prompt: string) => {
       model: SITE_CONFIG.assistant.model,
       userPrompt: prompt,
     });
+
+    getLogger().flush();
 
     throw err;
   }
