@@ -12,14 +12,12 @@
 
   "env": {
     "staging": {
-      "name": "devfolio-staging",
       "workers_dev": true,
       "vars": {
         "ENVIRONMENT": "staging"
       }
     },
     "production": {
-      "name": "devfolio-production",
       "workers_dev": false,
       "routes": [
         { "pattern": "pvduc.id.vn/*", "zone_name": "pvduc.id.vn" },

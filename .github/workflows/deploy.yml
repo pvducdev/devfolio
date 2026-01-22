@@ -33,24 +33,25 @@ jobs:
 
       - run: bun install --frozen-lockfile
 
-      - name: Build
-        run: bun run build
-        env:
-          VITE_APP_TITLE: ${{ vars.VITE_APP_TITLE }}
-          VITE_BASE_URL: ${{ vars.VITE_BASE_URL }}
-          VITE_LOGTAIL_SOURCE_TOKEN: ${{ secrets.VITE_LOGTAIL_SOURCE_TOKEN }}
-          VITE_LOGTAIL_INGESTING_HOST: ${{ vars.VITE_LOGTAIL_INGESTING_HOST }}
-
       - name: Set environment
         id: env
         run: |
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            echo "wrangler_env=${{ github.event.inputs.environment }}" >> $GITHUB_OUTPUT
+            echo "cloudflare_env=${{ github.event.inputs.environment }}" >> $GITHUB_OUTPUT
           elif [[ "${{ github.ref_name }}" == "main" ]]; then
-            echo "wrangler_env=production" >> $GITHUB_OUTPUT
+            echo "cloudflare_env=production" >> $GITHUB_OUTPUT
           else
-            echo "wrangler_env=staging" >> $GITHUB_OUTPUT
+            echo "cloudflare_env=staging" >> $GITHUB_OUTPUT
           fi
+
+      - name: Build
+        run: bun run build
+        env:
+          CLOUDFLARE_ENV: ${{ steps.env.outputs.cloudflare_env }}
+          VITE_APP_TITLE: ${{ vars.VITE_APP_TITLE }}
+          VITE_BASE_URL: ${{ vars.VITE_BASE_URL }}
+          VITE_LOGTAIL_SOURCE_TOKEN: ${{ secrets.VITE_LOGTAIL_SOURCE_TOKEN }}
+          VITE_LOGTAIL_INGESTING_HOST: ${{ vars.VITE_LOGTAIL_INGESTING_HOST }}
 
       - name: Deploy
         id: deploy
@@ -58,7 +59,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy --env ${{ steps.env.outputs.wrangler_env }}
+          command: deploy
           secrets: |
             LLM_API_KEY
             GIT_CONTRIBUTION_TOKEN
