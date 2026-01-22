@@ -1,12 +1,31 @@
-import { ClientOnly } from "@tanstack/react-router";
+import { useRive, useStateMachineInput } from "@rive-app/react-canvas";
+import { useEffect } from "react";
 import { cn } from "@/lib/utils.ts";
 import { useCareerLooping, useCharacterAnimationState } from "@/store/career";
 import { CHARACTER_CONFIG } from "./config";
-import RiveCharacter from "./rive-character";
 
 export default function Character() {
-  const careerLooping = useCareerLooping();
   const animationState = useCharacterAnimationState();
+  const careerLooping = useCareerLooping();
+
+  const { rive, RiveComponent } = useRive({
+    src: CHARACTER_CONFIG.src,
+    stateMachines: CHARACTER_CONFIG.stateMachine,
+    autoplay: true,
+  });
+
+  const stateInput = useStateMachineInput(
+    rive,
+    CHARACTER_CONFIG.stateMachine,
+    CHARACTER_CONFIG.runningInput
+  );
+
+  useEffect(() => {
+    if (!stateInput) {
+      return;
+    }
+    stateInput.value = CHARACTER_CONFIG.states[animationState];
+  }, [animationState, stateInput]);
 
   return (
     <div
@@ -20,9 +39,7 @@ export default function Character() {
         aspectRatio: `${CHARACTER_CONFIG.size.width} / ${CHARACTER_CONFIG.size.height}`,
       }}
     >
-      <ClientOnly fallback={null}>
-        <RiveCharacter animationState={animationState} />
-      </ClientOnly>
+      <RiveComponent />
     </div>
   );
 }
