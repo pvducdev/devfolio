@@ -108,7 +108,7 @@ ${cmd_help_pro_tip()}`;
       description: cmd_feedback_desc(),
       icon: MessageSquare,
       aliases: ["fb"],
-      handler: async (args) => {
+      handler: (args) => {
         const feedbackMessage = args.join(" ").trim();
 
         if (!feedbackMessage) {
@@ -118,8 +118,10 @@ ${cmd_help_pro_tip()}`;
 
         try {
           const logger = getLogger();
-          await logger.info(`[User Feedback]: ${feedbackMessage}`);
-          await logger.flush();
+          logger.info("User feedback submitted", {
+            message: feedbackMessage,
+            timestamp: new Date().toISOString(),
+          });
         } catch {
           setStatus("error", cmd_feedback_failed());
         }

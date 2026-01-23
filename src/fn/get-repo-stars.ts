@@ -19,7 +19,11 @@ const getRepoStars = createServerFn().handler(async () => {
     return data.stargazers_count;
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
-    getLogger().error(message);
+    getLogger().error("Failed to fetch repository stars", {
+      owner: SITE_CONFIG.repository.owner,
+      repo: SITE_CONFIG.repository.name,
+      error: message,
+    });
 
     return null;
   }

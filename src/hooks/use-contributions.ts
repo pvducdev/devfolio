@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useMount } from "@/hooks/use-mount";
 import type { ContributionData } from "@/lib/contributions/types";
+import { getLogger } from "@/lib/logger/client";
 
 export function useContributions() {
   const [data, setData] = useState<ContributionData[]>([]);
@@ -14,7 +15,12 @@ export function useContributions() {
       const contributions = await response.json();
       setData(contributions);
       setStatus("idle");
-    } catch {
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      getLogger().error("Failed to fetch contributions", {
+        endpoint: "/api/contributions",
+        error: message,
+      });
       setStatus("error");
     }
   });

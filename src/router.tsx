@@ -19,11 +19,12 @@ export const getRouter = () =>
     scrollRestoration: true,
     defaultPreload: "intent",
     defaultPreloadStaleTime: Number.POSITIVE_INFINITY,
-    defaultOnCatch: (err, errInfo) => {
-      getLogger().error(err.message, {
+    defaultOnCatch: async (err, errInfo) => {
+      await getLogger().error(err.message, {
         componentStack: errInfo.componentStack,
         stack: err.stack,
       });
+      getLogger().flush();
     },
     defaultStaleTime: Number.POSITIVE_INFINITY,
     defaultNotFoundComponent: () => (
