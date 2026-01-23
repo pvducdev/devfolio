@@ -36,6 +36,10 @@ export const isServer = createIsomorphicFn()
 export function getInitials(text: string) {
   return text
     .split(" ")
-    .map((word) => word[0].toUpperCase())
+    .map((word) => {
+      const alphanumeric = word.replace(/[^a-zA-Z0-9]/g, "");
+      return alphanumeric[0]?.toUpperCase() || "";
+    })
+    .filter(Boolean)
     .join("");
 }
