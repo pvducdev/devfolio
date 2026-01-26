@@ -1,5 +1,5 @@
+import { useHydrated } from "@tanstack/react-router";
 import type { PropsWithChildren, ReactNode } from "react";
-import { useHasHydrated } from "@/store/app-layout";
 
 interface HydrationGateProps {
   fallback: ReactNode;
@@ -9,7 +9,7 @@ export function HydrationGate({
   children,
   fallback,
 }: PropsWithChildren<HydrationGateProps>) {
-  const hasHydrated = useHasHydrated();
+  const hasHydrated = useHydrated();
 
   if (!hasHydrated) {
     return fallback;

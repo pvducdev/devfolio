@@ -15,7 +15,11 @@ export const gitlabProvider: ContributionProvider = async (username, token) => {
   );
 
   if (!response.ok) {
-    getLogger().error(`GitLab calendar API error: ${response.status}`);
+    getLogger().error("GitLab calendar API error", {
+      username,
+      status: response.status,
+      statusText: response.statusText,
+    });
     return [];
   }
 

@@ -1,7 +1,10 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  useHydrated,
+  useNavigate,
+} from "@tanstack/react-router";
 import { useEffect } from "react";
 import { ROUTES } from "@/config/routes";
-import { useHasHydrated } from "@/store/app-layout";
 import { useActiveTabId } from "@/store/tabs";
 
 export const Route = createFileRoute("/")({
@@ -11,7 +14,7 @@ export const Route = createFileRoute("/")({
 function IndexRedirect() {
   const navigate = useNavigate();
   const activeTabId = useActiveTabId();
-  const hasHydrated = useHasHydrated();
+  const hasHydrated = useHydrated();
 
   useEffect(() => {
     if (!hasHydrated) {

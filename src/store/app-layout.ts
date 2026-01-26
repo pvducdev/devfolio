@@ -10,7 +10,6 @@ export interface AppLayoutState {
   sidebarSize: number;
   panelSize: number;
   isStretchLayout: boolean;
-  _hasHydrated: boolean;
 }
 
 export interface AppLayoutActions {
@@ -19,10 +18,9 @@ export interface AppLayoutActions {
   setSidebarSize: (size: number) => void;
   setPanelSize: (size: number) => void;
   toggleStretchLayout: () => void;
-  setHasHydrated: (state: boolean) => void;
 }
 
-const DEFAULT_APP_LAYOUT: Omit<AppLayoutState, "_hasHydrated"> = {
+const DEFAULT_APP_LAYOUT: AppLayoutState = {
   sidebar: LAYOUT_CONFIG.sidebar.defaultSection,
   panel: LAYOUT_CONFIG.panel.defaultSection,
   sidebarSize: LAYOUT_CONFIG.sidebar.defaultSize,
@@ -34,7 +32,6 @@ export const useAppLayoutStore = create<AppLayoutState & AppLayoutActions>()(
   persist(
     (set) => ({
       ...DEFAULT_APP_LAYOUT,
-      _hasHydrated: false,
       toggleSidebar: (value) => {
         set((state) => ({
           sidebar: state.sidebar === value ? null : value,
@@ -52,20 +49,9 @@ export const useAppLayoutStore = create<AppLayoutState & AppLayoutActions>()(
       toggleStretchLayout: () => {
         set((state) => ({ isStretchLayout: !state.isStretchLayout }));
       },
-      setHasHydrated: (state) => {
-        set({ _hasHydrated: state });
-      },
     }),
     {
       name: STORE_KEYS.APP_LAYOUT,
-      onRehydrateStorage: (state) => () => state.setHasHydrated(true),
-      partialize: (state) => ({
-        sidebar: state.sidebar,
-        panel: state.panel,
-        sidebarSize: state.sidebarSize,
-        panelSize: state.panelSize,
-        isStretchLayout: state.isStretchLayout,
-      }),
     }
   )
 );
@@ -77,8 +63,6 @@ export const useIsPanelOpen = () => useAppLayoutStore((s) => s.panel !== null);
 
 export const useIsStretchLayout = () =>
   useAppLayoutStore((s) => s.isStretchLayout);
-
-export const useHasHydrated = () => useAppLayoutStore((s) => s._hasHydrated);
 
 export const useSidebarSection = () => useAppLayoutStore((s) => s.sidebar);
 

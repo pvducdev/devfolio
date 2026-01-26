@@ -1,8 +1,6 @@
 {
   "$schema": "https://inlang.com/schema/inlang-message-format",
 
-  "page_portfolio_header": "PORTFOLIO SÁNG TẠO",
-
   "page_welcome_title": "Chào mừng đến với",
   "page_welcome_desc": "Được thiết kế theo phong cách {highlight}",
 
