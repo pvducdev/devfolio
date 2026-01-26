@@ -1,8 +1,6 @@
 {
   "$schema": "https://inlang.com/schema/inlang-message-format",
 
-  "page_portfolio_header": "CREATIVE PORTFOLIO",
-
   "page_welcome_title": "Welcome to",
   "page_welcome_desc": "Designed in a {highlight} workspace",
 
