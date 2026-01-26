@@ -40,7 +40,7 @@ export const PROJECTS: ProjectConfig[] = [
       },
     ],
     package: {
-      name: "zxc",
+      name: "devfolio",
       description: "Personal portfolio built with TanStack Start",
       dependencies: {
         react: "^19.x.x",

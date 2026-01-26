@@ -11,7 +11,7 @@ export function CodeBlock({ json, className }: CodeBlockProps) {
   return (
     <pre
       className={cn(
-        "overflow-auto whitespace-pre-wrap break-words p-2 font-mono text-card-foreground text-xs leading-relaxed",
+        "wrap-break-word h-full overflow-y-auto whitespace-pre-wrap p-2 font-mono text-card-foreground text-xs leading-relaxed",
         className
       )}
     >
