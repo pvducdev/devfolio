@@ -2,6 +2,7 @@
   "name": "devfolio",
   "version": "0.1",
   "author": "pvducc.dev@gmail.com",
+  "license": "MIT",
   "private": true,
   "type": "module",
   "scripts": {

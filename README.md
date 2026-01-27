@@ -2,6 +2,9 @@
 
 A developer portfolio with IDE-inspired design, built with React 19 and TanStack Start.
 
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Contributing](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)](CONTRIBUTING.md)
+
 ## Quick Start
 
 ```bash
