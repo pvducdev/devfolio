@@ -36,6 +36,10 @@ jobs:
       - name: Lint & Format Check
         run: bun run check
 
+      - name: Get version
+        id: version
+        run: echo "version=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
+
       - name: Set environment
         id: env
         run: |
@@ -51,6 +55,7 @@ jobs:
         run: bun run build
         env:
           CLOUDFLARE_ENV: ${{ steps.env.outputs.cloudflare_env }}
+          VITE_APP_VERSION: v${{ steps.version.outputs.version }}
           VITE_APP_TITLE: ${{ vars.VITE_APP_TITLE }}
           VITE_BASE_URL: ${{ vars.VITE_BASE_URL }}
           VITE_LOGTAIL_SOURCE_TOKEN: ${{ secrets.VITE_LOGTAIL_SOURCE_TOKEN }}
