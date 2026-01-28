@@ -17,7 +17,12 @@ export const SITE_CONFIG = {
       ...SKILLS.core.map((s) => s.name.toLowerCase()),
       ...SKILLS.stack.map((s) => s.name.toLowerCase()),
     ],
-    ogImage: "/og-image.png",
+    ogImage:
+      "https://res.cloudinary.com/d-devfolio/image/upload/w_1200,h_630,c_fill,q_auto,f_auto/devfolio_ai_uhrs0v.png",
+    ogImageWidth: "1200",
+    ogImageHeight: "630",
+    ogType: "website",
+    twitterCard: "summary_large_image",
   },
 
   assistant: {
