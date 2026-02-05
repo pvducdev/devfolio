@@ -1,3 +1,4 @@
+import type { ExecutionContext } from "@cloudflare/workers-types";
 import handler from "@tanstack/react-start/server-entry";
 import { paraglideMiddleware } from "./paraglide/server.js";
 
@@ -10,10 +11,15 @@ function cloneRequest(request: Request): Request {
 }
 
 export default {
-  fetch(request: Request): Response | Promise<Response> {
+  fetch(
+    request: Request,
+    env: unknown,
+    ctx: ExecutionContext
+  ): Response | Promise<Response> {
     return paraglideMiddleware(
       cloneRequest(request),
-      ({ request: localizedRequest }) => handler.fetch(localizedRequest)
+      ({ request: localizedRequest }) =>
+        handler.fetch(localizedRequest, { context: { env, ctx } })
     );
   },
 };

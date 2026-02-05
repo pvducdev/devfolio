@@ -5,16 +5,13 @@ import systemInstruction from "@/config/system-prompt";
 import { env } from "@/env/server";
 import { getLogger } from "@/lib/logger/client.ts";
 
-const getClient = createServerOnlyFn(
-  () =>
-    new Groq({
-      apiKey: env.LLM_API_KEY,
-    })
-);
-
 export const generateMessage = createServerOnlyFn(async (prompt: string) => {
   try {
-    return await getClient().chat.completions.create({
+    const client = new Groq({
+      apiKey: env.LLM_API_KEY,
+    });
+
+    return await client.chat.completions.create({
       messages: [
         { role: "system", content: systemInstruction },
         { role: "user", content: prompt },
@@ -26,12 +23,10 @@ export const generateMessage = createServerOnlyFn(async (prompt: string) => {
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
 
-    getLogger().error(`[LLM] Failed to generate message: ${message}`, {
+    await getLogger().error(`[LLM] Failed to generate message: ${message}`, {
       model: SITE_CONFIG.assistant.model,
       userPrompt: prompt,
     });
-
-    getLogger().flush();
 
     throw err;
   }
