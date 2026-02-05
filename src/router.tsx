@@ -24,7 +24,6 @@ export const getRouter = () =>
         componentStack: errInfo.componentStack,
         stack: err.stack,
       });
-      getLogger().flush();
     },
     defaultStaleTime: Number.POSITIVE_INFINITY,
     defaultNotFoundComponent: () => (
