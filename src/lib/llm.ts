@@ -26,12 +26,12 @@ export const generateMessage = createServerOnlyFn(async (prompt: string) => {
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
 
-    getLogger().error(`[LLM] Failed to generate message: ${message}`, {
+    await getLogger().error(`[LLM] Failed to generate message: ${message}`, {
       model: SITE_CONFIG.assistant.model,
       userPrompt: prompt,
     });
 
-    getLogger().flush();
+    await getLogger().flush();
 
     throw err;
   }

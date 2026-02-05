@@ -32,7 +32,7 @@ const generateAssistantResponse = createServerFn()
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
 
-      getLogger().error("Failed to stream assistant message", {
+      await getLogger().error("Failed to stream assistant message", {
         error: message,
         userPrompt: data.prompt,
       });
