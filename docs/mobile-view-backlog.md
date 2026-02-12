@@ -1,312 +1,274 @@
 # Mobile View Backlog: Tap-First Terminal Portfolio
+
+Implementation backlog — restructured from PM-driven planning to developer-driven execution.
+Desktop codebase already provides all data, stores, hooks, themes, i18n, and utilities.
+This backlog focuses on what to build, not what to define.
+
 ---
 
 ## Priority Legend
 
-- **P0** = Must Have (MVP Blockers) - Cannot launch without
+- **P0** = Must Have (MVP) - Cannot launch without
 - **P1** = Should Have (Launch) - High value, include if possible
-- **P2** = Nice to Have (Post-MVP) - Defer to backlog if tight timeline
+- **P2** = Nice to Have (Post-MVP) - Defer if tight
 
 ---
 
-## PHASE 1: FOUNDATION
+## Codebase Reuse Map
 
-### Week 1: Discovery & Planning
+What already exists and needs zero changes:
 
-| ID         | Task                 | Description                                                                 | Priority | Owner        | Acceptance Criteria                                                                                                                                                                             | Dependencies |
-|------------|----------------------|-----------------------------------------------------------------------------|----------|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------|
-| **PM-001** | Content Inventory    | Document all portfolio content: projects, skills, career, bio, social links | P0       | PM + Content | ✓ 3-5 complete projects with images<br>✓ 8-12 skills categorized<br>✓ 3-5 career entries with dates<br>✓ Bio (100-200 words)<br>✓ All social links validated                                    | None         |
-| **PM-002** | User Journey Mapping | Define all navigation flows, entry/exit points                              | P0       | PM           | ✓ 5-7 primary user journeys documented<br>✓ All views connected with clear paths<br>✓ Back navigation logic defined<br>✓ External link flows mapped                                             | None         |
-| **PM-003** | Command Dock Logic   | Define context-aware buttons for each view (3-4 buttons max)                | P0       | PM           | ✓ Complete button matrix for all 7 views<br>✓ Button priority order defined<br>✓ Label character limits (8-10 chars max)<br>✓ Disabled state rules specified<br>✓ Active view indicator defined | PM-002       |
+| Layer | Reusable Assets |
+|-------|-----------------|
+| **Config** | `personal-info.ts`, `projects.ts`, `skills.ts`, `career.ts`, `theme.ts`, `routes.ts`, `search/` |
+| **Stores** | `useThemeStore`, `useAppLayoutStore`, `useAssistantStore`, `useCareerStore`, `useTabsStore` |
+| **Hooks** | `useContributions`, `useContributionsGraph`, `useSearch`, `useAssistant`, `useFileDownload`, `useRepoStars` |
+| **i18n** | Paraglide EN/VI with all translation keys in `messages/` |
+| **Themes** | 3 CSS themes (default, mono, notebook) + font loading |
+| **Utils** | `cn()`, search engine (Fuse.js), contributions API, logger, browser detection |
+| **Server** | Contributions API endpoint, assistant LLM (Groq), middleware |
+| **UI** | All shadcn components in `components/ui/` |
 
-### Week 2: Interaction Rules
+What needs modification:
 
-| ID         | Task                      | Description                                                | Priority | Owner | Acceptance Criteria                                                                                                                                                                     | Dependencies |
-|------------|---------------------------|------------------------------------------------------------|----------|-------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------|
-| **PM-004** | Ghost Typing Behavior     | Define visual feedback mechanism and interruption handling | P0       | PM    | ✓ Animation duration: 200-500ms<br>✓ Typing speed: 30-50ms/char<br>✓ Commands match terminal syntax<br>✓ **Interruption rule: Cancel on new tap**<br>✓ Button disabled during animation | PM-003       |
-| **PM-005** | Direct Manipulation Rules | Define tap behavior for all listed content items           | P0       | PM    | ✓ All tappable elements defined<br>✓ Touch targets 44x44pt minimum<br>✓ Visual feedback specified (highlight)<br>✓ Long-press behavior defined<br>✓ External link confirmation modal    | PM-002       |
-| **PM-006** | Smart Scroll Logic        | Define auto-scroll and position memory                     | P0       | PM    | ✓ Scroll to top of content on navigation<br>✓ 60-80pt clearance above dock<br>✓ Back navigation restores position<br>✓ Smooth animation (300ms)<br>✓ Handles dynamic content height     | PM-004       |
-
-### Week 3: Global Features
-
-| ID         | Task                  | Description                                    | Priority | Owner | Acceptance Criteria                                                                                                                                                                                                                                                        | Dependencies |
-|------------|-----------------------|------------------------------------------------|----------|-------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------|
-| **PM-007** | Settings Drawer Spec  | Define [#] menu content, behavior, and z-index | P0       | PM    | ✓ Half-screen drawer slides up (250ms)<br>✓ Backdrop dimmed (40% opacity)<br>✓ Dismissible via tap outside or close<br>✓ Contains: Theme, Language, Search, Assistant, Repo, Version<br>✓ Z-index above all content                                                        | PM-003       |
-| **PM-008** | Theme System Rules    | Define 3 themes with specific color palettes   | P0       | PM    | ✓ **C x J**: Black bg, green text, terminal aesthetic<br>✓ **Mono**: White bg, black text, minimalist<br>✓ **Notebook**: Cream bg (#F5F3EE), dark blue text, subtle texture<br>✓ WCAG AA contrast (4.5:1 min)<br>✓ Instant apply (no reload)<br>✓ Persists in localStorage | PM-007       |
-| **PM-009** | Language/Localization | Define EN/VI toggle for static UI text         | P1       | PM    | ✓ Toggle between English/Vietnamese<br>✓ All static text translatable<br>✓ Content can remain single language<br>✓ Persists in localStorage<br>✓ Translation keys documented (50+ keys)                                                                                    | PM-007       |
-
-### Week 4: Core View Requirements
-
-| ID         | Task                       | Description                                              | Priority | Owner | Acceptance Criteria                                                                                                                                                                                                                                                                                                                                 | Dependencies   |
-|------------|----------------------------|----------------------------------------------------------|----------|-------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------|
-| **PM-010** | Home View Requirements     | Define landing page: greeting, directory listing, dock   | P0       | PM    | ✓ "HI, I'M [NAME]" + title<br>✓ Last login timestamp (can be static)<br>✓ 4 directory items tappable<br>✓ Instruction text clear<br>✓ Dock: 4 buttons (PROJECTS, SKILLS, ABOUT, CAREER)<br>✓ Loading state specified                                                                                                                                | PM-001, PM-003 |
-| **PM-011** | Projects View Architecture | Define list (2a) and detail (2b) with image interactions | P0       | PM    | ✓ List: `ls -la` style, numbered 01-NN<br>✓ Each row: name, description (40-60 chars), stack (3-5 items)<br>✓ Detail: Full case study (200-300 words)<br>✓ **Images: Grayscale default, color on tap/hold**<br>✓ **"View Source Code (GitHub)" link**<br>✓ NEXT button cycles through projects<br>✓ Pagination if >10 projects                      | PM-001, PM-005 |
-| **PM-012** | About View Requirements    | Define bio, ASCII avatar, social links, GitHub activity  | P0       | PM    | ✓ **ASCII/Pixelated avatar** style (200x200pt)<br>✓ Bio 100-200 words<br>✓ 3-6 social links as tappable rows<br>✓ **Vertical GitHub Activity Matrix** (4 weeks × 7 days)<br>✓ Activity levels: ░ ▒ ▓ █ (4 levels)<br>✓ Data source: GitHub API or static snapshot<br>✓ **Update frequency: Weekly or static**<br>✓ Resume download behavior defined | PM-001         |
-| **PM-013** | Skills View Requirements   | Define system monitor style with proficiency bars        | P0       | PM    | ✓ System stats header (CPU/MEM metaphor)<br>✓ Skills table: PID, Name, Status columns<br>✓ Status: [ACTIVE] (used in 6 months) / [IDLE]<br>✓ Proficiency bars: ASCII `[####.....]` + %<br>✓ 8-12 skills minimum<br>✓ Can be categorized or flat                                                                                                     | PM-001         |
-| **PM-014** | Career View Requirements   | Define git log timeline with markers                     | P0       | PM    | ✓ Chronological order (education → present)<br>✓ Vertical ASCII tree: `│`, `o`, `+`, `*`<br>✓ Markers: o=Education, +=Part-time, *=Full-time<br>✓ Each entry: Year, role, company, 1-2 line description<br>✓ "PRESENT" for current role<br>✓ "(End of log)" at bottom                                                                               | PM-001         |
+| File | Change |
+|------|--------|
+| `_root-layout.tsx` | Remove mobile block, add mobile detection branch |
+| `lib/browser.ts` | `isMobile` already exists — use it for routing |
 
 ---
 
-## PHASE 2: CONTENT & DESIGN
+## PHASE 1: Shell & Navigation Core (P0)
 
-### Week 5-6: Content Production
+> Critical path. Everything else depends on this. Build first, test on real device.
 
-| ID         | Task                   | Description                                          | Priority | Owner              | Acceptance Criteria                                                                                                                                                                                                                                                         | Dependencies          |
-|------------|------------------------|------------------------------------------------------|----------|--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------|
-| **PM-015** | Content Creation       | Write all case studies, bio, career descriptions     | P0       | Content + PM       | ✓ 3-5 project case studies written (200-300 words)<br>✓ Each includes: Problem, Solution, Results<br>✓ Bio written in first person, authentic voice<br>✓ Career descriptions concise (1-2 lines)<br>✓ All content grammar/spell checked<br>✓ **Peer reviewed by 2+ people** | PM-010 through PM-014 |
-| **PM-035** | Content Strategy Guide | Define what makes compelling case studies            | P1       | PM + Content       | ✓ Template for project case studies<br>✓ Tone guidelines (direct, efficient, terminal vibe)<br>✓ Examples of good vs bad descriptions<br>✓ Project ordering rationale (chronological vs priority)<br>✓ Content update process defined                                       | PM-001                |
-| **PM-016** | Asset Optimization     | Optimize images, create ASCII avatar, prepare resume | P0       | Content + Designer | ✓ Project images: WebP format, <200KB each<br>✓ **ASCII/pixelated avatar created** (400x400 source)<br>✓ Profile photo optimized <50KB<br>✓ Resume PDF <2MB, mobile-readable<br>✓ Responsive image sizes (1x, 2x, 3x)<br>✓ Lazy loading strategy defined                    | PM-015                |
-| **PM-034** | Image Interaction Spec | Define grayscale-to-color behavior                   | P0       | PM                 | ✓ Default state: Grayscale filter (CSS)<br>✓ **Tap/hold: Remove filter (color)**<br>✓ **Tap release: Return to grayscale** OR stay color (TBD)<br>✓ Smooth transition (200ms)<br>✓ Works on all project images<br>✓ No separate image files needed                          | PM-011, PM-016        |
-
-### Week 7: System Design
-
-| ID         | Task                    | Description                                         | Priority | Owner         | Acceptance Criteria                                                                                                                                                                                                                                                                         | Dependencies           |
-|------------|-------------------------|-----------------------------------------------------|----------|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------|
-| **PM-017** | Navigation Flow Docs    | Document all paths, state transitions, deep linking | P0       | PM            | ✓ Every view reachable from home<br>✓ No dead ends (except external links)<br>✓ Back button logic consistent<br>✓ Cross-navigation mapped<br>✓ **Deep linking URLs defined** (optional for MVP)<br>✓ Edge cases documented                                                                  | PM-003, PM-006         |
-| **PM-018** | Data & State Management | Define localStorage, session storage, API usage     | P0       | PM            | ✓ **localStorage**: Theme, Language only<br>✓ **sessionStorage**: Scroll positions, last view<br>✓ **GitHub API**: Rate limit handling (60/hr)<br>✓ API fallback: Static data if rate limited<br>✓ No user tracking for MVP<br>✓ Cache strategy (TTL for GitHub data)                       | PM-008, PM-009, PM-012 |
-| **PM-033** | Loading & Error States  | Define all loading, empty, and error scenarios      | P0       | PM            | ✓ **Loading states**: Skeleton screens OR loading message<br>✓ **Empty states**: "No projects yet" placeholder<br>✓ **Error states**: Network failure, 404, rate limits<br>✓ **Offline behavior**: Graceful degradation message<br>✓ Retry mechanisms defined<br>✓ Toast/notification style | PM-017                 |
-| **PM-032** | Visual Design Quality   | Define consistency checks for terminal aesthetic    | P1       | PM + Designer | ✓ Typography: Monospace font specified (e.g., JetBrains Mono)<br>✓ "Raw Shell" aesthetic maintained<br>✓ No decorative UI chrome<br>✓ Consistent spacing (8px grid system)<br>✓ Terminal prompt style defined (`$`, `>`, `#`)<br>✓ ASCII art guidelines                                     | PM-008                 |
-
-### Week 8: QA Preparation
-
-| ID         | Task                     | Description                                     | Priority | Owner | Acceptance Criteria                                                                                                                                                                                                                                                  | Dependencies          |
-|------------|--------------------------|-------------------------------------------------|----------|-------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------|
-| **PM-019** | User Acceptance Criteria | Define success criteria and performance targets | P0       | PM    | ✓ UAT checklist for each view (7 views)<br>✓ **Performance**: TTI <2s, 60fps animations<br>✓ **Device matrix**: iPhone SE, 13, 15; Samsung S21, S24; Pixel 7<br>✓ **Browsers**: Safari (iOS), Chrome (Android)<br>✓ Network: 3G, 4G, WiFi<br>✓ No P0 bugs for launch | PM-010 through PM-014 |
+| ID | Task | Description | Priority | Acceptance Criteria | Dependencies | Files |
+|----|------|-------------|----------|---------------------|--------------|-------|
+| **MOB-001** | Mobile route layout | Create `_mobile-layout.tsx` as the mobile shell wrapper. Detect mobile in root and render mobile layout instead of desktop 3-panel layout. | P0 | Mobile users see terminal shell instead of "hop on desktop" message. Desktop users unaffected. SSR works correctly for both. | None | `routes/_mobile-layout.tsx`, `routes/_root-layout.tsx` |
+| **MOB-002** | Terminal shell container | Shared layout component: prompt header area, scrollable output area, fixed command dock at bottom. Monospace font, "raw shell" aesthetic, no UI chrome. | P0 | Full-height terminal viewport. Output area scrolls independently. Dock stays fixed. Themes apply correctly. 8px grid spacing. | MOB-001 | `components/mobile/shell.tsx` |
+| **MOB-003** | Command dock | Fixed bottom bar with 3-4 context-aware monospace buttons + persistent `[#]` button. Buttons change per active view. Disabled state during ghost typing. Touch targets 44x44pt minimum. | P0 | Correct buttons render per view (see Command Dock Reference). Buttons disabled during animation. `[#]` always visible. Visual tap feedback within 60ms. | MOB-002 | `components/mobile/command-dock.tsx`, `config/mobile-dock.ts` |
+| **MOB-004** | Ghost typing hook | `useGhostTyping` — animates command text character-by-character into prompt line, then triggers callback (navigation). 30-50ms/char, 200-500ms total. Cancellable on new tap. | P0 | Command types visually in prompt. New tap cancels current animation. Buttons disabled during typing. 60fps rendering. | MOB-002 | `hooks/use-ghost-typing.ts` |
+| **MOB-005** | Smart scroll & navigation | Auto-scroll to top of new content on view change with 60-80pt clearance above dock. Back navigation restores previous scroll position. Smooth 300ms animation. | P0 | View transitions scroll to correct position. Back button restores position. No content hidden behind dock. Handles dynamic content height. | MOB-002, MOB-004 | `hooks/use-mobile-scroll.ts` |
+| **MOB-006** | Mobile route structure | Create mobile sub-routes: home, projects, projects/$id, about, skills, career. Wire navigation between dock buttons and routes. | P0 | All 6 routes reachable. URL updates on navigation. Direct URL access works (SSR). Ghost typing triggers before route change. | MOB-001 through MOB-005 | `routes/_mobile-layout/` |
 
 ---
 
-## PHASE 3: ADVANCED FEATURES
+## PHASE 2: Core Views (P0)
 
-### Week 9-10: Optional Features
+> All views are independent — can be built in parallel after Phase 1.
+> Each view reads from existing config files. No new data needed.
 
-| ID         | Task                  | Description                                 | Priority | Owner         | Acceptance Criteria                                                                                                                                                                                                                                                                                                                                                       | Dependencies   |
-|------------|-----------------------|---------------------------------------------|----------|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------|
-| **PM-020** | Search Feature        | Full-screen fuzzy search across all content | P2       | PM            | ✓ Real-time fuzzy search as user types<br>✓ Searchable: Pages, projects, skills, career<br>✓ Results grouped by category<br>✓ Max 20 results<br>✓ Empty state with suggestions<br>✓ Command: `grep -r "query"`<br>✓ **Can defer to post-MVP**                                                                                                                             | PM-007, PM-015 |
-| **PM-021** | HeyD AI Assistant     | Chat interface with streaming responses     | P2       | PM            | ✓ Text input with keyboard<br>✓ **Suggestion chips**: "What's your stack?", "Latest project?", "Contact info?"<br>✓ **Slash commands**: /help, /clear, /theme, /feedback<br>✓ **Streaming markdown responses**<br>✓ Session-only history (no persistence)<br>✓ Knowledge base: Portfolio content only<br>✓ Rate limiting (10 msgs/session)<br>✓ **Can defer to post-MVP** | PM-007, PM-015 |
-| **PM-037** | Easter Eggs & Delight | Hidden interactions for engaged users       | P2       | PM + Designer | ✓ Tap avatar 5x for fun animation/message<br>✓ Konami code or gesture for secret<br>✓ Hidden terminal commands (e.g., `whoami`)<br>✓ Seasonal themes (optional)<br>✓ Fun 404 page with ASCII art<br>✓ **Can defer to post-MVP**                                                                                                                                           | PM-010, PM-012 |
-
-### Week 11: Integration & Polish
-
-| ID         | Task                        | Description                                  | Priority | Owner    | Acceptance Criteria                                                                                                                                                                                                                                                        | Dependencies |
-|------------|-----------------------------|----------------------------------------------|----------|----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------|
-| **PM-022** | Feature Integration Testing | Ensure all features work together seamlessly | P0       | PM + QA  | ✓ Theme applies to all views<br>✓ Language applies to all views<br>✓ Navigation works from all views<br>✓ **Animation interruption handled**<br>✓ **No conflicts between features**<br>✓ Settings drawer works from all views<br>✓ **If P2 features not ready, skip them** | All P0 tasks |
-| **PM-023** | Performance Optimization    | Meet 60fps and load time targets             | P0       | PM + Dev | ✓ Time to First Byte <200ms<br>✓ First Contentful Paint <800ms<br>✓ TTI <2s on 4G<br>✓ 60fps animations (ghost typing, drawer, scroll)<br>✓ No memory leaks in 10min session<br>✓ Lazy load below-fold images<br>✓ Code splitting for P2 features                          | PM-022       |
+| ID | Task | Description | Priority | Acceptance Criteria | Dependencies | Files |
+|----|------|-------------|----------|---------------------|--------------|-------|
+| **MOB-101** | Home shell view | Landing page: `$ _` prompt, greeting ("HI, I'M [NAME]"), role title, "Current Directory: ~/", 4 tappable directory rows (projects/, skills/, about_me/, career/), instruction text. | P0 | Greeting renders from `personal-info.ts`. All 4 directories tappable. Tap triggers ghost typing (`cd projects/...`) then navigates. Dock: PROJECTS, SKILLS, ABOUT, CAREER. | MOB-006 | `components/mobile/views/home.tsx` |
+| **MOB-102** | Projects list view | `ls -la` style listing. Each project as numbered row (01, 02...) with name, short description, stack summary. Tappable rows trigger ghost typing (`open projects/<name>`) and navigate to detail. | P0 | All projects from `projects.ts` render as rows. Tap navigates to detail. Dock: < BACK, SKILLS, CAREER. Count header ("LISTING N ITEMS..."). | MOB-006 | `components/mobile/views/projects-list.tsx` |
+| **MOB-103** | Project detail view | Case study reader. Project title with number, full-width image (grayscale default), stack listing, description, "View Source Code" link. NEXT button cycles to next project or returns to list. | P0 | Project data from `projects.ts`. Images render grayscale. Source link opens with confirmation. NEXT cycles through all projects. Dock: < BACK, LIVE, NEXT >. LIVE only if demo URL exists. | MOB-006 | `components/mobile/views/project-detail.tsx` |
+| **MOB-104** | About view | Profile section: photo/avatar + name + location. Bio text. Social links as tappable rows (LinkedIn, GitHub, GitLab, Email). Vertical GitHub activity matrix (4 weeks x 7 days) with 4 density levels (░ ▒ ▓ █). | P0 | Data from `personal-info.ts`. Contribution graph from `useContributions` hook. Social links open with confirmation. Dock: < BACK, RESUME, CONTACT. RESUME triggers PDF download. CONTACT opens mailto. | MOB-006 | `components/mobile/views/about.tsx` |
+| **MOB-105** | Skills view | `htop`/system monitor style. Fake system stats header (CPU/MEM metaphor). Skills as "process" table (PID, SKILL, STATUS columns). Proficiency bars as ASCII `[####.....]` with percentage. | P0 | Skills from `skills.ts`. Status: [ACTIVE] or [IDLE] based on category. 8-12 skills minimum. Dock: < BACK, PROJECTS, ABOUT. | MOB-006 | `components/mobile/views/skills.tsx` |
+| **MOB-106** | Career timeline view | `git log --graph` style. Vertical ASCII tree using `\|`, `o` (education), `+` (part-time), `*` (full-time). Chronological order (education first → present last). Each entry: year, role, company, 1-2 line description. | P0 | Career data from `career.ts`. Markers match employment type. Current role shows "PRESENT". Ends with "(End of log)". Dock: < BACK, RESUME, LINKEDIN. | MOB-006 | `components/mobile/views/career.tsx` |
 
 ---
 
-## Comprehensive Business Rules
+## PHASE 3: Global Features (P0 + P1)
 
-### 🎮 Interaction Rules (Must Follow)
+> Settings drawer is the container. Features inside wire existing systems.
 
-1. **Command Dock**: 3-4 buttons maximum per view, monospace font, fixed bottom position
-2. **Back Button**: Always leftmost position when present, returns to previous view
-3. **Ghost Typing**: 200-500ms total animation, 30-50ms per character, realistic terminal commands
-4. **Animation Interruption**: New tap cancels current animation and starts new one immediately
-5. **Double-Tap Prevention**: Buttons disabled during ghost typing animation (no queue)
-6. **Auto-Scroll**: On navigation, scroll to top with 60-80pt clearance above Command Dock
-7. **Scroll Position Memory**: Back navigation restores previous scroll position
-8. **Touch Targets**: Minimum 44x44pt for all interactive elements (iOS/Android standard)
-9. **Visual Feedback**: Tap shows highlight/color shift immediately (60ms response)
-10. **External Links**: Require confirmation modal: "Open [domain] in browser?"
-
-### 📝 Content Rules (Minimums)
-
-Extend from desktop
-
-### 🎨 Visual Rules (Standards)
-
-21. **Typography**: Extend from desktop
-22. **Themes**: Extend from desktop
-23. **Color Contrast**: Extend from desktop
-24. **Image Default**: Grayscale filter via CSS
-25. **Image Interaction**: Color on tap/hold, return to grayscale on release (or toggle - TBD)
-26. **ASCII Avatar**: Pixelated/ASCII style, 200x200pt display size
-27. **GitHub Activity**: Same as desktop
-28. **Spacing**: 8px grid system for consistency
-29. **No UI Chrome**: Pure typography, black space, no decorative elements
-30. **Terminal Prompt**: Use `$`, `>`, `#` consistently
-
-### ⚡ Performance Rules (Targets)
-
-31. **Time to Interactive**: <2 seconds on 4G
-32. **First Contentful Paint**: <800ms
-33. **Time to First Byte**: <200ms
-34. **Animation Frame Rate**: 60fps on target devices (iPhone 11+, Android equivalent)
-35. **Ghost Typing**: Must render at 60fps (no dropped frames)
-36. **Drawer Animation**: Smooth 250ms slide with 60fps
-37. **Total Bundle Size**: <5MB including all assets
-38. **Image Lazy Loading**: Below-the-fold images load on scroll
-39. **Code Splitting**: P2 features (Search, Assistant) in separate bundles
-40. **Memory**: No leaks during 10-minute session
-
-### 💾 Data & Privacy Rules (Compliance)
-
-41. **localStorage Keys**: `theme` and `language` only
-42. **sessionStorage Keys**: `scrollPositions`, `lastView` only
-43. **No User Tracking**: No analytics, cookies, or third-party scripts for MVP
-44. **No Login**: No authentication or user accounts
-45. **GitHub API**: 60 requests/hour limit, fallback to static data if exceeded
-46. **API Caching**: GitHub activity data cached for 1 hour (TTL)
-47. **No Conversation Storage**: Assistant messages not persisted (session-only)
-48. **PII Protection**: No collection of personal user information
-49. **External Links**: All open in new window with `rel="noopener noreferrer"`
-50. **Resume Download**: Trigger browser download, <2MB file size
-
-### 🎯 Edge Cases & Error Handling
-
-61. **Empty Project List**: Show placeholder "No projects yet" with ASCII art
-62. **Network Failure**: Show error message with retry button
-63. **GitHub API Rate Limit**: Fallback to cached or static data
-64. **Slow Network**: Show loading skeleton (not blocking)
-65. **Broken Images**: Show alt text + placeholder icon
-66. **PDF Download Fail**: Show error toast with retry option
-67. **External Link Fail**: Show error "Could not open link"
-68. **Theme Apply Fail**: Fallback to default theme (C x J)
-69. **Search No Results**: Show "No matches found" + top 5 suggestions
-70. **Assistant API Error**: Show "Assistant unavailable" with feedback option
+| ID | Task | Description | Priority | Acceptance Criteria | Dependencies | Files |
+|----|------|-------------|----------|---------------------|--------------|-------|
+| **MOB-201** | Settings drawer | Bottom sheet triggered by `[#]` button. Half-screen slide-up (250ms) with dimmed backdrop (40% opacity). Dismissible via tap outside or CLOSE. Contains: theme, language, search, assistant, repo link, version. | P0 | Opens from any view. Slides up smoothly at 60fps. Backdrop dims content. Tap outside closes. Z-index above all content. Shows app version from `site.ts`. | MOB-003 | `components/mobile/settings-drawer.tsx` |
+| **MOB-202** | Theme switcher | Inline selector in settings drawer. 3 options: C x J, Mono, Notebook. Selection triggers ghost typing feedback (`> theme --set mono`). Instant apply, no reload. | P0 | Wires to existing `useThemeStore`. All 3 themes apply correctly to mobile shell. Persists in localStorage. Ghost typing feedback on change. | MOB-201 | Integrated in `settings-drawer.tsx` |
+| **MOB-203** | Language toggle | EN/VI switch in settings drawer. Triggers ghost typing feedback (`> lang --set vi`). | P1 | Wires to existing Paraglide i18n. Toggle persists. All translated keys update. | MOB-201 | Integrated in `settings-drawer.tsx` |
+| **MOB-204** | Image grayscale interaction | Project images default to CSS grayscale filter. Tap/hold removes filter (shows color). Release returns to grayscale. Smooth 200ms CSS transition. | P0 | Works on all project images in detail view. No separate image files needed. Transition smooth. Touch events handled correctly (no ghost clicks). | MOB-103 | Integrated in `project-detail.tsx` |
+| **MOB-205** | External link confirmation | Modal/dialog for external links: "Open [domain] in browser?" with confirm/cancel. All external links open with `rel="noopener noreferrer"` in new window. | P0 | Triggers on social links, source code links, LinkedIn. Consistent across all views. Cancel returns to current view. | MOB-104, MOB-106 | `components/mobile/external-link-modal.tsx` |
 
 ---
 
-## MVP Scope Definition
+## PHASE 4: Polish & Post-MVP (P1 + P2)
 
-### ✅ MUST HAVE (P0) - Cannot Launch Without
+> Each task is self-contained. Build only after Phase 1-3 ship.
 
-**Core Views:**
-
-- ✅ Home View (Landing)
-- ✅ Projects List (View 2a)
-- ✅ Project Detail (View 2b)
-- ✅ About View with GitHub activity
-- ✅ Skills View with proficiency bars
-- ✅ Career Timeline
-- ✅ Settings Drawer
-
-**Core Interactions:**
-
-- ✅ Command Dock navigation (3-4 buttons per view)
-- ✅ Ghost typing animation (200-500ms)
-- ✅ Direct manipulation (tap items)
-- ✅ Smart scroll on navigation
-- ✅ [#] button to open Settings Drawer
-
-**Core Features:**
-
-- ✅ Theme switching (3 themes: C x J, Mono, Notebook)
-- ✅ Image grayscale-to-color interaction
-- ✅ Resume download button
-- ✅ Contact/email link
-- ✅ Social links (LinkedIn, GitHub, Email minimum)
-- ✅ GitHub activity visualization
-- ✅ Responsive mobile layout
-
-**Quality:**
-
-- ✅ Performance targets met (TTI <2s, 60fps)
-- ✅ Works on 6+ device types
-- ✅ Zero P0 bugs, <5 P1 bugs
-- ✅ Basic accessibility (WCAG AA)
-- ✅ SEO basics (meta tags, social cards)
-
-### 🟡 SHOULD HAVE (P1) - High Value, Include If Possible
-
-- 🟡 Language toggle (EN/VI)
-- 🟡 Easter eggs (avatar tap, hidden commands)
-- 🟡 Content strategy guide
-- 🟡 Visual design consistency audit
-- 🟡 Advanced SEO (structured data, sitemap)
-- 🟡 404 page with ASCII art
-- 🟡 Copy refinement polish
-- 🟡 Maintenance plan documentation
-
-### ⏸️ NICE TO HAVE (P2) - Defer to Post-MVP Backlog
-
-- ⏸️ Search functionality (View 6)
-- ⏸️ HeyD AI Assistant (View 7)
-- ⏸️ Deep linking (shareable URLs per view)
-- ⏸️ Analytics integration (privacy-first)
-- ⏸️ View transition animations (beyond ghost typing)
-- ⏸️ Project filtering by tech stack
-- ⏸️ Dark mode auto-detection
-- ⏸️ Progressive Web App (PWA) features
+| ID | Task | Description | Priority | Acceptance Criteria | Dependencies | Files |
+|----|------|-------------|----------|---------------------|--------------|-------|
+| **MOB-301** | Search overlay | Full-screen overlay from settings drawer. Text input activates keyboard. Fuzzy search across pages, projects, skills, career. Results grouped by category. Max 20 results. Command: `grep -r "query"`. | P2 | Wires to existing `useSearch` hook + Fuse.js indices. Real-time results. Tap result navigates to view. Empty state with suggestions. | MOB-201 | `components/mobile/views/search.tsx` |
+| **MOB-302** | HeyD assistant overlay | Full-screen chat overlay from settings drawer. Suggestion chips on fresh load. Text input with keyboard. Streaming markdown responses. Slash commands (/help, /clear, /theme, /feedback). Session-only history. | P2 | Wires to existing `useAssistant` hook + Groq LLM. Streaming works. Rate limiting (10 msgs/session). Slash commands functional. | MOB-201 | `components/mobile/views/assistant.tsx` |
+| **MOB-303** | Loading & error states | Terminal-style loading messages ("LOADING...", progress dots). Error states with retry. Network failure handling. GitHub API rate limit fallback to static data. Empty states with ASCII art. | P1 | Loading visible on slow network. Retry works. Graceful degradation offline. No blank screens. | All P0 tasks | Integrated across views |
+| **MOB-304** | Performance optimization | Lazy load below-fold images. Code split P2 features (search, assistant). Bundle size <5MB. TTI <2s on 4G. 60fps all animations. No memory leaks in 10min session. | P0 | Lighthouse mobile score >90 performance. Ghost typing at 60fps. Drawer animation at 60fps. | All P0 tasks | Build config + lazy imports |
+| **MOB-305** | Easter eggs | Tap avatar 5x for fun animation. Hidden terminal commands (`whoami`, `sudo`). Fun 404 page with ASCII art. | P2 | Discoverable but not obvious. Does not interfere with core UX. | MOB-104 | Integrated in views |
+| **MOB-306** | Mobile i18n keys | Add mobile-specific translation keys for terminal commands, dock labels, ghost typing text, drawer labels. Follow existing key pattern `{domain}_{context}_{element}`. | P1 | All mobile UI text translatable. Terminal vibe maintained in both EN/VI. Keys added to `messages/{en,vi}/`. | MOB-201 | `messages/{en,vi}/mobile.json` |
 
 ---
 
-## Dependencies Matrix (Critical Path)
+## Implementation Order (Critical Path)
 
-| Task       | Depends On         | Potential Blocker           | Mitigation Strategy                               |
-|------------|--------------------|-----------------------------|---------------------------------------------------|
-| PM-003     | PM-002             | User journeys unclear       | Prioritize journey mapping Week 1                 |
-| PM-010-014 | PM-001, PM-003     | Content not ready           | Start content collection Day 1                    |
-| PM-015     | PM-001, PM-010-014 | Content approval delays     | Parallel drafting + review process                |
-| PM-016     | PM-015             | Asset procurement/creation  | Use placeholders, finalize in Week 7              |
-| PM-034     | PM-011, PM-016     | Image interaction unclear   | User test early, have fallback (no interaction)   |
-| PM-018     | PM-012             | GitHub API access           | Prepare static fallback data                      |
-| PM-022     | All P0 tasks       | Features incomplete         | Can launch without P2 features                    |
-| PM-024     | PM-022, PM-023     | QA finds critical bugs      | Buffer time in Week 13, cut P1 features if needed |
-| PM-026     | PM-024, PM-025     | Beta testers unavailable    | Recruit testers early, have 15+ backups           |
-| PM-028     | All P0 tasks       | Launch checklist incomplete | Daily standup Week 15, strict cutoff              |
-| PM-030     | PM-028, PM-029     | Domain/hosting issues       | Configure domain/hosting Week 14                  |
+```
+MOB-001 (mobile layout)
+  └─> MOB-002 (terminal shell)
+        ├─> MOB-003 (command dock)
+        ├─> MOB-004 (ghost typing)
+        └─> MOB-005 (smart scroll)
+              └─> MOB-006 (route structure)
+                    ├─> MOB-101 (home)        ─┐
+                    ├─> MOB-102 (projects)     │ parallel
+                    ├─> MOB-103 (project detail)│
+                    ├─> MOB-104 (about)        │
+                    ├─> MOB-105 (skills)       │
+                    └─> MOB-106 (career)      ─┘
+                          └─> MOB-201 (settings drawer)
+                                ├─> MOB-202 (theme)
+                                ├─> MOB-203 (language)
+                                └─> MOB-204 (image interaction)
+                                      └─> MOB-301+ (post-mvp)
+```
 
 ---
 
-## Sprint Breakdown (Agile Workflow)
+## File Structure (New Files)
 
-### 🏃 Sprint 1: Foundation
+```
+src/
+├── routes/
+│   ├── _mobile-layout.tsx              # Mobile shell route layout
+│   └── _mobile-layout/
+│       ├── index.tsx                    # Mobile home (redirect or view)
+│       ├── projects.tsx                 # Projects list
+│       ├── projects.$id.tsx            # Project detail
+│       ├── about.tsx                    # About view
+│       ├── skills.tsx                   # Skills view
+│       └── career.tsx                   # Career view
+├── components/mobile/
+│   ├── shell.tsx                        # Terminal shell container
+│   ├── command-dock.tsx                 # Fixed bottom navigation
+│   ├── settings-drawer.tsx             # [#] menu bottom sheet
+│   ├── external-link-modal.tsx         # External link confirmation
+│   └── views/
+│       ├── home.tsx                     # Home shell content
+│       ├── projects-list.tsx           # ls -la project listing
+│       ├── project-detail.tsx          # Project case study reader
+│       ├── about.tsx                    # Bio + contributions
+│       ├── skills.tsx                   # htop-style skills
+│       ├── career.tsx                  # git log timeline
+│       ├── search.tsx                  # Search overlay (P2)
+│       └── assistant.tsx               # HeyD chat overlay (P2)
+├── hooks/
+│   ├── use-ghost-typing.ts            # Ghost typing animation
+│   └── use-mobile-scroll.ts           # Mobile scroll management
+├── config/
+│   └── mobile-dock.ts                  # Command dock button matrix
+└── messages/
+    ├── en/mobile.json                  # Mobile-specific EN translations
+    └── vi/mobile.json                  # Mobile-specific VI translations
+```
 
-**Goal:** Complete all discovery and interaction rules  
-**Tasks:** PM-001, PM-002, PM-003, PM-004, PM-005, PM-006  
-**Demo:** User journey maps + interaction prototypes
-
-### 🏃 Sprint 2: Global Features & Views
-
-**Goal:** Define Settings Drawer, themes, and all view requirements  
-**Tasks:** PM-007, PM-008, PM-009, PM-010, PM-011, PM-012, PM-013, PM-014  
-**Demo:** Complete view specifications + theme examples
-
-### 🏃 Sprint 3: Content Production
-
-**Goal:** All content written and assets created  
-**Tasks:** PM-015, PM-035, PM-016, PM-034  
-**Demo:** Real content in all views, ASCII avatar, optimized images
-
-### 🏃 Sprint 4: System Design
-
-**Goal:** Define all flows, states, and quality standards  
-**Tasks:** PM-017, PM-018, PM-033, PM-032, PM-019  
-**Demo:** Complete navigation flows + loading/error states
-
-### 🏃 Sprint 5: Advanced Features (Optional)
-
-**Goal:** Implement P2 features if time allows  
-**Tasks:** PM-020, PM-021, PM-037  
-**Demo:** Search + Assistant working (or skipped)
-
-### 🏃 Sprint 6: Integration & Performance
-
-**Goal:** Everything works together, meets performance targets  
-**Tasks:** PM-022, PM-023  
-**Demo:** Fully integrated product, performance audit results
 ---
 
 ## Command Dock Button Reference
 
-| View                | Button 1 | Button 2 | Button 3 | Button 4 | Notes                                                    |
-|---------------------|----------|----------|----------|----------|----------------------------------------------------------|
-| **Home**            | PROJECTS | SKILLS   | ABOUT    | CAREER   | All primary sections                                     |
-| **Projects List**   | < BACK   | SKILLS   | CAREER   | —        | Cross-nav to other sections                              |
-| **Project Detail**  | < BACK   | LIVE     | NEXT >   | —        | LIVE only if demo exists; NEXT cycles or returns to list |
-| **About**           | < BACK   | RESUME   | CONTACT  | —        | RESUME downloads PDF; CONTACT opens mailto:              |
-| **Skills**          | < BACK   | PROJECTS | ABOUT    | —        | Cross-nav to related sections                            |
-| **Career**          | < BACK   | RESUME   | LINKEDIN | —        | Resume + external LinkedIn link                          |
-| **Settings Drawer** | —        | —        | —        | CLOSE    | Drawer has inline options, CLOSE dismisses               |
-| **Search**          | —        | —        | —        | CLOSE    | Full-screen overlay, ESC or CLOSE dismisses              |
-| **Assistant**       | —        | —        | —        | CLOSE    | Full-screen overlay, ESC or CLOSE dismisses              |
+| View | Button 1 | Button 2 | Button 3 | Button 4 | Notes |
+|------|----------|----------|----------|----------|-------|
+| **Home** | PROJECTS | SKILLS | ABOUT | CAREER | All primary sections |
+| **Projects List** | < BACK | SKILLS | CAREER | — | Cross-nav to other sections |
+| **Project Detail** | < BACK | LIVE | NEXT > | — | LIVE only if demo URL exists; NEXT cycles |
+| **About** | < BACK | RESUME | CONTACT | — | RESUME = PDF download; CONTACT = mailto |
+| **Skills** | < BACK | PROJECTS | ABOUT | — | Cross-nav to related sections |
+| **Career** | < BACK | RESUME | LINKEDIN | — | Resume + external LinkedIn link |
+| **Settings Drawer** | — | — | — | CLOSE | Drawer has inline options |
+| **Search** | — | — | — | CLOSE | Full-screen overlay |
+| **Assistant** | — | — | — | CLOSE | Full-screen overlay |
 
-**Persistent:** [#] button in bottom-right corner of Command Dock on ALL views (except overlays)
+**Persistent:** `[#]` button in bottom-right corner on ALL views (except overlays)
 
 ---
 
-**END OF ENHANCED BACKLOG**
+## Business Rules
 
-*This document focuses on business requirements, user experience, and mobile view strategy. Technical implementation
-details (frameworks, code architecture, CI/CD) should be documented separately by the development team.*
+### Interaction Rules
+
+1. **Command Dock**: 3-4 buttons max per view, monospace font, fixed bottom
+2. **Back Button**: Always leftmost when present, returns to previous view
+3. **Ghost Typing**: 200-500ms total, 30-50ms/char, realistic terminal commands
+4. **Animation Interruption**: New tap cancels current and starts new immediately
+5. **Double-Tap Prevention**: Buttons disabled during ghost typing (no queue)
+6. **Auto-Scroll**: Scroll to top on navigation, 60-80pt clearance above dock
+7. **Scroll Memory**: Back navigation restores previous scroll position
+8. **Touch Targets**: 44x44pt minimum for all interactive elements
+9. **Visual Feedback**: Tap highlight within 60ms
+10. **External Links**: Confirmation modal before opening
+
+### Visual Rules
+
+- Typography, themes, color contrast: Extend from desktop
+- Image default: Grayscale CSS filter
+- Image interaction: Color on tap/hold, grayscale on release
+- Spacing: 8px grid
+- No UI chrome: Pure typography, black space, no decorative elements
+- Terminal prompts: `$`, `>`, `#` used consistently
+
+### Performance Targets
+
+- Time to Interactive: <2s on 4G
+- First Contentful Paint: <800ms
+- Time to First Byte: <200ms
+- Animation frame rate: 60fps (ghost typing, drawer, scroll)
+- Total bundle: <5MB including assets
+- Image lazy loading: Below-fold images on scroll
+- Code splitting: P2 features in separate bundles
+- Memory: No leaks in 10min session
+
+### Data & Privacy
+
+- localStorage: `theme` and `language` only
+- sessionStorage: `scrollPositions`, `lastView` only
+- No user tracking for MVP
+- GitHub API: 60 req/hr, fallback to static/cached data (1hr TTL)
+- Assistant messages: Session-only, not persisted
+- External links: `rel="noopener noreferrer"`, new window
+- Resume download: <2MB
+
+### Error Handling
+
+- Empty project list: "No projects yet" placeholder with ASCII art
+- Network failure: Error message + retry button
+- GitHub API rate limit: Fallback to cached/static data
+- Slow network: Loading skeleton (non-blocking)
+- Broken images: Alt text + placeholder
+- PDF download fail: Error toast + retry
+- Theme apply fail: Fallback to default (C x J)
+- Search no results: "No matches found" + suggestions
+- Assistant API error: "Assistant unavailable" + feedback option
+
+---
+
+## MVP Scope
+
+### P0 - Cannot Launch Without
+
+- Home, Projects (list + detail), About, Skills, Career views
+- Settings drawer with theme switching
+- Command dock navigation with ghost typing
+- Smart scroll + direct manipulation
+- Image grayscale interaction
+- Resume download + contact link
+- GitHub activity visualization
+- Performance targets met
+- Works on iPhone SE+ and equivalent Android
+
+### P1 - Include If Possible
+
+- Language toggle (EN/VI)
+- Mobile-specific i18n keys
+- Loading & error states
+- 404 page with ASCII art
+
+### P2 - Post-MVP
+
+- Search overlay
+- HeyD AI assistant overlay
+- Easter eggs
+- Deep linking
+- PWA features
+- Project filtering by stack
+
+---
+
+*This backlog is implementation-ready. All content, data, and infrastructure exist in the desktop codebase.
+Reference `docs/mobile-design-brief.md` for wireframes and visual specifications.*
