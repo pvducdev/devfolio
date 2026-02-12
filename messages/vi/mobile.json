@@ -1,0 +1,20 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "mobile_dock_projects": "DỰ ÁN",
+  "mobile_dock_skills": "KỸ NĂNG",
+  "mobile_dock_about": "VỀ TÔI",
+  "mobile_dock_career": "SỰ NGHIỆP",
+  "mobile_dock_back": "QUAY LẠI",
+  "mobile_dock_resume": "CV",
+  "mobile_dock_contact": "LIÊN HỆ",
+  "mobile_dock_linkedin": "LINKEDIN",
+  "mobile_dock_live": "XEM LIVE",
+  "mobile_dock_next": "TIẾP",
+
+  "mobile_shell_greeting": "welcome.sh",
+
+  "mobile_home_greeting": "XIN CHÀO, TÔI LÀ {name}.",
+  "mobile_home_current_dir": "Thư mục hiện tại: ~/",
+  "mobile_home_hint": "(Chọn thư mục để bắt đầu)"
+}

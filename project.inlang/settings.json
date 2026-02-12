@@ -15,7 +15,8 @@
       "./messages/{languageTag}/pages.json",
       "./messages/{languageTag}/ui.json",
       "./messages/{languageTag}/assistant.json",
-      "./messages/{languageTag}/commands.json"
+      "./messages/{languageTag}/commands.json",
+      "./messages/{languageTag}/mobile.json"
     ]
   }
 }

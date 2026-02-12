@@ -1,0 +1,20 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "mobile_dock_projects": "PROJECTS",
+  "mobile_dock_skills": "SKILLS",
+  "mobile_dock_about": "ABOUT",
+  "mobile_dock_career": "CAREER",
+  "mobile_dock_back": "BACK",
+  "mobile_dock_resume": "RESUME",
+  "mobile_dock_contact": "CONTACT",
+  "mobile_dock_linkedin": "LINKEDIN",
+  "mobile_dock_live": "LIVE",
+  "mobile_dock_next": "NEXT",
+
+  "mobile_shell_greeting": "welcome.sh",
+
+  "mobile_home_greeting": "HI, I'M {name}.",
+  "mobile_home_current_dir": "Current Directory: ~/",
+  "mobile_home_hint": "(Select a directory to start)"
+}
