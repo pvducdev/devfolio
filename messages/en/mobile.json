@@ -16,5 +16,14 @@
 
   "mobile_home_greeting": "HI, I'M {name}.",
   "mobile_home_current_dir": "Current Directory: ~/",
-  "mobile_home_hint": "(Select a directory to start)"
+  "mobile_home_hint": "(Select a directory to start)",
+
+  "mobile_about_bio_label": "BIO:",
+  "mobile_about_links_label": "# LINKS",
+  "mobile_about_activity_label": "# GIT ACTIVITY",
+  "mobile_about_activity_status_high": "Status: Heavy Contribution",
+  "mobile_about_activity_status_mid": "Status: Moderate Activity",
+  "mobile_about_activity_status_low": "Status: Light Activity",
+  "mobile_about_activity_status_none": "Status: No Recent Activity",
+  "mobile_about_activity_loading": "Loading contributions..."
 }

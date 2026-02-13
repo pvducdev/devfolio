@@ -16,5 +16,14 @@
 
   "mobile_home_greeting": "XIN CHÀO, TÔI LÀ {name}.",
   "mobile_home_current_dir": "Thư mục hiện tại: ~/",
-  "mobile_home_hint": "(Chọn thư mục để bắt đầu)"
+  "mobile_home_hint": "(Chọn thư mục để bắt đầu)",
+
+  "mobile_about_bio_label": "TIỂU SỬ:",
+  "mobile_about_links_label": "# LIÊN KẾT",
+  "mobile_about_activity_label": "# HOẠT ĐỘNG GIT",
+  "mobile_about_activity_status_high": "Trạng thái: Đóng góp tích cực",
+  "mobile_about_activity_status_mid": "Trạng thái: Hoạt động vừa phải",
+  "mobile_about_activity_status_low": "Trạng thái: Hoạt động nhẹ",
+  "mobile_about_activity_status_none": "Trạng thái: Không có hoạt động",
+  "mobile_about_activity_loading": "Đang tải đóng góp..."
 }
