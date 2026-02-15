@@ -25,5 +25,18 @@
   "mobile_about_activity_status_mid": "Trạng thái: Hoạt động vừa phải",
   "mobile_about_activity_status_low": "Trạng thái: Hoạt động nhẹ",
   "mobile_about_activity_status_none": "Trạng thái: Không có hoạt động",
-  "mobile_about_activity_loading": "Đang tải đóng góp..."
+  "mobile_about_activity_loading": "Đang tải đóng góp...",
+
+  "mobile_skills_section_core": "NỀN TẢNG",
+  "mobile_skills_section_stack": "CÔNG NGHỆ",
+  "mobile_skills_section_devops": "DEVOPS & CÔNG CỤ",
+  "mobile_skills_section_standards": "TIÊU CHUẨN",
+  "mobile_skills_section_workflow": "QUY TRÌNH",
+  "mobile_skills_section_exploring": "ĐANG KHÁM PHÁ",
+  "mobile_skills_standards_performance": "Hiệu suất Web",
+  "mobile_skills_standards_a11y": "Khả năng truy cập",
+  "mobile_skills_standards_best_practices": "Best Practices",
+  "mobile_skills_standards_desc": "Triết lý về hiệu suất, a11y & chất lượng.",
+  "mobile_skills_loading": "> ĐANG PHÂN TÍCH... [OK]",
+  "mobile_skills_eof": "> EOF"
 }

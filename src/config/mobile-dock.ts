@@ -74,6 +74,18 @@ export const DOCK_BUTTONS: Record<MobileRouteId, DockConfig> = {
   [MOBILE_ROUTES.SKILLS]: {
     buttons: [
       { id: "back", label: mobile_dock_back, command: "cd ..", action: "back" },
+      {
+        id: "projects",
+        label: mobile_dock_projects,
+        command: "ls projects/",
+        route: MOBILE_ROUTES.PROJECTS,
+      },
+      {
+        id: "about",
+        label: mobile_dock_about,
+        command: "cat about_me.txt",
+        route: MOBILE_ROUTES.ABOUT,
+      },
     ],
   },
 

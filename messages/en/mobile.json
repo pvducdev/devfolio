@@ -25,5 +25,18 @@
   "mobile_about_activity_status_mid": "Status: Moderate Activity",
   "mobile_about_activity_status_low": "Status: Light Activity",
   "mobile_about_activity_status_none": "Status: No Recent Activity",
-  "mobile_about_activity_loading": "Loading contributions..."
+  "mobile_about_activity_loading": "Loading contributions...",
+
+  "mobile_skills_section_core": "THE CORE",
+  "mobile_skills_section_stack": "STACK",
+  "mobile_skills_section_devops": "DEVOPS & TOOLS",
+  "mobile_skills_section_standards": "STANDARDS",
+  "mobile_skills_section_workflow": "WORKFLOW",
+  "mobile_skills_section_exploring": "EXPLORING",
+  "mobile_skills_standards_performance": "Web Performance",
+  "mobile_skills_standards_a11y": "Accessibility",
+  "mobile_skills_standards_best_practices": "Best Practices",
+  "mobile_skills_standards_desc": "Philosophy on perf, a11y & quality.",
+  "mobile_skills_loading": "> ANALYZING STACK... [OK]",
+  "mobile_skills_eof": "> EOF"
 }
