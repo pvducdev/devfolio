@@ -4,8 +4,7 @@ import {
   useNavigate,
 } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { MOBILE_ROUTES, ROUTES } from "@/config/routes";
-import { isMobile } from "@/lib/browser";
+import { ROUTES } from "@/config/routes";
 import { useActiveTabId } from "@/store/tabs";
 
 export const Route = createFileRoute("/")({
@@ -22,10 +21,7 @@ function IndexRedirect() {
       return;
     }
 
-    const target = isMobile()
-      ? MOBILE_ROUTES.HOME
-      : (activeTabId ?? ROUTES.HOME);
-    navigate({ to: target, replace: true });
+    navigate({ to: activeTabId ?? ROUTES.HOME, replace: true });
   }, [activeTabId, hasHydrated, navigate]);
 
   return null;

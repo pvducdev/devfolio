@@ -1,4 +1,4 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 
 import AppContent from "@/components/layout/app-content.tsx";
 import AppSkeleton from "@/components/layout/app-skeleton.tsx";
@@ -9,12 +9,14 @@ import StatusFooter from "@/components/layout/status-footer.tsx";
 import ThemeScript from "@/components/theme/theme-script.tsx";
 import { useRouteTabSync } from "@/hooks/use-route-tab-sync";
 import { isMobile, isSupportedBrowser } from "@/lib/browser";
-import { desktopToMobilePath } from "@/lib/routes";
 import { isServer } from "@/lib/utils.ts";
-import { msg_error_unsupported_browser } from "@/paraglide/messages";
+import {
+  msg_error_mobile_only,
+  msg_error_unsupported_browser,
+} from "@/paraglide/messages";
 
 export const Route = createFileRoute("/_root-layout")({
-  beforeLoad: ({ location }) => {
+  beforeLoad: () => {
     if (isServer()) {
       return;
     }
@@ -24,7 +26,7 @@ export const Route = createFileRoute("/_root-layout")({
     }
 
     if (isMobile()) {
-      throw redirect({ to: desktopToMobilePath(location.pathname) });
+      throw new Error(msg_error_mobile_only());
     }
   },
   component: RouteComponent,

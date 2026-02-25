@@ -15,8 +15,7 @@
       "!**/src/routeTree.gen.ts",
       "!**/src/components/ui/**/*",
       "!**/src/paraglide/**/*",
-      "!**/src/routes/**/*.$*.tsx",
-      "!**/.wrangler/*"
+      "!**/src/routes/**/*.$*.tsx"
     ]
   },
   "formatter": {

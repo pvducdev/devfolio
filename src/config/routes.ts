@@ -40,15 +40,10 @@ export const ROUTES = {
   HOME: "/home",
 } as const;
 
-export const MOBILE_PREFIX = "/m";
+export function getRouteLabel(path: string): string {
+  return `${path.slice(1)}.tsx`;
+}
 
-export const MOBILE_ROUTES = {
-  HOME: `${MOBILE_PREFIX}/home`,
-  ABOUT: `${MOBILE_PREFIX}/about`,
-  SKILLS: `${MOBILE_PREFIX}/skills`,
-  CAREER: `${MOBILE_PREFIX}/career`,
-  PROJECTS: `${MOBILE_PREFIX}/projects`,
-  PROJECT_DETAIL: `${MOBILE_PREFIX}/projects/$id`,
-} as const;
-
-export type MobileRouteId = (typeof MOBILE_ROUTES)[keyof typeof MOBILE_ROUTES];
+export function isValidTabRoute(path: string): boolean {
+  return path !== ROUTES.ROOT && path !== ROUTES.HOME;
+}
