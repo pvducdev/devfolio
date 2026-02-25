@@ -95,34 +95,62 @@ typography, black space, and no decorative UI chrome.
 
 #### **VIEW 2b: Project Detail (Reader Mode)**
 
-* **Purpose:** Detailed case studies.
-* **Interaction:** Tapping a project in the list clears the screen and renders the "Readme".
-* **Content:** Block images (grayscale by default, color on touch), technical details, large headers.
-* **Dock Actions:** `[ < BACK ]`, `[ LIVE ]`, `[ NEXT > ]`.
+* **Purpose:** Detailed project showcase.
+* **Interaction:** Tapping a project in the list clears the screen and renders the detail view.
+* **Card:** Browser-style card (traffic light dots) wrapping a swipeable screenshot gallery. The card title bar
+  dynamically shows the current guide/screenshot name (e.g., "Starter", "About").
+* **Gallery:** Manual swipe carousel — no auto-advance. Supports left/right swipe with snap-to-slide.
+  Images are **grayscale by default, color on touch-hold** (finger down = color, release = grayscale).
+  Dot indicators below the image show carousel position.
+* **Dependencies:** Dot-leader format with version numbers (`name .... ^version`). Renders both `dependencies`
+  and `devDependencies`.
+* **Source:** Tappable terminal-style external link showing the hostname.
+* **Dock Actions:** `[ BACK ]`, `[ LIVE ]`, `[ NEXT ]`.
+* **Action Handling:** `LIVE` opens the project URL externally. `NEXT` navigates to the next project in the list
+  (wraps to nothing on the last project). Both actions are dispatched through the shell but read project context
+  from a Zustand store that the page populates on mount.
 
 ```text
 .---------------------------------------.
-|  $ open projects/fintech_app          |
+|  $ open projects/portfolio             |
 |                                       |
-|  # 01 FINTECH DASHBOARD               |
-|  ----------------------               |
+|  01  PORTFOLIO SITE                   |
+|  ──────────────────────────────────   |
+|  Personal portfolio built with        |
+|  TanStack Start                       |
 |                                       |
-|  [     FULL WIDTH IMAGE BLOCK      ]  |
+|  .---------------------------------.  |
+|  |  ● ● ●   Starter               |  |
+|  |---------------------------------|  |
+|  |                                 |  |
+|  |                                 |  |
+|  |   [ SCREENSHOT  (grayscale) ]   |  |
+|  |   [ swipe ← →  (color hold)]   |  |
+|  |                                 |  |
+|  |                                 |  |
+|  |          ● ○ ○ ○                |  |
+|  '---------------------------------'  |
 |                                       |
-|  STACK: React Native, Node.js         |
+|  > DEPENDENCIES                       |
+|  ------                               |
+|  react .................. ^19.x.x     |
+|  @tanstack/router ........ ^1.x.x    |
+|  zustand ................. ^5.x.x     |
+|  tailwindcss ............. ^4.x.x     |
+|  motion .................. ^12.x.x    |
+|  ------                               |
+|  typescript .............. ^5.x.x     |
+|  vite .................... ^7.x.x     |
+|  biome ................... ^2.x.x     |
 |                                       |
-|  DESCRIPTION:                         |
-|  Real-time crypto trading platform    |
-|  utilizing WebSockets for <50ms       |
-|  data updates.                        |
-|                                       |
-|  > View Source Code (GitHub)          |
+|  > source                             |
+|  ------                               |
+|  > pvd.dev                            |
 |                                       |
 |---------------------------------------|
-| .----------. .----------. .---------. |
-| |  < BACK  | |   LIVE   | |  NEXT > | |
-| '----------' '----------' '---------' |
-|                                 [#]   |
+| .------. .------. .------.            |
+| | BACK | | LIVE | | NEXT |       [#] |
+| '------' '------' '------'           |
 '---------------------------------------'
 ```
 

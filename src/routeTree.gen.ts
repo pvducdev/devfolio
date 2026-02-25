@@ -22,6 +22,7 @@ import { Route as RootLayoutSkillsRouteImport } from './routes/_root-layout/skil
 import { Route as RootLayoutHomeRouteImport } from './routes/_root-layout/home'
 import { Route as RootLayoutCareerRouteImport } from './routes/_root-layout/career'
 import { Route as RootLayoutAboutRouteImport } from './routes/_root-layout/about'
+import { Route as MProjectsIndexRouteImport } from './routes/m/projects.index'
 import { Route as MProjectsIdRouteImport } from './routes/m/projects.$id'
 import { Route as RootLayoutProjectsIdRouteImport } from './routes/_root-layout/projects.$id'
 
@@ -89,6 +90,11 @@ const RootLayoutAboutRoute = RootLayoutAboutRouteImport.update({
   path: '/about',
   getParentRoute: () => RootLayoutRoute,
 } as any)
+const MProjectsIndexRoute = MProjectsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => MProjectsRoute,
+} as any)
 const MProjectsIdRoute = MProjectsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -115,6 +121,7 @@ export interface FileRoutesByFullPath {
   '/m/skills': typeof MSkillsRoute
   '/projects/$id': typeof RootLayoutProjectsIdRoute
   '/m/projects/$id': typeof MProjectsIdRoute
+  '/m/projects/': typeof MProjectsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -127,10 +134,10 @@ export interface FileRoutesByTo {
   '/m/about': typeof MAboutRoute
   '/m/career': typeof MCareerRoute
   '/m/home': typeof MHomeRoute
-  '/m/projects': typeof MProjectsRouteWithChildren
   '/m/skills': typeof MSkillsRoute
   '/projects/$id': typeof RootLayoutProjectsIdRoute
   '/m/projects/$id': typeof MProjectsIdRoute
+  '/m/projects': typeof MProjectsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -149,6 +156,7 @@ export interface FileRoutesById {
   '/m/skills': typeof MSkillsRoute
   '/_root-layout/projects/$id': typeof RootLayoutProjectsIdRoute
   '/m/projects/$id': typeof MProjectsIdRoute
+  '/m/projects/': typeof MProjectsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -167,6 +175,7 @@ export interface FileRouteTypes {
     | '/m/skills'
     | '/projects/$id'
     | '/m/projects/$id'
+    | '/m/projects/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -179,10 +188,10 @@ export interface FileRouteTypes {
     | '/m/about'
     | '/m/career'
     | '/m/home'
-    | '/m/projects'
     | '/m/skills'
     | '/projects/$id'
     | '/m/projects/$id'
+    | '/m/projects'
   id:
     | '__root__'
     | '/'
@@ -200,6 +209,7 @@ export interface FileRouteTypes {
     | '/m/skills'
     | '/_root-layout/projects/$id'
     | '/m/projects/$id'
+    | '/m/projects/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -302,6 +312,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RootLayoutAboutRouteImport
       parentRoute: typeof RootLayoutRoute
     }
+    '/m/projects/': {
+      id: '/m/projects/'
+      path: '/'
+      fullPath: '/m/projects/'
+      preLoaderRoute: typeof MProjectsIndexRouteImport
+      parentRoute: typeof MProjectsRoute
+    }
     '/m/projects/$id': {
       id: '/m/projects/$id'
       path: '/$id'
@@ -341,10 +358,12 @@ const RootLayoutRouteWithChildren = RootLayoutRoute._addFileChildren(
 
 interface MProjectsRouteChildren {
   MProjectsIdRoute: typeof MProjectsIdRoute
+  MProjectsIndexRoute: typeof MProjectsIndexRoute
 }
 
 const MProjectsRouteChildren: MProjectsRouteChildren = {
   MProjectsIdRoute: MProjectsIdRoute,
+  MProjectsIndexRoute: MProjectsIndexRoute,
 }
 
 const MProjectsRouteWithChildren = MProjectsRoute._addFileChildren(

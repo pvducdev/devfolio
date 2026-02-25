@@ -1,8 +1,8 @@
-import { Button } from "@/components/ui/button";
-import { DOCK_BUTTONS } from "@/config/mobile-dock";
-import type { MobileRouteId } from "@/config/routes";
-import { cn } from "@/lib/utils";
-import type { DockButton } from "@/types/mobile";
+import { Button } from "@/components/ui/button.tsx";
+import { DOCK_BUTTONS } from "@/config/mobile-dock.ts";
+import type { MobileRouteId } from "@/config/routes.ts";
+import { cn } from "@/lib/utils.ts";
+import type { DockButton } from "@/types/mobile.ts";
 
 interface CommandDockProps {
   routeId: MobileRouteId;
