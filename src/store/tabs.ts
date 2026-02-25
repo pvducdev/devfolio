@@ -1,8 +1,8 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { useShallow } from "zustand/shallow";
-import { getRouteLabel } from "@/config/routes";
 import { STORE_KEYS } from "@/config/store-keys";
+import { getRouteLabel } from "@/lib/routes.ts";
 
 export interface Tab {
   id: string;

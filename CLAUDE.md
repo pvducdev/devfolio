@@ -28,6 +28,7 @@ pnpx shadcn@latest add <component>  # Add new UI component
 ## Environment Variables
 
 Required in `.env` (local dev) or `.dev.vars` (wrangler secrets):
+
 ```
 # Server - Required
 LLM_API_KEY=                        # LLM provider API key (Groq)
@@ -52,13 +53,20 @@ VITE_BASE_URL=                      # Defaults to "http://localhost:3000"
 **Stack**: React 19 + TanStack Start (SSR framework) + Tailwind CSS 4 + Bun
 
 **Routing**: TanStack Router with file-based routes in `src/routes/`
+
 - `__root.tsx` - Root layout (shell wrapper)
-- `_root-layout.tsx` - Main content layout
-- `_root-layout/*.tsx` - Page routes (home, about, career, skills, projects)
+- `_root-layout.tsx` - Main content layout (desktop)
+- `_root-layout/*.tsx` - Desktop page routes (home, about, career, skills, projects)
+- `m.tsx` - Mobile shell layout (terminal aesthetic)
+- `m/*.tsx` - Mobile page routes (home, about, skills, career, projects, projects.$id)
 
 **Key Directories**:
+
 - `src/components/ui/` - Shadcn components (excluded from linting)
+- `src/components/mobile/` - Mobile shell components (shell, command-dock, prompt-header)
+- `src/components/*/mobile/` - Mobile-specific view components per feature (e.g., `skills/mobile/`, `about/mobile/`)
 - `src/config/` - Site configuration, projects, personal info, skills, career data
+- `src/config/mobile-dock.ts` - Mobile command dock button config per route
 - `src/hooks/` - Custom React hooks
 - `src/store/` - Zustand stores (tabs, theme, career, app-layout)
 - `src/lib/` - Utilities (cn, search, contributions)
@@ -66,12 +74,14 @@ VITE_BASE_URL=                      # Defaults to "http://localhost:3000"
 - `src/themes/` - CSS theme files
 
 **Patterns**:
+
 - Configuration-driven content via `src/config/*.ts`
 - Zustand for UI state management
 - Paraglide-JS for i18n with cookie-based locale
 - Valibot for schema validation (not Zod)
 
-**React Compiler is enabled** - Do NOT add manual optimizations (`useMemo`, `useCallback`, `React.memo`). The compiler handles memoization automatically.
+**React Compiler is enabled** - Do NOT add manual optimizations (`useMemo`, `useCallback`, `React.memo`). The compiler
+handles memoization automatically.
 
 ## Code Style
 
@@ -91,6 +101,7 @@ VITE_BASE_URL=                      # Defaults to "http://localhost:3000"
 **Key Naming**: `{domain}_{context}_{element}` (e.g., `page_career_label_stack`, `ui_theme_select`)
 
 **Translation Vibe**: "Chill Dev with Terminal Aesthetics"
+
 - Casual & conversational, not corporate
 - Dev culture references (`.exe`, `> EOF`, "push", "cooking")
 - Punchy & direct phrases
