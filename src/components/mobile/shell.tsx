@@ -1,60 +1,131 @@
 import { Outlet, useLocation, useRouter } from "@tanstack/react-router";
-import { useTransition } from "react";
+import { useEffect, useTransition } from "react";
 import { PERSONAL_INFO } from "@/config/personal-info";
+import { getNextProjectId, getProjectById } from "@/config/projects";
 import { useGhostTyping } from "@/hooks/use-ghost-typing";
 import { resolveRouteId } from "@/lib/routes";
+import {
+  useMobileShellStore,
+  usePendingNavigation,
+} from "@/store/mobile-shell";
 import type { DockButton } from "@/types/mobile";
 import CommandDock from "./command-dock";
 import PromptHeader from "./prompt-header";
+
+const PROJECT_DETAIL_PATTERN = /^\/m\/projects\/(.+)$/;
+
+function extractProjectId(pathname: string): string | null {
+  const match = pathname.match(PROJECT_DETAIL_PATTERN);
+  return match ? match[1] : null;
+}
+
+type ActionHandler = (
+  button: DockButton,
+  ctx: {
+    type: (command: string) => void;
+    cancel: () => void;
+    isTyping: boolean;
+    startTransition: (cb: () => void) => void;
+    router: ReturnType<typeof useRouter>;
+    pathname: string;
+  }
+) => void;
+
+const actionHandlers: Record<string, ActionHandler> = {
+  back: (button, { type, startTransition, router }) => {
+    type(button.command);
+    startTransition(() => {
+      router.history.back();
+    });
+  },
+  resume: (button, { type }) => {
+    type(button.command);
+    window.open(PERSONAL_INFO.resume.url, "_blank");
+  },
+  contact: (button, { type }) => {
+    type(button.command);
+    window.open(`mailto:${PERSONAL_INFO.contact.email}`);
+  },
+  linkedin: (button, { type }) => {
+    type(button.command);
+    window.open(PERSONAL_INFO.contact.linkedin, "_blank");
+  },
+  live: (button, { type, pathname }) => {
+    const projectId = extractProjectId(pathname);
+    if (!projectId) {
+      return;
+    }
+    const project = getProjectById(projectId);
+    if (!project.url) {
+      return;
+    }
+    type(button.command);
+    window.open(project.url, "_blank");
+  },
+  next: (button, { type, startTransition, router, pathname }) => {
+    const projectId = extractProjectId(pathname);
+    if (!projectId) {
+      return;
+    }
+    const nextId = getNextProjectId(projectId);
+    type(button.command);
+    startTransition(() => {
+      router.navigate({ to: `/m/projects/${nextId}` });
+    });
+  },
+};
 
 export default function Shell() {
   const router = useRouter();
   const location = useLocation();
   const [isPending, startTransition] = useTransition();
   const { text, isTyping, type, cancel } = useGhostTyping();
+  const pendingNavigation = usePendingNavigation();
 
   const routeId = resolveRouteId(location.pathname);
+
+  useEffect(() => {
+    if (!pendingNavigation) {
+      return;
+    }
+
+    const { command, to } = pendingNavigation;
+    useMobileShellStore.getState().clearNavigation();
+
+    if (isTyping) {
+      cancel();
+    }
+
+    type(command);
+    startTransition(() => {
+      router.navigate({ to });
+    });
+  }, [pendingNavigation, cancel, isTyping, type, router]);
 
   const handleButtonTap = (button: DockButton) => {
     if (isTyping) {
       cancel();
     }
 
-    if (button.action === "back") {
-      type(button.command);
-      startTransition(() => {
-        router.history.back();
-      });
-      return;
-    }
-
-    if (button.action === "resume") {
-      type(button.command);
-      window.open(PERSONAL_INFO.resume.url, "_blank");
-      return;
-    }
-
-    if (button.action === "contact") {
-      type(button.command);
-      window.open(`mailto:${PERSONAL_INFO.contact.email}`);
-      return;
-    }
-
-    if (button.action === "linkedin") {
-      type(button.command);
-      window.open(PERSONAL_INFO.contact.linkedin, "_blank");
-      return;
-    }
-
-    if (button.action === "live") {
+    if (button.action) {
+      const handler = actionHandlers[button.action];
+      if (handler) {
+        handler(button, {
+          type,
+          cancel,
+          isTyping,
+          startTransition,
+          router,
+          pathname: location.pathname,
+        });
+      }
       return;
     }
 
     if (button.route) {
-      const target = button.route;
       type(button.command);
       startTransition(() => {
-        router.navigate({ to: target });
+        router.navigate({ to: button.route });
       });
     }
   };

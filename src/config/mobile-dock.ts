@@ -6,6 +6,7 @@ import {
   mobile_dock_contact,
   mobile_dock_linkedin,
   mobile_dock_live,
+  mobile_dock_next,
   mobile_dock_projects,
   mobile_dock_resume,
   mobile_dock_skills,
@@ -98,6 +99,18 @@ export const DOCK_BUTTONS: Record<MobileRouteId, DockConfig> = {
   [MOBILE_ROUTES.PROJECTS]: {
     buttons: [
       { id: "back", label: mobile_dock_back, command: "cd ..", action: "back" },
+      {
+        id: "skills",
+        label: mobile_dock_skills,
+        command: "run skills_check.sh",
+        route: MOBILE_ROUTES.SKILLS,
+      },
+      {
+        id: "career",
+        label: mobile_dock_career,
+        command: "./view_career.sh",
+        route: MOBILE_ROUTES.CAREER,
+      },
     ],
   },
 
@@ -109,6 +122,12 @@ export const DOCK_BUTTONS: Record<MobileRouteId, DockConfig> = {
         label: mobile_dock_live,
         command: "open --live",
         action: "live",
+      },
+      {
+        id: "next",
+        label: mobile_dock_next,
+        command: "next --project",
+        action: "next",
       },
     ],
   },

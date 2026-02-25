@@ -38,5 +38,9 @@
   "mobile_skills_standards_best_practices": "Best Practices",
   "mobile_skills_standards_desc": "Philosophy on perf, a11y & quality.",
   "mobile_skills_loading": "> ANALYZING STACK... [OK]",
-  "mobile_skills_eof": "> EOF"
+  "mobile_skills_eof": "> EOF",
+
+  "mobile_projects_listing_count": "LISTING {count} ITEMS...",
+  "mobile_projects_hint": "(Tap a project to open)",
+  "mobile_project_deps_title": "DEPENDENCIES"
 }
