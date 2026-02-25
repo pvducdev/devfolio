@@ -1,16 +1,16 @@
 import { Outlet, useLocation, useRouter } from "@tanstack/react-router";
 import { useEffect, useTransition } from "react";
-import { PERSONAL_INFO } from "@/config/personal-info";
-import { getNextProjectId, getProjectById } from "@/config/projects";
-import { useGhostTyping } from "@/hooks/use-ghost-typing";
-import { resolveRouteId } from "@/lib/routes";
+import { PERSONAL_INFO } from "@/config/personal-info.ts";
+import { getNextProjectId, getProjectById } from "@/config/projects.ts";
+import { useGhostTyping } from "@/hooks/use-ghost-typing.ts";
+import { resolveRouteId } from "@/lib/routes.ts";
 import {
   useMobileShellStore,
   usePendingNavigation,
-} from "@/store/mobile-shell";
-import type { DockButton } from "@/types/mobile";
-import CommandDock from "./command-dock";
-import PromptHeader from "./prompt-header";
+} from "@/store/mobile-shell.ts";
+import type { DockButton } from "@/types/mobile.ts";
+import CommandDock from "./command-dock.tsx";
+import PromptHeader from "./prompt-header.tsx";
 
 const PROJECT_DETAIL_PATTERN = /^\/m\/projects\/(.+)$/;
 
