@@ -1,0 +1,114 @@
+import { ChevronDown } from "lucide-react";
+import type { Variants } from "motion/react";
+import { motion, stagger, useReducedMotion } from "motion/react";
+import {
+  page_career_heading,
+  page_career_hint_scroll,
+  page_career_intro,
+  page_career_introsub,
+} from "@/paraglide/messages.js";
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      delayChildren: stagger(0.12, { startDelay: 0.2 }),
+    },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 12 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: [0.25, 1, 0.5, 1],
+    },
+  },
+};
+
+export default function TimelineIntro() {
+  const prefersReducedMotion = useReducedMotion() ?? false;
+
+  const animationProps = prefersReducedMotion
+    ? { initial: "visible", animate: "visible" }
+    : { initial: "hidden", animate: "visible", variants: containerVariants };
+
+  return (
+    <motion.div {...animationProps} className="px-4 py-10 font-mono">
+      <motion.h1
+        className="mb-1 text-foreground text-sm uppercase tracking-wide"
+        {...(!prefersReducedMotion && { variants: itemVariants })}
+      >
+        {page_career_heading()}
+        {prefersReducedMotion ? null : (
+          <motion.span
+            animate={{ opacity: [1, 0] }}
+            transition={{
+              repeat: Number.POSITIVE_INFINITY,
+              repeatType: "reverse",
+              duration: 0.53,
+            }}
+          >
+            _
+          </motion.span>
+        )}
+      </motion.h1>
+
+      <motion.div
+        className="mb-6 h-0.5 w-24 bg-linear-to-r from-primary to-transparent"
+        style={{ transformOrigin: "left" }}
+        {...(!prefersReducedMotion && {
+          initial: { scaleX: 0 },
+          animate: { scaleX: 1 },
+          transition: {
+            duration: 0.8,
+            ease: [0.25, 1, 0.5, 1],
+            delay: 0.3,
+          },
+        })}
+      />
+
+      <motion.p
+        className="mb-1 text-muted-foreground text-xs leading-relaxed"
+        {...(!prefersReducedMotion && { variants: itemVariants })}
+      >
+        {page_career_intro()}
+      </motion.p>
+      <motion.p
+        className="mb-6 text-muted-foreground text-xs leading-relaxed"
+        {...(!prefersReducedMotion && { variants: itemVariants })}
+      >
+        {page_career_introsub()}
+      </motion.p>
+
+      <motion.p
+        className="mb-4 text-center text-[10px] text-muted-foreground tracking-wide"
+        {...(!prefersReducedMotion && { variants: itemVariants })}
+      >
+        {page_career_hint_scroll()}
+      </motion.p>
+
+      <motion.div
+        className="flex justify-center"
+        {...(!prefersReducedMotion && { variants: itemVariants })}
+      >
+        <motion.div
+          {...(!prefersReducedMotion && {
+            animate: { y: [0, 4, 0] },
+            transition: {
+              repeat: Number.POSITIVE_INFINITY,
+              duration: 2.5,
+              ease: "easeInOut",
+            },
+          })}
+        >
+          <ChevronDown className="size-4 text-muted-foreground/50" />
+        </motion.div>
+      </motion.div>
+    </motion.div>
+  );
+}
