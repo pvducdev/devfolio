@@ -1,6 +1,6 @@
 import { ChevronDown } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { type Ref, useRef } from "react";
+import { type Ref, type RefObject, useRef } from "react";
 import { useBoolean } from "usehooks-ts";
 import type { CareerSection } from "@/components/career-runner/config";
 import ExpandedSection from "@/components/career-runner/expanded-section";
@@ -10,6 +10,7 @@ interface CareerEntryProps {
   ref: Ref<HTMLDivElement>;
   section: CareerSection;
   isActive: boolean;
+  scrollRef: RefObject<HTMLDivElement | null>;
 }
 
 function YearMarker({
@@ -52,6 +53,7 @@ export default function CareerEntry({
   ref,
   section,
   isActive,
+  scrollRef,
 }: CareerEntryProps) {
   const {
     value: manuallyToggled,
@@ -68,12 +70,12 @@ export default function CareerEntry({
   }
 
   const hasExpandableContent = !!section.card.expanded;
-  const isExpanded = isActive && hasExpandableContent && !manuallyToggled;
-  const canExpand = isActive && hasExpandableContent;
+  const isExpanded = hasExpandableContent && !manuallyToggled;
+  const canExpand = hasExpandableContent;
 
   return (
     <div
-      className="relative pb-12 [contain-intrinsic-size:auto_280px] [content-visibility:auto]"
+      className="relative pb-36 [contain-intrinsic-size:auto_400px] [content-visibility:auto]"
       ref={ref}
     >
       <YearMarker isActive={isActive} section={section} />
@@ -90,7 +92,7 @@ export default function CareerEntry({
         className="ml-10"
         initial={{ opacity: 0, x: 20 }}
         transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
-        viewport={{ once: true, amount: 0.3 }}
+        viewport={{ root: scrollRef, once: true, amount: 0.3 }}
         whileInView={{ opacity: 1, x: 0 }}
       >
         <div

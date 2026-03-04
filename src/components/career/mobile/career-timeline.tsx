@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, useScroll, useSpring } from "motion/react";
 import { lazy, Suspense, useRef } from "react";
 import { CAREER_SECTIONS } from "@/components/career-runner/config";
 import { useCareerTimeline } from "@/hooks/use-career-timeline";
@@ -10,13 +10,26 @@ const StairCharacter = lazy(() => import("./stair-character"));
 
 export default function CareerTimeline() {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const { sectionRefs, activeIndex } = useCareerTimeline(scrollRef);
 
-  const { scrollYProgress } = useScroll({ container: scrollRef });
-  const lineProgress = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const { scrollY, scrollYProgress } = useScroll({ container: scrollRef });
+
+  const { sectionRefs, activeIndex } = useCareerTimeline({
+    scrollContainerRef: scrollRef,
+    scrollY,
+  });
+
+  const lineProgress = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
+  });
 
   return (
-    <div className="relative h-full overflow-y-auto" ref={scrollRef}>
+    <motion.div
+      className="relative h-full overflow-y-auto overflow-x-hidden"
+      layoutScroll
+      ref={scrollRef}
+    >
       <div
         className="pointer-events-none fixed inset-0 z-50 opacity-[0.02]"
         style={{
@@ -38,16 +51,20 @@ export default function CareerTimeline() {
             isActive={activeIndex === index}
             key={section.id}
             ref={sectionRefs[index]}
+            scrollRef={scrollRef}
             section={section}
           />
         ))}
 
         <Suspense fallback={null}>
-          <StairCharacter activeIndex={activeIndex} sectionRefs={sectionRefs} />
+          <StairCharacter
+            scrollYProgress={scrollYProgress}
+            sectionRefs={sectionRefs}
+          />
         </Suspense>
       </div>
 
       <TimelineOutro />
-    </div>
+    </motion.div>
   );
 }
