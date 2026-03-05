@@ -1,10 +1,10 @@
-import RouteBreadcrumb from "@/components/layout/route-breadcrumb.tsx";
-import ThemeSwitcher from "@/components/theme/theme-switcher.tsx";
-import { GithubLight } from "@/components/ui/svgs/githubLight.tsx";
+import RouteBreadcrumb from "@/components/layout/route-breadcrumb";
+import ThemeSwitcher from "@/components/theme/theme-switcher";
+import { GithubLight } from "@/components/ui/svgs/githubLight";
 import { Gitlab } from "@/components/ui/svgs/gitlab";
 import { Linkedin } from "@/components/ui/svgs/linkedin";
-import { PERSONAL_INFO } from "@/config/personal-info.ts";
-import { SITE_CONFIG } from "@/config/site.ts";
+import { PERSONAL_INFO } from "@/config/personal-info";
+import { SITE_CONFIG } from "@/config/site";
 import { ui_state_hired, ui_state_opentowork } from "@/paraglide/messages.js";
 import { Badge } from "../ui/badge";
 

@@ -1,31 +1,8 @@
-import type { LucideIcon } from "lucide-react";
-import { CAREER_TIMELINE, type JobType } from "@/config/career";
-import { PERSONAL_INFO } from "@/config/personal-info.ts";
+import { CAREER_TIMELINE } from "@/config/career";
+import { PERSONAL_INFO } from "@/config/personal-info";
+import type { CareerSection } from "@/types/career";
 
-export type { JobType } from "@/config/career";
-
-export interface ExpandedContent {
-  description: string;
-  techStack: {
-    primary: string[];
-    tools?: string[];
-    infrastructure?: string[];
-  };
-  metrics?: string[];
-}
-
-export interface CareerSection {
-  id: string;
-  year: string;
-  icon: LucideIcon;
-  jobType: JobType;
-  card: {
-    title: string;
-    subtitle: string;
-    details: string[];
-    expanded?: ExpandedContent;
-  };
-}
+export type { CareerSection, ExpandedContent, JobType } from "@/types/career";
 
 export const CAREER_SECTIONS: CareerSection[] = CAREER_TIMELINE.map(
   (entry, index) => ({

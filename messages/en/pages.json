@@ -29,6 +29,8 @@
   "page_about_contribution_level_range": "{min}-{max} contributions",
   "page_about_contribution_level_more": "{min}+ contributions",
 
+  "page_skills_header_subtitle": "My Skillet in {year} and beyond.",
+
   "page_error_404_title": "Lost in the void",
   "page_error_404_description": "This page pulled a vanishing act. Maybe it's on vacation?",
   "page_error_generic_title": "Well, that wasn't supposed to happen",

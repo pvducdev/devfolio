@@ -45,7 +45,9 @@ function useSectionMapping(
   useEffect(() => {
     const measure = () => {
       const container = scrollRef.current;
-      if (!container) return;
+      if (!container) {
+        return;
+      }
 
       const characterYs: number[] = [];
       const scrollOffsets: number[] = [];
@@ -104,7 +106,9 @@ export default function StairCharacter({
 
   const rawY = useTransform(scrollY, (y) => {
     const container = scrollRef.current;
-    if (!container || count === 0 || scrollOffsets.length === 0) return 0;
+    if (!container || count === 0 || scrollOffsets.length === 0) {
+      return 0;
+    }
 
     const sectionsContainerOffset =
       scrollOffsets[0] - (characterYs[0] + CHARACTER_SIZE - 4);

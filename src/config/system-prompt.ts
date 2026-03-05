@@ -1,4 +1,4 @@
-import { SITE_CONFIG } from "@/config/site.ts";
+import { SITE_CONFIG } from "@/config/site";
 import { CAREER_TIMELINE } from "./career";
 import { CONTRIBUTIONS_CONFIG } from "./contributions";
 import { PERSONAL_INFO } from "./personal-info";

@@ -1,9 +1,9 @@
-import Content from "@/components/assistant/content.tsx";
-import Footer from "@/components/assistant/footer.tsx";
-import Header from "@/components/assistant/header.tsx";
-import Suggestions from "@/components/assistant/suggestions.tsx";
-import { useAssistant } from "@/hooks/use-assistant.ts";
-import { cn } from "@/lib/utils.ts";
+import Content from "@/components/assistant/content";
+import Footer from "@/components/assistant/footer";
+import Header from "@/components/assistant/header";
+import Suggestions from "@/components/assistant/suggestions";
+import { useAssistant } from "@/hooks/use-assistant";
+import { cn } from "@/lib/utils";
 import {
   assistant_suggest1,
   assistant_suggest2,

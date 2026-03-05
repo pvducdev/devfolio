@@ -167,5 +167,5 @@ function extractFilenameFromUrl(url: string): string | null {
   }
 }
 
-export default useFileDownload;
-export type { DownloadFileOptions, DownloadDataOptions, UseFileDownloadReturn };
+export { useFileDownload };
+export type { DownloadDataOptions, DownloadFileOptions, UseFileDownloadReturn };

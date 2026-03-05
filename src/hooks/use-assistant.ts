@@ -2,7 +2,7 @@ import type { LucideIcon } from "lucide-react";
 import { Eraser, HelpCircle, MessageSquare, Palette } from "lucide-react";
 import { useRef } from "react";
 import { THEMES } from "@/config/theme";
-import generateAssistantResponseFn from "@/fn/generate-assistant-response.ts";
+import generateAssistantResponseFn from "@/fn/generate-assistant-response";
 import { getLogger } from "@/lib/logger/client";
 import {
   cmd_clear_desc,
@@ -25,8 +25,8 @@ import {
   useAssistantMessage,
   useAssistantStatus,
   useHasAssistantMessage,
-} from "@/store/assistant.ts";
-import { useThemeStore } from "@/store/theme.ts";
+} from "@/store/assistant";
+import { useThemeStore } from "@/store/theme";
 
 export interface CommandItem {
   name: string;

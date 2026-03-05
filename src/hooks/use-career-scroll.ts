@@ -10,7 +10,7 @@ import {
 } from "motion/react";
 import { type RefObject, useEffect, useRef } from "react";
 import { useEventListener, useUnmount } from "usehooks-ts";
-import { useCareerActions, useCareerLooping } from "@/store/career.ts";
+import { useCareerActions, useCareerLooping } from "@/store/career";
 
 interface UseCareerScrollReturn {
   containerRef: RefObject<HTMLDivElement | null>;

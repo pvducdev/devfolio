@@ -1,8 +1,8 @@
 import { createRouter } from "@tanstack/react-router";
-import ErrorPage from "@/components/common/error-page.tsx";
+import ErrorPage from "@/components/common/error-page";
 import { Error as ErrorIcon } from "@/components/ui/svgs/error";
 import { NotFound } from "@/components/ui/svgs/not-found";
-import { getLogger } from "@/lib/logger/client.ts";
+import { getLogger } from "@/lib/logger/client";
 import {
   page_error_404_description,
   page_error_404_title,

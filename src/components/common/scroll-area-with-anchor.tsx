@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useScrollEdges } from "@/hooks/use-scroll";
-import { cn } from "@/lib/utils.ts";
+import { cn } from "@/lib/utils";
 
 type ScrollAreaWithAnchorProps = ComponentProps<typeof ScrollArea>;
 

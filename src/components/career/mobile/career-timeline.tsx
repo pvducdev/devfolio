@@ -30,13 +30,13 @@ export default function CareerTimeline() {
       layoutScroll
       ref={scrollRef}
     >
-      <div className="pointer-events-none fixed inset-0 z-20 opacity-[0.02] [background-image:repeating-linear-gradient(0deg,transparent,transparent_2px,currentColor_2px,currentColor_3px)]" />
+      <div className="pointer-events-none fixed inset-0 z-20 bg-[repeating-linear-gradient(0deg,transparent,transparent_2px,currentColor_2px,currentColor_3px)] opacity-[0.02]" />
 
       <TimelineIntro />
 
       <div className="relative ml-14 border-border border-l border-dashed">
         <motion.div
-          className="absolute top-0 left-0 w-px origin-top bg-gradient-to-b from-primary to-primary/0"
+          className="absolute top-0 left-0 w-px origin-top bg-linear-to-b from-primary to-primary/0"
           style={{ height: "100%", scaleY: lineProgress }}
         />
 

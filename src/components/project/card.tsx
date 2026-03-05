@@ -3,13 +3,13 @@ import type { ReactNode } from "react";
 import useMeasure from "react-use-measure";
 import { cn } from "@/lib/utils";
 
-export interface CardProps {
+interface CardProps {
   title?: string;
   className?: string;
   children: ReactNode;
 }
 
-export function Card({ title, className, children }: CardProps) {
+export default function Card({ title, className, children }: CardProps) {
   const [ref, bounds] = useMeasure();
 
   return (

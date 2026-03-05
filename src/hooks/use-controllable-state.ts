@@ -10,7 +10,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { isFunction } from "@/lib/utils.ts";
+import { isFunction } from "@/lib/utils";
 
 type ChangeHandler<T> = (state: T) => void;
 type SetStateFn<T> = Dispatch<SetStateAction<T>>;

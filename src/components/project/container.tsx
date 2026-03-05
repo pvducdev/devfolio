@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
-import DeviceMock from "@/components/common/device-mock.tsx";
+import DeviceMock from "@/components/common/device-mock";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getProjectById } from "@/config/projects";
 import { useAutoStep } from "@/hooks/use-auto-step";
-import { cn } from "@/lib/utils.ts";
+import { cn } from "@/lib/utils";
 import {
   ui_project_loading,
   ui_project_tab_dependencies,
   ui_project_tab_guide,
 } from "@/paraglide/messages.js";
-import { Card } from "./card";
+import Card from "./card";
 import { CodeBlock } from "./code-block";
-import { Terminal } from "./terminal";
-import { TerminalItem } from "./terminal-item";
+import Terminal from "./terminal";
+import TerminalItem from "./terminal-item";
 
 export interface ContainerProps {
   projectId: string;

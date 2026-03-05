@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button.tsx";
-import type { Activity as TActivity } from "@/config/routes.ts";
-import { useAppLayoutActions, useSidebarSection } from "@/store/app-layout.ts";
+import { Button } from "@/components/ui/button";
+import type { Activity as TActivity } from "@/config/routes";
+import { useAppLayoutActions, useSidebarSection } from "@/store/app-layout";
 
 interface WelcomeActionProps {
   data: TActivity;

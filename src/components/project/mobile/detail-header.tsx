@@ -1,4 +1,4 @@
-import type { ProjectConfig } from "@/config/projects.ts";
+import type { ProjectConfig } from "@/config/projects";
 
 interface DetailHeaderProps {
   project: ProjectConfig;

@@ -1,4 +1,4 @@
-import { SITE_CONFIG } from "@/config/site.ts";
+import { SITE_CONFIG } from "@/config/site";
 
 interface ProjectPackage {
   name: string;

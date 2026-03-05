@@ -1,7 +1,7 @@
 import { Download } from "lucide-react";
-import { Button } from "@/components/ui/button.tsx";
-import useFileDownload from "@/hooks/use-file-download.ts";
-import { getLogger } from "@/lib/logger/client.ts";
+import { Button } from "@/components/ui/button";
+import { useFileDownload } from "@/hooks/use-file-download";
+import { getLogger } from "@/lib/logger/client";
 import {
   action_resume_download,
   ui_resume_downloading,

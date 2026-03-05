@@ -1,9 +1,9 @@
-import Welcome from "@/components/assistant/welcome.tsx";
-import ScrollAreaWithAnchor from "@/components/common/scroll-area-with-anchor.tsx";
-import { Response } from "@/components/ui/ai-elements/response.tsx";
-import { TextShimmer } from "@/components/ui/text-shimmer.tsx";
+import Welcome from "@/components/assistant/welcome";
+import ScrollAreaWithAnchor from "@/components/common/scroll-area-with-anchor";
+import { Response } from "@/components/ui/ai-elements/response";
+import { TextShimmer } from "@/components/ui/text-shimmer";
 import { assistant_thinking } from "@/paraglide/messages.js";
-import type { AssistantStatus } from "@/store/assistant.ts";
+import type { AssistantStatus } from "@/store/assistant";
 
 interface AssistantContentProps {
   message: string | null;

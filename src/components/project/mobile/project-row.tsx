@@ -1,5 +1,5 @@
-import type { ProjectConfig } from "@/config/projects.ts";
-import { useMobileShellStore } from "@/store/mobile-shell.ts";
+import type { ProjectConfig } from "@/config/projects";
+import { useMobileShellStore } from "@/store/mobile-shell";
 
 interface ProjectRowProps {
   project: ProjectConfig;

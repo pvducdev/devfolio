@@ -1,8 +1,8 @@
 import { Eye } from "lucide-react";
 import { lazy, Suspense } from "react";
-import DownloadAction from "@/components/resume-viewer/download-action.tsx";
-import ResumeViewerSkeleton from "@/components/resume-viewer/skeleton.tsx";
-import { Button } from "@/components/ui/button.tsx";
+import DownloadAction from "@/components/resume-viewer/download-action";
+import ResumeViewerSkeleton from "@/components/resume-viewer/skeleton";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -12,9 +12,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog.tsx";
-import { Kbd } from "@/components/ui/kbd.tsx";
-import { PERSONAL_INFO } from "@/config/personal-info.ts";
+} from "@/components/ui/dialog";
+import { Kbd } from "@/components/ui/kbd";
+import { PERSONAL_INFO } from "@/config/personal-info";
 import { action_cancel, ui_resume_title } from "@/paraglide/messages.js";
 
 const ResumeViewer = lazy(

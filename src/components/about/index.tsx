@@ -1,5 +1,4 @@
 import { PERSONAL_INFO } from "@/config/personal-info";
-
 import ContributionSection from "./contribution-section";
 
 export default function AboutPage() {
