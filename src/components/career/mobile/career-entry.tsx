@@ -1,6 +1,6 @@
 import { ChevronDown } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { type Ref, type RefObject, useRef } from "react";
+import { type Ref, type RefObject, useEffect } from "react";
 import { useBoolean } from "usehooks-ts";
 import type { CareerSection } from "@/components/career-runner/config";
 import ExpandedSection from "@/components/career-runner/expanded-section";
@@ -41,7 +41,7 @@ function TimelineDot({ isActive }: { isActive: boolean }) {
     <motion.div
       animate={isActive ? { scale: [1, 1.4, 1] } : { scale: 1 }}
       className={cn(
-        "absolute top-1 -left-[5px] size-2.5 rounded-full border-2",
+        "absolute top-1 -left-1.25 size-2.5 rounded-full border-2",
         isActive ? "border-primary bg-primary" : "border-border bg-background"
       )}
       transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
@@ -61,18 +61,14 @@ export default function CareerEntry({
     setFalse: resetToggle,
   } = useBoolean(false);
 
-  const prevIsActive = useRef(isActive);
-  if (prevIsActive.current !== isActive) {
-    prevIsActive.current = isActive;
+  useEffect(() => {
     if (!isActive) {
       resetToggle();
     }
-  }
+  }, [isActive, resetToggle]);
 
   const hasExpandableContent = !!section.card.expanded;
   const isExpanded = hasExpandableContent && !manuallyToggled;
-  const canExpand = hasExpandableContent;
-
   return (
     <div
       className="relative pb-36 [contain-intrinsic-size:auto_400px] [content-visibility:auto]"
@@ -99,7 +95,7 @@ export default function CareerEntry({
           className={cn(
             "border border-border border-dashed p-3 transition-shadow",
             isActive &&
-              "border-solid shadow-[0_0_20px_-5px_oklch(from_var(--primary)_l_c_h_/_0.2)]"
+              "border-solid shadow-[0_0_20px_-5px_oklch(from_var(--primary)_l_c_h/0.2)]"
           )}
         >
           <div className="mb-2 flex items-start justify-between border-border border-b pb-2">
@@ -111,7 +107,7 @@ export default function CareerEntry({
                 {section.card.subtitle} ({section.jobType})
               </p>
             </div>
-            {canExpand ? (
+            {hasExpandableContent ? (
               <button
                 className="shrink-0 text-muted-foreground"
                 onClick={toggleManually}

@@ -102,8 +102,6 @@ export default function StairCharacter({
 
   const count = characterYs.length;
 
-  // scrollOffsets[0] is the sections-container's absolute offset from the scroll root
-  // (since section[0].offsetTop ≈ 0, sectionsContainerOffset ≈ scrollOffsets[0])
   const rawY = useTransform(scrollY, (y) => {
     const container = scrollRef.current;
     if (!container || count === 0 || scrollOffsets.length === 0) return 0;

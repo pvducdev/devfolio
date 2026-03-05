@@ -1,32 +1,10 @@
-import type { Variants } from "motion/react";
-import { motion, stagger, useReducedMotion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import {
   page_career_complete,
   page_career_eof,
   page_career_thanks,
 } from "@/paraglide/messages.js";
-
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      delayChildren: stagger(0.12, { startDelay: 0.2 }),
-    },
-  },
-};
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 12 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: [0.25, 1, 0.5, 1],
-    },
-  },
-};
+import { containerVariants, itemVariants } from "./motion-variants";
 
 export default function TimelineOutro() {
   const prefersReducedMotion = useReducedMotion() ?? false;
