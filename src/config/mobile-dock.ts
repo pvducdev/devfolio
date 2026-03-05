@@ -93,6 +93,18 @@ export const DOCK_BUTTONS: Record<MobileRouteId, DockConfig> = {
   [MOBILE_ROUTES.CAREER]: {
     buttons: [
       { id: "back", label: mobile_dock_back, command: "cd ..", action: "back" },
+      {
+        id: "resume",
+        label: mobile_dock_resume,
+        command: "open resume.pdf",
+        action: "resume",
+      },
+      {
+        id: "linkedin",
+        label: mobile_dock_linkedin,
+        command: "open linkedin.com",
+        action: "linkedin",
+      },
     ],
   },
 
