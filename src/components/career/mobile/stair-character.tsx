@@ -10,19 +10,58 @@ const CHARACTER_SIZE = 48;
 
 interface StairCharacterProps {
   sectionRefs: RefObject<HTMLDivElement | null>[];
-  scrollYProgress: MotionValue<number>;
+  scrollY: MotionValue<number>;
+  scrollRef: RefObject<HTMLDivElement | null>;
 }
 
-function useSectionOffsets(refs: RefObject<HTMLDivElement | null>[]) {
-  const [offsets, setOffsets] = useState<number[]>([]);
+interface SectionMapping {
+  characterYs: number[];
+  scrollOffsets: number[];
+}
+
+function getOffsetFromContainer(
+  element: HTMLElement,
+  container: HTMLElement
+): number {
+  let offset = 0;
+  let current: HTMLElement | null = element;
+  while (current && current !== container) {
+    offset += current.offsetTop;
+    current = current.offsetParent as HTMLElement | null;
+  }
+  return offset;
+}
+
+function useSectionMapping(
+  refs: RefObject<HTMLDivElement | null>[],
+  scrollRef: RefObject<HTMLDivElement | null>
+): SectionMapping {
+  const [mapping, setMapping] = useState<SectionMapping>({
+    characterYs: [],
+    scrollOffsets: [],
+  });
   const frameRef = useRef(0);
 
   useEffect(() => {
     const measure = () => {
-      const values = refs.map(
-        (ref) => (ref.current?.offsetTop ?? 0) - CHARACTER_SIZE + 4
-      );
-      setOffsets(values);
+      const container = scrollRef.current;
+      if (!container) return;
+
+      const characterYs: number[] = [];
+      const scrollOffsets: number[] = [];
+
+      for (const ref of refs) {
+        const el = ref.current;
+        if (!el) {
+          characterYs.push(0);
+          scrollOffsets.push(0);
+          continue;
+        }
+        characterYs.push(el.offsetTop - CHARACTER_SIZE + 4);
+        scrollOffsets.push(getOffsetFromContainer(el, container));
+      }
+
+      setMapping({ characterYs, scrollOffsets });
     };
 
     measure();
@@ -32,6 +71,9 @@ function useSectionOffsets(refs: RefObject<HTMLDivElement | null>[]) {
       frameRef.current = requestAnimationFrame(measure);
     });
 
+    if (scrollRef.current) {
+      observer.observe(scrollRef.current);
+    }
     for (const ref of refs) {
       if (ref.current) {
         observer.observe(ref.current);
@@ -42,26 +84,47 @@ function useSectionOffsets(refs: RefObject<HTMLDivElement | null>[]) {
       observer.disconnect();
       cancelAnimationFrame(frameRef.current);
     };
-  }, [refs]);
+  }, [refs, scrollRef]);
 
-  return offsets;
+  return mapping;
 }
 
 export default function StairCharacter({
   sectionRefs,
-  scrollYProgress,
+  scrollY,
+  scrollRef,
 }: StairCharacterProps) {
   const animationState = useCharacterAnimationState();
-  const offsets = useSectionOffsets(sectionRefs);
+  const { characterYs, scrollOffsets } = useSectionMapping(
+    sectionRefs,
+    scrollRef
+  );
 
-  const count = offsets.length;
-  const inputRange = count > 1 ? offsets.map((_, i) => i / (count - 1)) : [0];
-  const outputRange = count > 1 ? offsets : [0];
+  const count = characterYs.length;
 
-  const rawY = useTransform(scrollYProgress, inputRange, outputRange);
+  // scrollOffsets[0] is the sections-container's absolute offset from the scroll root
+  // (since section[0].offsetTop ≈ 0, sectionsContainerOffset ≈ scrollOffsets[0])
+  const rawY = useTransform(scrollY, (y) => {
+    const container = scrollRef.current;
+    if (!container || count === 0 || scrollOffsets.length === 0) return 0;
+
+    const sectionsContainerOffset =
+      scrollOffsets[0] - (characterYs[0] + CHARACTER_SIZE - 4);
+
+    const viewportCenter =
+      y -
+      sectionsContainerOffset +
+      container.clientHeight / 2 -
+      CHARACTER_SIZE / 2;
+
+    const min = characterYs[0];
+    const max = characterYs[count - 1];
+    return Math.min(Math.max(viewportCenter, min), max);
+  });
+
   const smoothY = useSpring(rawY, {
-    stiffness: 120,
-    damping: 22,
+    stiffness: 600,
+    damping: 50,
     restDelta: 0.5,
   });
 

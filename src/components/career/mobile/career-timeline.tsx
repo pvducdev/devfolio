@@ -58,7 +58,8 @@ export default function CareerTimeline() {
 
         <Suspense fallback={null}>
           <StairCharacter
-            scrollYProgress={scrollYProgress}
+            scrollRef={scrollRef}
+            scrollY={scrollY}
             sectionRefs={sectionRefs}
           />
         </Suspense>
