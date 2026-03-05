@@ -1,5 +1,12 @@
 import { SITE_CONFIG } from "@/config/site.ts";
 
+interface ProjectPackage {
+  name: string;
+  description: string;
+  dependencies?: Record<string, string>;
+  devDependencies?: Record<string, string>;
+}
+
 export interface ProjectConfig {
   id: string;
   name: string;
@@ -7,7 +14,7 @@ export interface ProjectConfig {
   url: string;
   type: "mobile" | "desktop";
   guides: { title: string; src: string; type: "screenshot" | "video" }[];
-  package: Record<string, unknown>;
+  package: ProjectPackage;
 }
 
 export const PROJECTS: ProjectConfig[] = [
@@ -138,4 +145,14 @@ export const PROJECTS: ProjectConfig[] = [
 
 export function getProjectById(id: string): ProjectConfig {
   return PROJECTS.find((p) => p.id === id) || ({} as ProjectConfig);
+}
+
+export function getNextProjectId(currentId: string): string {
+  const index = PROJECTS.findIndex((p) => p.id === currentId);
+  const next = (index + 1) % PROJECTS.length;
+  return PROJECTS[next].id;
+}
+
+export function getProjectIndex(id: string): number {
+  return PROJECTS.findIndex((p) => p.id === id);
 }

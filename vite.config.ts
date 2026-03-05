@@ -9,6 +9,9 @@ import viteTsConfigPaths from "vite-tsconfig-paths";
 import packageJson from "./package.json" with { type: "json" };
 
 const config = defineConfig({
+  server: {
+    host: true,
+  },
   define: {
     __APP_VERSION__: JSON.stringify(packageJson.version),
   },
