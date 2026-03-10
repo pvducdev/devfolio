@@ -42,5 +42,15 @@
 
   "mobile_projects_listing_count": "LISTING {count} ITEMS...",
   "mobile_projects_hint": "(Tap a project to open)",
-  "mobile_project_deps_title": "DEPENDENCIES"
+  "mobile_project_deps_title": "DEPENDENCIES",
+
+  "mobile_settings_title": "SETTINGS",
+  "mobile_settings_theme": "Theme",
+  "mobile_settings_language": "Language",
+  "mobile_settings_search": "Search...",
+  "mobile_settings_search_hint": "(Tap to open)",
+  "mobile_settings_assistant": "HeyD Assistant",
+  "mobile_settings_assistant_hint": "(Tap to open)",
+  "mobile_settings_repo": "GitHub Repo",
+  "mobile_settings_close": "CLOSE"
 }

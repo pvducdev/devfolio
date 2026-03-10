@@ -11,6 +11,7 @@ import {
 import type { DockButton } from "@/types/mobile";
 import CommandDock from "./command-dock.tsx";
 import PromptHeader from "./prompt-header.tsx";
+import SettingsDrawer from "./settings-drawer";
 
 const PROJECT_DETAIL_PATTERN = /^\/m\/projects\/(.+)$/;
 
@@ -81,6 +82,7 @@ export default function Shell() {
   const [isPending, startTransition] = useTransition();
   const { text, isTyping, type, cancel } = useGhostTyping();
   const pendingNavigation = usePendingNavigation();
+  const toggleDrawer = useMobileShellStore((s) => s.toggleDrawer);
 
   const routeId = resolveRouteId(location.pathname);
 
@@ -141,8 +143,11 @@ export default function Shell() {
       <CommandDock
         isTyping={isTyping || isPending}
         onButtonTap={handleButtonTap}
+        onSettingsTap={toggleDrawer}
         routeId={routeId}
       />
+
+      <SettingsDrawer />
     </div>
   );
 }
