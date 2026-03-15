@@ -1,7 +1,7 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import MobileSkeleton from "@/components/common/mobile/mobile-skeleton";
-import Shell from "@/components/common/mobile/shell";
 import { HydrationGate } from "@/components/layout/hydration-gate";
+import MobileSkeleton from "@/components/layout/mobile/mobile-skeleton";
+import Shell from "@/components/layout/mobile/shell";
 import ThemeScript from "@/components/theme/theme-script";
 import { isMobile } from "@/lib/browser";
 import { mobileToDesktopPath } from "@/lib/routes";
