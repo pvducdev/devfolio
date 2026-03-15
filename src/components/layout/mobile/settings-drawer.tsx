@@ -119,13 +119,20 @@ export default function SettingsDrawer() {
                   {mobile_settings_search_hint()}
                 </span>
               </SettingsRow>
-
-              <SettingsRow label={mobile_settings_assistant()}>
-                <span className="text-muted-foreground text-xs">
-                  {mobile_settings_assistant_hint()}
-                </span>
-              </SettingsRow>
             </div>
+
+            <button
+              className="w-full space-y-1.5 text-left"
+              onClick={() => useMobileShellStore.getState().openAssistant()}
+              type="button"
+            >
+              <span className="text-muted-foreground text-xs">
+                {">"} {mobile_settings_assistant()}
+              </span>
+              <p className="text-muted-foreground text-xs">
+                {mobile_settings_assistant_hint()}
+              </p>
+            </button>
 
             <div className="border-t border-dashed" />
 

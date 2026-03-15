@@ -52,5 +52,9 @@
   "mobile_settings_assistant": "HeyD Assistant",
   "mobile_settings_assistant_hint": "(Tap to open)",
   "mobile_settings_repo": "GitHub Repo",
-  "mobile_settings_close": "CLOSE"
+  "mobile_settings_close": "CLOSE",
+
+  "mobile_assistant_prompt": "$ ./heyd --interactive",
+  "mobile_assistant_placeholder": "Type a message...",
+  "mobile_assistant_close": "EXIT"
 }

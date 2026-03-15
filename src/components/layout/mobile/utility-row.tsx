@@ -3,12 +3,14 @@ import { SITE_CONFIG } from "@/config/site.ts";
 import { THEMES } from "@/config/theme.ts";
 import { cn } from "@/lib/utils.ts";
 import { getLocale, locales, setLocale } from "@/paraglide/runtime";
+import { useMobileShellStore } from "@/store/mobile-shell.ts";
 import { useCurrentTheme, useSetTheme } from "@/store/theme.ts";
 
 export function UtilityRow({ onSettingsTap }: { onSettingsTap: () => void }) {
   const theme = useCurrentTheme();
   const setTheme = useSetTheme();
   const currentLocale = getLocale();
+  const openAssistant = useMobileShellStore((s) => s.openAssistant);
 
   return (
     <div className="flex items-center gap-1.5 border-b border-dashed px-3 py-2">
@@ -55,6 +57,10 @@ export function UtilityRow({ onSettingsTap }: { onSettingsTap: () => void }) {
         variant="utility"
       >
         ★
+      </Button>
+
+      <Button onClick={openAssistant} size="utility" variant="utility">
+        ?
       </Button>
 
       <Button onClick={onSettingsTap} size="utility" variant="utility">

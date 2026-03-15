@@ -1,5 +1,6 @@
 import { Outlet, useLocation, useRouter } from "@tanstack/react-router";
 import { useEffect, useTransition } from "react";
+import MobileAssistantDrawer from "@/components/assistant/mobile/drawer";
 import { PERSONAL_INFO } from "@/config/personal-info";
 import { getNextProjectId, getProjectById } from "@/config/projects";
 import { useGhostTyping } from "@/hooks/use-ghost-typing";
@@ -148,6 +149,7 @@ export default function Shell() {
       />
 
       <SettingsDrawer />
+      <MobileAssistantDrawer />
     </div>
   );
 }
