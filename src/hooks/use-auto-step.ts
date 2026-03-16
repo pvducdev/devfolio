@@ -1,6 +1,6 @@
 import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { useStep, useUnmount } from "usehooks-ts";
-import { useMount } from "@/hooks/use-mount.ts";
+import { useMount } from "@/hooks/use-mount";
 
 interface UseAutoStepOptions {
   maxStep: number;

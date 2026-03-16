@@ -1,5 +1,5 @@
 import { Dog } from "lucide-react";
-import { SITE_CONFIG } from "@/config/site.ts";
+import { SITE_CONFIG } from "@/config/site";
 import { assistant_welcome } from "@/paraglide/messages.js";
 
 export default function AssistantWelcome() {

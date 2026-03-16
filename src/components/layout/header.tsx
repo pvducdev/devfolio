@@ -1,13 +1,13 @@
 import { Expand, GitBranch, Settings, Shrink } from "lucide-react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useBoolean } from "usehooks-ts";
-import AssistantTrigger from "@/components/assistant/trigger.tsx";
-import ButtonWithTooltip from "@/components/common/button-with-tooltip.tsx";
-import LanguageSwitcher from "@/components/common/language-switcher.tsx";
-import KeyboardShortcutsModal from "@/components/keyboard-shortcuts/modal.tsx";
-import AppSearch from "@/components/layout/app-search.tsx";
-import RepoStarLink from "@/components/layout/repo-star-link.tsx";
-import ResumeViewer from "@/components/resume-viewer/dialog-container.tsx";
+import AssistantTrigger from "@/components/assistant/trigger";
+import ButtonWithTooltip from "@/components/common/button-with-tooltip";
+import LanguageSwitcher from "@/components/common/language-switcher";
+import KeyboardShortcutsModal from "@/components/keyboard-shortcuts/modal";
+import AppSearch from "@/components/layout/app-search";
+import RepoStarLink from "@/components/layout/repo-star-link";
+import ResumeViewer from "@/components/resume-viewer/dialog-container";
 import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
@@ -19,7 +19,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { SITE_CONFIG } from "@/config/site.ts";
+import { SITE_CONFIG } from "@/config/site";
 import { getDisplayKeys, getHotkeyCombo } from "@/lib/hotkeys";
 import { getInitials } from "@/lib/utils";
 import {
@@ -29,7 +29,7 @@ import {
   ui_settings_shortcuts,
   ui_settings_title,
 } from "@/paraglide/messages.js";
-import { useAppLayoutActions, useIsStretchLayout } from "@/store/app-layout.ts";
+import { useAppLayoutActions, useIsStretchLayout } from "@/store/app-layout";
 
 export default function Header() {
   const isStretchLayout = useIsStretchLayout();

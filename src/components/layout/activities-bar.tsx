@@ -1,5 +1,5 @@
-import Activity from "@/components/layout/activity.tsx";
-import { activities } from "@/config/routes.ts";
+import Activity from "@/components/layout/activity";
+import { activities } from "@/config/routes";
 
 interface ActivitiesBarProps {
   active: string | null;

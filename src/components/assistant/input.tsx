@@ -1,11 +1,11 @@
 import { type ChangeEvent, useRef } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import SlashCommandPopover from "@/components/assistant/slash-command-popover.tsx";
-import { selectHighlightedCommand } from "@/components/assistant/utils.ts";
-import { Textarea } from "@/components/ui/textarea.tsx";
+import SlashCommandPopover from "@/components/assistant/slash-command-popover";
+import { selectHighlightedCommand } from "@/components/assistant/utils";
+import { Textarea } from "@/components/ui/textarea";
 import type { CommandItem } from "@/hooks/use-assistant";
-import { useCmdNav } from "@/hooks/use-cmd-nav.ts";
-import { useSlashCommands } from "@/hooks/use-slash-commands.ts";
+import { useCmdNav } from "@/hooks/use-cmd-nav";
+import { useSlashCommands } from "@/hooks/use-slash-commands";
 
 interface AssistantInputProps {
   commands: CommandItem[];

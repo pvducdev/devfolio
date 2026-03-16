@@ -1,0 +1,60 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "mobile_dock_projects": "DỰ ÁN",
+  "mobile_dock_skills": "KỸ NĂNG",
+  "mobile_dock_about": "VỀ TÔI",
+  "mobile_dock_career": "SỰ NGHIỆP",
+  "mobile_dock_back": "QUAY LẠI",
+  "mobile_dock_resume": "CV",
+  "mobile_dock_contact": "LIÊN HỆ",
+  "mobile_dock_linkedin": "LINKEDIN",
+  "mobile_dock_live": "XEM LIVE",
+  "mobile_dock_next": "TIẾP",
+
+  "mobile_shell_greeting": "welcome.sh",
+
+  "mobile_home_greeting": "XIN CHÀO, TÔI LÀ {name}.",
+  "mobile_home_current_dir": "Thư mục hiện tại: ~/",
+  "mobile_home_hint": "(Chọn thư mục để bắt đầu)",
+
+  "mobile_about_bio_label": "TIỂU SỬ:",
+  "mobile_about_links_label": "# LIÊN KẾT",
+  "mobile_about_activity_label": "# HOẠT ĐỘNG GIT",
+  "mobile_about_activity_status_high": "Trạng thái: Đóng góp tích cực",
+  "mobile_about_activity_status_mid": "Trạng thái: Hoạt động vừa phải",
+  "mobile_about_activity_status_low": "Trạng thái: Hoạt động nhẹ",
+  "mobile_about_activity_status_none": "Trạng thái: Không có hoạt động",
+  "mobile_about_activity_loading": "Đang tải đóng góp...",
+
+  "mobile_skills_section_core": "NỀN TẢNG",
+  "mobile_skills_section_stack": "CÔNG NGHỆ",
+  "mobile_skills_section_devops": "DEVOPS & CÔNG CỤ",
+  "mobile_skills_section_standards": "TIÊU CHUẨN",
+  "mobile_skills_section_workflow": "QUY TRÌNH",
+  "mobile_skills_section_exploring": "ĐANG KHÁM PHÁ",
+  "mobile_skills_standards_performance": "Hiệu suất Web",
+  "mobile_skills_standards_a11y": "Khả năng truy cập",
+  "mobile_skills_standards_best_practices": "Best Practices",
+  "mobile_skills_standards_desc": "Triết lý về hiệu suất, a11y & chất lượng.",
+  "mobile_skills_loading": "> ĐANG PHÂN TÍCH... [OK]",
+  "mobile_skills_eof": "> EOF",
+
+  "mobile_projects_listing_count": "HIỂN THỊ {count} MỤC...",
+  "mobile_projects_hint": "(Chạm vào dự án để mở)",
+  "mobile_project_deps_title": "DEPENDENCIES",
+
+  "mobile_settings_title": "CÀI ĐẶT",
+  "mobile_settings_theme": "Giao diện",
+  "mobile_settings_language": "Ngôn ngữ",
+  "mobile_settings_search": "Tìm kiếm...",
+  "mobile_settings_search_hint": "(Nhấn để mở)",
+  "mobile_settings_assistant": "Trợ lý HeyD",
+  "mobile_settings_assistant_hint": "(Nhấn để mở)",
+  "mobile_settings_repo": "GitHub Repo",
+  "mobile_settings_close": "ĐÓNG",
+
+  "mobile_assistant_prompt": "$ ./heyd --interactive",
+  "mobile_assistant_placeholder": "Nhập tin nhắn...",
+  "mobile_assistant_close": "THOÁT"
+}

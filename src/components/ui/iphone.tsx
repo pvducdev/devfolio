@@ -1,5 +1,5 @@
 import type { HTMLAttributes } from "react"
-import {cn} from "@/lib/utils.ts";
+import {cn} from "@/lib/utils";
 
 const PHONE_WIDTH = 433
 const PHONE_HEIGHT = 882

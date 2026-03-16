@@ -2,7 +2,7 @@ import {
   DEFAULT_THEME,
   THEME_ATTRIBUTE,
   THEME_STORAGE_KEY,
-} from "@/config/theme.ts";
+} from "@/config/theme";
 
 export function ThemeInitScript() {
   const scriptContent = `

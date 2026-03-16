@@ -60,6 +60,6 @@ export const SKILLS = {
     { name: "Problem Solving", highlighted: true },
   ],
   exploring: ["Golang"],
-};
+} as const;
 
 export type Skills = typeof SKILLS;

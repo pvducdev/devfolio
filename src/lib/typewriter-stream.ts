@@ -1,4 +1,4 @@
-import { delay } from "@/lib/utils.ts";
+import { delay } from "@/lib/utils";
 
 export async function* typewriterStream(
   chunks: AsyncIterable<string | undefined>,

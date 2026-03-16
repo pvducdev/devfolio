@@ -1,21 +1,21 @@
 import { Check, Palette } from "lucide-react";
 import { useBoolean } from "usehooks-ts";
-import { Button } from "@/components/ui/button.tsx";
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandGroup,
   CommandItem,
   CommandList,
-} from "@/components/ui/command.tsx";
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover.tsx";
-import { THEMES } from "@/config/theme.ts";
-import { cn } from "@/lib/utils.ts";
+} from "@/components/ui/popover";
+import { THEMES } from "@/config/theme";
+import { cn } from "@/lib/utils";
 import { ui_theme_select } from "@/paraglide/messages.js";
-import { useCurrentTheme, useSetTheme } from "@/store/theme.ts";
+import { useCurrentTheme, useSetTheme } from "@/store/theme";
 
 export default function ThemeSwitcher() {
   const { value: open, setValue: setOpen } = useBoolean(false);

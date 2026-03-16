@@ -1,5 +1,5 @@
 import type { ReactNode, RefObject } from "react";
-import createCtx from "@/lib/create-ctx.ts";
+import createCtx from "@/lib/create-ctx";
 
 interface CareerScrollContextValue {
   containerRef: RefObject<HTMLDivElement | null>;

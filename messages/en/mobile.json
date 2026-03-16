@@ -1,0 +1,60 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "mobile_dock_projects": "PROJECTS",
+  "mobile_dock_skills": "SKILLS",
+  "mobile_dock_about": "ABOUT",
+  "mobile_dock_career": "CAREER",
+  "mobile_dock_back": "BACK",
+  "mobile_dock_resume": "RESUME",
+  "mobile_dock_contact": "CONTACT",
+  "mobile_dock_linkedin": "LINKEDIN",
+  "mobile_dock_live": "LIVE",
+  "mobile_dock_next": "NEXT",
+
+  "mobile_shell_greeting": "welcome.sh",
+
+  "mobile_home_greeting": "HI, I'M {name}.",
+  "mobile_home_current_dir": "Current Directory: ~/",
+  "mobile_home_hint": "(Select a directory to start)",
+
+  "mobile_about_bio_label": "BIO:",
+  "mobile_about_links_label": "# LINKS",
+  "mobile_about_activity_label": "# GIT ACTIVITY",
+  "mobile_about_activity_status_high": "Status: Heavy Contribution",
+  "mobile_about_activity_status_mid": "Status: Moderate Activity",
+  "mobile_about_activity_status_low": "Status: Light Activity",
+  "mobile_about_activity_status_none": "Status: No Recent Activity",
+  "mobile_about_activity_loading": "Loading contributions...",
+
+  "mobile_skills_section_core": "THE CORE",
+  "mobile_skills_section_stack": "STACK",
+  "mobile_skills_section_devops": "DEVOPS & TOOLS",
+  "mobile_skills_section_standards": "STANDARDS",
+  "mobile_skills_section_workflow": "WORKFLOW",
+  "mobile_skills_section_exploring": "EXPLORING",
+  "mobile_skills_standards_performance": "Web Performance",
+  "mobile_skills_standards_a11y": "Accessibility",
+  "mobile_skills_standards_best_practices": "Best Practices",
+  "mobile_skills_standards_desc": "Philosophy on perf, a11y & quality.",
+  "mobile_skills_loading": "> ANALYZING STACK... [OK]",
+  "mobile_skills_eof": "> EOF",
+
+  "mobile_projects_listing_count": "LISTING {count} ITEMS...",
+  "mobile_projects_hint": "(Tap a project to open)",
+  "mobile_project_deps_title": "DEPENDENCIES",
+
+  "mobile_settings_title": "SETTINGS",
+  "mobile_settings_theme": "Theme",
+  "mobile_settings_language": "Language",
+  "mobile_settings_search": "Search...",
+  "mobile_settings_search_hint": "(Tap to open)",
+  "mobile_settings_assistant": "HeyD Assistant",
+  "mobile_settings_assistant_hint": "(Tap to open)",
+  "mobile_settings_repo": "GitHub Repo",
+  "mobile_settings_close": "CLOSE",
+
+  "mobile_assistant_prompt": "$ ./heyd --interactive",
+  "mobile_assistant_placeholder": "Type a message...",
+  "mobile_assistant_close": "EXIT"
+}

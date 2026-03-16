@@ -1,8 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
 import { minLength, object, parse, pipe, string, transform } from "valibot";
-import { generateMessage } from "@/lib/llm.ts";
-import { getLogger } from "@/lib/logger/client.ts";
-import { typewriterStream } from "@/lib/typewriter-stream.ts";
+import { generateMessage } from "@/lib/llm";
+import { getLogger } from "@/lib/logger/client";
+import { typewriterStream } from "@/lib/typewriter-stream";
 
 const InputSchema = pipe(
   object({

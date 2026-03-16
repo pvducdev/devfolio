@@ -22,13 +22,13 @@ const defaultAnimation = {
   transition: { duration: 0.3, ease: [0.25, 1, 0.5, 1] as const },
 };
 
-export type TerminalItemProps = {
+type TerminalItemProps = {
   children: ReactNode;
   className?: string;
 } & VariantProps<typeof terminalItemVariants> &
   Omit<ComponentPropsWithoutRef<typeof motion.div>, "children">;
 
-export function TerminalItem({
+export default function TerminalItem({
   variant,
   children,
   className,

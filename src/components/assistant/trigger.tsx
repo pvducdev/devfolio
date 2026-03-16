@@ -1,11 +1,11 @@
 import { Dog } from "lucide-react";
 import { useHotkeys } from "react-hotkeys-hook";
-import ButtonWithTooltip from "@/components/common/button-with-tooltip.tsx";
-import { Kbd, KbdGroup } from "@/components/ui/kbd.tsx";
-import { SITE_CONFIG } from "@/config/site.ts";
+import ButtonWithTooltip from "@/components/common/button-with-tooltip";
+import { Kbd, KbdGroup } from "@/components/ui/kbd";
+import { SITE_CONFIG } from "@/config/site";
 import { getDisplayKeys, getHotkeyCombo } from "@/lib/hotkeys";
 import { assistant_tooltip } from "@/paraglide/messages.js";
-import { useAppLayoutActions } from "@/store/app-layout.ts";
+import { useAppLayoutActions } from "@/store/app-layout";
 
 export default function AssistantTrigger() {
   const { togglePanel } = useAppLayoutActions();

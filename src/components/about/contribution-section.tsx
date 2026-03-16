@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/tooltip";
 import { CONTRIBUTIONS_CONFIG } from "@/config/contributions";
 import { useContributions } from "@/hooks/use-contributions";
-import { useContributionGraph } from "@/hooks/use-contributions-graph.ts";
+import { useContributionGraph } from "@/hooks/use-contributions-graph";
 import type { ContributionData } from "@/lib/contributions/types";
 import { formatMonth, formatWeekday } from "@/lib/date";
 import {
@@ -72,7 +72,7 @@ function getLevelForCount(count: number): number {
 }
 
 export default function ContributionSection() {
-  const { data, isLoading } = useContributions();
+  const { data, isLoading, error } = useContributions();
 
   const { weeks, months, weekdays, startDate, endDate } = useContributionGraph({
     weekStartDay: 0,
@@ -87,6 +87,19 @@ export default function ContributionSection() {
 
   if (isLoading) {
     return <ContributionSectionSkeleton />;
+  }
+
+  if (error) {
+    return (
+      <section aria-label="contributions" className="mx-auto w-full p-4">
+        <p className="text-center text-muted-foreground text-sm">
+          {page_about_contribution_summary({
+            count: 0,
+            platform: CONTRIBUTIONS_CONFIG.source,
+          })}
+        </p>
+      </section>
+    );
   }
 
   return (

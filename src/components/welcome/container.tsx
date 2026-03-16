@@ -1,9 +1,9 @@
-import { Gitlab } from "@/components/ui/svgs/gitlab.tsx";
-import { Linkedin } from "@/components/ui/svgs/linkedin.tsx";
-import WelcomeActivity from "@/components/welcome/activity.tsx";
-import { PERSONAL_INFO } from "@/config/personal-info.ts";
-import { activities } from "@/config/routes.ts";
-import { SITE_CONFIG } from "@/config/site.ts";
+import { Gitlab } from "@/components/ui/svgs/gitlab";
+import { Linkedin } from "@/components/ui/svgs/linkedin";
+import WelcomeActivity from "@/components/welcome/activity";
+import { PERSONAL_INFO } from "@/config/personal-info";
+import { activities } from "@/config/routes";
+import { SITE_CONFIG } from "@/config/site";
 import { page_welcome_desc, page_welcome_title } from "@/paraglide/messages.js";
 
 export default function WelcomeContainer() {

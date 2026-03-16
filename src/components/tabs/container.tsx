@@ -1,7 +1,7 @@
-import TabBar from "@/components/tabs/tab-bar.tsx";
-import { Tabs } from "@/components/ui/tabs.tsx";
-import { useTabShortcuts } from "@/hooks/use-tab-shortcuts.ts";
-import { useActiveTabId } from "@/store/tabs.ts";
+import TabBar from "@/components/tabs/tab-bar";
+import { Tabs } from "@/components/ui/tabs";
+import { useTabShortcuts } from "@/hooks/use-tab-shortcuts";
+import { useActiveTabId } from "@/store/tabs";
 
 export default function TabsContainer() {
   const activeTabId = useActiveTabId();
