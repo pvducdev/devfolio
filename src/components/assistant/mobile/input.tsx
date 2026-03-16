@@ -41,11 +41,11 @@ export default function MobileAssistantInput({
 
   return (
     <form
-      className="flex items-center gap-2 border-t border-dashed px-3 py-2 pb-[env(safe-area-inset-bottom)]"
+      className="flex items-center gap-2 border-t border-dashed px-3 py-2 pb-[max(0.75rem,env(safe-area-inset-bottom))]"
       onSubmit={handleSubmit}
     >
       <input
-        className="flex-1 bg-transparent font-mono text-sm outline-none placeholder:text-muted-foreground"
+        className="flex-1 bg-transparent font-mono text-base outline-none placeholder:text-muted-foreground"
         disabled={disabled}
         onChange={handleChange}
         placeholder={placeholder}

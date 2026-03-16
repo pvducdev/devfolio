@@ -43,11 +43,11 @@ export default function MobileAssistantContent({
 
   return (
     <div className="flex flex-1 flex-col items-center justify-center px-4">
-      <div className="w-full max-w-sm space-y-4 border border-dashed p-4">
-        <div className="space-y-1 text-center font-mono">
-          <p className="text-foreground text-sm">
-            {SITE_CONFIG.assistant.name}
-          </p>
+      <div className="relative w-full max-w-sm space-y-4 border border-dashed p-4 pt-5">
+        <span className="absolute -top-2.5 left-3 bg-background px-2 font-mono text-foreground text-sm">
+          {SITE_CONFIG.assistant.name}
+        </span>
+        <div className="space-y-1 font-mono">
           <p className="text-muted-foreground text-xs">{assistant_welcome()}</p>
         </div>
         {!hasMessage && (
