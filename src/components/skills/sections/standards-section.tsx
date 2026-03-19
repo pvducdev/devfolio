@@ -1,4 +1,5 @@
 import type { Skills } from "@/config/skills";
+
 import SectionHeader from "../components/section-header";
 import StandardCard from "../components/standard-card";
 

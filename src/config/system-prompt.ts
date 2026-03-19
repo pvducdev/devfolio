@@ -1,4 +1,5 @@
 import { SITE_CONFIG } from "@/config/site";
+
 import { CAREER_TIMELINE } from "./career";
 import { CONTRIBUTIONS_CONFIG } from "./contributions";
 import { PERSONAL_INFO } from "./personal-info";
@@ -6,11 +7,11 @@ import { PROJECTS } from "./projects";
 import { SKILLS } from "./skills";
 
 const CONTEXT = {
-  personalInfo: PERSONAL_INFO,
-  skills: SKILLS,
   career: CAREER_TIMELINE,
-  projects: PROJECTS,
   contributions: CONTRIBUTIONS_CONFIG,
+  personalInfo: PERSONAL_INFO,
+  projects: PROJECTS,
+  skills: SKILLS,
 };
 
 function replacer(_key: string, value: unknown): unknown {

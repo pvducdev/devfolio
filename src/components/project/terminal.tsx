@@ -1,5 +1,6 @@
 import { AnimatePresence } from "motion/react";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
+
 import { cn } from "@/lib/utils";
 
 interface TerminalProps {

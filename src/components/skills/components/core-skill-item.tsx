@@ -32,29 +32,29 @@ export default function CoreSkillItem({
             className="overflow-y-clip"
             pauseOnHover
             transition={{
-              type: "spring",
-              stiffness: 900,
               damping: 80,
               mass: 10,
+              stiffness: 900,
+              type: "spring",
             }}
             variants={{
-              initial: {
-                y: 20,
-                rotateX: 90,
-                opacity: 0,
-                filter: "blur(4px)",
-              },
               animate: {
-                y: 0,
-                rotateX: 0,
-                opacity: 1,
                 filter: "blur(0px)",
+                opacity: 1,
+                rotateX: 0,
+                y: 0,
               },
               exit: {
-                y: -20,
-                rotateX: -90,
-                opacity: 0,
                 filter: "blur(4px)",
+                opacity: 0,
+                rotateX: -90,
+                y: -20,
+              },
+              initial: {
+                filter: "blur(4px)",
+                opacity: 0,
+                rotateX: 90,
+                y: 20,
               },
             }}
           >

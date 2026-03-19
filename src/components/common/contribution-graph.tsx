@@ -1,8 +1,8 @@
-import { cva, type VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 
-// biome-ignore lint/performance/noNamespaceImport: primitive pattern
 import * as Primitive from "./contribution-graph-primitive";
 
 const cellVariants = cva([
@@ -18,6 +18,9 @@ const cellVariants = cva([
 ]);
 
 const legendItemVariants = cva("size-2.5 rounded-xs", {
+  defaultVariants: {
+    level: 0,
+  },
   variants: {
     level: {
       0: "bg-primary/10",
@@ -26,9 +29,6 @@ const legendItemVariants = cva("size-2.5 rounded-xs", {
       3: "bg-primary/60",
       4: "bg-primary/80",
     },
-  },
-  defaultVariants: {
-    level: 0,
   },
 });
 

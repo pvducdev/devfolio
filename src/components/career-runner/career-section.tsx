@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useIntersectionObserver } from "usehooks-ts";
+
 import { useCareerScrollCtx } from "@/context/career-scroll.tsx";
 import { cn } from "@/lib/utils";
 import {
@@ -7,7 +8,9 @@ import {
   useCareerActions,
   useCareerLooping,
 } from "@/store/career";
-import { type CareerSection as TCareerSection, UI_CONFIG } from "./config";
+
+import { UI_CONFIG } from "./config";
+import type { CareerSection as TCareerSection } from "./config";
 import JobCard from "./job-card";
 import Landmark from "./landmark";
 
@@ -24,8 +27,8 @@ export default function CareerSection({ section }: CareerSectionProps) {
   const isActive = activeSectionId === section.id;
 
   const { ref, isIntersecting } = useIntersectionObserver({
-    rootMargin: UI_CONFIG.sectionMargin,
     root: containerRef.current,
+    rootMargin: UI_CONFIG.sectionMargin,
   });
 
   const prevIntersecting = useRef(isIntersecting);

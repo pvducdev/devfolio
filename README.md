@@ -17,7 +17,7 @@ Open http://localhost:3000
 ## Scripts
 
 | Command               | Description                 |
-|-----------------------|-----------------------------|
+| --------------------- | --------------------------- |
 | `bun --bun run dev`   | Start dev server            |
 | `bun --bun run build` | Build for production        |
 | `bun --bun run start` | Run production server       |

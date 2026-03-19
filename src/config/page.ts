@@ -5,17 +5,17 @@ export interface PageTreeItem {
 }
 
 export const ABOUT_TREE: Record<string, PageTreeItem> = {
-  root: {
-    name: "root",
-    children: ["profile"],
-  },
-  profile: {
-    name: "Profile",
-    children: ["about", "skills"],
-  },
   about: {
     name: "about.tsx",
     path: "/about",
+  },
+  profile: {
+    children: ["about", "skills"],
+    name: "Profile",
+  },
+  root: {
+    children: ["profile"],
+    name: "root",
   },
   skills: {
     name: "skills.tsx",
@@ -24,40 +24,40 @@ export const ABOUT_TREE: Record<string, PageTreeItem> = {
 } as const;
 
 export const ABOUT_TREE_CONFIG = {
-  rootItemId: "root",
   defaultExpanded: ["root", "profile"],
   indent: 20,
+  rootItemId: "root",
 } as const;
 
 export const PROJECT_TREE: Record<string, PageTreeItem> = {
-  engineering: {
-    name: "Engineering",
-    children: ["frontend", "backend"],
-  },
-  frontend: {
-    name: "Frontend",
-    children: ["portfolio"],
-  },
-  portfolio: {
-    name: "portfolio.tsx",
-    path: "/projects/portfolio",
-  },
   backend: {
-    name: "Backend",
     children: ["ieltsy-bot", "daily-tech-bot"],
-  },
-  "ieltsy-bot": {
-    name: "ieltsy-bot.tsx",
-    path: "/projects/ieltsy-bot",
+    name: "Backend",
   },
   "daily-tech-bot": {
     name: "daily-tech-bot.tsx",
     path: "/projects/daily-tech-bot",
   },
+  engineering: {
+    children: ["frontend", "backend"],
+    name: "Engineering",
+  },
+  frontend: {
+    children: ["portfolio"],
+    name: "Frontend",
+  },
+  "ieltsy-bot": {
+    name: "ieltsy-bot.tsx",
+    path: "/projects/ieltsy-bot",
+  },
+  portfolio: {
+    name: "portfolio.tsx",
+    path: "/projects/portfolio",
+  },
 } as const;
 
 export const PROJECT_TREE_CONFIG = {
-  rootItemId: "engineering",
   defaultExpanded: ["engineering", "frontend"],
   indent: 20,
+  rootItemId: "engineering",
 } as const;

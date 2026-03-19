@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
+
 import {
   Carousel,
-  type CarouselApi,
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import type { CarouselApi } from "@/components/ui/carousel";
 import type { ProjectConfig } from "@/config/projects";
 import { cn } from "@/lib/utils";
 

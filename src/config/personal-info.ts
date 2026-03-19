@@ -19,13 +19,13 @@ export const PERSONAL_INFO = {
   contact: {
     email: "pvducc.dev@gmail.com",
     github: "https://github.com/pvducdev",
-    linkedin: "https://linkedin.com/in/pvducc",
     gitlab: "https://gitlab.com/pvducc.dev",
+    linkedin: "https://linkedin.com/in/pvducc",
   },
 
   resume: {
-    url: "https://res.cloudinary.com/d-devfolio/image/upload/q_auto/pvd-resume_wh0n3t.pdf",
     fileName: "pvd-resume.pdf",
+    url: "https://res.cloudinary.com/d-devfolio/image/upload/q_auto/pvd-resume_wh0n3t.pdf",
   },
 
   get interests() {

@@ -43,8 +43,8 @@ export function useKeyboardForwarding<
     if (forwardKeys.includes(event.key)) {
       targetRef.current?.dispatchEvent(
         new KeyboardEvent("keydown", {
-          key: event.key,
           code: event.code,
+          key: event.key,
           ...eventProperties,
         })
       );

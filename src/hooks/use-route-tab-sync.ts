@@ -1,5 +1,6 @@
 import { useHydrated, useLocation } from "@tanstack/react-router";
 import { useEffect } from "react";
+
 import { isValidTabRoute } from "@/lib/routes";
 import { useTabsActions } from "@/store/tabs";
 

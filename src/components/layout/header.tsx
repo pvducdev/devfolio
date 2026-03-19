@@ -1,6 +1,7 @@
 import { Expand, GitBranch, Settings, Shrink } from "lucide-react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useBoolean } from "usehooks-ts";
+
 import AssistantTrigger from "@/components/assistant/trigger";
 import ButtonWithTooltip from "@/components/common/button-with-tooltip";
 import LanguageSwitcher from "@/components/common/language-switcher";

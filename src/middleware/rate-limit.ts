@@ -1,4 +1,5 @@
 import { createMiddleware } from "@tanstack/react-start";
+
 import { SITE_CONFIG } from "@/config/site";
 import {
   checkRateLimit,

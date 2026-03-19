@@ -31,6 +31,7 @@ bun run dev
 - **i18n**: Add translations to `messages/en/*.json` and `messages/vi/*.json`
 
 ### Commit Message Convention
+
 I follow the [Conventional Commits](https://www.conventionalcommits.org/) specification:
 
 **Example**: `feat(projects): add filtering by technology`

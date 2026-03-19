@@ -2,6 +2,7 @@ import { ChevronDown } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useRef } from "react";
 import { useBoolean } from "usehooks-ts";
+
 import type { ExpandedContent, JobType } from "./config";
 import ExpandedSection from "./expanded-section";
 
@@ -22,11 +23,11 @@ function getAnimationProps(prefersReducedMotion: boolean, isActive: boolean) {
   }
 
   return {
-    scale: isActive ? 1.05 : 0.9,
-    opacity: isActive ? 1 : 0.6,
     boxShadow: isActive
       ? `0 0 20px 5px ${GLOW_COLOR}, 0 0 40px 10px ${GLOW_COLOR}`
       : "0 0 0 0 transparent",
+    opacity: isActive ? 1 : 0.6,
+    scale: isActive ? 1.05 : 0.9,
   };
 }
 
@@ -72,10 +73,10 @@ export default function JobCard({
         layout
         onClick={handleClick}
         style={{
+          overflow: "hidden",
+          transformOrigin: "center center",
           width: isExpanded ? 320 : 192,
           willChange: "transform, opacity, box-shadow",
-          transformOrigin: "center center",
-          overflow: "hidden",
         }}
         transition={{
           duration: 0.5,

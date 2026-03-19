@@ -7,25 +7,25 @@
 
   "workers_dev": true,
   "vars": {
-    "ENVIRONMENT": "development"
+    "ENVIRONMENT": "development",
   },
 
   "env": {
     "staging": {
       "workers_dev": true,
       "vars": {
-        "ENVIRONMENT": "staging"
-      }
+        "ENVIRONMENT": "staging",
+      },
     },
     "production": {
       "workers_dev": false,
       "routes": [
         { "pattern": "pvduc.id.vn/*", "zone_name": "pvduc.id.vn" },
-        { "pattern": "www.pvduc.id.vn/*", "zone_name": "pvduc.id.vn" }
+        { "pattern": "www.pvduc.id.vn/*", "zone_name": "pvduc.id.vn" },
       ],
       "vars": {
-        "ENVIRONMENT": "production"
-      }
-    }
-  }
+        "ENVIRONMENT": "production",
+      },
+    },
+  },
 }

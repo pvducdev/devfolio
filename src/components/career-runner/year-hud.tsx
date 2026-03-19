@@ -1,10 +1,11 @@
 import { AnimatePresence, motion } from "motion/react";
+
 import { page_career_label_year } from "@/paraglide/messages.js";
 import { useDisplayYear } from "@/store/career";
 
 export default function YearHUD() {
   const year = useDisplayYear();
-  const digits = year.split("");
+  const digits = [...year];
 
   return (
     <div className="absolute top-4 right-4 z-50">
@@ -16,18 +17,18 @@ export default function YearHUD() {
           <AnimatePresence mode="popLayout">
             {digits.map((digit, index) => (
               <motion.span
-                animate={{ y: 0, opacity: 1, rotateX: 0 }}
+                animate={{ opacity: 1, rotateX: 0, y: 0 }}
                 className="inline-block tabular-nums tracking-wider"
-                exit={{ y: 30, opacity: 0, rotateX: 90 }}
-                initial={{ y: -30, opacity: 0, rotateX: -90 }}
+                exit={{ opacity: 0, rotateX: 90, y: 30 }}
+                initial={{ opacity: 0, rotateX: -90, y: -30 }}
                 key={`${index}-${digit}`}
                 style={{
-                  transformOrigin: "center center",
                   perspective: 100,
+                  transformOrigin: "center center",
                 }}
                 transition={{
-                  duration: 0.3,
                   delay: index * 0.05,
+                  duration: 0.3,
                   ease: [0.25, 1, 0.5, 1],
                 }}
               >

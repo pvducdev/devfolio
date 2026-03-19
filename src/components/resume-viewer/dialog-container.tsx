@@ -1,5 +1,6 @@
 import { Eye } from "lucide-react";
 import { lazy, Suspense } from "react";
+
 import DownloadAction from "@/components/resume-viewer/download-action";
 import ResumeViewerSkeleton from "@/components/resume-viewer/skeleton";
 import { Button } from "@/components/ui/button";

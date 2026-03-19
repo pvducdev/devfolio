@@ -1,10 +1,11 @@
-import { HOTKEYS, type HotkeyId } from "@/config/hotkeys";
+import { HOTKEYS } from "@/config/hotkeys";
+import type { HotkeyId } from "@/config/hotkeys";
 
 const KEY_SYMBOLS = {
-  mod: "⌘",
   alt: "⌥",
-  shift: "⇧",
   ctrl: "⌃",
+  mod: "⌘",
+  shift: "⇧",
 } as const;
 
 type ModifierKey = keyof typeof KEY_SYMBOLS;

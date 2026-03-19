@@ -32,8 +32,8 @@ interface UseFileDownloadReturn {
 
 function useFileDownload(): UseFileDownloadReturn {
   const [state, setState] = useState<DownloadState>({
-    isDownloading: false,
     error: null,
+    isDownloading: false,
   });
 
   const clearError = () => {
@@ -47,7 +47,7 @@ function useFileDownload(): UseFileDownloadReturn {
     onError,
     onFinally,
   }: DownloadFileOptions): Promise<void> => {
-    setState({ isDownloading: true, error: null });
+    setState({ error: null, isDownloading: true });
 
     try {
       if (!url) {
@@ -70,16 +70,16 @@ function useFileDownload(): UseFileDownloadReturn {
       triggerBrowserDownload(blob, finalFilename);
 
       onSuccess?.();
-    } catch (err) {
-      const error =
-        err instanceof Error ? err : new Error("Failed to download a file");
+    } catch (error) {
+      const normalizedError =
+        error instanceof Error ? error : new Error("Failed to download a file");
 
       setState((prev) => ({
         ...prev,
-        error: error.message,
+        error: normalizedError.message,
       }));
 
-      onError?.(error);
+      onError?.(normalizedError);
     } finally {
       setState((prev) => ({ ...prev, isDownloading: false }));
 
@@ -95,7 +95,7 @@ function useFileDownload(): UseFileDownloadReturn {
     onError,
     onFinally,
   }: DownloadDataOptions): void => {
-    setState({ isDownloading: true, error: null });
+    setState({ error: null, isDownloading: true });
 
     try {
       if (!data) {
@@ -110,16 +110,16 @@ function useFileDownload(): UseFileDownloadReturn {
       triggerBrowserDownload(blob, filename);
 
       onSuccess?.();
-    } catch (err) {
-      const error =
-        err instanceof Error ? err : new Error("Failed to download data");
+    } catch (error) {
+      const normalizedError =
+        error instanceof Error ? error : new Error("Failed to download data");
 
       setState((prev) => ({
         ...prev,
-        error: error.message,
+        error: normalizedError.message,
       }));
 
-      onError?.(error);
+      onError?.(normalizedError);
     } finally {
       setState((prev) => ({ ...prev, isDownloading: false }));
 
@@ -128,11 +128,11 @@ function useFileDownload(): UseFileDownloadReturn {
   };
 
   return {
-    downloadFile,
-    downloadData,
-    isDownloading: state.isDownloading,
-    error: state.error,
     clearError,
+    downloadData,
+    downloadFile,
+    error: state.error,
+    isDownloading: state.isDownloading,
   };
 }
 
@@ -145,7 +145,7 @@ function triggerBrowserDownload(blob: Blob, filename: string): void {
     link.download = filename;
     link.style.display = "none";
 
-    document.body.appendChild(link);
+    document.body.append(link);
     link.click();
     document.body.removeChild(link);
 
@@ -159,7 +159,7 @@ function triggerBrowserDownload(blob: Blob, filename: string): void {
 function extractFilenameFromUrl(url: string): string | null {
   try {
     const urlObj = new URL(url);
-    const pathname = urlObj.pathname;
+    const { pathname } = urlObj;
     const filename = pathname.substring(pathname.lastIndexOf("/") + 1);
     return filename || null;
   } catch {

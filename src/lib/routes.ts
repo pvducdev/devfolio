@@ -1,9 +1,5 @@
-import {
-  MOBILE_PREFIX,
-  MOBILE_ROUTES,
-  type MobileRouteId,
-  ROUTES,
-} from "@/config/routes";
+import { MOBILE_PREFIX, MOBILE_ROUTES, ROUTES } from "@/config/routes";
+import type { MobileRouteId } from "@/config/routes";
 
 export function getRouteLabel(path: string): string {
   return `${path.slice(1)}.tsx`;
@@ -22,18 +18,24 @@ export function resolveRouteId(pathname: string): MobileRouteId {
   }
 
   switch (pathname) {
-    case MOBILE_ROUTES.HOME:
+    case MOBILE_ROUTES.HOME: {
       return MOBILE_ROUTES.HOME;
-    case MOBILE_ROUTES.ABOUT:
+    }
+    case MOBILE_ROUTES.ABOUT: {
       return MOBILE_ROUTES.ABOUT;
-    case MOBILE_ROUTES.SKILLS:
+    }
+    case MOBILE_ROUTES.SKILLS: {
       return MOBILE_ROUTES.SKILLS;
-    case MOBILE_ROUTES.CAREER:
+    }
+    case MOBILE_ROUTES.CAREER: {
       return MOBILE_ROUTES.CAREER;
-    case MOBILE_ROUTES.PROJECTS:
+    }
+    case MOBILE_ROUTES.PROJECTS: {
       return MOBILE_ROUTES.PROJECTS;
-    default:
+    }
+    default: {
       return MOBILE_ROUTES.HOME;
+    }
   }
 }
 

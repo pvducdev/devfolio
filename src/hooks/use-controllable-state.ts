@@ -1,15 +1,14 @@
 // source: https://github.com/radix-ui/primitives/blob/main/packages/react/use-controllable-state/src/use-controllable-state.tsx
 
 import {
-  type Dispatch,
-  type RefObject,
-  type SetStateAction,
   useCallback,
   useEffect,
   useLayoutEffect,
   useRef,
   useState,
 } from "react";
+import type { Dispatch, RefObject, SetStateAction } from "react";
+
 import { isFunction } from "@/lib/utils";
 
 type ChangeHandler<T> = (state: T) => void;

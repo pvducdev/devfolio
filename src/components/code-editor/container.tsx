@@ -1,4 +1,5 @@
 import { Outlet } from "@tanstack/react-router";
+
 import TabsContainer from "@/components/tabs/container.tsx";
 import PortfolioWelcome from "@/components/welcome/container.tsx";
 import { useHasOpenTabs } from "@/store/tabs";

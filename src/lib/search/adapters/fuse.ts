@@ -1,4 +1,5 @@
-import Fuse, { type FuseResultMatch, type IFuseOptions } from "fuse.js";
+import Fuse from "fuse.js";
+import type { FuseResultMatch, IFuseOptions } from "fuse.js";
 
 import type {
   BaseSearchItem,
@@ -22,8 +23,9 @@ export interface FuseIndexKey<TItem> {
   weight: number;
 }
 
-export interface FuseAdapterOptions<TItem extends BaseSearchItem = SearchItem>
-  extends Omit<Partial<IFuseOptions<TItem>>, "keys"> {
+export interface FuseAdapterOptions<
+  TItem extends BaseSearchItem = SearchItem,
+> extends Omit<Partial<IFuseOptions<TItem>>, "keys"> {
   keys: FuseIndexKey<TItem>[];
 }
 
@@ -45,9 +47,9 @@ const DEFAULT_FUSE_OPTIONS: Partial<IFuseOptions<unknown>> = {
   ignoreFieldNorm: true,
 };
 
-export class FuseAdapter<TItem extends BaseSearchItem = SearchItem>
-  implements IndexAdapter<TItem>
-{
+export class FuseAdapter<
+  TItem extends BaseSearchItem = SearchItem,
+> implements IndexAdapter<TItem> {
   private readonly items = new Map<string, TItem>();
   private fuse: Fuse<TItem> | null = null;
   private readonly options: FuseAdapterOptions<TItem>;
@@ -106,10 +108,10 @@ export class FuseAdapter<TItem extends BaseSearchItem = SearchItem>
 
     return results.map((result) => ({
       item: result.item,
-      score: result.score ?? 0,
       matches: options?.includeMatches
         ? this.mapMatches(result.matches)
         : undefined,
+      score: result.score ?? 0,
     }));
   }
 
@@ -158,9 +160,9 @@ export class FuseAdapter<TItem extends BaseSearchItem = SearchItem>
 
     return matches.map(
       (m): SearchMatch => ({
+        indices: m.indices as unknown as [number, number][],
         key: m.key ?? "",
         value: m.value ?? "",
-        indices: m.indices as unknown as [number, number][],
       })
     );
   }

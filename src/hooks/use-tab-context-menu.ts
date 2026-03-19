@@ -16,20 +16,20 @@ export function useTabContextMenu(tabId: string) {
   return {
     actions: {
       close: () => close(tabId),
-      closeOthers: () => closeOthers(tabId),
       closeAll,
-      closeToRight: () => closeToRight(tabId),
+      closeOthers: () => closeOthers(tabId),
       closeToLeft: () => closeToLeft(tabId),
+      closeToRight: () => closeToRight(tabId),
       copyPath: handleCopyPath,
-    },
-    visibility: {
-      closeOthers: tabCount > 1,
-      closeToRight: !isLast,
-      closeToLeft: !isFirst,
     },
     shortcuts: {
       close: isMac() ? "⌥W" : "Alt+W",
       closeAll: isMac() ? "⌥⇧W" : "Alt+Shift+W",
+    },
+    visibility: {
+      closeOthers: tabCount > 1,
+      closeToLeft: !isFirst,
+      closeToRight: !isLast,
     },
   };
 }

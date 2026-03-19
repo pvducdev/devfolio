@@ -4,6 +4,7 @@ import {
   useNavigate,
 } from "@tanstack/react-router";
 import { useEffect } from "react";
+
 import { MOBILE_ROUTES, ROUTES } from "@/config/routes";
 import { isMobile } from "@/lib/browser";
 import { useActiveTabId } from "@/store/tabs";
@@ -25,7 +26,7 @@ function IndexRedirect() {
     const target = isMobile()
       ? MOBILE_ROUTES.HOME
       : (activeTabId ?? ROUTES.HOME);
-    navigate({ to: target, replace: true });
+    navigate({ replace: true, to: target });
   }, [activeTabId, hasHydrated, navigate]);
 
   return null;

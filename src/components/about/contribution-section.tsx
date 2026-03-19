@@ -1,6 +1,5 @@
 import ContributionCell from "@/components/about/contribution-cell";
 import { ContributionSectionSkeleton } from "@/components/about/contribution-section-skeleton";
-// biome-ignore lint/performance/noNamespaceImport: component pattern
 import * as ContributionGraph from "@/components/common/contribution-graph";
 import {
   Tooltip,
@@ -26,10 +25,10 @@ interface LevelThreshold {
 }
 
 const DEFAULT_THRESHOLDS: LevelThreshold[] = [
-  { min: 0, max: 0 },
-  { min: 1, max: 2 },
-  { min: 3, max: 5 },
-  { min: 6, max: 9 },
+  { max: 0, min: 0 },
+  { max: 2, min: 1 },
+  { max: 5, min: 3 },
+  { max: 9, min: 6 },
   { min: 10 },
 ];
 
@@ -43,8 +42,8 @@ function formatLevelLabel(threshold: LevelThreshold): string {
   }
 
   return page_about_contribution_level_range({
-    min: threshold.min,
     max: threshold.max,
+    min: threshold.min,
   });
 }
 
@@ -78,7 +77,7 @@ export default function ContributionSection() {
     weekStartDay: 0,
   });
   const locale = getLocale();
-  const visibleWeekdays = [1, 3, 5];
+  const visibleWeekdays = new Set([1, 3, 5]);
 
   const totalContributions = data.reduce(
     (sum, item: ContributionData) => sum + item.count,
@@ -130,7 +129,7 @@ export default function ContributionSection() {
             {weekdays.map((day, rowIndex) => (
               <ContributionGraph.Row key={day}>
                 <ContributionGraph.HeaderCell className="pr-2 text-right">
-                  {visibleWeekdays.includes(day) && (
+                  {visibleWeekdays.has(day) && (
                     <ContributionGraph.Label>
                       {formatWeekday(day, locale)}
                     </ContributionGraph.Label>

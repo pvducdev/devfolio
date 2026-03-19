@@ -14,14 +14,14 @@ function extractTreeItems(
   for (const [key, node] of Object.entries(tree)) {
     if (node.path) {
       items.push({
-        id: `pages:tree:${prefix}:${key}`,
-        title: node.name.replace(".tsx", ""),
         description: node.path,
+        id: `pages:tree:${prefix}:${key}`,
         meta: {
+          action: { path: node.path, type: "navigate" },
           category: "page",
           icon: File,
-          action: { type: "navigate", path: node.path },
         },
+        title: node.name.replace(".tsx", ""),
       });
     }
   }
@@ -35,12 +35,12 @@ export function buildPageItems(): AppSearchItem[] {
   for (const activity of activities) {
     items.push({
       id: `pages:activity:${activity.key}`,
-      title: activity.name(),
       meta: {
+        action: { path: `/${activity.key}`, type: "navigate" },
         category: "page",
         icon: activity.icon,
-        action: { type: "navigate", path: `/${activity.key}` },
       },
+      title: activity.name(),
     });
   }
 

@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { minLength, object, parse, pipe, string, transform } from "valibot";
+
 import { generateMessage } from "@/lib/llm";
 import { getLogger } from "@/lib/logger/client";
 import { typewriterStream } from "@/lib/typewriter-stream";
@@ -16,11 +17,11 @@ const InputSchema = pipe(
 
 const generateAssistantResponse = createServerFn()
   .inputValidator((data: unknown) => parse(InputSchema, data))
-  .handler(async function* ({ data }) {
+  .handler(async function* generateAssistantResponse({ data }) {
     try {
       const response = await generateMessage(data.prompt);
 
-      const chunks = (async function* () {
+      const chunks = (async function* chunks() {
         for await (const chunk of response) {
           yield chunk.choices[0]?.delta?.content ?? "";
         }
@@ -29,8 +30,8 @@ const generateAssistantResponse = createServerFn()
       for await (const word of typewriterStream(chunks)) {
         yield word;
       }
-    } catch (err) {
-      const message = err instanceof Error ? err.message : String(err);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
 
       await getLogger().error("Failed to stream assistant message", {
         error: message,

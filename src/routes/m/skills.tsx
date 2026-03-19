@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+
 import CoreHero from "@/components/skills/mobile/core-hero";
 import DevopsCascade from "@/components/skills/mobile/devops-cascade";
 import ExploringFooter from "@/components/skills/mobile/exploring-footer";
@@ -11,11 +12,11 @@ import { SKILLS } from "@/config/skills";
 import { ui_search_group_skills } from "@/paraglide/messages";
 
 export const Route = createFileRoute("/m/skills")({
-  head: () => ({
-    meta: [{ title: `${ui_search_group_skills()} | ${SITE_CONFIG.title}` }],
-    links: buildCanonicalLink(`${SITE_CONFIG.url}/skills`),
-  }),
   component: MobileSkills,
+  head: () => ({
+    links: buildCanonicalLink(`${SITE_CONFIG.url}/skills`),
+    meta: [{ title: `${ui_search_group_skills()} | ${SITE_CONFIG.title}` }],
+  }),
 });
 
 function MobileSkills() {

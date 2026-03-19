@@ -1,11 +1,6 @@
 import { Slot } from "@radix-ui/react-slot";
-import {
-  type ComponentProps,
-  type MouseEvent,
-  type ReactNode,
-  useMemo,
-  useState,
-} from "react";
+import { useMemo, useState } from "react";
+import type { ComponentProps, MouseEvent, ReactNode } from "react";
 
 import { useControllableState } from "@/hooks/use-controllable-state";
 import createCtx from "@/lib/create-ctx";
@@ -100,9 +95,9 @@ function Root({
   }, [startDateProp, endDate]);
 
   const [selectedDate, setSelectedDate] = useControllableState({
-    prop: selectedDateProp,
     defaultProp: defaultSelectedDate ?? null,
     onChange: onSelectedDateChange,
+    prop: selectedDateProp,
   });
 
   const [hoveredDate, setHoveredDate] = useState<string | null>(null);
@@ -137,18 +132,18 @@ function Root({
 
   const contextValue: ContextValue = {
     data: dataMap,
-    startDate,
     endDate,
+    getDataForDate,
+    getLevelForCount,
+    hoveredDate,
+    isToday,
+    isWeekend,
     levels,
     maxCount,
-    getLevelForCount,
-    getDataForDate,
-    selectedDate: selectedDate ?? null,
-    onSelectDate: setSelectedDate,
-    hoveredDate,
     onHoverDate: handleHoverDate,
-    isWeekend,
-    isToday,
+    onSelectDate: setSelectedDate,
+    selectedDate: selectedDate ?? null,
+    startDate,
   };
 
   return (
@@ -269,13 +264,13 @@ function Cell({
   const Comp = asChild ? Slot : "button";
 
   const cellState: CellState = {
-    date,
     count,
-    level,
+    date,
+    isEmpty,
     isSelected,
     isToday: isTodayDay,
     isWeekend: isWeekendDay,
-    isEmpty,
+    level,
   };
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {

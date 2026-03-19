@@ -48,8 +48,8 @@ export function formatDateShort(dateStr: string, locale: string): string {
   const date = new Date(dateStr);
 
   return date.toLocaleDateString(locale, {
-    month: "short",
     day: "numeric",
+    month: "short",
     year: "numeric",
   });
 }

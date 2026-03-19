@@ -85,10 +85,10 @@ function generateMonths(weeks: string[][]): MonthInfo[] {
       }
 
       labels.push({
+        colSpan: 1,
+        colStart: weekIndex,
         month,
         year,
-        colStart: weekIndex,
-        colSpan: 1,
       });
 
       currentMonth = month;
@@ -148,12 +148,12 @@ export function useContributionGraph(
 
     return {
       dates,
-      weeks,
-      months,
-      weekdays,
-      totalWeeks: weeks.length,
-      startDate: toISODateString(startDate),
       endDate: toISODateString(endDate),
+      months,
+      startDate: toISODateString(startDate),
+      totalWeeks: weeks.length,
+      weekdays,
+      weeks,
     };
   }, [endDateProp, startDateProp, weekStartDay]);
 }

@@ -1,5 +1,6 @@
 import { Outlet, useLocation, useRouter } from "@tanstack/react-router";
 import { useEffect, useTransition } from "react";
+
 import MobileAssistantDrawer from "@/components/assistant/mobile/drawer";
 import { PERSONAL_INFO } from "@/config/personal-info";
 import { getNextProjectId, getProjectById } from "@/config/projects";
@@ -10,6 +11,7 @@ import {
   usePendingNavigation,
 } from "@/store/mobile-shell";
 import type { DockButton } from "@/types/mobile";
+
 import CommandDock from "./command-dock.tsx";
 import PromptHeader from "./prompt-header.tsx";
 import SettingsDrawer from "./settings-drawer";
@@ -39,10 +41,6 @@ const actionHandlers: Record<string, ActionHandler> = {
     startTransition(() => {
       router.history.back();
     });
-  },
-  resume: (button, { type }) => {
-    type(button.command);
-    window.open(PERSONAL_INFO.resume.url, "_blank");
   },
   contact: (button, { type }) => {
     type(button.command);
@@ -74,6 +72,10 @@ const actionHandlers: Record<string, ActionHandler> = {
     startTransition(() => {
       router.navigate({ to: `/m/projects/${nextId}` });
     });
+  },
+  resume: (button, { type }) => {
+    type(button.command);
+    window.open(PERSONAL_INFO.resume.url, "_blank");
   },
 };
 
@@ -114,12 +116,12 @@ export default function Shell() {
       const handler = actionHandlers[button.action];
       if (handler) {
         handler(button, {
-          type,
           cancel,
           isTyping,
-          startTransition,
-          router,
           pathname: location.pathname,
+          router,
+          startTransition,
+          type,
         });
       }
       return;

@@ -1,5 +1,7 @@
-import { type ChangeEvent, useRef } from "react";
+import { useRef } from "react";
+import type { ChangeEvent } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
+
 import SlashCommandPopover from "@/components/assistant/slash-command-popover";
 import { selectHighlightedCommand } from "@/components/assistant/utils";
 import { Textarea } from "@/components/ui/textarea";
@@ -37,8 +39,8 @@ export default function AssistantInput({
 
   const forwardKeyToCommandPopover = useCmdNav({
     commandRef,
-    showCommands,
     onTabSelect: () => selectHighlightedCommand(commandRef.current),
+    showCommands,
   });
 
   const submitForm = () => {
@@ -64,7 +66,7 @@ export default function AssistantInput({
       }
       submitForm();
     },
-    { preventDefault: true, enableOnFormTags: ["TEXTAREA"] }
+    { enableOnFormTags: ["TEXTAREA"], preventDefault: true }
   );
 
   const escapeRef = useHotkeys<HTMLTextAreaElement>(

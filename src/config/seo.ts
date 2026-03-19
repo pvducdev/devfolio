@@ -1,4 +1,5 @@
 import type { HeadConfig } from "@tanstack/react-router";
+
 import { PERSONAL_INFO } from "./personal-info";
 import { SITE_CONFIG } from "./site";
 
@@ -8,86 +9,86 @@ export function buildSeoMeta(
 ): HeadConfig["meta"] {
   return [
     {
-      charSet: "utf-8",
+      charSet: "utf8",
     },
     {
-      name: "viewport",
       content: "width=device-width, initial-scale=1, viewport-fit=cover",
+      name: "viewport",
     },
     {
       title: SITE_CONFIG.title,
     },
     {
+      content: SITE_CONFIG.description,
       name: "description",
-      content: SITE_CONFIG.description,
     },
     {
-      name: "author",
       content: SITE_CONFIG.meta.author,
+      name: "author",
     },
     {
-      name: "keywords",
       content: SITE_CONFIG.meta.keywords.join(", "),
+      name: "keywords",
     },
     {
-      property: "og:type",
       content: SITE_CONFIG.meta.ogType,
+      property: "og:type",
     },
     {
-      property: "og:url",
       content: canonicalUrl,
+      property: "og:url",
     },
     {
+      content: SITE_CONFIG.title,
       property: "og:title",
-      content: SITE_CONFIG.title,
     },
     {
+      content: SITE_CONFIG.description,
       property: "og:description",
-      content: SITE_CONFIG.description,
     },
     {
+      content: SITE_CONFIG.meta.ogImage,
       property: "og:image",
-      content: SITE_CONFIG.meta.ogImage,
     },
     {
-      property: "og:image:width",
       content: SITE_CONFIG.meta.ogImageWidth,
+      property: "og:image:width",
     },
     {
-      property: "og:image:height",
       content: SITE_CONFIG.meta.ogImageHeight,
+      property: "og:image:height",
     },
     {
+      content: `${PERSONAL_INFO.name} - ${PERSONAL_INFO.role}`,
       property: "og:image:alt",
-      content: `${PERSONAL_INFO.name} - ${PERSONAL_INFO.role}`,
     },
     {
-      property: "og:locale",
       content: locale === "vi" ? "vi_VN" : "en_US",
+      property: "og:locale",
     },
     {
+      content: SITE_CONFIG.title,
       property: "og:site_name",
-      content: SITE_CONFIG.title,
     },
     {
-      name: "twitter:card",
       content: SITE_CONFIG.meta.twitterCard,
+      name: "twitter:card",
     },
     {
-      name: "twitter:title",
       content: SITE_CONFIG.title,
+      name: "twitter:title",
     },
     {
-      name: "twitter:description",
       content: SITE_CONFIG.description,
+      name: "twitter:description",
     },
     {
-      name: "twitter:image",
       content: SITE_CONFIG.meta.ogImage,
+      name: "twitter:image",
     },
     {
-      name: "twitter:image:alt",
       content: `${PERSONAL_INFO.name} - ${PERSONAL_INFO.role}`,
+      name: "twitter:image:alt",
     },
   ];
 }
@@ -95,8 +96,8 @@ export function buildSeoMeta(
 export function buildCanonicalLink(canonicalUrl: string): HeadConfig["links"] {
   return [
     {
-      rel: "canonical",
       href: canonicalUrl,
+      rel: "canonical",
     },
   ];
 }
@@ -104,42 +105,42 @@ export function buildCanonicalLink(canonicalUrl: string): HeadConfig["links"] {
 export function buildStructuredData(): HeadConfig["scripts"] {
   return [
     {
-      type: "application/ld+json",
       children: JSON.stringify({
         "@context": "https://schema.org",
         "@type": "Person",
-        name: PERSONAL_INFO.name,
-        alternateName: PERSONAL_INFO.nickname,
-        jobTitle: PERSONAL_INFO.role,
-        description: SITE_CONFIG.description,
-        url: SITE_CONFIG.url,
-        image: PERSONAL_INFO.avatar,
-        email: PERSONAL_INFO.contact.email,
         address: {
           "@type": "PostalAddress",
           addressLocality: PERSONAL_INFO.location,
         },
+        alternateName: PERSONAL_INFO.nickname,
+        description: SITE_CONFIG.description,
+        email: PERSONAL_INFO.contact.email,
+        image: PERSONAL_INFO.avatar,
+        jobTitle: PERSONAL_INFO.role,
+        name: PERSONAL_INFO.name,
         sameAs: [
           PERSONAL_INFO.contact.github,
           PERSONAL_INFO.contact.linkedin,
           PERSONAL_INFO.contact.gitlab,
         ],
+        url: SITE_CONFIG.url,
       }),
+      type: "application/ld+json",
     },
     {
-      type: "application/ld+json",
       children: JSON.stringify({
         "@context": "https://schema.org",
         "@type": "WebSite",
-        name: SITE_CONFIG.title,
-        description: SITE_CONFIG.description,
-        url: SITE_CONFIG.url,
         author: {
           "@type": "Person",
           name: PERSONAL_INFO.name,
         },
+        description: SITE_CONFIG.description,
         inLanguage: ["en", "vi"],
+        name: SITE_CONFIG.title,
+        url: SITE_CONFIG.url,
       }),
+      type: "application/ld+json",
     },
   ];
 }

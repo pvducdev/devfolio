@@ -1,5 +1,7 @@
 import { LayoutGroup } from "motion/react";
+
 import RunnerContainer from "@/components/career-runner/runner-container.tsx";
+
 import CareerSection from "./career-section";
 import Character from "./character";
 import { CAREER_SECTIONS } from "./config";

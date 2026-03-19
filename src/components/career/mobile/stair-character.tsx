@@ -3,6 +3,7 @@ import type { MotionValue } from "motion/react";
 import { motion, useSpring, useTransform } from "motion/react";
 import type { RefObject } from "react";
 import { useEffect, useRef, useState } from "react";
+
 import { CHARACTER_CONFIG } from "@/components/career-runner/config";
 import { useCharacterAnimationState } from "@/store/career";
 
@@ -125,15 +126,15 @@ export default function StairCharacter({
   });
 
   const smoothY = useSpring(rawY, {
-    stiffness: 600,
     damping: 50,
     restDelta: 0.5,
+    stiffness: 600,
   });
 
   const { rive, RiveComponent } = useRive({
+    autoplay: true,
     src: CHARACTER_CONFIG.src,
     stateMachines: CHARACTER_CONFIG.stateMachine,
-    autoplay: true,
   });
 
   const stateInput = useStateMachineInput(
@@ -157,7 +158,7 @@ export default function StairCharacter({
     <motion.div
       aria-hidden="true"
       className="pointer-events-none absolute -left-6 z-10"
-      style={{ top: smoothY, width: CHARACTER_SIZE, height: CHARACTER_SIZE }}
+      style={{ height: CHARACTER_SIZE, top: smoothY, width: CHARACTER_SIZE }}
     >
       <RiveComponent />
     </motion.div>

@@ -28,24 +28,24 @@ interface Actions {
 
 const initialState: State = {
   currentCommand: "",
-  isDrawerOpen: false,
   isAssistantOpen: false,
   isDockExpanded: false,
+  isDrawerOpen: false,
   pendingNavigation: null,
 };
 
 export const useMobileShellStore = create<State & Actions>()((set) => ({
   ...initialState,
-  setCurrentCommand: (command) => set({ currentCommand: command }),
-  toggleDrawer: () => set((s) => ({ isDrawerOpen: !s.isDrawerOpen })),
-  closeDrawer: () => set({ isDrawerOpen: false }),
-  openAssistant: () => set({ isAssistantOpen: true, isDrawerOpen: false }),
+  clearNavigation: () => set({ pendingNavigation: null }),
   closeAssistant: () => set({ isAssistantOpen: false }),
-  toggleDockExpanded: () => set((s) => ({ isDockExpanded: !s.isDockExpanded })),
+  closeDrawer: () => set({ isDrawerOpen: false }),
   collapseDock: () => set({ isDockExpanded: false }),
+  openAssistant: () => set({ isAssistantOpen: true, isDrawerOpen: false }),
   requestNavigation: (command, to) =>
     set({ pendingNavigation: { command, to } }),
-  clearNavigation: () => set({ pendingNavigation: null }),
+  setCurrentCommand: (command) => set({ currentCommand: command }),
+  toggleDockExpanded: () => set((s) => ({ isDockExpanded: !s.isDockExpanded })),
+  toggleDrawer: () => set((s) => ({ isDrawerOpen: !s.isDrawerOpen })),
 }));
 
 export const useCurrentCommand = () =>
@@ -65,14 +65,14 @@ export const useIsDockExpanded = () =>
 export const useMobileShellActions = () =>
   useMobileShellStore(
     useShallow((s) => ({
-      setCurrentCommand: s.setCurrentCommand,
-      toggleDrawer: s.toggleDrawer,
-      closeDrawer: s.closeDrawer,
-      openAssistant: s.openAssistant,
-      closeAssistant: s.closeAssistant,
-      toggleDockExpanded: s.toggleDockExpanded,
-      collapseDock: s.collapseDock,
-      requestNavigation: s.requestNavigation,
       clearNavigation: s.clearNavigation,
+      closeAssistant: s.closeAssistant,
+      closeDrawer: s.closeDrawer,
+      collapseDock: s.collapseDock,
+      openAssistant: s.openAssistant,
+      requestNavigation: s.requestNavigation,
+      setCurrentCommand: s.setCurrentCommand,
+      toggleDockExpanded: s.toggleDockExpanded,
+      toggleDrawer: s.toggleDrawer,
     }))
   );

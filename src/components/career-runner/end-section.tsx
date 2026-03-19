@@ -1,5 +1,6 @@
 import type { Variants } from "motion/react";
 import { motion, stagger, useReducedMotion } from "motion/react";
+
 import {
   page_career_complete,
   page_career_eof,
@@ -20,11 +21,11 @@ const itemVariants: Variants = {
   hidden: { opacity: 0, x: 20 },
   visible: {
     opacity: 1,
-    x: 0,
     transition: {
       duration: 0.5,
       ease: [0.25, 1, 0.5, 1],
     },
+    x: 0,
   },
 };
 
@@ -44,9 +45,9 @@ function TitleSection({
           <motion.span
             animate={{ opacity: [1, 0] }}
             transition={{
+              duration: 0.53,
               repeat: Number.POSITIVE_INFINITY,
               repeatType: "reverse",
-              duration: 0.53,
             }}
           >
             _
@@ -57,12 +58,12 @@ function TitleSection({
         className="h-0.5 w-32 bg-gradient-to-l from-primary to-transparent"
         style={{ transformOrigin: "right" }}
         {...(!prefersReducedMotion && {
-          initial: { scaleX: 0 },
           animate: { scaleX: 1 },
+          initial: { scaleX: 0 },
           transition: {
+            delay: 0.3,
             duration: 0.8,
             ease: [0.25, 1, 0.5, 1],
-            delay: 0.3,
           },
         })}
       />
@@ -74,8 +75,8 @@ export default function EndSection() {
   const prefersReducedMotion = useReducedMotion() ?? false;
 
   const animationProps = prefersReducedMotion
-    ? { initial: "visible", animate: "visible" }
-    : { initial: "hidden", animate: "visible", variants: containerVariants };
+    ? { animate: "visible", initial: "visible" }
+    : { animate: "visible", initial: "hidden", variants: containerVariants };
 
   return (
     <motion.div

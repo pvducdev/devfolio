@@ -1,7 +1,9 @@
 import { useRive, useStateMachineInput } from "@rive-app/react-canvas";
 import { useEffect } from "react";
+
 import { cn } from "@/lib/utils";
 import { useCareerLooping, useCharacterAnimationState } from "@/store/career";
+
 import { CHARACTER_CONFIG } from "./config";
 
 export default function Character() {
@@ -9,9 +11,9 @@ export default function Character() {
   const careerLooping = useCareerLooping();
 
   const { rive, RiveComponent } = useRive({
+    autoplay: true,
     src: CHARACTER_CONFIG.src,
     stateMachines: CHARACTER_CONFIG.stateMachine,
-    autoplay: true,
   });
 
   const stateInput = useStateMachineInput(
@@ -34,9 +36,9 @@ export default function Character() {
         careerLooping ? "rotate-y-180" : ""
       )}
       style={{
-        width: CHARACTER_CONFIG.size.width,
-        height: CHARACTER_CONFIG.size.height,
         aspectRatio: `${CHARACTER_CONFIG.size.width} / ${CHARACTER_CONFIG.size.height}`,
+        height: CHARACTER_CONFIG.size.height,
+        width: CHARACTER_CONFIG.size.width,
       }}
     >
       <RiveComponent />

@@ -1,6 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 import { Eraser, HelpCircle, MessageSquare, Palette } from "lucide-react";
 import { useRef } from "react";
+
 import { THEMES } from "@/config/theme";
 import generateAssistantResponseFn from "@/fn/generate-assistant-response";
 import { getLogger } from "@/lib/logger/client";
@@ -53,10 +54,8 @@ export function useAssistant() {
 
   const commands: CommandItem[] = [
     {
-      name: "help",
-      description: cmd_help_desc(),
-      icon: HelpCircle,
       aliases: ["?", "h"],
+      description: cmd_help_desc(),
       handler: () => {
         const helpText = `**${cmd_help_list_title()}**
 
@@ -67,19 +66,19 @@ ${cmd_help_list_footer()}
 ${cmd_help_pro_tip()}`;
         setMessage(helpText);
       },
+      icon: HelpCircle,
+      name: "help",
     },
     {
-      name: "clear",
-      description: cmd_clear_desc(),
-      icon: Eraser,
       aliases: ["cls", "c"],
+      description: cmd_clear_desc(),
       handler: () => clear(),
+      icon: Eraser,
+      name: "clear",
     },
     {
-      name: "theme",
-      description: cmd_theme_desc(),
-      icon: Palette,
       aliases: ["t"],
+      description: cmd_theme_desc(),
       handler: (args) => {
         const availableThemes = THEMES.map((t) => t.value).join(", ");
 
@@ -102,12 +101,12 @@ ${cmd_help_pro_tip()}`;
 
         setTheme(theme.value);
       },
+      icon: Palette,
+      name: "theme",
     },
     {
-      name: "feedback",
-      description: cmd_feedback_desc(),
-      icon: MessageSquare,
       aliases: ["fb"],
+      description: cmd_feedback_desc(),
       handler: (args) => {
         const feedbackMessage = args.join(" ").trim();
 
@@ -126,6 +125,8 @@ ${cmd_help_pro_tip()}`;
           setStatus("error", cmd_feedback_failed());
         }
       },
+      icon: MessageSquare,
+      name: "feedback",
     },
   ];
 
@@ -172,13 +173,13 @@ ${cmd_help_pro_tip()}`;
       if (!signal.aborted) {
         setStatus("idle");
       }
-    } catch (err) {
+    } catch (error) {
       if (signal.aborted) {
         return;
       }
       setStatus(
         "error",
-        err instanceof Error ? err.message : ui_error_unexpected()
+        error instanceof Error ? error.message : ui_error_unexpected()
       );
     }
   };
@@ -205,13 +206,13 @@ ${cmd_help_pro_tip()}`;
   };
 
   return {
+    cancel,
+    clear,
     commands,
-    message,
-    status,
     error,
     hasMessage,
+    message,
     sendMessage,
-    clear,
-    cancel,
+    status,
   };
 }

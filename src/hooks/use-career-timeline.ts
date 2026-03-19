@@ -2,14 +2,15 @@ import type { MotionValue } from "motion/react";
 import { useMotionValueEvent, useTransform, useVelocity } from "motion/react";
 import type { RefObject } from "react";
 import { useEffect, useRef, useState } from "react";
+
 import { CAREER_SECTIONS } from "@/components/career-runner/config";
 import { useCareerActions } from "@/store/career";
 
 const SCROLL_CONFIG = {
-  ioThreshold: [0, 0.2, 0.4, 0.6, 0.8, 1],
-  velocityThreshold: 50,
   idleDebounceMs: 150,
+  ioThreshold: [0, 0.2, 0.4, 0.6, 0.8, 1],
   minActivateRatio: 0.2,
+  velocityThreshold: 50,
 } as const;
 
 interface UseCareerTimelineOptions {
@@ -116,5 +117,5 @@ export function useCareerTimeline({
     };
   }, [scrollContainerRef, sectionRefs, setActiveSection, reset]);
 
-  return { sectionRefs, activeIndex };
+  return { activeIndex, sectionRefs };
 }

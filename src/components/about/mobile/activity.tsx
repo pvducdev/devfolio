@@ -1,4 +1,3 @@
-// biome-ignore lint/performance/noNamespaceImport: component pattern
 import * as ContributionGraph from "@/components/common/contribution-graph";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CONTRIBUTIONS_CONFIG } from "@/config/contributions";
@@ -12,7 +11,7 @@ import {
 } from "@/paraglide/messages";
 import { getLocale } from "@/paraglide/runtime";
 
-const VISIBLE_WEEKDAYS = [1, 3, 5];
+const VISIBLE_WEEKDAYS = new Set([1, 3, 5]);
 
 function getLevelForCount(count: number): number {
   if (count === 0) {
@@ -86,7 +85,7 @@ export default function AboutActivity() {
                 {weekdays.map((day, rowIndex) => (
                   <ContributionGraph.Row key={day}>
                     <ContributionGraph.HeaderCell className="pr-1 text-right">
-                      {VISIBLE_WEEKDAYS.includes(day) && (
+                      {VISIBLE_WEEKDAYS.has(day) && (
                         <ContributionGraph.Label>
                           {formatWeekday(day, locale)}
                         </ContributionGraph.Label>

@@ -15,15 +15,15 @@ function buildSkillGroup(
   group: string
 ): AppSearchItem[] {
   return skills.map((skill) => ({
-    id: `skill:${group}:${skill.name.toLowerCase().replace(/\s+/g, "-")}`,
-    title: skill.name,
     description: skill.tag,
+    id: `skill:${group}:${skill.name.toLowerCase().replaceAll(/\s+/g, "-")}`,
     keywords: "details" in skill ? skill.details : undefined,
     meta: {
+      action: { path: "/skills", type: "navigate" },
       category: "skill",
       icon: Code,
-      action: { type: "navigate", path: "/skills" },
     },
+    title: skill.name,
   }));
 }
 

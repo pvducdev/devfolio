@@ -22,6 +22,5 @@ export function ThemeInitScript() {
     })();
   `;
 
-  // biome-ignore lint/security/noDangerouslySetInnerHtml: Safe - uses only static constants, no user input
   return <script dangerouslySetInnerHTML={{ __html: scriptContent }} />;
 }

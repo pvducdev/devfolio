@@ -8,8 +8,10 @@ import {
   useTransform,
   useVelocity,
 } from "motion/react";
-import { type RefObject, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
+import type { RefObject } from "react";
 import { useEventListener, useUnmount } from "usehooks-ts";
+
 import { useCareerActions, useCareerLooping } from "@/store/career";
 
 interface UseCareerScrollReturn {
@@ -17,12 +19,12 @@ interface UseCareerScrollReturn {
 }
 
 const SCROLL_CONFIG = {
-  spring: { stiffness: 120, damping: 20, restDelta: 0.5 },
-  velocityThreshold: 50,
-  scrollEndThreshold: 2,
+  idleDebounceMs: 150,
   loopDuration: 3,
   loopEase: [0.33, 1, 0.68, 1] as Easing,
-  idleDebounceMs: 150,
+  scrollEndThreshold: 2,
+  spring: { damping: 20, restDelta: 0.5, stiffness: 120 },
+  velocityThreshold: 50,
 } as const;
 
 export function useCareerScroll(): UseCareerScrollReturn {
@@ -97,14 +99,14 @@ export function useCareerScroll(): UseCareerScrollReturn {
       animationRef.current = animate(container.scrollLeft, 0, {
         duration: SCROLL_CONFIG.loopDuration,
         ease: SCROLL_CONFIG.loopEase,
+        onComplete: () => {
+          reset();
+          animationRef.current = null;
+        },
         onUpdate: (value) => {
           container.scrollLeft = value;
           targetScrollX.jump(value);
           smoothScrollX.jump(value);
-        },
-        onComplete: () => {
-          reset();
-          animationRef.current = null;
         },
       });
       return;
@@ -134,7 +136,6 @@ export function useCareerScroll(): UseCareerScrollReturn {
 
   useUnmount(() => {
     animationRef.current?.stop();
-    // biome-ignore lint/style/noNonNullAssertion: <no need>
     clearTimeout(idleTimeoutRef.current!);
     reset();
   });

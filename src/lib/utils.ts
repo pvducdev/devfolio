@@ -1,5 +1,6 @@
 import { createIsomorphicFn } from "@tanstack/react-start";
-import { type ClassValue, clsx } from "clsx";
+import { clsx } from "clsx";
+import type { ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -37,7 +38,7 @@ export function getInitials(text: string) {
   return text
     .split(" ")
     .map((word) => {
-      const alphanumeric = word.replace(/[^a-zA-Z0-9]/g, "");
+      const alphanumeric = word.replaceAll(/[^a-zA-Z0-9]/g, "");
       return alphanumeric[0]?.toUpperCase() || "";
     })
     .filter(Boolean)

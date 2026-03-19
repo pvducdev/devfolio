@@ -1,5 +1,6 @@
 import type { EffectCallback } from "react";
 import { useEffect } from "react";
+
 import { isPromise } from "@/lib/utils";
 
 type CleanupFn = () => void;
@@ -10,7 +11,6 @@ const isAbortError = (error: unknown): boolean =>
   error instanceof Error && error.name === "AbortError";
 
 export function useMount(fn: MountCallback) {
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <custom hook>
   useEffect(() => {
     let cleanup: CleanupFn | undefined;
     let isMounted = true;

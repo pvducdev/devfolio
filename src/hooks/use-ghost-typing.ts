@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { useUnmount } from "usehooks-ts";
+
 import { useMobileShellStore } from "@/store/mobile-shell";
 
 interface UseGhostTypingReturn {
@@ -14,7 +15,7 @@ export function useGhostTyping(): UseGhostTypingReturn {
   const [isTyping, setIsTyping] = useState(false);
 
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const onCompleteRef = useRef<(() => void) | undefined>(undefined);
+  const onCompleteRef = useRef<(() => void) | undefined>();
 
   const cleanup = () => {
     if (timeoutRef.current) {
@@ -59,5 +60,5 @@ export function useGhostTyping(): UseGhostTypingReturn {
 
   useUnmount(cleanup);
 
-  return { text, isTyping, type, cancel };
+  return { cancel, isTyping, text, type };
 }

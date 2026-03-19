@@ -1,9 +1,9 @@
 import {
-  type AppSearchItem,
   buildCareerItems,
   buildPageItems,
   buildSkillItems,
 } from "@/config/search";
+import type { AppSearchItem } from "@/config/search";
 import { createFuseAdapter } from "@/lib/search/adapters";
 import type { SearchResult } from "@/lib/search/core";
 import { useSearch } from "@/lib/search/react";
@@ -27,7 +27,7 @@ interface UseAppSearchReturn {
 }
 
 const SEARCH_KEYS = [
-  { name: "title", weight: 1.0 },
+  { name: "title", weight: 1 },
   { name: "description", weight: 0.7 },
   { name: "keywords", weight: 0.5 },
 ] as const;
@@ -59,7 +59,7 @@ function getBestScore(results: SearchResult<AppSearchItem>[]): number {
 function sortGroupsByRelevance(
   groups: SearchResultGroup[]
 ): SearchResultGroup[] {
-  return [...groups].sort(
+  return [...groups].toSorted(
     (a, b) => getBestScore(a.results) - getBestScore(b.results)
   );
 }
@@ -76,8 +76,8 @@ export function useAppSearch(
     adapter,
     data: getInitialData(),
     debounceMs,
-    returnAllOnEmpty: true,
     groupBy: (item) => item.meta?.category,
+    returnAllOnEmpty: true,
   });
 
   const allGroups = DEFAULT_ORDER.map((key) => ({
@@ -87,5 +87,5 @@ export function useAppSearch(
 
   const groups = query ? sortGroupsByRelevance(allGroups) : allGroups;
 
-  return { query, setQuery, groups, hasResults };
+  return { groups, hasResults, query, setQuery };
 }

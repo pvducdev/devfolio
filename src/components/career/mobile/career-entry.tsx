@@ -1,7 +1,9 @@
 import { ChevronDown } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { type Ref, type RefObject, useEffect } from "react";
+import { useEffect } from "react";
+import type { Ref, RefObject } from "react";
 import { useBoolean } from "usehooks-ts";
+
 import type { CareerSection } from "@/components/career-runner/config";
 import ExpandedSection from "@/components/career-runner/expanded-section";
 import { cn } from "@/lib/utils";
@@ -27,7 +29,7 @@ function YearMarker({
           color: isActive ? "var(--foreground)" : "var(--muted-foreground)",
         }}
         className="font-mono text-[10px] tabular-nums tracking-wider"
-        transition={{ type: "spring", stiffness: 300, damping: 25 }}
+        transition={{ damping: 25, stiffness: 300, type: "spring" }}
       >
         {section.year}
       </motion.span>
@@ -88,7 +90,7 @@ export default function CareerEntry({
         className="ml-10"
         initial={{ opacity: 0, x: 20 }}
         transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
-        viewport={{ root: scrollRef, once: true, amount: 0.3 }}
+        viewport={{ amount: 0.3, once: true, root: scrollRef }}
         whileInView={{ opacity: 1, x: 0 }}
       >
         <div

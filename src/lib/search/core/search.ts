@@ -15,16 +15,15 @@ import type {
 } from "./types";
 
 const DEFAULT_QUERY_OPTIONS: SearchQueryOptions = {
-  limit: 20,
   includeMatches: false,
+  limit: 20,
   returnAllOnEmpty: true,
 };
 
 export class SearchImpl<
   TItem extends BaseSearchItem = SearchItem,
   TGroupKeys extends string = string,
-> implements Search<TItem, TGroupKeys>
-{
+> implements Search<TItem, TGroupKeys> {
   private readonly adapter: IndexAdapter<TItem>;
   private filters: FilterFn<TItem>[] = [];
   private groupBy: GroupFn<TItem, TGroupKeys> | undefined;

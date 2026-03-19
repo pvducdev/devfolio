@@ -6,6 +6,7 @@ import {
   mobile_skills_standards_desc,
   mobile_skills_standards_performance,
 } from "@/paraglide/messages";
+
 import SectionHeader from "./section-header";
 
 interface StandardsCardsProps {

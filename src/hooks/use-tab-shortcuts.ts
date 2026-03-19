@@ -1,4 +1,5 @@
 import { useHotkeys } from "react-hotkeys-hook";
+
 import { useTabActions } from "@/hooks/use-tab-actions";
 import { getHotkeyCombo } from "@/lib/hotkeys";
 import { useActiveTabId } from "@/store/tabs";

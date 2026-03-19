@@ -83,10 +83,10 @@ export function createRateLimitResponse(retryAfterMs: number): Response {
   const retryAfterSeconds = Math.ceil(retryAfterMs / 1000);
 
   return new Response(JSON.stringify({ error: "Too Many Requests" }), {
-    status: 429,
     headers: {
       "Content-Type": "application/json",
       "Retry-After": String(retryAfterSeconds),
     },
+    status: 429,
   });
 }

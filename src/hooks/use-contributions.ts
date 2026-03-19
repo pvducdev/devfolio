@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import { useMount } from "@/hooks/use-mount";
 import type { ContributionData } from "@/lib/contributions/types";
 import { getLogger } from "@/lib/logger/client";
@@ -25,5 +26,5 @@ export function useContributions() {
     }
   });
 
-  return { data, status, isLoading: status === "loading" };
+  return { data, isLoading: status === "loading", status };
 }

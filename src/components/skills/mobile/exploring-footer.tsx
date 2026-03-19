@@ -2,6 +2,7 @@ import {
   mobile_skills_eof,
   mobile_skills_section_exploring,
 } from "@/paraglide/messages";
+
 import SectionHeader from "./section-header";
 
 interface ExploringFooterProps {
