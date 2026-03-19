@@ -1,0 +1,18 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "extends": [
+    "./node_modules/ultracite/config/oxlint/core/.oxlintrc.json",
+    "./node_modules/ultracite/config/oxlint/remix/.oxlintrc.json"
+  ],
+  "ignorePatterns": [
+    "dist/**",
+    "coverage/**",
+    "vendor/**",
+    "test/snapshots/**",
+    "src/routeTree.gen.ts",
+    "/src/components/ui/*",
+    "src/paraglide/*",
+    ".wrangler/*",
+    ".github/*"
+  ]
+}
