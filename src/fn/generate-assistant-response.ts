@@ -16,7 +16,7 @@ const InputSchema = pipe(
 );
 
 const generateAssistantResponse = createServerFn()
-  .inputValidator((data: unknown) => parse(InputSchema, data))
+  .validator((data: unknown) => parse(InputSchema, data))
   .handler(async function* generateAssistantResponse({ data }) {
     try {
       const response = await generateMessage(data.prompt);

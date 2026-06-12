@@ -1,4 +1,4 @@
-import type { HeadConfig } from "@tanstack/react-router";
+import type { MetaDescriptor } from "@tanstack/react-router";
 
 import { PERSONAL_INFO } from "./personal-info";
 import { SITE_CONFIG } from "./site";
@@ -6,7 +6,7 @@ import { SITE_CONFIG } from "./site";
 export function buildSeoMeta(
   locale: string,
   canonicalUrl: string
-): HeadConfig["meta"] {
+): MetaDescriptor[] {
   return [
     {
       charSet: "utf8",
@@ -93,7 +93,7 @@ export function buildSeoMeta(
   ];
 }
 
-export function buildCanonicalLink(canonicalUrl: string): HeadConfig["links"] {
+export function buildCanonicalLink(canonicalUrl: string) {
   return [
     {
       href: canonicalUrl,
@@ -102,7 +102,7 @@ export function buildCanonicalLink(canonicalUrl: string): HeadConfig["links"] {
   ];
 }
 
-export function buildStructuredData(): HeadConfig["scripts"] {
+export function buildStructuredData() {
   return [
     {
       children: JSON.stringify({
