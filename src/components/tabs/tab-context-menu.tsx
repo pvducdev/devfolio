@@ -1,4 +1,4 @@
-import { Slot } from "@radix-ui/react-slot";
+import { Slot } from "radix-ui";
 import type { ComponentPropsWithoutRef } from "react";
 
 import {
@@ -19,7 +19,9 @@ import {
   ui_tab_copy_path,
 } from "@/paraglide/messages.js";
 
-interface TabContextMenuProps extends ComponentPropsWithoutRef<typeof Slot> {
+interface TabContextMenuProps extends ComponentPropsWithoutRef<
+  typeof Slot.Root
+> {
   tabId: string;
 }
 
@@ -33,7 +35,7 @@ export const TabContextMenu = ({
   return (
     <ContextMenu>
       <ContextMenuTrigger asChild>
-        <Slot {...slotProps}>{children}</Slot>
+        <Slot.Root {...slotProps}>{children}</Slot.Root>
       </ContextMenuTrigger>
       <ContextMenuContent className="min-w-52 rounded-lg">
         <ContextMenuItem onSelect={actions.close}>

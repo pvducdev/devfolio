@@ -1,4 +1,4 @@
-import { Slot } from "@radix-ui/react-slot";
+import { Slot } from "radix-ui";
 import { useMemo, useState } from "react";
 import type { ComponentProps, MouseEvent, ReactNode } from "react";
 
@@ -158,7 +158,7 @@ type GridProps = ComponentProps<"table"> & {
 };
 
 const Grid = ({ asChild = false, ...props }: GridProps) => {
-  const Comp = asChild ? Slot : "table";
+  const Comp = asChild ? Slot.Root : "table";
 
   return (
     <Comp
@@ -175,7 +175,7 @@ type HeadProps = ComponentProps<"thead"> & {
 };
 
 const Head = ({ asChild = false, ...props }: HeadProps) => {
-  const Comp = asChild ? Slot : "thead";
+  const Comp = asChild ? Slot.Root : "thead";
 
   return <Comp data-slot="contribution-graph-head" {...props} />;
 };
@@ -185,7 +185,7 @@ type BodyProps = ComponentProps<"tbody"> & {
 };
 
 const Body = ({ asChild = false, ...props }: BodyProps) => {
-  const Comp = asChild ? Slot : "tbody";
+  const Comp = asChild ? Slot.Root : "tbody";
 
   return <Comp data-slot="contribution-graph-body" {...props} />;
 };
@@ -195,7 +195,7 @@ type RowProps = ComponentProps<"tr"> & {
 };
 
 const Row = ({ asChild = false, ...props }: RowProps) => {
-  const Comp = asChild ? Slot : "tr";
+  const Comp = asChild ? Slot.Root : "tr";
 
   return <Comp data-slot="contribution-graph-row" role="row" {...props} />;
 };
@@ -205,7 +205,7 @@ type HeaderCellProps = ComponentProps<"th"> & {
 };
 
 const HeaderCell = ({ asChild = false, ...props }: HeaderCellProps) => {
-  const Comp = asChild ? Slot : "th";
+  const Comp = asChild ? Slot.Root : "th";
 
   return <Comp data-slot="contribution-graph-header-cell" {...props} />;
 };
@@ -259,7 +259,7 @@ const Cell = ({
   const isEmpty = !cellData;
   const isWeekendDay = ctx.isWeekend(date);
 
-  const Comp = asChild ? Slot : "button";
+  const Comp = asChild ? Slot.Root : "button";
 
   const cellState: CellState = {
     count,
@@ -316,7 +316,7 @@ type LabelProps = ComponentProps<"span"> & {
 };
 
 const Label = ({ value, asChild = false, ...props }: LabelProps) => {
-  const Comp = asChild ? Slot : "span";
+  const Comp = asChild ? Slot.Root : "span";
 
   return (
     <Comp data-slot="contribution-graph-label" data-value={value} {...props} />
@@ -328,7 +328,7 @@ type LegendProps = ComponentProps<"div"> & {
 };
 
 const Legend = ({ asChild = false, ...props }: LegendProps) => {
-  const Comp = asChild ? Slot : "div";
+  const Comp = asChild ? Slot.Root : "div";
 
   return <Comp data-slot="contribution-graph-legend" {...props} />;
 };
@@ -339,7 +339,7 @@ type LegendItemProps = ComponentProps<"span"> & {
 };
 
 const LegendItem = ({ level, asChild = false, ...props }: LegendItemProps) => {
-  const Comp = asChild ? Slot : "span";
+  const Comp = asChild ? Slot.Root : "span";
 
   return (
     <Comp
