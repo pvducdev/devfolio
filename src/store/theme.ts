@@ -3,7 +3,6 @@ import { persist } from "zustand/middleware";
 
 import { THEME_STORAGE_KEY, THEMES } from "@/config/theme";
 import type { Theme } from "@/config/theme";
-import { isFunction } from "@/lib/utils";
 
 interface State {
   theme: Theme["value"];
@@ -20,7 +19,7 @@ export const useThemeStore = create<State & Actions>()(
         set({ theme });
         if (
           typeof window !== "undefined" &&
-          isFunction(window.__loadThemeFonts)
+          typeof window.__loadThemeFonts === "function"
         ) {
           window.__loadThemeFonts(theme);
         }

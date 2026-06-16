@@ -99,7 +99,7 @@ export const useCareerTimeline = ({
           setActiveSection(CAREER_SECTIONS[best].id);
         }
       },
-      { root: container, threshold: SCROLL_CONFIG.ioThreshold }
+      { root: container, threshold: [...SCROLL_CONFIG.ioThreshold] }
     );
 
     for (const ref of sectionRefs) {

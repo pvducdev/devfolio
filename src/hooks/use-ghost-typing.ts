@@ -15,7 +15,7 @@ export const useGhostTyping = (): UseGhostTypingReturn => {
   const [isTyping, setIsTyping] = useState(false);
 
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const onCompleteRef = useRef<(() => void) | undefined>();
+  const onCompleteRef = useRef<(() => void) | null>(null);
 
   const cleanup = () => {
     if (timeoutRef.current) {
@@ -32,7 +32,7 @@ export const useGhostTyping = (): UseGhostTypingReturn => {
   const type = (command: string, onComplete?: () => void) => {
     cancel();
 
-    onCompleteRef.current = onComplete;
+    onCompleteRef.current = onComplete ?? null;
     setText("");
     setIsTyping(true);
 

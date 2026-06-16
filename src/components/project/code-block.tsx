@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 
 export interface CodeBlockProps {
-  json: Record<string, unknown>;
+  json: unknown;
   className?: string;
 }
 

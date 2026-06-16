@@ -17,7 +17,7 @@ const buildSkillGroup = (
   skills.map((skill) => ({
     description: skill.tag,
     id: `skill:${group}:${skill.name.toLowerCase().replaceAll(/\s+/g, "-")}`,
-    keywords: "details" in skill ? skill.details : undefined,
+    keywords: "details" in skill ? [...skill.details] : undefined,
     meta: {
       action: { path: "/skills", type: "navigate" },
       category: "skill",

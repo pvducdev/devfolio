@@ -6,7 +6,7 @@ import {
 import SectionHeader from "./section-header";
 
 interface ExploringFooterProps {
-  items: string[];
+  items: readonly string[];
 }
 
 export default function ExploringFooter({ items }: ExploringFooterProps) {

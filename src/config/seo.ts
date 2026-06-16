@@ -1,12 +1,17 @@
-import type { MetaDescriptor } from "@tanstack/react-router";
+import type { JSX } from "react";
 
 import { PERSONAL_INFO } from "./personal-info";
 import { SITE_CONFIG } from "./site";
 
+type MetaTag = JSX.IntrinsicElements["meta"];
+
+const ogTag = (property: string, content: string): MetaTag =>
+  ({ content, property }) as MetaTag;
+
 export const buildSeoMeta = (
   locale: string,
   canonicalUrl: string
-): MetaDescriptor[] => [
+): MetaTag[] => [
   {
     charSet: "utf8",
   },
@@ -29,46 +34,16 @@ export const buildSeoMeta = (
     content: SITE_CONFIG.meta.keywords.join(", "),
     name: "keywords",
   },
-  {
-    content: SITE_CONFIG.meta.ogType,
-    property: "og:type",
-  },
-  {
-    content: canonicalUrl,
-    property: "og:url",
-  },
-  {
-    content: SITE_CONFIG.title,
-    property: "og:title",
-  },
-  {
-    content: SITE_CONFIG.description,
-    property: "og:description",
-  },
-  {
-    content: SITE_CONFIG.meta.ogImage,
-    property: "og:image",
-  },
-  {
-    content: SITE_CONFIG.meta.ogImageWidth,
-    property: "og:image:width",
-  },
-  {
-    content: SITE_CONFIG.meta.ogImageHeight,
-    property: "og:image:height",
-  },
-  {
-    content: `${PERSONAL_INFO.name} - ${PERSONAL_INFO.role}`,
-    property: "og:image:alt",
-  },
-  {
-    content: locale === "vi" ? "vi_VN" : "en_US",
-    property: "og:locale",
-  },
-  {
-    content: SITE_CONFIG.title,
-    property: "og:site_name",
-  },
+  ogTag("og:type", SITE_CONFIG.meta.ogType),
+  ogTag("og:url", canonicalUrl),
+  ogTag("og:title", SITE_CONFIG.title),
+  ogTag("og:description", SITE_CONFIG.description),
+  ogTag("og:image", SITE_CONFIG.meta.ogImage),
+  ogTag("og:image:width", SITE_CONFIG.meta.ogImageWidth),
+  ogTag("og:image:height", SITE_CONFIG.meta.ogImageHeight),
+  ogTag("og:image:alt", `${PERSONAL_INFO.name} - ${PERSONAL_INFO.role}`),
+  ogTag("og:locale", locale === "vi" ? "vi_VN" : "en_US"),
+  ogTag("og:site_name", SITE_CONFIG.title),
   {
     content: SITE_CONFIG.meta.twitterCard,
     name: "twitter:card",

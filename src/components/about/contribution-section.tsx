@@ -70,7 +70,7 @@ const getLevelForCount = (count: number): number => {
 };
 
 const ContributionSection = () => {
-  const { data, isLoading, error } = useContributions();
+  const { data, isLoading, status } = useContributions();
 
   const { weeks, months, weekdays, startDate, endDate } = useContributionGraph({
     weekStartDay: 0,
@@ -87,7 +87,7 @@ const ContributionSection = () => {
     return <ContributionSectionSkeleton />;
   }
 
-  if (error) {
+  if (status === "error") {
     return (
       <section aria-label="contributions" className="mx-auto w-full p-4">
         <p className="text-center text-muted-foreground text-sm">

@@ -1,6 +1,6 @@
 interface StandardCardProps {
   title: string;
-  items: string[];
+  items: readonly string[];
 }
 
 export default function StandardCard({ title, items }: StandardCardProps) {

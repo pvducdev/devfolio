@@ -3,9 +3,9 @@ import { cn } from "@/lib/utils";
 
 interface CoreSkillItemProps {
   name: string;
-  alternates?: string[];
+  alternates?: readonly string[];
   tag: string;
-  details: string[];
+  details: readonly string[];
   index: number;
 }
 
