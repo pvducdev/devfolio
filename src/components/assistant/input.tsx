@@ -77,8 +77,8 @@ export default function AssistantInput({
 
   const mergedRef = (node: HTMLTextAreaElement | null) => {
     textareaRef.current = node;
-    enterRef.current = node;
-    escapeRef.current = node;
+    enterRef(node);
+    escapeRef(node);
   };
 
   return (
