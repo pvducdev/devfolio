@@ -4,7 +4,7 @@ import {
   THEME_STORAGE_KEY,
 } from "@/config/theme";
 
-export function FontLoaderScript() {
+export const FontLoaderScript = () => {
   const fontUrlsJson = JSON.stringify(THEME_FONT_URLS);
 
   const scriptContent = `
@@ -12,7 +12,7 @@ export function FontLoaderScript() {
       var FONT_URLS = ${fontUrlsJson};
       var currentFontLink = null;
 
-      function loadFonts(theme) {
+      const loadFonts = (theme)  => {
         var url = FONT_URLS[theme];
         if (!url) return;
 
@@ -50,4 +50,4 @@ export function FontLoaderScript() {
   `;
 
   return <script dangerouslySetInnerHTML={{ __html: scriptContent }} />;
-}
+};

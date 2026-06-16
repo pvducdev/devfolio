@@ -6,15 +6,7 @@ import { SITE_CONFIG } from "@/config/site";
 import { ui_nav_home } from "@/paraglide/messages";
 import { useActiveTabId } from "@/store/tabs";
 
-export const Route = createFileRoute("/_root-layout/home")({
-  component: HomeRedirect,
-  head: () => ({
-    links: buildCanonicalLink(SITE_CONFIG.url),
-    meta: [{ title: `${ui_nav_home()} | ${SITE_CONFIG.title}` }],
-  }),
-});
-
-function HomeRedirect() {
+const HomeRedirect = () => {
   const navigate = useNavigate();
   const activeTabId = useActiveTabId();
 
@@ -25,4 +17,12 @@ function HomeRedirect() {
   }, [activeTabId, navigate]);
 
   return null;
-}
+};
+
+export const Route = createFileRoute("/_root-layout/home")({
+  component: HomeRedirect,
+  head: () => ({
+    links: buildCanonicalLink(SITE_CONFIG.url),
+    meta: [{ title: `${ui_nav_home()} | ${SITE_CONFIG.title}` }],
+  }),
+});

@@ -1,15 +1,12 @@
 import { MOBILE_PREFIX, MOBILE_ROUTES, ROUTES } from "@/config/routes";
 import type { MobileRouteId } from "@/config/routes";
 
-export function getRouteLabel(path: string): string {
-  return `${path.slice(1)}.tsx`;
-}
+export const getRouteLabel = (path: string): string => `${path.slice(1)}.tsx`;
 
-export function isValidTabRoute(path: string): boolean {
-  return path !== ROUTES.ROOT && path !== ROUTES.HOME;
-}
+export const isValidTabRoute = (path: string): boolean =>
+  path !== ROUTES.ROOT && path !== ROUTES.HOME;
 
-export function resolveRouteId(pathname: string): MobileRouteId {
+export const resolveRouteId = (pathname: string): MobileRouteId => {
   if (
     pathname.startsWith("/m/projects/") &&
     pathname !== MOBILE_ROUTES.PROJECTS
@@ -37,18 +34,18 @@ export function resolveRouteId(pathname: string): MobileRouteId {
       return MOBILE_ROUTES.HOME;
     }
   }
-}
+};
 
-export function desktopToMobilePath(pathname: string): string {
+export const desktopToMobilePath = (pathname: string): string => {
   if (pathname === "/" || pathname === "/home") {
     return MOBILE_ROUTES.HOME;
   }
   return `${MOBILE_PREFIX}${pathname}`;
-}
+};
 
-export function mobileToDesktopPath(pathname: string): string {
+export const mobileToDesktopPath = (pathname: string): string => {
   if (pathname === MOBILE_ROUTES.HOME) {
     return "/home";
   }
   return pathname.replace(MOBILE_PREFIX, "");
-}
+};

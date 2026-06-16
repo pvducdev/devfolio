@@ -8,6 +8,15 @@ import { buildCanonicalLink } from "@/config/seo";
 import { SITE_CONFIG } from "@/config/site";
 import { nav_main_about } from "@/paraglide/messages";
 
+const AboutPage = () => (
+  <div className="py-6">
+    <Profile />
+    <Bio />
+    <Links />
+    <Activity />
+  </div>
+);
+
 export const Route = createFileRoute("/m/about")({
   component: AboutPage,
   head: () => ({
@@ -15,14 +24,3 @@ export const Route = createFileRoute("/m/about")({
     meta: [{ title: `${nav_main_about()} | ${SITE_CONFIG.title}` }],
   }),
 });
-
-function AboutPage() {
-  return (
-    <div className="py-6">
-      <Profile />
-      <Bio />
-      <Links />
-      <Activity />
-    </div>
-  );
-}

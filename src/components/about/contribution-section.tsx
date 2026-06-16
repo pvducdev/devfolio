@@ -32,7 +32,7 @@ const DEFAULT_THRESHOLDS: LevelThreshold[] = [
   { min: 10 },
 ];
 
-function formatLevelLabel(threshold: LevelThreshold): string {
+const formatLevelLabel = (threshold: LevelThreshold): string => {
   if (threshold.min === 0 && threshold.max === 0) {
     return page_about_contribution_level_none();
   }
@@ -45,16 +45,15 @@ function formatLevelLabel(threshold: LevelThreshold): string {
     max: threshold.max,
     min: threshold.min,
   });
-}
+};
 
-function formatSummary(count: number): string {
-  return page_about_contribution_summary({
+const formatSummary = (count: number): string =>
+  page_about_contribution_summary({
     count,
     platform: CONTRIBUTIONS_CONFIG.source,
   });
-}
 
-function getLevelForCount(count: number): number {
+const getLevelForCount = (count: number): number => {
   if (count === 0) {
     return 0;
   }
@@ -68,9 +67,9 @@ function getLevelForCount(count: number): number {
     return 3;
   }
   return 4;
-}
+};
 
-export default function ContributionSection() {
+const ContributionSection = () => {
   const { data, isLoading, error } = useContributions();
 
   const { weeks, months, weekdays, startDate, endDate } = useContributionGraph({
@@ -173,4 +172,6 @@ export default function ContributionSection() {
       </ContributionGraph.Root>
     </section>
   );
-}
+};
+
+export default ContributionSection;

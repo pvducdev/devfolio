@@ -3,28 +3,23 @@ import { clsx } from "clsx";
 import type { ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
+export const cn = (...inputs: ClassValue[]) => twMerge(clsx(inputs));
 
-export function delay(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+export const delay = (ms: number): Promise<void> =>
+  // oxlint-disable-next-line avoid-new -- setTimeout has no native Promise wrapper in browsers
+  new Promise((resolve) => {
+    setTimeout(() => resolve(), ms);
+  });
 
-export function isPromise(value: unknown): value is PromiseLike<unknown> {
-  return (
-    typeof value === "object" &&
-    value !== null &&
-    "then" in value &&
-    typeof value.then === "function"
-  );
-}
+export const isPromise = (value: unknown): value is PromiseLike<unknown> =>
+  typeof value === "object" &&
+  value !== null &&
+  "then" in value &&
+  typeof value.then === "function";
 
-export function isFunction<T>(
+export const isFunction = <T>(
   value: T | ((prev: T) => T)
-): value is (prev: T) => T {
-  return typeof value === "function";
-}
+): value is (prev: T) => T => typeof value === "function";
 
 export const isProd = createIsomorphicFn()
   .server(() => process.env.NODE_ENV === "production")
@@ -34,8 +29,8 @@ export const isServer = createIsomorphicFn()
   .server(() => true)
   .client(() => false);
 
-export function getInitials(text: string) {
-  return text
+export const getInitials = (text: string) =>
+  text
     .split(" ")
     .map((word) => {
       const alphanumeric = word.replaceAll(/[^a-zA-Z0-9]/g, "");
@@ -43,4 +38,3 @@ export function getInitials(text: string) {
     })
     .filter(Boolean)
     .join("");
-}

@@ -4,6 +4,8 @@ import { buildCanonicalLink } from "@/config/seo";
 import { SITE_CONFIG } from "@/config/site";
 import { nav_main_projects } from "@/paraglide/messages";
 
+const MobileProjectsLayout = () => <Outlet />;
+
 export const Route = createFileRoute("/m/projects")({
   component: MobileProjectsLayout,
   head: () => ({
@@ -11,7 +13,3 @@ export const Route = createFileRoute("/m/projects")({
     meta: [{ title: `${nav_main_projects()} | ${SITE_CONFIG.title}` }],
   }),
 });
-
-function MobileProjectsLayout() {
-  return <Outlet />;
-}

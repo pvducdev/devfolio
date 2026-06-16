@@ -23,14 +23,14 @@ interface UseCareerTimelineReturn {
   activeIndex: number;
 }
 
-function findMostVisibleSection(
+const findMostVisibleSection = (
   refs: RefObject<HTMLDivElement | null>[],
   ratios: Map<Element, number>
-): number {
+): number => {
   let bestIndex = -1;
   let bestRatio = 0;
 
-  for (let i = 0; i < refs.length; i++) {
+  for (let i = 0; i < refs.length; i += 1) {
     const el = refs[i].current;
     if (!el) {
       continue;
@@ -43,12 +43,12 @@ function findMostVisibleSection(
   }
 
   return bestRatio > SCROLL_CONFIG.minActivateRatio ? bestIndex : -1;
-}
+};
 
-export function useCareerTimeline({
+export const useCareerTimeline = ({
   scrollContainerRef,
   scrollY,
-}: UseCareerTimelineOptions): UseCareerTimelineReturn {
+}: UseCareerTimelineOptions): UseCareerTimelineReturn => {
   const [activeIndex, setActiveIndex] = useState(-1);
   const { setActiveSection, setStatus, reset } = useCareerActions();
   const idleTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -118,4 +118,4 @@ export function useCareerTimeline({
   }, [scrollContainerRef, sectionRefs, setActiveSection, reset]);
 
   return { activeIndex, sectionRefs };
-}
+};

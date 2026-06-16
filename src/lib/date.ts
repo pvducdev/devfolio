@@ -1,6 +1,6 @@
-export function toISODateString(
+export const toISODateString = (
   date: Date | string | null | undefined
-): string {
+): string => {
   if (date === null || date === undefined) {
     return "";
   }
@@ -15,9 +15,9 @@ export function toISODateString(
   const day = String(d.getDate()).padStart(2, "0");
 
   return `${year}-${month}-${day}`;
-}
+};
 
-export function isWeekend(dateStr: string): boolean {
+export const isWeekend = (dateStr: string): boolean => {
   const date = new Date(dateStr);
   if (Number.isNaN(date.getTime())) {
     return false;
@@ -25,15 +25,15 @@ export function isWeekend(dateStr: string): boolean {
   const day = date.getDay();
 
   return day === 0 || day === 6;
-}
+};
 
-export function formatMonth(month: number, locale: string): string {
+export const formatMonth = (month: number, locale: string): string => {
   const date = new Date(new Date().getFullYear(), month, 1);
 
   return date.toLocaleDateString(locale, { month: "short" });
-}
+};
 
-export function formatWeekday(day: number, locale: string): string {
+export const formatWeekday = (day: number, locale: string): string => {
   const year = new Date().getFullYear();
   const jan1 = new Date(year, 0, 1);
   const daysUntilSunday = (7 - jan1.getDay()) % 7;
@@ -42,9 +42,9 @@ export function formatWeekday(day: number, locale: string): string {
   targetDay.setDate(firstSunday.getDate() + day);
 
   return targetDay.toLocaleDateString(locale, { weekday: "narrow" });
-}
+};
 
-export function formatDateShort(dateStr: string, locale: string): string {
+export const formatDateShort = (dateStr: string, locale: string): string => {
   const date = new Date(dateStr);
 
   return date.toLocaleDateString(locale, {
@@ -52,4 +52,4 @@ export function formatDateShort(dateStr: string, locale: string): string {
     month: "short",
     year: "numeric",
   });
-}
+};

@@ -11,12 +11,10 @@ const [useCareerScrollCtx, Provider] = createCtx<CareerScrollContextValue>(
 
 export { useCareerScrollCtx };
 
-export function CareerScrollProvider({
+export const CareerScrollProvider = ({
   containerRef,
   children,
 }: {
   containerRef: RefObject<HTMLDivElement | null>;
   children: ReactNode;
-}) {
-  return <Provider value={{ containerRef }}>{children}</Provider>;
-}
+}) => <Provider value={{ containerRef }}>{children}</Provider>;

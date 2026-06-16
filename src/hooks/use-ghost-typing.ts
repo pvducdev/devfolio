@@ -10,7 +10,7 @@ interface UseGhostTypingReturn {
   cancel: () => void;
 }
 
-export function useGhostTyping(): UseGhostTypingReturn {
+export const useGhostTyping = (): UseGhostTypingReturn => {
   const [text, setText] = useState("");
   const [isTyping, setIsTyping] = useState(false);
 
@@ -45,7 +45,7 @@ export function useGhostTyping(): UseGhostTypingReturn {
       }
 
       if (charIndex < command.length) {
-        charIndex++;
+        charIndex += 1;
         setText(command.slice(0, charIndex));
         timeoutRef.current = setTimeout(typeNext, charDelay);
       } else {
@@ -61,4 +61,4 @@ export function useGhostTyping(): UseGhostTypingReturn {
   useUnmount(cleanup);
 
   return { cancel, isTyping, text, type };
-}
+};

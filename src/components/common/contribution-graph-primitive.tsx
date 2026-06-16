@@ -35,10 +35,9 @@ const [useContributionGraph, Provider] = createCtx<ContextValue>(
   "useContributionGraph must be used within a ContributionGraph"
 );
 
-function getDefaultLevelThresholds(
-  levels: number
-): (count: number, max: number) => number {
-  return (count: number, max: number) => {
+const getDefaultLevelThresholds =
+  (levels: number): ((count: number, max: number) => number) =>
+  (count: number, max: number) => {
     if (count === 0 || max === 0) {
       return 0;
     }
@@ -46,7 +45,6 @@ function getDefaultLevelThresholds(
     const level = Math.ceil(ratio * (levels - 1));
     return Math.min(level, levels - 1);
   };
-}
 
 type RootProps = ComponentProps<"div"> & {
   data: ContributionData[];
@@ -63,7 +61,7 @@ type RootProps = ComponentProps<"div"> & {
   children: ReactNode;
 };
 
-function Root({
+const Root = ({
   data,
   startDate: startDateProp,
   endDate: endDateProp,
@@ -77,7 +75,7 @@ function Root({
   isToday = defaultIsToday,
   children,
   ...props
-}: RootProps) {
+}: RootProps) => {
   const endDate = useMemo(
     () => endDateProp ?? toISODateString(new Date()),
     [endDateProp]
@@ -153,13 +151,13 @@ function Root({
       </div>
     </Provider>
   );
-}
+};
 
 type GridProps = ComponentProps<"table"> & {
   asChild?: boolean;
 };
 
-function Grid({ asChild = false, ...props }: GridProps) {
+const Grid = ({ asChild = false, ...props }: GridProps) => {
   const Comp = asChild ? Slot : "table";
 
   return (
@@ -170,47 +168,47 @@ function Grid({ asChild = false, ...props }: GridProps) {
       {...props}
     />
   );
-}
+};
 
 type HeadProps = ComponentProps<"thead"> & {
   asChild?: boolean;
 };
 
-function Head({ asChild = false, ...props }: HeadProps) {
+const Head = ({ asChild = false, ...props }: HeadProps) => {
   const Comp = asChild ? Slot : "thead";
 
   return <Comp data-slot="contribution-graph-head" {...props} />;
-}
+};
 
 type BodyProps = ComponentProps<"tbody"> & {
   asChild?: boolean;
 };
 
-function Body({ asChild = false, ...props }: BodyProps) {
+const Body = ({ asChild = false, ...props }: BodyProps) => {
   const Comp = asChild ? Slot : "tbody";
 
   return <Comp data-slot="contribution-graph-body" {...props} />;
-}
+};
 
 type RowProps = ComponentProps<"tr"> & {
   asChild?: boolean;
 };
 
-function Row({ asChild = false, ...props }: RowProps) {
+const Row = ({ asChild = false, ...props }: RowProps) => {
   const Comp = asChild ? Slot : "tr";
 
   return <Comp data-slot="contribution-graph-row" role="row" {...props} />;
-}
+};
 
 type HeaderCellProps = ComponentProps<"th"> & {
   asChild?: boolean;
 };
 
-function HeaderCell({ asChild = false, ...props }: HeaderCellProps) {
+const HeaderCell = ({ asChild = false, ...props }: HeaderCellProps) => {
   const Comp = asChild ? Slot : "th";
 
   return <Comp data-slot="contribution-graph-header-cell" {...props} />;
-}
+};
 
 interface CellState {
   date: string;
@@ -239,14 +237,14 @@ type CellProps = Omit<
   ) => void;
 };
 
-function Cell({
+const Cell = ({
   asChild = false,
   date,
   onClick,
   onMouseEnter,
   onMouseLeave,
   ...props
-}: CellProps) {
+}: CellProps) => {
   const ctx = useContributionGraph();
 
   if (!date) {
@@ -310,37 +308,37 @@ function Cell({
       />
     </td>
   );
-}
+};
 
 type LabelProps = ComponentProps<"span"> & {
   value?: number;
   asChild?: boolean;
 };
 
-function Label({ value, asChild = false, ...props }: LabelProps) {
+const Label = ({ value, asChild = false, ...props }: LabelProps) => {
   const Comp = asChild ? Slot : "span";
 
   return (
     <Comp data-slot="contribution-graph-label" data-value={value} {...props} />
   );
-}
+};
 
 type LegendProps = ComponentProps<"div"> & {
   asChild?: boolean;
 };
 
-function Legend({ asChild = false, ...props }: LegendProps) {
+const Legend = ({ asChild = false, ...props }: LegendProps) => {
   const Comp = asChild ? Slot : "div";
 
   return <Comp data-slot="contribution-graph-legend" {...props} />;
-}
+};
 
 type LegendItemProps = ComponentProps<"span"> & {
   level: number;
   asChild?: boolean;
 };
 
-function LegendItem({ level, asChild = false, ...props }: LegendItemProps) {
+const LegendItem = ({ level, asChild = false, ...props }: LegendItemProps) => {
   const Comp = asChild ? Slot : "span";
 
   return (
@@ -351,7 +349,7 @@ function LegendItem({ level, asChild = false, ...props }: LegendItemProps) {
       {...props}
     />
   );
-}
+};
 
 export {
   Body,

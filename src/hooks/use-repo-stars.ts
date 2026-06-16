@@ -4,7 +4,7 @@ import { useState } from "react";
 import getRepoStarsFn from "@/fn/get-repo-stars";
 import { useMount } from "@/hooks/use-mount";
 
-export function useRepoStars() {
+export const useRepoStars = () => {
   const [stars, setStars] = useState<number>(0);
   const getRepoStars = useServerFn(getRepoStarsFn);
 
@@ -14,4 +14,4 @@ export function useRepoStars() {
   });
 
   return stars;
-}
+};

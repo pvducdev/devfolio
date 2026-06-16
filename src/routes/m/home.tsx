@@ -12,15 +12,7 @@ import {
   ui_nav_home,
 } from "@/paraglide/messages";
 
-export const Route = createFileRoute("/m/home")({
-  component: MobileHome,
-  head: () => ({
-    links: buildCanonicalLink(SITE_CONFIG.url),
-    meta: [{ title: `${ui_nav_home()} | ${SITE_CONFIG.title}` }],
-  }),
-});
-
-function MobileHome() {
+const MobileHome = () => {
   const listings = DOCK_BUTTONS[MOBILE_ROUTES.HOME].buttons.filter(
     (b) => b.listing
   );
@@ -48,4 +40,12 @@ function MobileHome() {
       </p>
     </div>
   );
-}
+};
+
+export const Route = createFileRoute("/m/home")({
+  component: MobileHome,
+  head: () => ({
+    links: buildCanonicalLink(SITE_CONFIG.url),
+    meta: [{ title: `${ui_nav_home()} | ${SITE_CONFIG.title}` }],
+  }),
+});

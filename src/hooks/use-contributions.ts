@@ -4,7 +4,7 @@ import { useMount } from "@/hooks/use-mount";
 import type { ContributionData } from "@/lib/contributions/types";
 import { getLogger } from "@/lib/logger/client";
 
-export function useContributions() {
+export const useContributions = () => {
   const [data, setData] = useState<ContributionData[]>([]);
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
 
@@ -27,4 +27,4 @@ export function useContributions() {
   });
 
   return { data, isLoading: status === "loading", status };
-}
+};

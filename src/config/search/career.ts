@@ -2,8 +2,8 @@ import { CAREER_TIMELINE } from "@/config/career";
 
 import type { AppSearchItem } from "./types";
 
-export function buildCareerItems(): AppSearchItem[] {
-  return CAREER_TIMELINE.map((entry) => ({
+export const buildCareerItems = (): AppSearchItem[] =>
+  CAREER_TIMELINE.map((entry) => ({
     description: `${entry.company} (${entry.year})`,
     id: `career:${entry.year.replaceAll(/\s+/g, "-").toLowerCase()}`,
     keywords: [
@@ -19,4 +19,3 @@ export function buildCareerItems(): AppSearchItem[] {
     },
     title: entry.title,
   }));
-}

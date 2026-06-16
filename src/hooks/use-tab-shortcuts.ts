@@ -4,7 +4,7 @@ import { useTabActions } from "@/hooks/use-tab-actions";
 import { getHotkeyCombo } from "@/lib/hotkeys";
 import { useActiveTabId } from "@/store/tabs";
 
-export function useTabShortcuts() {
+export const useTabShortcuts = () => {
   const activeTabId = useActiveTabId();
   const { close, closeAll } = useTabActions();
 
@@ -21,4 +21,4 @@ export function useTabShortcuts() {
   useHotkeys(getHotkeyCombo("closeAllTabs"), closeAll, {
     preventDefault: true,
   });
-}
+};

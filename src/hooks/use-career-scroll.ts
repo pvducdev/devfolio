@@ -27,7 +27,7 @@ const SCROLL_CONFIG = {
   velocityThreshold: 50,
 } as const;
 
-export function useCareerScroll(): UseCareerScrollReturn {
+export const useCareerScroll = (): UseCareerScrollReturn => {
   const containerRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<AnimationPlaybackControls | null>(null);
   const idleTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -136,9 +136,11 @@ export function useCareerScroll(): UseCareerScrollReturn {
 
   useUnmount(() => {
     animationRef.current?.stop();
-    clearTimeout(idleTimeoutRef.current!);
+    if (idleTimeoutRef.current) {
+      clearTimeout(idleTimeoutRef.current);
+    }
     reset();
   });
 
   return { containerRef };
-}
+};

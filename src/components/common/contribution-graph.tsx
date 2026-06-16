@@ -34,106 +34,92 @@ const legendItemVariants = cva("size-2.5 rounded-xs", {
 
 type RootProps = Omit<Primitive.RootProps, "children">;
 
-function Root({
+const Root = ({
   className,
   ...props
-}: RootProps & { className?: string; children: React.ReactNode }) {
-  return (
-    <Primitive.Root
-      className={cn(
-        "flex min-w-max flex-col space-y-2 overflow-x-auto text-xs",
-        className
-      )}
-      {...props}
-    />
-  );
-}
+}: RootProps & { className?: string; children: React.ReactNode }) => (
+  <Primitive.Root
+    className={cn(
+      "flex min-w-max flex-col space-y-2 overflow-x-auto text-xs",
+      className
+    )}
+    {...props}
+  />
+);
 
 type GridProps = Primitive.GridProps;
 
-function Grid({ className, ...props }: GridProps) {
-  return (
-    <Primitive.Grid
-      className={cn("border-separate border-spacing-0.5", className)}
-      {...props}
-    />
-  );
-}
+const Grid = ({ className, ...props }: GridProps) => (
+  <Primitive.Grid
+    className={cn("border-separate border-spacing-0.5", className)}
+    {...props}
+  />
+);
 
 type HeadProps = Primitive.HeadProps;
 
-function Head({ className, ...props }: HeadProps) {
-  return <Primitive.Head className={cn(className)} {...props} />;
-}
+const Head = ({ className, ...props }: HeadProps) => (
+  <Primitive.Head className={cn(className)} {...props} />
+);
 
 type BodyProps = Primitive.BodyProps;
 
-function Body({ className, ...props }: BodyProps) {
-  return <Primitive.Body className={cn(className)} {...props} />;
-}
+const Body = ({ className, ...props }: BodyProps) => (
+  <Primitive.Body className={cn(className)} {...props} />
+);
 
 type RowProps = Primitive.RowProps;
 
-function Row({ className, ...props }: RowProps) {
-  return <Primitive.Row className={cn(className)} {...props} />;
-}
+const Row = ({ className, ...props }: RowProps) => (
+  <Primitive.Row className={cn(className)} {...props} />
+);
 
 type HeaderCellProps = Primitive.HeaderCellProps;
 
-function HeaderCell({ className, ...props }: HeaderCellProps) {
-  return (
-    <Primitive.HeaderCell
-      className={cn("p-0 text-left align-bottom", className)}
-      {...props}
-    />
-  );
-}
+const HeaderCell = ({ className, ...props }: HeaderCellProps) => (
+  <Primitive.HeaderCell
+    className={cn("p-0 text-left align-bottom", className)}
+    {...props}
+  />
+);
 
 type CellProps = Primitive.CellProps;
 
-function Cell({ className, ...props }: CellProps) {
-  return (
-    <Primitive.Cell className={cn(cellVariants(), className)} {...props} />
-  );
-}
+const Cell = ({ className, ...props }: CellProps) => (
+  <Primitive.Cell className={cn(cellVariants(), className)} {...props} />
+);
 
 type LabelProps = Primitive.LabelProps;
 
-function Label({ className, ...props }: LabelProps) {
-  return (
-    <Primitive.Label
-      className={cn(
-        "font-medium text-muted-foreground text-xs leading-none",
-        className
-      )}
-      {...props}
-    />
-  );
-}
+const Label = ({ className, ...props }: LabelProps) => (
+  <Primitive.Label
+    className={cn(
+      "font-medium text-muted-foreground text-xs leading-none",
+      className
+    )}
+    {...props}
+  />
+);
 
 type LegendProps = Primitive.LegendProps;
 
-function Legend({ className, ...props }: LegendProps) {
-  return (
-    <Primitive.Legend
-      className={cn("flex items-center gap-1", className)}
-      {...props}
-    />
-  );
-}
+const Legend = ({ className, ...props }: LegendProps) => (
+  <Primitive.Legend
+    className={cn("flex items-center gap-1", className)}
+    {...props}
+  />
+);
 
 type LegendItemProps = Primitive.LegendItemProps &
   VariantProps<typeof legendItemVariants>;
 
-function LegendItem({ className, level, ...props }: LegendItemProps) {
-  return (
-    <Primitive.LegendItem
-      className={cn(legendItemVariants({ level }), className)}
-      level={level ?? 0}
-      {...props}
-    />
-  );
-}
+const LegendItem = ({ className, level, ...props }: LegendItemProps) => (
+  <Primitive.LegendItem
+    className={cn(legendItemVariants({ level }), className)}
+    level={level ?? 0}
+    {...props}
+  />
+);
 
 export {
   Body,

@@ -11,6 +11,17 @@ import { SITE_CONFIG } from "@/config/site";
 import { SKILLS } from "@/config/skills";
 import { ui_search_group_skills } from "@/paraglide/messages";
 
+const MobileSkills = () => (
+  <div className="flex flex-col gap-14 py-6">
+    <CoreHero skills={SKILLS.core} />
+    <StackList items={SKILLS.stack} />
+    <DevopsCascade items={SKILLS.devops} />
+    <StandardsCards standards={SKILLS.standards} />
+    <WorkflowWrap items={SKILLS.workflow} />
+    <ExploringFooter items={SKILLS.exploring} />
+  </div>
+);
+
 export const Route = createFileRoute("/m/skills")({
   component: MobileSkills,
   head: () => ({
@@ -18,16 +29,3 @@ export const Route = createFileRoute("/m/skills")({
     meta: [{ title: `${ui_search_group_skills()} | ${SITE_CONFIG.title}` }],
   }),
 });
-
-function MobileSkills() {
-  return (
-    <div className="flex flex-col gap-14 py-6">
-      <CoreHero skills={SKILLS.core} />
-      <StackList items={SKILLS.stack} />
-      <DevopsCascade items={SKILLS.devops} />
-      <StandardsCards standards={SKILLS.standards} />
-      <WorkflowWrap items={SKILLS.workflow} />
-      <ExploringFooter items={SKILLS.exploring} />
-    </div>
-  );
-}

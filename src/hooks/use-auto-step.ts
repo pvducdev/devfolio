@@ -32,7 +32,7 @@ interface UseAutoStepReturn {
   toggle: () => void;
 }
 
-export function useAutoStep(options: UseAutoStepOptions): UseAutoStepReturn {
+export const useAutoStep = (options: UseAutoStepOptions): UseAutoStepReturn => {
   const {
     maxStep,
     initialStep = 1,
@@ -193,4 +193,4 @@ export function useAutoStep(options: UseAutoStepOptions): UseAutoStepReturn {
     start,
     toggle,
   };
-}
+};

@@ -23,11 +23,11 @@ interface TabContextMenuProps extends ComponentPropsWithoutRef<typeof Slot> {
   tabId: string;
 }
 
-export function TabContextMenu({
+export const TabContextMenu = ({
   tabId,
   children,
   ...slotProps
-}: TabContextMenuProps) {
+}: TabContextMenuProps) => {
   const { actions, visibility, shortcuts } = useTabContextMenu(tabId);
 
   return (
@@ -72,4 +72,4 @@ export function TabContextMenu({
       </ContextMenuContent>
     </ContextMenu>
   );
-}
+};

@@ -13,7 +13,7 @@ import { getLocale } from "@/paraglide/runtime";
 
 const VISIBLE_WEEKDAYS = new Set([1, 3, 5]);
 
-function getLevelForCount(count: number): number {
+const getLevelForCount = (count: number): number => {
   if (count === 0) {
     return 0;
   }
@@ -27,9 +27,9 @@ function getLevelForCount(count: number): number {
     return 3;
   }
   return 4;
-}
+};
 
-export default function AboutActivity() {
+const AboutActivity = () => {
   const { data, isLoading } = useContributions();
 
   const { weeks, months, weekdays, startDate, endDate } = useContributionGraph({
@@ -127,4 +127,6 @@ export default function AboutActivity() {
       )}
     </div>
   );
-}
+};
+
+export default AboutActivity;

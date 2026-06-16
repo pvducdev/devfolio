@@ -5,10 +5,10 @@ import { activities } from "@/config/routes";
 
 import type { AppSearchItem } from "./types";
 
-function extractTreeItems(
+const extractTreeItems = (
   tree: Record<string, { name: string; children?: string[]; path?: string }>,
   prefix: string
-): AppSearchItem[] {
+): AppSearchItem[] => {
   const items: AppSearchItem[] = [];
 
   for (const [key, node] of Object.entries(tree)) {
@@ -27,9 +27,9 @@ function extractTreeItems(
   }
 
   return items;
-}
+};
 
-export function buildPageItems(): AppSearchItem[] {
+export const buildPageItems = (): AppSearchItem[] => {
   const items: AppSearchItem[] = [];
 
   for (const activity of activities) {
@@ -48,4 +48,4 @@ export function buildPageItems(): AppSearchItem[] {
   items.push(...extractTreeItems(PROJECT_TREE, "project"));
 
   return items;
-}
+};

@@ -20,7 +20,7 @@ export interface ContainerProps {
   projectId: string;
 }
 
-export function Container({ projectId }: ContainerProps) {
+export const Container = ({ projectId }: ContainerProps) => {
   const config = getProjectById(projectId);
   const [activeTab, setActiveTab] = useState("getting-started");
 
@@ -133,4 +133,4 @@ export function Container({ projectId }: ContainerProps) {
       </div>
     </div>
   );
-}
+};

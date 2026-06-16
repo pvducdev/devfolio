@@ -13,7 +13,7 @@ export interface ScrollState {
   isAtBottom: boolean;
 }
 
-export function useScrollEdges(options: ScrollOptions = {}): ScrollState {
+export const useScrollEdges = (options: ScrollOptions = {}): ScrollState => {
   const { container, threshold = 0.05 } = options;
   const [state, setState] = useState<ScrollState>({
     isAtBottom: true,
@@ -30,9 +30,9 @@ export function useScrollEdges(options: ScrollOptions = {}): ScrollState {
   });
 
   return state;
-}
+};
 
-export function useWheelToHorizontal(ref: RefObject<HTMLElement | null>) {
+export const useWheelToHorizontal = (ref: RefObject<HTMLElement | null>) => {
   useEventListener(
     "wheel",
     (e) => {
@@ -58,4 +58,4 @@ export function useWheelToHorizontal(ref: RefObject<HTMLElement | null>) {
     ref as RefObject<HTMLElement>,
     { passive: false }
   );
-}
+};

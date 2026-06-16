@@ -20,10 +20,10 @@ interface SectionMapping {
   scrollOffsets: number[];
 }
 
-function getOffsetFromContainer(
+const getOffsetFromContainer = (
   element: HTMLElement,
   container: HTMLElement
-): number {
+): number => {
   let offset = 0;
   let current: HTMLElement | null = element;
   while (current && current !== container) {
@@ -31,12 +31,12 @@ function getOffsetFromContainer(
     current = current.offsetParent as HTMLElement | null;
   }
   return offset;
-}
+};
 
-function useSectionMapping(
+const useSectionMapping = (
   refs: RefObject<HTMLDivElement | null>[],
   scrollRef: RefObject<HTMLDivElement | null>
-): SectionMapping {
+): SectionMapping => {
   const [mapping, setMapping] = useState<SectionMapping>({
     characterYs: [],
     scrollOffsets: [],
@@ -90,13 +90,13 @@ function useSectionMapping(
   }, [refs, scrollRef]);
 
   return mapping;
-}
+};
 
-export default function StairCharacter({
+const StairCharacter = ({
   sectionRefs,
   scrollY,
   scrollRef,
-}: StairCharacterProps) {
+}: StairCharacterProps) => {
   const animationState = useCharacterAnimationState();
   const { characterYs, scrollOffsets } = useSectionMapping(
     sectionRefs,
@@ -120,7 +120,7 @@ export default function StairCharacter({
       container.clientHeight / 2 -
       CHARACTER_SIZE / 2;
 
-    const min = characterYs[0];
+    const [min] = characterYs;
     const max = characterYs[count - 1];
     return Math.min(Math.max(viewportCenter, min), max);
   });
@@ -163,4 +163,6 @@ export default function StairCharacter({
       <RiveComponent />
     </motion.div>
   );
-}
+};
+
+export default StairCharacter;

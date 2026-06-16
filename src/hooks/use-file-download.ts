@@ -30,7 +30,38 @@ interface UseFileDownloadReturn {
   clearError: () => void;
 }
 
-function useFileDownload(): UseFileDownloadReturn {
+const triggerBrowserDownload = (blob: Blob, filename: string): void => {
+  const blobUrl = window.URL.createObjectURL(blob);
+
+  try {
+    const link = document.createElement("a");
+    link.href = blobUrl;
+    link.download = filename;
+    link.style.display = "none";
+
+    document.body.append(link);
+    link.click();
+    link.remove();
+
+    window.URL.revokeObjectURL(blobUrl);
+  } catch (error) {
+    window.URL.revokeObjectURL(blobUrl);
+    throw error;
+  }
+};
+
+const extractFilenameFromUrl = (url: string): string | null => {
+  try {
+    const urlObj = new URL(url);
+    const { pathname } = urlObj;
+    const filename = pathname.slice(pathname.lastIndexOf("/") + 1);
+    return filename || null;
+  } catch {
+    return null;
+  }
+};
+
+const useFileDownload = (): UseFileDownloadReturn => {
   const [state, setState] = useState<DownloadState>({
     error: null,
     isDownloading: false,
@@ -134,38 +165,7 @@ function useFileDownload(): UseFileDownloadReturn {
     error: state.error,
     isDownloading: state.isDownloading,
   };
-}
-
-function triggerBrowserDownload(blob: Blob, filename: string): void {
-  const blobUrl = window.URL.createObjectURL(blob);
-
-  try {
-    const link = document.createElement("a");
-    link.href = blobUrl;
-    link.download = filename;
-    link.style.display = "none";
-
-    document.body.append(link);
-    link.click();
-    document.body.removeChild(link);
-
-    window.URL.revokeObjectURL(blobUrl);
-  } catch (error) {
-    window.URL.revokeObjectURL(blobUrl);
-    throw error;
-  }
-}
-
-function extractFilenameFromUrl(url: string): string | null {
-  try {
-    const urlObj = new URL(url);
-    const { pathname } = urlObj;
-    const filename = pathname.substring(pathname.lastIndexOf("/") + 1);
-    return filename || null;
-  } catch {
-    return null;
-  }
-}
+};
 
 export { useFileDownload };
 export type { DownloadDataOptions, DownloadFileOptions, UseFileDownloadReturn };

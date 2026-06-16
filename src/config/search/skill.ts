@@ -10,11 +10,11 @@ type Skill =
   | Skills["stack"][number]
   | Skills["devops"][number];
 
-function buildSkillGroup(
+const buildSkillGroup = (
   skills: readonly Skill[],
   group: string
-): AppSearchItem[] {
-  return skills.map((skill) => ({
+): AppSearchItem[] =>
+  skills.map((skill) => ({
     description: skill.tag,
     id: `skill:${group}:${skill.name.toLowerCase().replaceAll(/\s+/g, "-")}`,
     keywords: "details" in skill ? skill.details : undefined,
@@ -25,12 +25,9 @@ function buildSkillGroup(
     },
     title: skill.name,
   }));
-}
 
-export function buildSkillItems(): AppSearchItem[] {
-  return [
-    ...buildSkillGroup(SKILLS.core, "core"),
-    ...buildSkillGroup(SKILLS.stack, "stack"),
-    ...buildSkillGroup(SKILLS.devops, "devops"),
-  ];
-}
+export const buildSkillItems = (): AppSearchItem[] => [
+  ...buildSkillGroup(SKILLS.core, "core"),
+  ...buildSkillGroup(SKILLS.stack, "stack"),
+  ...buildSkillGroup(SKILLS.devops, "devops"),
+];

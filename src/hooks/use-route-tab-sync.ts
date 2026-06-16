@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { isValidTabRoute } from "@/lib/routes";
 import { useTabsActions } from "@/store/tabs";
 
-export function useRouteTabSync() {
+export const useRouteTabSync = () => {
   const location = useLocation();
   const { openTab } = useTabsActions();
   const isHydrated = useHydrated();
@@ -21,4 +21,4 @@ export function useRouteTabSync() {
 
     openTab(currentPath);
   }, [location.pathname, openTab, isHydrated]);
-}
+};

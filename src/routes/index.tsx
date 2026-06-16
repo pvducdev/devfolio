@@ -9,11 +9,7 @@ import { MOBILE_ROUTES, ROUTES } from "@/config/routes";
 import { isMobile } from "@/lib/browser";
 import { useActiveTabId } from "@/store/tabs";
 
-export const Route = createFileRoute("/")({
-  component: IndexRedirect,
-});
-
-function IndexRedirect() {
+const IndexRedirect = () => {
   const navigate = useNavigate();
   const activeTabId = useActiveTabId();
   const hasHydrated = useHydrated();
@@ -30,4 +26,8 @@ function IndexRedirect() {
   }, [activeTabId, hasHydrated, navigate]);
 
   return null;
-}
+};
+
+export const Route = createFileRoute("/")({
+  component: IndexRedirect,
+});

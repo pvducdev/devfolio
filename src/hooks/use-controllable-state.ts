@@ -20,11 +20,37 @@ interface UseControllableStateParams<T> {
   onChange?: ChangeHandler<T>;
 }
 
-export function useControllableState<T>({
+const useUncontrolledState = <T>({
+  defaultProp,
+  onChange,
+}: Omit<UseControllableStateParams<T>, "prop">): [
+  Value: T,
+  setValue: Dispatch<SetStateAction<T>>,
+  OnChangeRef: RefObject<ChangeHandler<T> | undefined>,
+] => {
+  const [value, setValue] = useState(defaultProp);
+  const prevValueRef = useRef(value);
+
+  const onChangeRef = useRef(onChange);
+  useLayoutEffect(() => {
+    onChangeRef.current = onChange;
+  }, [onChange]);
+
+  useEffect(() => {
+    if (prevValueRef.current !== value) {
+      onChangeRef.current?.(value);
+      prevValueRef.current = value;
+    }
+  }, [value]);
+
+  return [value, setValue, onChangeRef];
+};
+
+export const useControllableState = <T>({
   prop,
   defaultProp,
   onChange,
-}: UseControllableStateParams<T>): [T, SetStateFn<T>] {
+}: UseControllableStateParams<T>): [T, SetStateFn<T>] => {
   const [uncontrolledProp, setUncontrolledProp, onChangeRef] =
     useUncontrolledState({
       defaultProp,
@@ -48,30 +74,4 @@ export function useControllableState<T>({
   );
 
   return [value, setValue];
-}
-
-function useUncontrolledState<T>({
-  defaultProp,
-  onChange,
-}: Omit<UseControllableStateParams<T>, "prop">): [
-  Value: T,
-  setValue: Dispatch<SetStateAction<T>>,
-  OnChangeRef: RefObject<ChangeHandler<T> | undefined>,
-] {
-  const [value, setValue] = useState(defaultProp);
-  const prevValueRef = useRef(value);
-
-  const onChangeRef = useRef(onChange);
-  useLayoutEffect(() => {
-    onChangeRef.current = onChange;
-  }, [onChange]);
-
-  useEffect(() => {
-    if (prevValueRef.current !== value) {
-      onChangeRef.current?.(value);
-      prevValueRef.current = value;
-    }
-  }, [value]);
-
-  return [value, setValue, onChangeRef];
-}
+};

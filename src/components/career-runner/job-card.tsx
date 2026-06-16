@@ -17,7 +17,10 @@ interface JobCardProps {
   isActive?: boolean;
 }
 
-function getAnimationProps(prefersReducedMotion: boolean, isActive: boolean) {
+const getAnimationProps = (
+  prefersReducedMotion: boolean,
+  isActive: boolean
+) => {
   if (prefersReducedMotion) {
     return { opacity: isActive ? 1 : 0.6 };
   }
@@ -29,16 +32,16 @@ function getAnimationProps(prefersReducedMotion: boolean, isActive: boolean) {
     opacity: isActive ? 1 : 0.6,
     scale: isActive ? 1.05 : 0.9,
   };
-}
+};
 
-export default function JobCard({
+const JobCard = ({
   title,
   subtitle,
   jobType,
   details,
   expanded,
   isActive = false,
-}: JobCardProps) {
+}: JobCardProps) => {
   const prefersReducedMotion = useReducedMotion() ?? false;
 
   const {
@@ -122,4 +125,6 @@ export default function JobCard({
       </motion.div>
     </div>
   );
-}
+};
+
+export default JobCard;

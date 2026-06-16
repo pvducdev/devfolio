@@ -41,11 +41,11 @@ export const SLASH_PREFIX = "/";
 
 const WHITESPACE_PATTERN = /\s+/;
 
-export function useAssistant() {
+export const useAssistant = () => {
   const { setTheme } = useThemeStore();
   const message = useAssistantMessage();
   const status = useAssistantStatus();
-  const error = useAssistantError();
+  const errorState = useAssistantError();
   const hasMessage = useHasAssistantMessage();
   const { setMessage, setChunkMessage, setStatus, clear } =
     useAssistantActions();
@@ -209,10 +209,10 @@ ${cmd_help_pro_tip()}`;
     cancel,
     clear,
     commands,
-    error,
+    error: errorState,
     hasMessage,
     message,
     sendMessage,
     status,
   };
-}
+};

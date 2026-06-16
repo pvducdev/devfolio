@@ -7,7 +7,7 @@ interface UseSlashCommandsOptions {
   onCommandSelect?: (command: CommandItem) => void;
 }
 
-export function useSlashCommands(options: UseSlashCommandsOptions = {}) {
+export const useSlashCommands = (options: UseSlashCommandsOptions = {}) => {
   const [inputValue, setInputValue] = useState("");
   const [showCommands, setShowCommands] = useState(false);
 
@@ -42,4 +42,4 @@ export function useSlashCommands(options: UseSlashCommandsOptions = {}) {
     setShowCommands,
     showCommands,
   };
-}
+};

@@ -143,16 +143,14 @@ export const PROJECTS: ProjectConfig[] = [
   },
 ];
 
-export function getProjectById(id: string): ProjectConfig {
-  return PROJECTS.find((p) => p.id === id) || ({} as ProjectConfig);
-}
+export const getProjectById = (id: string): ProjectConfig =>
+  PROJECTS.find((p) => p.id === id) || ({} as ProjectConfig);
 
-export function getNextProjectId(currentId: string): string {
+export const getNextProjectId = (currentId: string): string => {
   const index = PROJECTS.findIndex((p) => p.id === currentId);
   const next = (index + 1) % PROJECTS.length;
   return PROJECTS[next].id;
-}
+};
 
-export function getProjectIndex(id: string): number {
-  return PROJECTS.findIndex((p) => p.id === id);
-}
+export const getProjectIndex = (id: string): number =>
+  PROJECTS.findIndex((p) => p.id === id);

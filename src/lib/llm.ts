@@ -1,5 +1,5 @@
 import { createServerOnlyFn } from "@tanstack/react-start";
-import Groq from "groq-sdk";
+import { Groq } from "groq-sdk";
 
 import { SITE_CONFIG } from "@/config/site";
 import systemInstruction from "@/config/system-prompt";

@@ -10,11 +10,32 @@ type MountCallback = EffectCallback | AsyncMountCallback;
 const isAbortError = (error: unknown): boolean =>
   error instanceof Error && error.name === "AbortError";
 
-export function useMount(fn: MountCallback) {
+export const useMount = (fn: MountCallback) => {
   useEffect(() => {
     let cleanup: CleanupFn | undefined;
     let isMounted = true;
     const abortController = new AbortController();
+
+    const handleAsyncResult = async (promise: Promise<unknown>) => {
+      try {
+        const resolved = await promise;
+        if (typeof resolved !== "function") {
+          return;
+        }
+
+        if (isMounted) {
+          cleanup = resolved as CleanupFn;
+          return;
+        }
+
+        resolved();
+      } catch (error) {
+        if (isAbortError(error)) {
+          return;
+        }
+        throw error;
+      }
+    };
 
     const result = fn?.(abortController.signal);
 
@@ -29,27 +50,5 @@ export function useMount(fn: MountCallback) {
       abortController.abort();
       cleanup?.();
     };
-
-    function handleAsyncResult(promise: Promise<unknown>) {
-      promise
-        .then((result) => {
-          if (typeof result !== "function") {
-            return;
-          }
-
-          if (isMounted) {
-            cleanup = result;
-            return;
-          }
-
-          result();
-        })
-        .catch((error) => {
-          if (isAbortError(error)) {
-            return;
-          }
-          throw error;
-        });
-    }
   }, []);
-}
+};

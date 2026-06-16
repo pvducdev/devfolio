@@ -4,7 +4,7 @@ import {
   THEME_STORAGE_KEY,
 } from "@/config/theme";
 
-export function ThemeInitScript() {
+export const ThemeInitScript = () => {
   const scriptContent = `
     (function() {
       try {
@@ -23,4 +23,4 @@ export function ThemeInitScript() {
   `;
 
   return <script dangerouslySetInnerHTML={{ __html: scriptContent }} />;
-}
+};

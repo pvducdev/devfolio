@@ -7,12 +7,12 @@ import type { UseSearchOptions, UseSearchReturn } from "./types";
 
 const DEFAULT_DEBOUNCE_MS = 300;
 
-export function useSearch<
+export const useSearch = <
   TItem extends BaseSearchItem = SearchItem,
   TGroupKeys extends string = string,
 >(
   options: UseSearchOptions<TItem, TGroupKeys>
-): UseSearchReturn<TItem, TGroupKeys> {
+): UseSearchReturn<TItem, TGroupKeys> => {
   const { debounceMs = DEFAULT_DEBOUNCE_MS, ...searchOptions } = options;
 
   const [query, setQuery] = useState("");
@@ -31,4 +31,4 @@ export function useSearch<
     search,
     setQuery,
   };
-}
+};

@@ -18,7 +18,7 @@ interface PageTreeProps {
   onItemSelect: (path: string) => void;
 }
 
-function getTreeItemIcon(item: ItemInstance<PageTreeItem>) {
+const getTreeItemIcon = (item: ItemInstance<PageTreeItem>) => {
   const iconClass = "pointer-events-none size-4 text-muted-foreground";
   if (!item.isFolder()) {
     return <FileIcon className={iconClass} />;
@@ -27,13 +27,9 @@ function getTreeItemIcon(item: ItemInstance<PageTreeItem>) {
     return <FolderOpenIcon className={iconClass} />;
   }
   return <FolderIcon className={iconClass} />;
-}
+};
 
-export default function PageTree({
-  treeData,
-  config,
-  onItemSelect,
-}: PageTreeProps) {
+const PageTree = ({ treeData, config, onItemSelect }: PageTreeProps) => {
   "use no memo";
 
   const tree = useTree<PageTreeItem>({
@@ -86,4 +82,6 @@ export default function PageTree({
       </div>
     </div>
   );
-}
+};
+
+export default PageTree;

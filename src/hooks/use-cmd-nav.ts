@@ -10,12 +10,12 @@ interface UseCmdNavOptions {
   onTabSelect: () => void;
 }
 
-export function useCmdNav({
+export const useCmdNav = ({
   commandRef,
   showCommands,
   onTabSelect,
-}: UseCmdNavOptions) {
-  return useKeyboardForwarding<HTMLTextAreaElement, HTMLDivElement>({
+}: UseCmdNavOptions) =>
+  useKeyboardForwarding<HTMLTextAreaElement, HTMLDivElement>({
     forwardKeys: INTERACTIVE_KEYS,
     shouldForward: showCommands,
     specialKeyHandlers: {
@@ -23,4 +23,3 @@ export function useCmdNav({
     },
     targetRef: commandRef,
   });
-}

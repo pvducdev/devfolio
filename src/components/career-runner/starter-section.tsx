@@ -31,49 +31,47 @@ const itemVariants: Variants = {
   },
 };
 
-function TitleSection({
+const TitleSection = ({
   prefersReducedMotion,
 }: {
   prefersReducedMotion: boolean;
-}) {
-  return (
-    <div className="mb-12">
-      <motion.h1
-        className="mb-1 text-foreground text-xl uppercase tracking-wide"
-        {...(!prefersReducedMotion && { variants: itemVariants })}
-      >
-        {page_career_heading()}
-        {!prefersReducedMotion && (
-          <motion.span
-            animate={{ opacity: [1, 0] }}
-            transition={{
-              duration: 0.53,
-              repeat: Number.POSITIVE_INFINITY,
-              repeatType: "reverse",
-            }}
-          >
-            _
-          </motion.span>
-        )}
-      </motion.h1>
-      <motion.div
-        className="h-0.5 w-32 bg-linear-to-r from-primary to-transparent"
-        style={{ transformOrigin: "left" }}
-        {...(!prefersReducedMotion && {
-          animate: { scaleX: 1 },
-          initial: { scaleX: 0 },
-          transition: {
-            delay: 0.3,
-            duration: 0.8,
-            ease: [0.25, 1, 0.5, 1],
-          },
-        })}
-      />
-    </div>
-  );
-}
+}) => (
+  <div className="mb-12">
+    <motion.h1
+      className="mb-1 text-foreground text-xl uppercase tracking-wide"
+      {...(!prefersReducedMotion && { variants: itemVariants })}
+    >
+      {page_career_heading()}
+      {!prefersReducedMotion && (
+        <motion.span
+          animate={{ opacity: [1, 0] }}
+          transition={{
+            duration: 0.53,
+            repeat: Number.POSITIVE_INFINITY,
+            repeatType: "reverse",
+          }}
+        >
+          _
+        </motion.span>
+      )}
+    </motion.h1>
+    <motion.div
+      className="h-0.5 w-32 bg-linear-to-r from-primary to-transparent"
+      style={{ transformOrigin: "left" }}
+      {...(!prefersReducedMotion && {
+        animate: { scaleX: 1 },
+        initial: { scaleX: 0 },
+        transition: {
+          delay: 0.3,
+          duration: 0.8,
+          ease: [0.25, 1, 0.5, 1],
+        },
+      })}
+    />
+  </div>
+);
 
-export default function StarterSection() {
+const StarterSection = () => {
   const prefersReducedMotion = useReducedMotion() ?? false;
 
   const animationProps = prefersReducedMotion
@@ -126,4 +124,6 @@ export default function StarterSection() {
       </motion.div>
     </motion.div>
   );
-}
+};
+
+export default StarterSection;

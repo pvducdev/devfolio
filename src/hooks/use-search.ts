@@ -38,7 +38,7 @@ const adapter = createFuseAdapter<AppSearchItem>({ keys: [...SEARCH_KEYS] });
 
 let cachedData: AppSearchItem[] | null = null;
 
-function getInitialData(): AppSearchItem[] {
+const getInitialData = (): AppSearchItem[] => {
   if (!cachedData) {
     cachedData = [
       ...buildPageItems(),
@@ -47,26 +47,25 @@ function getInitialData(): AppSearchItem[] {
     ];
   }
   return cachedData;
-}
+};
 
-function getBestScore(results: SearchResult<AppSearchItem>[]): number {
+const getBestScore = (results: SearchResult<AppSearchItem>[]): number => {
   if (results.length === 0) {
     return Number.POSITIVE_INFINITY;
   }
   return Math.min(...results.map((r) => r.score));
-}
+};
 
-function sortGroupsByRelevance(
+const sortGroupsByRelevance = (
   groups: SearchResultGroup[]
-): SearchResultGroup[] {
-  return [...groups].toSorted(
+): SearchResultGroup[] =>
+  [...groups].toSorted(
     (a, b) => getBestScore(a.results) - getBestScore(b.results)
   );
-}
 
-export function useAppSearch(
+export const useAppSearch = (
   options?: UseAppSearchOptions
-): UseAppSearchReturn {
+): UseAppSearchReturn => {
   const { debounceMs } = options ?? {};
 
   const { query, setQuery, grouped, hasResults } = useSearch<
@@ -88,4 +87,4 @@ export function useAppSearch(
   const groups = query ? sortGroupsByRelevance(allGroups) : allGroups;
 
   return { groups, hasResults, query, setQuery };
-}
+};

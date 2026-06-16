@@ -11,6 +11,32 @@ import { getLocale } from "@/paraglide/runtime.js";
 
 import appCss from "../styles.css?url";
 
+const RootDocument = ({ children }: { children: React.ReactNode }) => (
+  <html lang={getLocale()} suppressHydrationWarning>
+    <head>
+      <ThemeInitScript />
+      <FontLoaderScript />
+      <HeadContent />
+      <title />
+    </head>
+    <body>
+      {children}
+      <TanStackDevtools
+        config={{
+          position: "bottom-left",
+        }}
+        plugins={[
+          {
+            name: "Tanstack Router",
+            render: <TanStackRouterDevtoolsPanel />,
+          },
+        ]}
+      />
+      <Scripts />
+    </body>
+  </html>
+);
+
 export const Route = createRootRoute({
   head: () => {
     const locale = getLocale();
@@ -61,31 +87,3 @@ export const Route = createRootRoute({
 
   shellComponent: RootDocument,
 });
-
-function RootDocument({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang={getLocale()} suppressHydrationWarning>
-      <head>
-        <ThemeInitScript />
-        <FontLoaderScript />
-        <HeadContent />
-        <title />
-      </head>
-      <body>
-        {children}
-        <TanStackDevtools
-          config={{
-            position: "bottom-left",
-          }}
-          plugins={[
-            {
-              name: "Tanstack Router",
-              render: <TanStackRouterDevtoolsPanel />,
-            },
-          ]}
-        />
-        <Scripts />
-      </body>
-    </html>
-  );
-}

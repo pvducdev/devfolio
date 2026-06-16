@@ -26,7 +26,22 @@ import { getLocale, locales, setLocale } from "@/paraglide/runtime.js";
 import { useIsDrawerOpen, useMobileShellStore } from "@/store/mobile-shell";
 import { useCurrentTheme, useSetTheme } from "@/store/theme";
 
-export default function SettingsDrawer() {
+const SettingsRow = ({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) => (
+  <div className="space-y-1.5">
+    <span className="text-muted-foreground text-xs">
+      {">"} {label}
+    </span>
+    {children}
+  </div>
+);
+
+const SettingsDrawer = () => {
   const isOpen = useIsDrawerOpen();
   const closeDrawer = useMobileShellStore((s) => s.closeDrawer);
   const theme = useCurrentTheme();
@@ -182,21 +197,6 @@ export default function SettingsDrawer() {
       </DrawerContent>
     </Drawer>
   );
-}
+};
 
-function SettingsRow({
-  label,
-  children,
-}: {
-  label: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="space-y-1.5">
-      <span className="text-muted-foreground text-xs">
-        {">"} {label}
-      </span>
-      {children}
-    </div>
-  );
-}
+export default SettingsDrawer;

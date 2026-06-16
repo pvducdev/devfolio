@@ -18,10 +18,10 @@ import SettingsDrawer from "./settings-drawer";
 
 const PROJECT_DETAIL_PATTERN = /^\/m\/projects\/(.+)$/;
 
-function extractProjectId(pathname: string): string | null {
+const extractProjectId = (pathname: string): string | null => {
   const match = pathname.match(PROJECT_DETAIL_PATTERN);
   return match ? match[1] : null;
-}
+};
 
 type ActionHandler = (
   button: DockButton,
@@ -79,7 +79,7 @@ const actionHandlers: Record<string, ActionHandler> = {
   },
 };
 
-export default function Shell() {
+const Shell = () => {
   const router = useRouter();
   const location = useLocation();
   const [isPending, startTransition] = useTransition();
@@ -154,4 +154,6 @@ export default function Shell() {
       <MobileAssistantDrawer />
     </div>
   );
-}
+};
+
+export default Shell;
