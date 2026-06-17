@@ -37,17 +37,16 @@ export default function AppContent() {
           toggleSidebar(key);
         }}
       />
-      <ResizablePanelGroup autoSaveId="conditional" direction="horizontal">
+      <ResizablePanelGroup orientation="horizontal">
         {!!sidebar && (
           <>
             <ResizablePanel
               className="overflow-auto! rounded-xl bg-background"
-              defaultSize={sidebarSize}
+              defaultSize={`${sidebarSize}%`}
               id="sidebar"
               maxSize={LAYOUT_CONFIG.sidebar.maxSize}
               minSize={LAYOUT_CONFIG.sidebar.minSize}
-              onResize={debouncedSetSidebarSize}
-              order={1}
+              onResize={(size) => debouncedSetSidebarSize(size.asPercentage)}
             >
               <Sidebar activeView={sidebar} />
             </ResizablePanel>
@@ -56,9 +55,8 @@ export default function AppContent() {
         )}
         <ResizablePanel
           className="rounded-xl bg-background"
-          defaultSize={LAYOUT_CONFIG.editor.defaultSize}
+          defaultSize={`${LAYOUT_CONFIG.editor.defaultSize}%`}
           id="code-editor"
-          order={2}
         >
           <CodeEditorContainer />
         </ResizablePanel>
@@ -67,12 +65,11 @@ export default function AppContent() {
             <ResizableHandle className="w-1.5 bg-transparent" />
             <ResizablePanel
               className="rounded-xl bg-background"
-              defaultSize={panelSize}
+              defaultSize={`${panelSize}%`}
               id="panel"
               maxSize={LAYOUT_CONFIG.panel.maxSize}
               minSize={LAYOUT_CONFIG.panel.minSize}
-              onResize={debouncedSetPanelSize}
-              order={3}
+              onResize={(size) => debouncedSetPanelSize(size.asPercentage)}
             >
               <Panel
                 onClose={() => {

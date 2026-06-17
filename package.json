@@ -54,7 +54,7 @@
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-hotkeys-hook": "^5.3.2",
-    "react-resizable-panels": "^3.0.6",
+    "react-resizable-panels": "^4",
     "react-use-measure": "^2.1.7",
     "streamdown": "^2.5.0",
     "tailwind-merge": "^3.6.0",
