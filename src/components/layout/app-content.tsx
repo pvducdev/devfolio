@@ -10,6 +10,7 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { LAYOUT_CONFIG } from "@/config/ui";
+import { percentSize } from "@/lib/size";
 import {
   useAppLayoutActions,
   usePanelSection,
@@ -42,10 +43,10 @@ export default function AppContent() {
           <>
             <ResizablePanel
               className="overflow-auto! rounded-xl bg-background"
-              defaultSize={`${sidebarSize}%`}
+              defaultSize={percentSize(sidebarSize)}
               id="sidebar"
-              maxSize={LAYOUT_CONFIG.sidebar.maxSize}
-              minSize={LAYOUT_CONFIG.sidebar.minSize}
+              maxSize={percentSize(LAYOUT_CONFIG.sidebar.maxSize)}
+              minSize={percentSize(LAYOUT_CONFIG.sidebar.minSize)}
               onResize={(size) => debouncedSetSidebarSize(size.asPercentage)}
             >
               <Sidebar activeView={sidebar} />
@@ -55,7 +56,7 @@ export default function AppContent() {
         )}
         <ResizablePanel
           className="rounded-xl bg-background"
-          defaultSize={`${LAYOUT_CONFIG.editor.defaultSize}%`}
+          defaultSize={percentSize(LAYOUT_CONFIG.editor.defaultSize)}
           id="code-editor"
         >
           <CodeEditorContainer />
@@ -65,10 +66,10 @@ export default function AppContent() {
             <ResizableHandle className="w-1.5 bg-transparent" />
             <ResizablePanel
               className="rounded-xl bg-background"
-              defaultSize={`${panelSize}%`}
+              defaultSize={percentSize(panelSize)}
               id="panel"
-              maxSize={LAYOUT_CONFIG.panel.maxSize}
-              minSize={LAYOUT_CONFIG.panel.minSize}
+              maxSize={percentSize(LAYOUT_CONFIG.panel.maxSize)}
+              minSize={percentSize(LAYOUT_CONFIG.panel.minSize)}
               onResize={(size) => debouncedSetPanelSize(size.asPercentage)}
             >
               <Panel
