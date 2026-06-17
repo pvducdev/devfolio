@@ -32,6 +32,9 @@ const config = defineConfig({
     viteReact(),
     babel({ presets: [reactCompilerPreset()] }),
   ],
+  resolve: {
+    tsconfigPaths: true,
+  },
   server: {
     host: true,
   },
