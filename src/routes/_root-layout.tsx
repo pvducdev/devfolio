@@ -13,6 +13,21 @@ import { desktopToMobilePath } from "@/lib/routes";
 import { isServer } from "@/lib/utils";
 import { msg_error_unsupported_browser } from "@/paraglide/messages";
 
+const RouteComponent = () => {
+  useRouteTabSync();
+
+  return (
+    <RootLayout>
+      <ThemeScript />
+      <HydrationGate fallback={<AppSkeleton />}>
+        <Header />
+        <AppContent />
+        <StatusFooter />
+      </HydrationGate>
+    </RootLayout>
+  );
+};
+
 export const Route = createFileRoute("/_root-layout")({
   beforeLoad: ({ location }) => {
     if (isServer()) {
@@ -29,18 +44,3 @@ export const Route = createFileRoute("/_root-layout")({
   },
   component: RouteComponent,
 });
-
-function RouteComponent() {
-  useRouteTabSync();
-
-  return (
-    <RootLayout>
-      <ThemeScript />
-      <HydrationGate fallback={<AppSkeleton />}>
-        <Header />
-        <AppContent />
-        <StatusFooter />
-      </HydrationGate>
-    </RootLayout>
-  );
-}

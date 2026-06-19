@@ -1,7 +1,9 @@
 import { motion, useScroll, useSpring } from "motion/react";
 import { lazy, Suspense, useRef } from "react";
+
 import { CAREER_SECTIONS } from "@/components/career-runner/config";
 import { useCareerTimeline } from "@/hooks/use-career-timeline";
+
 import CareerEntry from "./career-entry";
 import TimelineIntro from "./timeline-intro";
 import TimelineOutro from "./timeline-outro";
@@ -19,9 +21,9 @@ export default function CareerTimeline() {
   });
 
   const lineProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
     damping: 30,
     restDelta: 0.001,
+    stiffness: 100,
   });
 
   return (

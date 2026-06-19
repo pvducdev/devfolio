@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import type { ReactNode } from "react";
 import useMeasure from "react-use-measure";
+
 import { cn } from "@/lib/utils";
 
 interface CardProps {
@@ -25,17 +26,17 @@ export default function Card({ title, className, children }: CardProps) {
         duration: 0.3,
       }}
       variants={{
-        enter: {
-          opacity: 0,
-          height: bounds.height > 0 ? bounds.height : "auto",
-        },
         center: {
-          opacity: 1,
           height: bounds.height > 0 ? bounds.height : "auto",
+          opacity: 1,
+        },
+        enter: {
+          height: bounds.height > 0 ? bounds.height : "auto",
+          opacity: 0,
         },
         exit: {
-          opacity: 0,
           height: bounds.height > 0 ? bounds.height : "auto",
+          opacity: 0,
         },
       }}
     >

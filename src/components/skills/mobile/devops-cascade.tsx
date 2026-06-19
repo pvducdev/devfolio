@@ -1,5 +1,6 @@
 import type { Skills } from "@/config/skills";
 import { mobile_skills_section_devops } from "@/paraglide/messages";
+
 import SectionHeader from "./section-header";
 
 interface DevopsCascadeProps {

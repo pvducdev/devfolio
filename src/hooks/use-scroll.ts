@@ -1,5 +1,6 @@
 import { useMotionValueEvent, useScroll } from "motion/react";
-import { type RefObject, useState } from "react";
+import { useState } from "react";
+import type { RefObject } from "react";
 import { useEventListener } from "usehooks-ts";
 
 interface ScrollOptions {
@@ -12,26 +13,26 @@ export interface ScrollState {
   isAtBottom: boolean;
 }
 
-export function useScrollEdges(options: ScrollOptions = {}): ScrollState {
+export const useScrollEdges = (options: ScrollOptions = {}): ScrollState => {
   const { container, threshold = 0.05 } = options;
   const [state, setState] = useState<ScrollState>({
-    isAtTop: true,
     isAtBottom: true,
+    isAtTop: true,
   });
 
   const { scrollYProgress } = useScroll({ container });
 
   useMotionValueEvent(scrollYProgress, "change", (progress) => {
     setState({
-      isAtTop: progress < threshold,
       isAtBottom: progress > 1 - threshold,
+      isAtTop: progress < threshold,
     });
   });
 
   return state;
-}
+};
 
-export function useWheelToHorizontal(ref: RefObject<HTMLElement | null>) {
+export const useWheelToHorizontal = (ref: RefObject<HTMLElement | null>) => {
   useEventListener(
     "wheel",
     (e) => {
@@ -57,4 +58,4 @@ export function useWheelToHorizontal(ref: RefObject<HTMLElement | null>) {
     ref as RefObject<HTMLElement>,
     { passive: false }
   );
-}
+};

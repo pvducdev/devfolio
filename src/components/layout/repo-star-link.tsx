@@ -1,4 +1,5 @@
 import { Star } from "lucide-react";
+
 import { AnimatedNumber } from "@/components/ui/animated-number.tsx";
 import { Badge } from "@/components/ui/badge";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";

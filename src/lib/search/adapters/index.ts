@@ -1,4 +1,3 @@
-// biome-ignore lint/performance/noBarrelFile: Adapter exports
 export {
   createFuseAdapter,
   FuseAdapter,

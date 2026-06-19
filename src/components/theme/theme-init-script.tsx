@@ -4,7 +4,7 @@ import {
   THEME_STORAGE_KEY,
 } from "@/config/theme";
 
-export function ThemeInitScript() {
+export const ThemeInitScript = () => {
   const scriptContent = `
     (function() {
       try {
@@ -22,6 +22,5 @@ export function ThemeInitScript() {
     })();
   `;
 
-  // biome-ignore lint/security/noDangerouslySetInnerHtml: Safe - uses only static constants, no user input
   return <script dangerouslySetInnerHTML={{ __html: scriptContent }} />;
-}
+};

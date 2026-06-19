@@ -1,7 +1,8 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { THEME_STORAGE_KEY, THEMES, type Theme } from "@/config/theme";
-import { isFunction } from "@/lib/utils";
+
+import { THEME_STORAGE_KEY, THEMES } from "@/config/theme";
+import type { Theme } from "@/config/theme";
 
 interface State {
   theme: Theme["value"];
@@ -14,16 +15,16 @@ interface Actions {
 export const useThemeStore = create<State & Actions>()(
   persist(
     (set) => ({
-      theme: THEMES.find((t) => t.value === "default")?.value || "",
       setTheme: (theme) => {
         set({ theme });
         if (
           typeof window !== "undefined" &&
-          isFunction(window.__loadThemeFonts)
+          typeof window.__loadThemeFonts === "function"
         ) {
           window.__loadThemeFonts(theme);
         }
       },
+      theme: THEMES.find((t) => t.value === "default")?.value || "",
     }),
     {
       name: THEME_STORAGE_KEY,

@@ -1,7 +1,7 @@
-export function startViewTransition(callback: () => void): void {
+export const startViewTransition = (action: () => void): void => {
   if (document.startViewTransition) {
-    document.startViewTransition(callback);
+    document.startViewTransition(action);
   } else {
-    callback();
+    action();
   }
-}
+};

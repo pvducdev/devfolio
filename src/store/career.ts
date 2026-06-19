@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { useShallow } from "zustand/shallow";
+
 import {
   CAREER_SECTIONS,
   DEFAULT_YEAR,
@@ -30,13 +31,13 @@ const initialState: State = {
 
 export const useCareerStore = create<State & Actions>()((set) => ({
   ...initialState,
+  reset: () => set(initialState),
   setActiveSection: (sectionId) =>
     set((state) => ({
       activeSectionId: sectionId,
       lastVisitedSectionId: sectionId ?? state.lastVisitedSectionId,
     })),
   setStatus: (status) => set({ status }),
-  reset: () => set(initialState),
 }));
 
 export const useActiveSectionId = () =>
@@ -75,8 +76,8 @@ export const useDisplayYear = (): string =>
 export const useCareerActions = () =>
   useCareerStore(
     useShallow((s) => ({
-      setStatus: s.setStatus,
-      setActiveSection: s.setActiveSection,
       reset: s.reset,
+      setActiveSection: s.setActiveSection,
+      setStatus: s.setStatus,
     }))
   );

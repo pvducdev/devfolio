@@ -1,7 +1,7 @@
 import SectionHeader from "@/components/skills/components/section-header.tsx";
 
 interface ExploringFooterProps {
-  items: string[];
+  items: readonly string[];
 }
 
 export default function ExploringSection({ items }: ExploringFooterProps) {

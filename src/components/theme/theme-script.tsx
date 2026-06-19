@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+
 import { THEME_ATTRIBUTE } from "@/config/theme";
 import { startViewTransition } from "@/lib/view-transition";
 import { useCurrentTheme } from "@/store/theme";

@@ -1,9 +1,11 @@
 import { motion, useReducedMotion } from "motion/react";
+
 import {
   page_career_complete,
   page_career_eof,
   page_career_thanks,
 } from "@/paraglide/messages.js";
+
 import { containerVariants, itemVariants } from "./motion-variants";
 
 export default function TimelineOutro() {
@@ -13,7 +15,7 @@ export default function TimelineOutro() {
     <motion.div
       className="px-4 py-10 font-mono"
       initial="hidden"
-      viewport={{ once: true, amount: 0.5 }}
+      viewport={{ amount: 0.5, once: true }}
       whileInView="visible"
       {...(!prefersReducedMotion && { variants: containerVariants })}
     >
@@ -26,9 +28,9 @@ export default function TimelineOutro() {
           <motion.span
             animate={{ opacity: [1, 0] }}
             transition={{
+              duration: 0.53,
               repeat: Number.POSITIVE_INFINITY,
               repeatType: "reverse",
-              duration: 0.53,
             }}
           >
             _
@@ -41,13 +43,13 @@ export default function TimelineOutro() {
         style={{ transformOrigin: "left" }}
         {...(!prefersReducedMotion && {
           initial: { scaleX: 0 },
-          whileInView: { scaleX: 1 },
-          viewport: { once: true },
           transition: {
+            delay: 0.3,
             duration: 0.8,
             ease: [0.25, 1, 0.5, 1],
-            delay: 0.3,
           },
+          viewport: { once: true },
+          whileInView: { scaleX: 1 },
         })}
       />
 

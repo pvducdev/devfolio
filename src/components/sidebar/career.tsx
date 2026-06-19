@@ -1,5 +1,6 @@
 import { useNavigate } from "@tanstack/react-router";
 import { Play } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import {
   action_sidebar_opencareer,

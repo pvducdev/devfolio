@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 import DeviceMock from "@/components/common/device-mock";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getProjectById } from "@/config/projects";
@@ -9,6 +10,7 @@ import {
   ui_project_tab_dependencies,
   ui_project_tab_guide,
 } from "@/paraglide/messages.js";
+
 import Card from "./card";
 import { CodeBlock } from "./code-block";
 import Terminal from "./terminal";
@@ -18,24 +20,24 @@ export interface ContainerProps {
   projectId: string;
 }
 
-export function Container({ projectId }: ContainerProps) {
+export const Container = ({ projectId }: ContainerProps) => {
   const config = getProjectById(projectId);
   const [activeTab, setActiveTab] = useState("getting-started");
 
   const guides = config.guides ?? [];
 
   const { currentStep, start, reset } = useAutoStep({
-    maxStep: guides.length + 1,
     autoAdvance: true,
     delay: 3000,
     loop: true,
+    maxStep: guides.length + 1,
+    onLoop: () => {
+      setActiveTab("getting-started");
+    },
     onStepChange: (step) => {
       if (step > guides.length) {
         setActiveTab("dependencies");
       }
-    },
-    onLoop: () => {
-      setActiveTab("getting-started");
     },
   });
 
@@ -51,7 +53,6 @@ export function Container({ projectId }: ContainerProps) {
     }
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: projectId is intentional to reset on project change
   useEffect(() => {
     reset();
     setActiveTab("getting-started");
@@ -132,4 +133,4 @@ export function Container({ projectId }: ContainerProps) {
       </div>
     </div>
   );
-}
+};

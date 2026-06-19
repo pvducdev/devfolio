@@ -1,5 +1,6 @@
 import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { useStep, useUnmount } from "usehooks-ts";
+
 import { useMount } from "@/hooks/use-mount";
 
 interface UseAutoStepOptions {
@@ -31,7 +32,7 @@ interface UseAutoStepReturn {
   toggle: () => void;
 }
 
-export function useAutoStep(options: UseAutoStepOptions): UseAutoStepReturn {
+export const useAutoStep = (options: UseAutoStepOptions): UseAutoStepReturn => {
   const {
     maxStep,
     initialStep = 1,
@@ -117,7 +118,6 @@ export function useAutoStep(options: UseAutoStepOptions): UseAutoStepReturn {
     onStepChangeEvent(currentStep);
   }, [currentStep]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: currentStep resets timer on each step change
   useEffect(() => {
     if (!isAutoAdvancing || delay <= 0) {
       return;
@@ -177,20 +177,20 @@ export function useAutoStep(options: UseAutoStepOptions): UseAutoStepReturn {
   const toggle = () => setIsAutoAdvancing((prev) => !prev);
 
   return {
+    canGoToNextStep,
+    canGoToPrevStep,
     currentStep,
-    loopCount,
+    goToNextStep,
+    goToPrevStep,
     isAutoAdvancing,
     isFirst,
     isLast,
-    progress,
-    canGoToNextStep,
-    canGoToPrevStep,
-    goToNextStep,
-    goToPrevStep,
-    setStep,
-    reset,
-    start,
+    loopCount,
     pause,
+    progress,
+    reset,
+    setStep,
+    start,
     toggle,
   };
-}
+};

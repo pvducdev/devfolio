@@ -1,4 +1,6 @@
-import { type ChangeEvent, type FormEvent, useRef } from "react";
+import { useRef } from "react";
+import type { ChangeEvent, FormEvent } from "react";
+
 import type { CommandItem } from "@/hooks/use-assistant";
 import { useSlashCommands } from "@/hooks/use-slash-commands";
 

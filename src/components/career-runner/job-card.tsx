@@ -2,6 +2,7 @@ import { ChevronDown } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useRef } from "react";
 import { useBoolean } from "usehooks-ts";
+
 import type { ExpandedContent, JobType } from "./config";
 import ExpandedSection from "./expanded-section";
 
@@ -16,28 +17,31 @@ interface JobCardProps {
   isActive?: boolean;
 }
 
-function getAnimationProps(prefersReducedMotion: boolean, isActive: boolean) {
+const getAnimationProps = (
+  prefersReducedMotion: boolean,
+  isActive: boolean
+) => {
   if (prefersReducedMotion) {
     return { opacity: isActive ? 1 : 0.6 };
   }
 
   return {
-    scale: isActive ? 1.05 : 0.9,
-    opacity: isActive ? 1 : 0.6,
     boxShadow: isActive
       ? `0 0 20px 5px ${GLOW_COLOR}, 0 0 40px 10px ${GLOW_COLOR}`
       : "0 0 0 0 transparent",
+    opacity: isActive ? 1 : 0.6,
+    scale: isActive ? 1.05 : 0.9,
   };
-}
+};
 
-export default function JobCard({
+const JobCard = ({
   title,
   subtitle,
   jobType,
   details,
   expanded,
   isActive = false,
-}: JobCardProps) {
+}: JobCardProps) => {
   const prefersReducedMotion = useReducedMotion() ?? false;
 
   const {
@@ -72,10 +76,10 @@ export default function JobCard({
         layout
         onClick={handleClick}
         style={{
+          overflow: "hidden",
+          transformOrigin: "center center",
           width: isExpanded ? 320 : 192,
           willChange: "transform, opacity, box-shadow",
-          transformOrigin: "center center",
-          overflow: "hidden",
         }}
         transition={{
           duration: 0.5,
@@ -121,4 +125,6 @@ export default function JobCard({
       </motion.div>
     </div>
   );
-}
+};
+
+export default JobCard;

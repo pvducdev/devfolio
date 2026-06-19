@@ -2,6 +2,7 @@ import type { ItemInstance } from "@headless-tree/core";
 import { hotkeysCoreFeature, syncDataLoaderFeature } from "@headless-tree/core";
 import { useTree } from "@headless-tree/react";
 import { FileIcon, FolderIcon, FolderOpenIcon } from "lucide-react";
+
 import { Tree, TreeItem, TreeItemLabel } from "@/components/ui/tree";
 import type { PageTreeItem } from "@/config/page";
 
@@ -17,7 +18,7 @@ interface PageTreeProps {
   onItemSelect: (path: string) => void;
 }
 
-function getTreeItemIcon(item: ItemInstance<PageTreeItem>) {
+const getTreeItemIcon = (item: ItemInstance<PageTreeItem>) => {
   const iconClass = "pointer-events-none size-4 text-muted-foreground";
   if (!item.isFolder()) {
     return <FileIcon className={iconClass} />;
@@ -26,32 +27,28 @@ function getTreeItemIcon(item: ItemInstance<PageTreeItem>) {
     return <FolderOpenIcon className={iconClass} />;
   }
   return <FolderIcon className={iconClass} />;
-}
+};
 
-export default function PageTree({
-  treeData,
-  config,
-  onItemSelect,
-}: PageTreeProps) {
+const PageTree = ({ treeData, config, onItemSelect }: PageTreeProps) => {
   "use no memo";
 
   const tree = useTree<PageTreeItem>({
+    dataLoader: {
+      getChildren: (itemId) => treeData[itemId].children ?? [],
+      getItem: (itemId) => treeData[itemId],
+    },
+    features: [syncDataLoaderFeature, hotkeysCoreFeature],
+    getItemName: (item) => item.getItemData().name,
+    indent: config.indent,
     initialState: {
       expandedItems: config.defaultExpanded as unknown as string[],
     },
-    indent: config.indent,
-    rootItemId: config.rootItemId,
-    getItemName: (item) => item.getItemData().name,
     isItemFolder: (item) => (item.getItemData()?.children?.length ?? 0) > 0,
-    dataLoader: {
-      getItem: (itemId) => treeData[itemId],
-      getChildren: (itemId) => treeData[itemId].children ?? [],
-    },
-    features: [syncDataLoaderFeature, hotkeysCoreFeature],
+    rootItemId: config.rootItemId,
   });
 
   const handleItemDoubleClick = (item: ItemInstance<PageTreeItem>) => {
-    const path = item.getItemData().path;
+    const { path } = item.getItemData();
     if (path) {
       onItemSelect(path);
     }
@@ -85,4 +82,6 @@ export default function PageTree({
       </div>
     </div>
   );
-}
+};
+
+export default PageTree;

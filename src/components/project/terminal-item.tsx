@@ -1,24 +1,26 @@
-import { cva, type VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
 import { motion } from "motion/react";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
+
 import { cn } from "@/lib/utils";
 
 const terminalItemVariants = cva("", {
+  defaultVariants: {
+    variant: "output",
+  },
   variants: {
     variant: {
       command: "text-foreground",
       output: "text-muted-foreground",
     },
   },
-  defaultVariants: {
-    variant: "output",
-  },
 });
 
 const defaultAnimation = {
-  initial: { opacity: 0, y: 8, filter: "blur(4px)" },
-  animate: { opacity: 1, y: 0, filter: "blur(0px)" },
-  exit: { opacity: 0, y: -8, filter: "blur(4px)" },
+  animate: { filter: "blur(0px)", opacity: 1, y: 0 },
+  exit: { filter: "blur(4px)", opacity: 0, y: -8 },
+  initial: { filter: "blur(4px)", opacity: 0, y: 8 },
   transition: { duration: 0.3, ease: [0.25, 1, 0.5, 1] as const },
 };
 

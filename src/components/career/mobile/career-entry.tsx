@@ -1,7 +1,9 @@
 import { ChevronDown } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { type Ref, type RefObject, useEffect } from "react";
+import { useEffect } from "react";
+import type { Ref, RefObject } from "react";
 import { useBoolean } from "usehooks-ts";
+
 import type { CareerSection } from "@/components/career-runner/config";
 import ExpandedSection from "@/components/career-runner/expanded-section";
 import { cn } from "@/lib/utils";
@@ -13,48 +15,44 @@ interface CareerEntryProps {
   scrollRef: RefObject<HTMLDivElement | null>;
 }
 
-function YearMarker({
+const YearMarker = ({
   section,
   isActive,
 }: {
   section: CareerSection;
   isActive: boolean;
-}) {
-  return (
-    <div className="absolute top-0 -left-14 w-14 pr-3 text-right">
-      <motion.span
-        animate={{
-          color: isActive ? "var(--foreground)" : "var(--muted-foreground)",
-        }}
-        className="font-mono text-[10px] tabular-nums tracking-wider"
-        transition={{ type: "spring", stiffness: 300, damping: 25 }}
-      >
-        {section.year}
-      </motion.span>
-      <section.icon className="mt-1 ml-auto size-3 text-muted-foreground" />
-    </div>
-  );
-}
+}) => (
+  <div className="absolute top-0 -left-14 w-14 pr-3 text-right">
+    <motion.span
+      animate={{
+        color: isActive ? "var(--foreground)" : "var(--muted-foreground)",
+      }}
+      className="font-mono text-[10px] tabular-nums tracking-wider"
+      transition={{ damping: 25, stiffness: 300, type: "spring" }}
+    >
+      {section.year}
+    </motion.span>
+    <section.icon className="mt-1 ml-auto size-3 text-muted-foreground" />
+  </div>
+);
 
-function TimelineDot({ isActive }: { isActive: boolean }) {
-  return (
-    <motion.div
-      animate={isActive ? { scale: [1, 1.4, 1] } : { scale: 1 }}
-      className={cn(
-        "absolute top-1 -left-1.25 size-2.5 rounded-full border-2",
-        isActive ? "border-primary bg-primary" : "border-border bg-background"
-      )}
-      transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
-    />
-  );
-}
+const TimelineDot = ({ isActive }: { isActive: boolean }) => (
+  <motion.div
+    animate={isActive ? { scale: [1, 1.4, 1] } : { scale: 1 }}
+    className={cn(
+      "absolute top-1 -left-1.25 size-2.5 rounded-full border-2",
+      isActive ? "border-primary bg-primary" : "border-border bg-background"
+    )}
+    transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
+  />
+);
 
-export default function CareerEntry({
+const CareerEntry = ({
   ref,
   section,
   isActive,
   scrollRef,
-}: CareerEntryProps) {
+}: CareerEntryProps) => {
   const {
     value: manuallyToggled,
     toggle: toggleManually,
@@ -88,7 +86,7 @@ export default function CareerEntry({
         className="ml-10"
         initial={{ opacity: 0, x: 20 }}
         transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
-        viewport={{ root: scrollRef, once: true, amount: 0.3 }}
+        viewport={{ amount: 0.3, once: true, root: scrollRef }}
         whileInView={{ opacity: 1, x: 0 }}
       >
         <div
@@ -142,4 +140,6 @@ export default function CareerEntry({
       </motion.div>
     </div>
   );
-}
+};
+
+export default CareerEntry;

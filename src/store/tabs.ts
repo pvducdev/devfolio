@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { useShallow } from "zustand/shallow";
+
 import { STORE_KEYS } from "@/config/store-keys";
 import { getRouteLabel } from "@/lib/routes";
 
@@ -24,30 +25,25 @@ interface TabsActions {
   closeTabsToLeft: (tabId: string) => string;
 }
 
-const DEFAULT_STATE: TabsState = { tabs: [], activeTabId: null };
+const DEFAULT_STATE: TabsState = { activeTabId: null, tabs: [] };
 
 export const useTabsStore = create<TabsState & TabsActions>()(
   persist(
     (set, get) => ({
       ...DEFAULT_STATE,
-      openTab: (path: string) => {
-        const state = get();
+      closeAllTabs: () => {
+        set({ activeTabId: null, tabs: [] });
+      },
 
-        const existingTab = state.tabs.find((t) => t.id === path);
-        if (existingTab) {
-          set({ activeTabId: path });
-          return;
+      closeOtherTabs: (keepTabId: string) => {
+        const state = get();
+        const keepTab = state.tabs.find((t) => t.id === keepTabId);
+        if (!keepTab) {
+          return state.activeTabId ?? keepTabId;
         }
 
-        const newTab: Tab = {
-          id: path,
-          label: getRouteLabel(path),
-        };
-
-        set({
-          tabs: [...state.tabs, newTab],
-          activeTabId: path,
-        });
+        set({ activeTabId: keepTabId, tabs: [keepTab] });
+        return keepTabId;
       },
 
       closeTab: (tabId: string) => {
@@ -63,46 +59,9 @@ export const useTabsStore = create<TabsState & TabsActions>()(
         const nextActiveId =
           newTabs[Math.min(closedIndex, newTabs.length - 1)]?.id ?? null;
 
-        set({ tabs: newTabs, activeTabId: nextActiveId });
+        set({ activeTabId: nextActiveId, tabs: newTabs });
 
         return nextActiveId;
-      },
-
-      setActiveTab: (tabId: string) => {
-        set({ activeTabId: tabId });
-      },
-
-      closeOtherTabs: (keepTabId: string) => {
-        const state = get();
-        const keepTab = state.tabs.find((t) => t.id === keepTabId);
-        if (!keepTab) {
-          return state.activeTabId ?? keepTabId;
-        }
-
-        set({ tabs: [keepTab], activeTabId: keepTabId });
-        return keepTabId;
-      },
-
-      closeAllTabs: () => {
-        set({ tabs: [], activeTabId: null });
-      },
-
-      closeTabsToRight: (tabId: string) => {
-        const state = get();
-        const targetIndex = state.tabs.findIndex((t) => t.id === tabId);
-        if (targetIndex === -1) {
-          return state.activeTabId ?? tabId;
-        }
-
-        const newTabs = state.tabs.slice(0, targetIndex + 1);
-        const activeStillExists = newTabs.some(
-          (t) => t.id === state.activeTabId
-        );
-        const newActiveId =
-          activeStillExists && state.activeTabId ? state.activeTabId : tabId;
-
-        set({ tabs: newTabs, activeTabId: newActiveId });
-        return newActiveId;
       },
 
       closeTabsToLeft: (tabId: string) => {
@@ -119,15 +78,57 @@ export const useTabsStore = create<TabsState & TabsActions>()(
         const newActiveId =
           activeStillExists && state.activeTabId ? state.activeTabId : tabId;
 
-        set({ tabs: newTabs, activeTabId: newActiveId });
+        set({ activeTabId: newActiveId, tabs: newTabs });
         return newActiveId;
+      },
+
+      closeTabsToRight: (tabId: string) => {
+        const state = get();
+        const targetIndex = state.tabs.findIndex((t) => t.id === tabId);
+        if (targetIndex === -1) {
+          return state.activeTabId ?? tabId;
+        }
+
+        const newTabs = state.tabs.slice(0, targetIndex + 1);
+        const activeStillExists = newTabs.some(
+          (t) => t.id === state.activeTabId
+        );
+        const newActiveId =
+          activeStillExists && state.activeTabId ? state.activeTabId : tabId;
+
+        set({ activeTabId: newActiveId, tabs: newTabs });
+        return newActiveId;
+      },
+
+      openTab: (path: string) => {
+        const state = get();
+
+        const existingTab = state.tabs.find((t) => t.id === path);
+        if (existingTab) {
+          set({ activeTabId: path });
+          return;
+        }
+
+        const newTab: Tab = {
+          id: path,
+          label: getRouteLabel(path),
+        };
+
+        set({
+          activeTabId: path,
+          tabs: [...state.tabs, newTab],
+        });
+      },
+
+      setActiveTab: (tabId: string) => {
+        set({ activeTabId: tabId });
       },
     }),
     {
       name: STORE_KEYS.TABS,
       partialize: (state) => ({
-        tabs: state.tabs,
         activeTabId: state.activeTabId,
+        tabs: state.tabs,
       }),
     }
   )
@@ -144,13 +145,13 @@ export const useOpenTabs = () => useTabsStore((s) => s.tabs);
 export const useTabsActions = () =>
   useTabsStore(
     useShallow((s) => ({
-      openTab: s.openTab,
-      closeTab: s.closeTab,
-      setActiveTab: s.setActiveTab,
-      closeOtherTabs: s.closeOtherTabs,
       closeAllTabs: s.closeAllTabs,
-      closeTabsToRight: s.closeTabsToRight,
+      closeOtherTabs: s.closeOtherTabs,
+      closeTab: s.closeTab,
       closeTabsToLeft: s.closeTabsToLeft,
+      closeTabsToRight: s.closeTabsToRight,
+      openTab: s.openTab,
+      setActiveTab: s.setActiveTab,
     }))
   );
 

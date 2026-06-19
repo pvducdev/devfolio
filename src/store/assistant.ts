@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { useShallow } from "zustand/shallow";
+
 import { STORE_KEYS } from "@/config/store-keys";
 
 export type AssistantStatus = "idle" | "thinking" | "streaming" | "error";
@@ -21,9 +22,9 @@ interface AssistantActions {
 type AssistantStore = AssistantState & AssistantActions;
 
 const initialState: AssistantState = {
+  error: null,
   message: null,
   status: "idle",
-  error: null,
 };
 
 export const useAssistantStore = create<AssistantStore>()(
@@ -31,10 +32,7 @@ export const useAssistantStore = create<AssistantStore>()(
     (set) => ({
       ...initialState,
 
-      setMessage: (content) =>
-        set({ message: content, status: "idle", error: null }),
-
-      setStatus: (status, error) => set({ status, error }),
+      clear: () => set(initialState),
 
       setChunkMessage: (chunk) =>
         set((state) => ({
@@ -42,7 +40,10 @@ export const useAssistantStore = create<AssistantStore>()(
           status: state.status === "thinking" ? "streaming" : state.status,
         })),
 
-      clear: () => set(initialState),
+      setMessage: (content) =>
+        set({ error: null, message: content, status: "idle" }),
+
+      setStatus: (status, error) => set({ error, status }),
     }),
     {
       name: STORE_KEYS.ASSISTANT,
@@ -66,9 +67,9 @@ export const useAssistantMessage = () => useAssistantStore((s) => s.message);
 export const useAssistantActions = () =>
   useAssistantStore(
     useShallow((s) => ({
-      setMessage: s.setMessage,
-      setChunkMessage: s.setChunkMessage,
-      setStatus: s.setStatus,
       clear: s.clear,
+      setChunkMessage: s.setChunkMessage,
+      setMessage: s.setMessage,
+      setStatus: s.setStatus,
     }))
   );

@@ -6,7 +6,11 @@ import { getLocale, locales, setLocale } from "@/paraglide/runtime";
 import { useMobileShellStore } from "@/store/mobile-shell.ts";
 import { useCurrentTheme, useSetTheme } from "@/store/theme.ts";
 
-export function UtilityRow({ onSettingsTap }: { onSettingsTap: () => void }) {
+export const UtilityRow = ({
+  onSettingsTap,
+}: {
+  onSettingsTap: () => void;
+}) => {
   const theme = useCurrentTheme();
   const setTheme = useSetTheme();
   const currentLocale = getLocale();
@@ -68,4 +72,4 @@ export function UtilityRow({ onSettingsTap }: { onSettingsTap: () => void }) {
       </Button>
     </div>
   );
-}
+};

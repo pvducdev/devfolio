@@ -1,4 +1,5 @@
 import type { ProjectConfig } from "@/config/projects";
+
 import ListingHeader from "./listing-header.tsx";
 import ProjectRow from "./project-row.tsx";
 

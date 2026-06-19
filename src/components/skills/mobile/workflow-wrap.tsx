@@ -1,6 +1,7 @@
 import type { Skills } from "@/config/skills";
 import { cn } from "@/lib/utils";
 import { mobile_skills_section_workflow } from "@/paraglide/messages";
+
 import SectionHeader from "./section-header";
 
 interface WorkflowWrapProps {

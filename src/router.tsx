@@ -1,4 +1,5 @@
 import { createRouter } from "@tanstack/react-router";
+
 import ErrorPage from "@/components/common/error-page";
 import { Error as ErrorIcon } from "@/components/ui/svgs/error";
 import { NotFound } from "@/components/ui/svgs/not-found";
@@ -11,30 +12,11 @@ import {
   page_error_generic_description,
   page_error_generic_title,
 } from "@/paraglide/messages.js";
+
 import { routeTree } from "./routeTree.gen.ts";
 
 export const getRouter = () =>
   createRouter({
-    routeTree,
-    scrollRestoration: true,
-    defaultPreload: "intent",
-    defaultPreloadStaleTime: Number.POSITIVE_INFINITY,
-    defaultOnCatch: async (err, errInfo) => {
-      await getLogger().error(err.message, {
-        componentStack: errInfo.componentStack,
-        stack: err.stack,
-      });
-    },
-    defaultStaleTime: Number.POSITIVE_INFINITY,
-    defaultNotFoundComponent: () => (
-      <ErrorPage
-        actionHref="/home"
-        actionLabel={page_error_action_home()}
-        description={page_error_404_description()}
-        illustration={<NotFound className="text-foreground" />}
-        title={page_error_404_title()}
-      />
-    ),
     defaultErrorComponent: ({ error, reset }) => (
       <ErrorPage
         actionLabel={page_error_action_retry()}
@@ -44,4 +26,24 @@ export const getRouter = () =>
         title={page_error_generic_title()}
       />
     ),
+    defaultNotFoundComponent: () => (
+      <ErrorPage
+        actionHref="/home"
+        actionLabel={page_error_action_home()}
+        description={page_error_404_description()}
+        illustration={<NotFound className="text-foreground" />}
+        title={page_error_404_title()}
+      />
+    ),
+    defaultOnCatch: async (err, errInfo) => {
+      await getLogger().error(err.message, {
+        componentStack: errInfo.componentStack,
+        stack: err.stack,
+      });
+    },
+    defaultPreload: "intent",
+    defaultPreloadStaleTime: Number.POSITIVE_INFINITY,
+    defaultStaleTime: Number.POSITIVE_INFINITY,
+    routeTree,
+    scrollRestoration: true,
   });

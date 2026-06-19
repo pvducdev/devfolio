@@ -6,27 +6,22 @@ import {
 } from "@/paraglide/messages.js";
 
 export const PERSONAL_INFO = {
-  name: "PVD",
-  nickname: "D",
-  dob: 2001,
-  role: "Javascript Developer",
-  location: "HCMC, Vietnam",
-  experience: 3, // years
-  openToWork: true,
   avatar:
     "https://res.cloudinary.com/d-devfolio/image/upload/f_auto/Vector_c5fjon.svg",
+
+  get bio() {
+    return page_about_bio();
+  },
 
   contact: {
     email: "pvducc.dev@gmail.com",
     github: "https://github.com/pvducdev",
-    linkedin: "https://linkedin.com/in/pvducc",
     gitlab: "https://gitlab.com/pvducc.dev",
+    linkedin: "https://linkedin.com/in/pvducc",
   },
 
-  resume: {
-    url: "https://res.cloudinary.com/d-devfolio/image/upload/q_auto/pvd-resume_wh0n3t.pdf",
-    fileName: "pvd-resume.pdf",
-  },
+  dob: 2001,
+  experience: 3,
 
   get interests() {
     return [
@@ -36,9 +31,17 @@ export const PERSONAL_INFO = {
     ];
   },
 
-  get bio() {
-    return page_about_bio();
+  location: "HCMC, Vietnam",
+  name: "PVD",
+  nickname: "D",
+  openToWork: true,
+
+  resume: {
+    fileName: "pvd-resume.pdf",
+    url: "https://res.cloudinary.com/d-devfolio/image/upload/q_auto/pvd-resume_wh0n3t.pdf",
   },
+
+  role: "Javascript Developer",
 };
 
 export type PersonalInfo = typeof PERSONAL_INFO;

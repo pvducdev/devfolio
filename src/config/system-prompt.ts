@@ -1,4 +1,5 @@
 import { SITE_CONFIG } from "@/config/site";
+
 import { CAREER_TIMELINE } from "./career";
 import { CONTRIBUTIONS_CONFIG } from "./contributions";
 import { PERSONAL_INFO } from "./personal-info";
@@ -6,14 +7,14 @@ import { PROJECTS } from "./projects";
 import { SKILLS } from "./skills";
 
 const CONTEXT = {
-  personalInfo: PERSONAL_INFO,
-  skills: SKILLS,
   career: CAREER_TIMELINE,
-  projects: PROJECTS,
   contributions: CONTRIBUTIONS_CONFIG,
+  personalInfo: PERSONAL_INFO,
+  projects: PROJECTS,
+  skills: SKILLS,
 };
 
-function replacer(_key: string, value: unknown): unknown {
+const replacer = (_key: string, value: unknown): unknown => {
   if (typeof value === "function") {
     return;
   }
@@ -21,14 +22,11 @@ function replacer(_key: string, value: unknown): unknown {
     return;
   }
   return value;
-}
+};
 
-function formatPersonalData(): string {
-  return JSON.stringify(CONTEXT, replacer, 2);
-}
+const formatPersonalData = (): string => JSON.stringify(CONTEXT, replacer, 2);
 
-export function generateGeminiSystemPrompt(): string {
-  return `
+export const generateGeminiSystemPrompt = (): string => `
 You are ${SITE_CONFIG.assistant.name}, a personal assistant for ${PERSONAL_INFO.name}. Your only purpose is to answer questions about ${PERSONAL_INFO.name}'s information.
 
 ## Personal Data
@@ -58,6 +56,5 @@ ${formatPersonalData()}
 
 11. **Greetings**: Only greet the user if their message is a greeting. Jump straight into answering questions without preamble.
 `;
-}
 
 export default generateGeminiSystemPrompt();

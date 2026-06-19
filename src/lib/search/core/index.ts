@@ -1,5 +1,3 @@
-// biome-ignore-all lint/performance/noBarrelFile: Core exports
-
 export { createSearch } from "./create-search";
 export { filterResults } from "./filter";
 export { groupResults } from "./group";

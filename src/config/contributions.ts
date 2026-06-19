@@ -1,4 +1,5 @@
 import type { ContributionSource } from "@/lib/contributions";
+
 import { PERSONAL_INFO } from "./personal-info";
 
 const SOURCE: ContributionSource = "GitLab";

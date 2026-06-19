@@ -1,32 +1,27 @@
 import { cloudflare } from "@cloudflare/vite-plugin";
 import { paraglideVitePlugin } from "@inlang/paraglide-js";
+import babel from "@rolldown/plugin-babel";
 import tailwindcss from "@tailwindcss/vite";
 import { devtools } from "@tanstack/devtools-vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
-import viteReact from "@vitejs/plugin-react";
+import viteReact, { reactCompilerPreset } from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
-import viteTsConfigPaths from "vite-tsconfig-paths";
+
 import packageJson from "./package.json" with { type: "json" };
 
 const config = defineConfig({
-  server: {
-    host: true,
-  },
   define: {
     __APP_VERSION__: JSON.stringify(packageJson.version),
   },
   plugins: [
     devtools(),
     cloudflare({ viteEnvironment: { name: "ssr" } }),
-    viteTsConfigPaths({
-      projects: ["./tsconfig.json"],
-    }),
     tailwindcss(),
     paraglideVitePlugin({
-      project: "./project.inlang",
+      cookieName: "PARAGLIDE_LOCALE",
       outdir: "./src/paraglide",
       outputStructure: "message-modules",
-      cookieName: "PARAGLIDE_LOCALE",
+      project: "./project.inlang",
       strategy: ["cookie", "preferredLanguage", "baseLocale"],
     }),
     tanstackStart({
@@ -34,12 +29,15 @@ const config = defineConfig({
         enabled: false,
       },
     }),
-    viteReact({
-      babel: {
-        plugins: ["babel-plugin-react-compiler"],
-      },
-    }),
+    viteReact(),
+    babel({ presets: [reactCompilerPreset()] }),
   ],
+  resolve: {
+    tsconfigPaths: true,
+  },
+  server: {
+    host: true,
+  },
   ssr: {
     noExternal: ["streamdown"],
   },

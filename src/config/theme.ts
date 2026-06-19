@@ -6,25 +6,25 @@ export const DEFAULT_THEME = "default";
 
 export const THEMES = [
   {
+    fontUrl:
+      "https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap",
     name: "C x J (default)",
     shortName: "C×J",
     value: "default",
-    fontUrl:
-      "https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap",
   },
   {
+    fontUrl:
+      "https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap",
     name: "Mono",
     shortName: "Mono",
     value: "mono",
-    fontUrl:
-      "https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap",
   },
   {
+    fontUrl:
+      "https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Fira+Code:wght@300..700&display=swap",
     name: "Notebook",
     shortName: "NB",
     value: "notebook",
-    fontUrl:
-      "https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Fira+Code:wght@300..700&display=swap",
   },
 ];
 

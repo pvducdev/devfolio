@@ -2,7 +2,7 @@ import { useTabActions } from "@/hooks/use-tab-actions";
 import { isMac } from "@/lib/browser";
 import { useIsFirstTab, useIsLastTab, useTabCount } from "@/store/tabs";
 
-export function useTabContextMenu(tabId: string) {
+export const useTabContextMenu = (tabId: string) => {
   const tabCount = useTabCount();
   const isFirst = useIsFirstTab(tabId);
   const isLast = useIsLastTab(tabId);
@@ -16,20 +16,20 @@ export function useTabContextMenu(tabId: string) {
   return {
     actions: {
       close: () => close(tabId),
-      closeOthers: () => closeOthers(tabId),
       closeAll,
-      closeToRight: () => closeToRight(tabId),
+      closeOthers: () => closeOthers(tabId),
       closeToLeft: () => closeToLeft(tabId),
+      closeToRight: () => closeToRight(tabId),
       copyPath: handleCopyPath,
-    },
-    visibility: {
-      closeOthers: tabCount > 1,
-      closeToRight: !isLast,
-      closeToLeft: !isFirst,
     },
     shortcuts: {
       close: isMac() ? "⌥W" : "Alt+W",
       closeAll: isMac() ? "⌥⇧W" : "Alt+Shift+W",
     },
+    visibility: {
+      closeOthers: tabCount > 1,
+      closeToLeft: !isFirst,
+      closeToRight: !isLast,
+    },
   };
-}
+};

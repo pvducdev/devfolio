@@ -5,10 +5,10 @@ interface HydrationGateProps {
   fallback: ReactNode;
 }
 
-export function HydrationGate({
+export const HydrationGate = ({
   children,
   fallback,
-}: PropsWithChildren<HydrationGateProps>) {
+}: PropsWithChildren<HydrationGateProps>) => {
   const hasHydrated = useHydrated();
 
   if (!hasHydrated) {
@@ -16,4 +16,4 @@ export function HydrationGate({
   }
 
   return children;
-}
+};

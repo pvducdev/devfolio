@@ -2,11 +2,10 @@ import { CAREER_TIMELINE } from "@/config/career";
 
 import type { AppSearchItem } from "./types";
 
-export function buildCareerItems(): AppSearchItem[] {
-  return CAREER_TIMELINE.map((entry) => ({
-    id: `career:${entry.year.replace(/\s+/g, "-").toLowerCase()}`,
-    title: entry.title,
+export const buildCareerItems = (): AppSearchItem[] =>
+  CAREER_TIMELINE.map((entry) => ({
     description: `${entry.company} (${entry.year})`,
+    id: `career:${entry.year.replaceAll(/\s+/g, "-").toLowerCase()}`,
     keywords: [
       entry.company,
       entry.jobType,
@@ -14,9 +13,9 @@ export function buildCareerItems(): AppSearchItem[] {
       ...(entry.expanded?.techStack.primary ?? []),
     ],
     meta: {
+      action: { path: "/career", type: "navigate" },
       category: "career",
       icon: entry.icon,
-      action: { type: "navigate", path: "/career" },
     },
+    title: entry.title,
   }));
-}

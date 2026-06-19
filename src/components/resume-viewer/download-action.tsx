@@ -1,4 +1,5 @@
 import { Download } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { useFileDownload } from "@/hooks/use-file-download";
 import { getLogger } from "@/lib/logger/client";
@@ -22,8 +23,8 @@ export default function DownloadAction({ url, filename }: DownloadActionProps) {
         getLogger().info("Download resume");
 
         downloadFile({
-          url,
           filename,
+          url,
         });
       }}
     >

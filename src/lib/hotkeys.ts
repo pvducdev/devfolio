@@ -1,24 +1,20 @@
-import { HOTKEYS, type HotkeyId } from "@/config/hotkeys";
+import { HOTKEYS } from "@/config/hotkeys";
+import type { HotkeyId } from "@/config/hotkeys";
 
 const KEY_SYMBOLS = {
-  mod: "⌘",
   alt: "⌥",
-  shift: "⇧",
   ctrl: "⌃",
+  mod: "⌘",
+  shift: "⇧",
 } as const;
 
 type ModifierKey = keyof typeof KEY_SYMBOLS;
 
-export function getHotkeyCombo(id: HotkeyId): string {
-  return HOTKEYS[id].join("+");
-}
+const isModifier = (key: string): key is ModifierKey => key in KEY_SYMBOLS;
 
-export function getDisplayKeys(id: HotkeyId): string[] {
-  return HOTKEYS[id].map((key) =>
+export const getHotkeyCombo = (id: HotkeyId): string => HOTKEYS[id].join("+");
+
+export const getDisplayKeys = (id: HotkeyId): string[] =>
+  HOTKEYS[id].map((key) =>
     isModifier(key) ? KEY_SYMBOLS[key] : key.toUpperCase()
   );
-}
-
-function isModifier(key: string): key is ModifierKey {
-  return key in KEY_SYMBOLS;
-}

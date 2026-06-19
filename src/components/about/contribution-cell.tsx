@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 import type { CellState } from "@/components/common/contribution-graph";
-// biome-ignore lint/performance/noNamespaceImport: component pattern
 import * as ContributionGraph from "@/components/common/contribution-graph";
 import {
   Tooltip,
