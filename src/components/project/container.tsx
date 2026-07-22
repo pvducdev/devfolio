@@ -78,13 +78,13 @@ export const Container = ({ projectId }: ContainerProps) => {
           >
             <TabsList className="h-auto w-32 flex-col justify-start space-y-0.5 rounded-none border-border border-r bg-transparent p-1">
               <TabsTrigger
-                className="wrap-break-word h-auto w-full flex-none justify-start whitespace-normal text-wrap rounded px-2.5 py-1.5 text-left font-medium text-xs transition-colors data-[state=active]:bg-muted"
+                className="wrap-break-word h-auto w-full flex-none justify-start whitespace-normal text-wrap rounded px-2.5 py-1.5 text-left font-medium text-xs transition-colors data-active:bg-muted"
                 value="getting-started"
               >
                 {ui_project_tab_guide()}
               </TabsTrigger>
               <TabsTrigger
-                className="wrap-break-word h-auto w-full flex-none justify-start whitespace-normal text-wrap rounded px-2.5 py-1.5 text-left font-medium text-xs transition-colors data-[state=active]:bg-muted"
+                className="wrap-break-word h-auto w-full flex-none justify-start whitespace-normal text-wrap rounded px-2.5 py-1.5 text-left font-medium text-xs transition-colors data-active:bg-muted"
                 value="dependencies"
               >
                 {ui_project_tab_dependencies()}

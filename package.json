@@ -22,6 +22,7 @@
     "prepare": "lefthook install"
   },
   "dependencies": {
+    "@base-ui/react": "^1.6.0",
     "@embedpdf/core": "^2.14.4",
     "@embedpdf/engines": "^2.14.4",
     "@embedpdf/plugin-document-manager": "^2.14.4",
@@ -50,7 +51,6 @@
     "groq-sdk": "^1.2.1",
     "lucide-react": "^1.20.0",
     "motion": "^12.40.0",
-    "radix-ui": "^1.6.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-hotkeys-hook": "^5.3.2",

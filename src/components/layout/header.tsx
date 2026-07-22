@@ -77,16 +77,18 @@ export default function Header() {
         <AssistantTrigger />
         <AppSearch />
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <ButtonWithTooltip
-              className="size-7"
-              size="icon"
-              tooltip={ui_settings_title()}
-              variant="ghost"
-            >
-              <Settings className="size-4" />
-            </ButtonWithTooltip>
-          </DropdownMenuTrigger>
+          <DropdownMenuTrigger
+            render={
+              <ButtonWithTooltip
+                className="size-7"
+                size="icon"
+                tooltip={ui_settings_title()}
+                variant="ghost"
+              >
+                <Settings className="size-4" />
+              </ButtonWithTooltip>
+            }
+          />
           <DropdownMenuContent align="end" className="w-56">
             <DropdownMenuLabel>{ui_settings_language()}</DropdownMenuLabel>
             <LanguageSwitcher />

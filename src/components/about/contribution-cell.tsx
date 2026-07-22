@@ -23,13 +23,15 @@ export default function ContributionCell({
 
   return (
     <Tooltip>
-      <TooltipTrigger asChild>
-        <ContributionGraph.Cell
-          date={date}
-          onMouseEnter={setCellState}
-          onMouseLeave={() => setCellState(null)}
-        />
-      </TooltipTrigger>
+      <TooltipTrigger
+        render={
+          <ContributionGraph.Cell
+            date={date}
+            onMouseEnter={setCellState}
+            onMouseLeave={() => setCellState(null)}
+          />
+        }
+      />
       <TooltipContent>
         {page_about_contribution_tooltip({
           count: cellState?.count ?? 0,
