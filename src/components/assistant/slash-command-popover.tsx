@@ -1,4 +1,4 @@
-import type { ReactNode, RefObject } from "react";
+import type { ReactElement, ReactNode, RefObject } from "react";
 
 import {
   Command,
@@ -37,11 +37,11 @@ export default function SlashCommandPopover({
 }: SlashCommandPopoverProps) {
   return (
     <Popover onOpenChange={onOpenChange} open={open}>
-      <PopoverAnchor asChild>{children}</PopoverAnchor>
+      <PopoverAnchor render={children as ReactElement} />
       <PopoverContent
         align="start"
-        className="max-h-[var(--radix-popover-content-available-height)] w-[var(--radix-popover-trigger-width)] p-0"
-        onOpenAutoFocus={(e) => e.preventDefault()}
+        className="max-h-[var(--available-height)] w-[var(--anchor-width)] p-0"
+        initialFocus={false}
         side="top"
         sideOffset={8}
       >

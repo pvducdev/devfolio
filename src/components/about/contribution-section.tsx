@@ -159,11 +159,13 @@ const ContributionSection = () => {
           <div className="flex items-center space-x-0.5">
             {DEFAULT_THRESHOLDS.map((threshold, idx) => (
               <Tooltip key={threshold.min}>
-                <TooltipTrigger asChild>
-                  <ContributionGraph.LegendItem
-                    level={idx as 0 | 1 | 2 | 3 | 4}
-                  />
-                </TooltipTrigger>
+                <TooltipTrigger
+                  render={
+                    <ContributionGraph.LegendItem
+                      level={idx as 0 | 1 | 2 | 3 | 4}
+                    />
+                  }
+                />
                 <TooltipContent>{formatLevelLabel(threshold)}</TooltipContent>
               </Tooltip>
             ))}

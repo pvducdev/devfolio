@@ -30,21 +30,36 @@ from `package.json`.
 
 1. **Target package:** `@base-ui/react` (currently v1.6.0). The older
    `@base-ui-components/react` name is frozen at `1.0.0-rc.0` and must not be used.
-2. **Public API preserved:** every exported component name and its prop surface stay
+2. **Legacy `new-york` style — transform in place, keep classes.** `components.json`
+   uses the legacy `new-york` style, which has **no `base-new-york` registry variant**.
+   So we do NOT fetch base "golden" wrappers; we transform each of our own files: rewire
+   primitives + rename data-attributes/CSS-vars, **keeping the existing Tailwind classes**
+   so the app's look is unchanged. At the end, FLAG that the style name still reads as
+   radix to the shadcn CLI (future `shadcn add` would deliver radix variants); the user
+   decides whether to switch later. We do not change it.
+3. **Public API preserved:** every exported component name and its prop surface stay
    the same (`Dialog`, `DialogContent`, `SelectTrigger`, …). Base UI's
    `Portal`/`Positioner`/`Popup`/`Backdrop`/`List` restructuring is absorbed _inside_
    each wrapper file, not exposed to consumers.
-3. **`asChild` → `render`:** adopt Base UI's native `render` prop. Remove `Slot`. The
-   `asChild={true}` prop is dropped from our wrappers; the four Slot-based wrappers
-   (`button`, `badge`, `breadcrumb`, `tree`) use the `useRender` hook. All 54
-   `asChild` call-sites across 17 consumer files are converted to `render={<X />}`.
-4. **Animations:** use simple Base UI-idiomatic transitions (fade/scale via
+4. **`asChild` → `render`:** adopt Base UI's native `render` prop. Remove `Slot`.
+   - `button.tsx` migrates to the **real `@base-ui/react/button` primitive** (accepts
+     `render` natively) — not a hand-rolled `useRender` wrapper.
+   - `badge`, `breadcrumb`, `tree` (non-button polymorphic) use **`useRender` +
+     `mergeProps`** from `@base-ui/react/use-render` / `@base-ui/react/merge-props`
+     (cast `data-*` object literals to `React.ComponentProps<"tag">` for tsc).
+   - All 54 `asChild` call-sites across 17 consumer files convert to `render={<X />}`
+     (add `nativeButton={false}` when the rendered element is not a `<button>`).
+5. **Animations:** use simple Base UI-idiomatic transitions (fade/scale via
    `data-starting-style` / `data-ending-style`). Do not attempt to pixel-match the
    current `animate-in`/`animate-out` keyframe motion.
-5. **Verification:** after each component, run `bun run build`, `bun run check`
-   (ultracite), and `bun run lint` (oxlint). No new tests in this migration.
-6. **Increments:** migrate one component per commit, simplest first, so breakage is
-   isolated and bisectable.
+6. **Verification:** typecheck per file (`bunx tsc --noEmit`), then `bun run check`
+   (ultracite) / `bun run lint` (oxlint) and a full `bun run build` at the end vs a
+   baseline captured before any change. No new tests in this migration.
+7. **Increments:** work on a branch, one commit per component, simplest first, so
+   breakage is isolated and bisectable. Radix deps are removed only after the last
+   component migrates.
+8. **Reports:** per the migration skill, each component gets a `.migration/<component>.md`
+   report; whole-project notes go in `.migration/project.md`.
 
 ## API mapping (Radix → Base UI)
 
