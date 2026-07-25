@@ -14,19 +14,19 @@
       "WebFetch(domain:www.tailwind-variants.org)"
     ],
     "deny": [],
-    "ask": [],
-    "hooks": {
-      "PostToolUse": [
-        {
-          "matcher": "Write|Edit",
-          "hooks": [
-            {
-              "type": "command",
-              "command": "bun run fix || true"
-            }
-          ]
-        }
-      ]
-    }
+    "ask": []
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "command": "bun fix",
+            "type": "command"
+          }
+        ],
+        "matcher": "Write|Edit"
+      }
+    ]
   }
 }

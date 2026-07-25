@@ -1,4 +1,5 @@
 import type { Skills } from "@/config/skills";
+
 import CoreSkillItem from "../components/core-skill-item";
 import SectionHeader from "../components/section-header";
 

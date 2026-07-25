@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { useUnmount } from "usehooks-ts";
+
 import { useMobileShellStore } from "@/store/mobile-shell";
 
 interface UseGhostTypingReturn {
@@ -9,12 +10,12 @@ interface UseGhostTypingReturn {
   cancel: () => void;
 }
 
-export function useGhostTyping(): UseGhostTypingReturn {
+export const useGhostTyping = (): UseGhostTypingReturn => {
   const [text, setText] = useState("");
   const [isTyping, setIsTyping] = useState(false);
 
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const onCompleteRef = useRef<(() => void) | undefined>(undefined);
+  const onCompleteRef = useRef<(() => void) | null>(null);
 
   const cleanup = () => {
     if (timeoutRef.current) {
@@ -31,7 +32,7 @@ export function useGhostTyping(): UseGhostTypingReturn {
   const type = (command: string, onComplete?: () => void) => {
     cancel();
 
-    onCompleteRef.current = onComplete;
+    onCompleteRef.current = onComplete ?? null;
     setText("");
     setIsTyping(true);
 
@@ -44,7 +45,7 @@ export function useGhostTyping(): UseGhostTypingReturn {
       }
 
       if (charIndex < command.length) {
-        charIndex++;
+        charIndex += 1;
         setText(command.slice(0, charIndex));
         timeoutRef.current = setTimeout(typeNext, charDelay);
       } else {
@@ -59,5 +60,5 @@ export function useGhostTyping(): UseGhostTypingReturn {
 
   useUnmount(cleanup);
 
-  return { text, isTyping, type, cancel };
-}
+  return { cancel, isTyping, text, type };
+};

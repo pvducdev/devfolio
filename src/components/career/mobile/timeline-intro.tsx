@@ -1,19 +1,21 @@
 import { ChevronDown } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
+
 import {
   page_career_heading,
   page_career_hint_scroll,
   page_career_intro,
   page_career_introsub,
 } from "@/paraglide/messages.js";
+
 import { containerVariants, itemVariants } from "./motion-variants";
 
 export default function TimelineIntro() {
   const prefersReducedMotion = useReducedMotion() ?? false;
 
   const animationProps = prefersReducedMotion
-    ? { initial: "visible", animate: "visible" }
-    : { initial: "hidden", animate: "visible", variants: containerVariants };
+    ? { animate: "visible", initial: "visible" }
+    : { animate: "visible", initial: "hidden", variants: containerVariants };
 
   return (
     <motion.div {...animationProps} className="px-4 py-10 font-mono">
@@ -26,9 +28,9 @@ export default function TimelineIntro() {
           <motion.span
             animate={{ opacity: [1, 0] }}
             transition={{
+              duration: 0.53,
               repeat: Number.POSITIVE_INFINITY,
               repeatType: "reverse",
-              duration: 0.53,
             }}
           >
             _
@@ -40,12 +42,12 @@ export default function TimelineIntro() {
         className="mb-6 h-0.5 w-24 bg-linear-to-r from-primary to-transparent"
         style={{ transformOrigin: "left" }}
         {...(!prefersReducedMotion && {
-          initial: { scaleX: 0 },
           animate: { scaleX: 1 },
+          initial: { scaleX: 0 },
           transition: {
+            delay: 0.3,
             duration: 0.8,
             ease: [0.25, 1, 0.5, 1],
-            delay: 0.3,
           },
         })}
       />
@@ -78,9 +80,9 @@ export default function TimelineIntro() {
           {...(!prefersReducedMotion && {
             animate: { y: [0, 4, 0] },
             transition: {
-              repeat: Number.POSITIVE_INFINITY,
               duration: 2.5,
               ease: "easeInOut",
+              repeat: Number.POSITIVE_INFINITY,
             },
           })}
         >

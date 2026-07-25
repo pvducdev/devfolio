@@ -15,6 +15,7 @@ import {
   ViewportPluginPackage,
 } from "@embedpdf/plugin-viewport/react";
 import type { HTMLAttributes } from "react";
+
 import ResumeViewerSkeleton from "@/components/resume-viewer/skeleton.tsx";
 
 interface ResumePDFViewerProps {
@@ -55,7 +56,7 @@ export default function PdfViewer({
                     <Scroller
                       documentId={activeDocumentId}
                       renderPage={({ width, height, pageIndex }) => (
-                        <div style={{ width, height }}>
+                        <div style={{ height, width }}>
                           <RenderLayer
                             documentId={activeDocumentId}
                             pageIndex={pageIndex}

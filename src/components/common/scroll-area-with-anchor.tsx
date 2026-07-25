@@ -1,6 +1,7 @@
 import { ArrowDown } from "lucide-react";
 import type { ComponentProps } from "react";
 import { useRef } from "react";
+
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useScrollEdges } from "@/hooks/use-scroll";
@@ -20,8 +21,8 @@ export default function ScrollAreaWithAnchor({
 
   const scrollToBottom = () => {
     viewportRef.current?.scrollTo({
-      top: viewportRef.current.scrollHeight,
       behavior: "smooth",
+      top: viewportRef.current.scrollHeight,
     });
   };
 

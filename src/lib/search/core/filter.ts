@@ -1,9 +1,9 @@
 import type { BaseSearchItem, FilterFn, SearchResult } from "./types";
 
-export function filterResults<TItem extends BaseSearchItem>(
+export const filterResults = <TItem extends BaseSearchItem>(
   results: SearchResult<TItem>[],
   filters: FilterFn<TItem>[]
-): SearchResult<TItem>[] {
+): SearchResult<TItem>[] => {
   if (filters.length === 0) {
     return results;
   }
@@ -11,4 +11,4 @@ export function filterResults<TItem extends BaseSearchItem>(
   return results.filter((result) =>
     filters.every((filter) => filter(result.item))
   );
-}
+};

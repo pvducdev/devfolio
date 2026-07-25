@@ -1,5 +1,6 @@
 import { Dog } from "lucide-react";
 import { useHotkeys } from "react-hotkeys-hook";
+
 import ButtonWithTooltip from "@/components/common/button-with-tooltip";
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
 import { SITE_CONFIG } from "@/config/site";

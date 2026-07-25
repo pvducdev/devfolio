@@ -5,13 +5,13 @@ import type {
   SearchResult,
 } from "./types";
 
-export function groupResults<
+export const groupResults = <
   TItem extends BaseSearchItem,
   TGroupKey extends string = string,
 >(
   results: SearchResult<TItem>[],
   groupFn: GroupFn<TItem, TGroupKey>
-): GroupedResults<TItem, TGroupKey> {
+): GroupedResults<TItem, TGroupKey> => {
   const grouped = {} as GroupedResults<TItem, TGroupKey>;
 
   for (const result of results) {
@@ -25,4 +25,4 @@ export function groupResults<
   }
 
   return grouped;
-}
+};

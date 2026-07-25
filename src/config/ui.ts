@@ -1,18 +1,18 @@
 export const LAYOUT_CONFIG = {
-  sidebar: {
-    defaultSize: 20,
-    minSize: 15,
-    maxSize: 40,
-    defaultSection: null,
-  },
-  panel: {
-    defaultSize: 25,
-    minSize: 15,
-    maxSize: 40,
-    defaultSection: "assistant",
-  },
   editor: {
     defaultSize: undefined,
+  },
+  panel: {
+    defaultSection: "assistant",
+    defaultSize: 25,
+    maxSize: 40,
+    minSize: 15,
+  },
+  sidebar: {
+    defaultSection: null,
+    defaultSize: 20,
+    maxSize: 40,
+    minSize: 15,
   },
   stretchLayout: false,
 } as const;

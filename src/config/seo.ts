@@ -1,145 +1,115 @@
-import type { HeadConfig } from "@tanstack/react-router";
+import type { JSX } from "react";
+
 import { PERSONAL_INFO } from "./personal-info";
 import { SITE_CONFIG } from "./site";
 
-export function buildSeoMeta(
+type MetaTag = JSX.IntrinsicElements["meta"];
+
+const ogTag = (property: string, content: string): MetaTag =>
+  ({ content, property }) as MetaTag;
+
+export const buildSeoMeta = (
   locale: string,
   canonicalUrl: string
-): HeadConfig["meta"] {
-  return [
-    {
-      charSet: "utf-8",
-    },
-    {
-      name: "viewport",
-      content: "width=device-width, initial-scale=1, viewport-fit=cover",
-    },
-    {
-      title: SITE_CONFIG.title,
-    },
-    {
-      name: "description",
-      content: SITE_CONFIG.description,
-    },
-    {
-      name: "author",
-      content: SITE_CONFIG.meta.author,
-    },
-    {
-      name: "keywords",
-      content: SITE_CONFIG.meta.keywords.join(", "),
-    },
-    {
-      property: "og:type",
-      content: SITE_CONFIG.meta.ogType,
-    },
-    {
-      property: "og:url",
-      content: canonicalUrl,
-    },
-    {
-      property: "og:title",
-      content: SITE_CONFIG.title,
-    },
-    {
-      property: "og:description",
-      content: SITE_CONFIG.description,
-    },
-    {
-      property: "og:image",
-      content: SITE_CONFIG.meta.ogImage,
-    },
-    {
-      property: "og:image:width",
-      content: SITE_CONFIG.meta.ogImageWidth,
-    },
-    {
-      property: "og:image:height",
-      content: SITE_CONFIG.meta.ogImageHeight,
-    },
-    {
-      property: "og:image:alt",
-      content: `${PERSONAL_INFO.name} - ${PERSONAL_INFO.role}`,
-    },
-    {
-      property: "og:locale",
-      content: locale === "vi" ? "vi_VN" : "en_US",
-    },
-    {
-      property: "og:site_name",
-      content: SITE_CONFIG.title,
-    },
-    {
-      name: "twitter:card",
-      content: SITE_CONFIG.meta.twitterCard,
-    },
-    {
-      name: "twitter:title",
-      content: SITE_CONFIG.title,
-    },
-    {
-      name: "twitter:description",
-      content: SITE_CONFIG.description,
-    },
-    {
-      name: "twitter:image",
-      content: SITE_CONFIG.meta.ogImage,
-    },
-    {
-      name: "twitter:image:alt",
-      content: `${PERSONAL_INFO.name} - ${PERSONAL_INFO.role}`,
-    },
-  ];
-}
+): MetaTag[] => [
+  {
+    charSet: "utf8",
+  },
+  {
+    content: "width=device-width, initial-scale=1, viewport-fit=cover",
+    name: "viewport",
+  },
+  {
+    title: SITE_CONFIG.title,
+  },
+  {
+    content: SITE_CONFIG.description,
+    name: "description",
+  },
+  {
+    content: SITE_CONFIG.meta.author,
+    name: "author",
+  },
+  {
+    content: SITE_CONFIG.meta.keywords.join(", "),
+    name: "keywords",
+  },
+  ogTag("og:type", SITE_CONFIG.meta.ogType),
+  ogTag("og:url", canonicalUrl),
+  ogTag("og:title", SITE_CONFIG.title),
+  ogTag("og:description", SITE_CONFIG.description),
+  ogTag("og:image", SITE_CONFIG.meta.ogImage),
+  ogTag("og:image:width", SITE_CONFIG.meta.ogImageWidth),
+  ogTag("og:image:height", SITE_CONFIG.meta.ogImageHeight),
+  ogTag("og:image:alt", `${PERSONAL_INFO.name} - ${PERSONAL_INFO.role}`),
+  ogTag("og:locale", locale === "vi" ? "vi_VN" : "en_US"),
+  ogTag("og:site_name", SITE_CONFIG.title),
+  {
+    content: SITE_CONFIG.meta.twitterCard,
+    name: "twitter:card",
+  },
+  {
+    content: SITE_CONFIG.title,
+    name: "twitter:title",
+  },
+  {
+    content: SITE_CONFIG.description,
+    name: "twitter:description",
+  },
+  {
+    content: SITE_CONFIG.meta.ogImage,
+    name: "twitter:image",
+  },
+  {
+    content: `${PERSONAL_INFO.name} - ${PERSONAL_INFO.role}`,
+    name: "twitter:image:alt",
+  },
+];
 
-export function buildCanonicalLink(canonicalUrl: string): HeadConfig["links"] {
-  return [
-    {
-      rel: "canonical",
-      href: canonicalUrl,
-    },
-  ];
-}
+export const buildCanonicalLink = (canonicalUrl: string) => [
+  {
+    href: canonicalUrl,
+    rel: "canonical",
+  },
+];
 
-export function buildStructuredData(): HeadConfig["scripts"] {
-  return [
-    {
-      type: "application/ld+json",
-      children: JSON.stringify({
-        "@context": "https://schema.org",
+export const buildStructuredData = () => [
+  {
+    children: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Person",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: PERSONAL_INFO.location,
+      },
+      alternateName: PERSONAL_INFO.nickname,
+      description: SITE_CONFIG.description,
+      email: PERSONAL_INFO.contact.email,
+      image: PERSONAL_INFO.avatar,
+      jobTitle: PERSONAL_INFO.role,
+      name: PERSONAL_INFO.name,
+      sameAs: [
+        PERSONAL_INFO.contact.github,
+        PERSONAL_INFO.contact.linkedin,
+        PERSONAL_INFO.contact.gitlab,
+      ],
+      url: SITE_CONFIG.url,
+    }),
+    type: "application/ld+json",
+  },
+  {
+    children: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      author: {
         "@type": "Person",
         name: PERSONAL_INFO.name,
-        alternateName: PERSONAL_INFO.nickname,
-        jobTitle: PERSONAL_INFO.role,
-        description: SITE_CONFIG.description,
-        url: SITE_CONFIG.url,
-        image: PERSONAL_INFO.avatar,
-        email: PERSONAL_INFO.contact.email,
-        address: {
-          "@type": "PostalAddress",
-          addressLocality: PERSONAL_INFO.location,
-        },
-        sameAs: [
-          PERSONAL_INFO.contact.github,
-          PERSONAL_INFO.contact.linkedin,
-          PERSONAL_INFO.contact.gitlab,
-        ],
-      }),
-    },
-    {
-      type: "application/ld+json",
-      children: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        name: SITE_CONFIG.title,
-        description: SITE_CONFIG.description,
-        url: SITE_CONFIG.url,
-        author: {
-          "@type": "Person",
-          name: PERSONAL_INFO.name,
-        },
-        inLanguage: ["en", "vi"],
-      }),
-    },
-  ];
-}
+      },
+      description: SITE_CONFIG.description,
+      inLanguage: ["en", "vi"],
+      name: SITE_CONFIG.title,
+      url: SITE_CONFIG.url,
+    }),
+    type: "application/ld+json",
+  },
+];

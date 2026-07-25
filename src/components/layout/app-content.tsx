@@ -1,4 +1,5 @@
 import { useDebounceCallback } from "usehooks-ts";
+
 import CodeEditorContainer from "@/components/code-editor/container";
 import ActivitiesBar from "@/components/layout/activities-bar";
 import Panel from "@/components/layout/panel";
@@ -9,6 +10,7 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { LAYOUT_CONFIG } from "@/config/ui";
+import { percentSize } from "@/lib/size";
 import {
   useAppLayoutActions,
   usePanelSection,
@@ -36,17 +38,16 @@ export default function AppContent() {
           toggleSidebar(key);
         }}
       />
-      <ResizablePanelGroup autoSaveId="conditional" direction="horizontal">
+      <ResizablePanelGroup orientation="horizontal">
         {!!sidebar && (
           <>
             <ResizablePanel
               className="overflow-auto! rounded-xl bg-background"
-              defaultSize={sidebarSize}
+              defaultSize={percentSize(sidebarSize)}
               id="sidebar"
-              maxSize={LAYOUT_CONFIG.sidebar.maxSize}
-              minSize={LAYOUT_CONFIG.sidebar.minSize}
-              onResize={debouncedSetSidebarSize}
-              order={1}
+              maxSize={percentSize(LAYOUT_CONFIG.sidebar.maxSize)}
+              minSize={percentSize(LAYOUT_CONFIG.sidebar.minSize)}
+              onResize={(size) => debouncedSetSidebarSize(size.asPercentage)}
             >
               <Sidebar activeView={sidebar} />
             </ResizablePanel>
@@ -55,9 +56,8 @@ export default function AppContent() {
         )}
         <ResizablePanel
           className="rounded-xl bg-background"
-          defaultSize={LAYOUT_CONFIG.editor.defaultSize}
+          defaultSize={percentSize(LAYOUT_CONFIG.editor.defaultSize)}
           id="code-editor"
-          order={2}
         >
           <CodeEditorContainer />
         </ResizablePanel>
@@ -66,12 +66,11 @@ export default function AppContent() {
             <ResizableHandle className="w-1.5 bg-transparent" />
             <ResizablePanel
               className="rounded-xl bg-background"
-              defaultSize={panelSize}
+              defaultSize={percentSize(panelSize)}
               id="panel"
-              maxSize={LAYOUT_CONFIG.panel.maxSize}
-              minSize={LAYOUT_CONFIG.panel.minSize}
-              onResize={debouncedSetPanelSize}
-              order={3}
+              maxSize={percentSize(LAYOUT_CONFIG.panel.maxSize)}
+              minSize={percentSize(LAYOUT_CONFIG.panel.minSize)}
+              onResize={(size) => debouncedSetPanelSize(size.asPercentage)}
             >
               <Panel
                 onClose={() => {

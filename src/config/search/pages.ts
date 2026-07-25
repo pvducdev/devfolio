@@ -5,42 +5,42 @@ import { activities } from "@/config/routes";
 
 import type { AppSearchItem } from "./types";
 
-function extractTreeItems(
+const extractTreeItems = (
   tree: Record<string, { name: string; children?: string[]; path?: string }>,
   prefix: string
-): AppSearchItem[] {
+): AppSearchItem[] => {
   const items: AppSearchItem[] = [];
 
   for (const [key, node] of Object.entries(tree)) {
     if (node.path) {
       items.push({
-        id: `pages:tree:${prefix}:${key}`,
-        title: node.name.replace(".tsx", ""),
         description: node.path,
+        id: `pages:tree:${prefix}:${key}`,
         meta: {
+          action: { path: node.path, type: "navigate" },
           category: "page",
           icon: File,
-          action: { type: "navigate", path: node.path },
         },
+        title: node.name.replace(".tsx", ""),
       });
     }
   }
 
   return items;
-}
+};
 
-export function buildPageItems(): AppSearchItem[] {
+export const buildPageItems = (): AppSearchItem[] => {
   const items: AppSearchItem[] = [];
 
   for (const activity of activities) {
     items.push({
       id: `pages:activity:${activity.key}`,
-      title: activity.name(),
       meta: {
+        action: { path: `/${activity.key}`, type: "navigate" },
         category: "page",
         icon: activity.icon,
-        action: { type: "navigate", path: `/${activity.key}` },
       },
+      title: activity.name(),
     });
   }
 
@@ -48,4 +48,4 @@ export function buildPageItems(): AppSearchItem[] {
   items.push(...extractTreeItems(PROJECT_TREE, "project"));
 
   return items;
-}
+};

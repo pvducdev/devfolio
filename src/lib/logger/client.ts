@@ -2,6 +2,7 @@ import { Logtail as BrowserLogtail } from "@logtail/browser";
 import { Logtail as EdgeLogtail } from "@logtail/edge";
 import { createIsomorphicFn } from "@tanstack/react-start";
 import { getStartContext } from "@tanstack/start-storage-context";
+
 import { env as clientEnv } from "@/env/client";
 import { env as serverEnv } from "@/env/server";
 

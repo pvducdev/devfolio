@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { useShallow } from "zustand/shallow";
+
 import { STORE_KEYS } from "@/config/store-keys";
 import { LAYOUT_CONFIG } from "@/config/ui";
 
@@ -21,30 +22,30 @@ export interface AppLayoutActions {
 }
 
 const DEFAULT_APP_LAYOUT: AppLayoutState = {
-  sidebar: LAYOUT_CONFIG.sidebar.defaultSection,
-  panel: LAYOUT_CONFIG.panel.defaultSection,
-  sidebarSize: LAYOUT_CONFIG.sidebar.defaultSize,
-  panelSize: LAYOUT_CONFIG.panel.defaultSize,
   isStretchLayout: LAYOUT_CONFIG.stretchLayout,
+  panel: LAYOUT_CONFIG.panel.defaultSection,
+  panelSize: LAYOUT_CONFIG.panel.defaultSize,
+  sidebar: LAYOUT_CONFIG.sidebar.defaultSection,
+  sidebarSize: LAYOUT_CONFIG.sidebar.defaultSize,
 };
 
 export const useAppLayoutStore = create<AppLayoutState & AppLayoutActions>()(
   persist(
     (set) => ({
       ...DEFAULT_APP_LAYOUT,
-      toggleSidebar: (value) => {
-        set((state) => ({
-          sidebar: state.sidebar === value ? null : value,
-        }));
-      },
-      togglePanel: (value) => {
-        set((state) => ({ panel: state.panel === value ? null : value }));
+      setPanelSize: (size) => {
+        set(() => ({ panelSize: size }));
       },
       setSidebarSize: (size) => {
         set(() => ({ sidebarSize: size }));
       },
-      setPanelSize: (size) => {
-        set(() => ({ panelSize: size }));
+      togglePanel: (value) => {
+        set((state) => ({ panel: state.panel === value ? null : value }));
+      },
+      toggleSidebar: (value) => {
+        set((state) => ({
+          sidebar: state.sidebar === value ? null : value,
+        }));
       },
       toggleStretchLayout: () => {
         set((state) => ({ isStretchLayout: !state.isStretchLayout }));
@@ -75,10 +76,10 @@ export const usePanelSize = () => useAppLayoutStore((s) => s.panelSize);
 export const useAppLayoutActions = () =>
   useAppLayoutStore(
     useShallow((s) => ({
-      toggleSidebar: s.toggleSidebar,
-      togglePanel: s.togglePanel,
-      setSidebarSize: s.setSidebarSize,
       setPanelSize: s.setPanelSize,
+      setSidebarSize: s.setSidebarSize,
+      togglePanel: s.togglePanel,
+      toggleSidebar: s.toggleSidebar,
       toggleStretchLayout: s.toggleStretchLayout,
     }))
   );

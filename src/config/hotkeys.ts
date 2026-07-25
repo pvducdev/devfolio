@@ -1,10 +1,10 @@
 const HOTKEYS = {
-  search: ["mod", "k"],
   assistant: ["mod", "j"],
-  toggleLayout: ["mod", "shift", "f"],
-  showShortcuts: ["mod", "alt", "k"],
-  closeTab: ["alt", "w"],
   closeAllTabs: ["alt", "shift", "w"],
+  closeTab: ["alt", "w"],
+  search: ["mod", "k"],
+  showShortcuts: ["mod", "alt", "k"],
+  toggleLayout: ["mod", "shift", "f"],
 } as const satisfies Record<string, readonly string[]>;
 
 type HotkeyId = keyof typeof HOTKEYS;

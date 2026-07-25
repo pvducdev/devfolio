@@ -16,7 +16,7 @@ const DEFAULT_MAX_REQUESTS = 100;
 const DEFAULT_WINDOW_MS = 60_000;
 const CLEANUP_INTERVAL_MS = 60_000;
 
-function cleanupExpiredEntries() {
+const cleanupExpiredEntries = () => {
   const now = Date.now();
   if (now - lastCleanup < CLEANUP_INTERVAL_MS) {
     return;
@@ -27,13 +27,13 @@ function cleanupExpiredEntries() {
       requestHistory.delete(clientId);
     }
   }
-}
+};
 
-export function checkRateLimit(
+export const checkRateLimit = (
   clientId: string,
   maxRequests = DEFAULT_MAX_REQUESTS,
   windowMs = DEFAULT_WINDOW_MS
-): RateLimitResult {
+): RateLimitResult => {
   cleanupExpiredEntries();
   const now = Date.now();
   const entry = requestHistory.get(clientId);
@@ -68,25 +68,24 @@ export function checkRateLimit(
     remaining: maxRequests - entry.requestCount,
     retryAfterMs: entry.windowExpiresAt - now,
   };
-}
+};
 
-export function getClientIP(request: Request): string {
-  return (
-    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-    request.headers.get("x-real-ip") ||
-    request.headers.get("cf-connecting-ip") ||
-    "anonymous"
-  );
-}
+export const getClientIP = (request: Request): string =>
+  request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+  request.headers.get("x-real-ip") ||
+  request.headers.get("cf-connecting-ip") ||
+  "anonymous";
 
-export function createRateLimitResponse(retryAfterMs: number): Response {
+export const createRateLimitResponse = (retryAfterMs: number): Response => {
   const retryAfterSeconds = Math.ceil(retryAfterMs / 1000);
 
-  return new Response(JSON.stringify({ error: "Too Many Requests" }), {
-    status: 429,
-    headers: {
-      "Content-Type": "application/json",
-      "Retry-After": String(retryAfterSeconds),
-    },
-  });
-}
+  return Response.json(
+    { error: "Too Many Requests" },
+    {
+      headers: {
+        "Retry-After": String(retryAfterSeconds),
+      },
+      status: 429,
+    }
+  );
+};

@@ -6,6 +6,7 @@ import { Linkedin } from "@/components/ui/svgs/linkedin";
 import { PERSONAL_INFO } from "@/config/personal-info";
 import { SITE_CONFIG } from "@/config/site";
 import { ui_state_hired, ui_state_opentowork } from "@/paraglide/messages.js";
+
 import { Badge } from "../ui/badge";
 
 export default function StatusFooter() {

@@ -1,6 +1,5 @@
 import ContributionCell from "@/components/about/contribution-cell";
 import { ContributionSectionSkeleton } from "@/components/about/contribution-section-skeleton";
-// biome-ignore lint/performance/noNamespaceImport: component pattern
 import * as ContributionGraph from "@/components/common/contribution-graph";
 import {
   Tooltip,
@@ -26,14 +25,14 @@ interface LevelThreshold {
 }
 
 const DEFAULT_THRESHOLDS: LevelThreshold[] = [
-  { min: 0, max: 0 },
-  { min: 1, max: 2 },
-  { min: 3, max: 5 },
-  { min: 6, max: 9 },
+  { max: 0, min: 0 },
+  { max: 2, min: 1 },
+  { max: 5, min: 3 },
+  { max: 9, min: 6 },
   { min: 10 },
 ];
 
-function formatLevelLabel(threshold: LevelThreshold): string {
+const formatLevelLabel = (threshold: LevelThreshold): string => {
   if (threshold.min === 0 && threshold.max === 0) {
     return page_about_contribution_level_none();
   }
@@ -43,19 +42,18 @@ function formatLevelLabel(threshold: LevelThreshold): string {
   }
 
   return page_about_contribution_level_range({
-    min: threshold.min,
     max: threshold.max,
+    min: threshold.min,
   });
-}
+};
 
-function formatSummary(count: number): string {
-  return page_about_contribution_summary({
+const formatSummary = (count: number): string =>
+  page_about_contribution_summary({
     count,
     platform: CONTRIBUTIONS_CONFIG.source,
   });
-}
 
-function getLevelForCount(count: number): number {
+const getLevelForCount = (count: number): number => {
   if (count === 0) {
     return 0;
   }
@@ -69,16 +67,16 @@ function getLevelForCount(count: number): number {
     return 3;
   }
   return 4;
-}
+};
 
-export default function ContributionSection() {
-  const { data, isLoading, error } = useContributions();
+const ContributionSection = () => {
+  const { data, isLoading, status } = useContributions();
 
   const { weeks, months, weekdays, startDate, endDate } = useContributionGraph({
     weekStartDay: 0,
   });
   const locale = getLocale();
-  const visibleWeekdays = [1, 3, 5];
+  const visibleWeekdays = new Set([1, 3, 5]);
 
   const totalContributions = data.reduce(
     (sum, item: ContributionData) => sum + item.count,
@@ -89,7 +87,7 @@ export default function ContributionSection() {
     return <ContributionSectionSkeleton />;
   }
 
-  if (error) {
+  if (status === "error") {
     return (
       <section aria-label="contributions" className="mx-auto w-full p-4">
         <p className="text-center text-muted-foreground text-sm">
@@ -130,7 +128,7 @@ export default function ContributionSection() {
             {weekdays.map((day, rowIndex) => (
               <ContributionGraph.Row key={day}>
                 <ContributionGraph.HeaderCell className="pr-2 text-right">
-                  {visibleWeekdays.includes(day) && (
+                  {visibleWeekdays.has(day) && (
                     <ContributionGraph.Label>
                       {formatWeekday(day, locale)}
                     </ContributionGraph.Label>
@@ -161,11 +159,13 @@ export default function ContributionSection() {
           <div className="flex items-center space-x-0.5">
             {DEFAULT_THRESHOLDS.map((threshold, idx) => (
               <Tooltip key={threshold.min}>
-                <TooltipTrigger asChild>
-                  <ContributionGraph.LegendItem
-                    level={idx as 0 | 1 | 2 | 3 | 4}
-                  />
-                </TooltipTrigger>
+                <TooltipTrigger
+                  render={
+                    <ContributionGraph.LegendItem
+                      level={idx as 0 | 1 | 2 | 3 | 4}
+                    />
+                  }
+                />
                 <TooltipContent>{formatLevelLabel(threshold)}</TooltipContent>
               </Tooltip>
             ))}
@@ -174,4 +174,6 @@ export default function ContributionSection() {
       </ContributionGraph.Root>
     </section>
   );
-}
+};
+
+export default ContributionSection;

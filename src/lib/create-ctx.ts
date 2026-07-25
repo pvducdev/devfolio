@@ -1,9 +1,9 @@
 import { createContext, useContext } from "react";
 
-function createCtx<T extends unknown | null>(
+const createCtx = <T extends unknown | null>(
   errMsg = "useCtx` must be inside a Provider with value.",
   defaultValue?: T
-) {
+) => {
   const ctx = createContext<T | undefined>(defaultValue);
 
   const useCtx = () => {
@@ -17,6 +17,6 @@ function createCtx<T extends unknown | null>(
   };
 
   return [useCtx, ctx.Provider] as const;
-}
+};
 
 export default createCtx;

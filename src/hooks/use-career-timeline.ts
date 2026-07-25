@@ -2,14 +2,15 @@ import type { MotionValue } from "motion/react";
 import { useMotionValueEvent, useTransform, useVelocity } from "motion/react";
 import type { RefObject } from "react";
 import { useEffect, useRef, useState } from "react";
+
 import { CAREER_SECTIONS } from "@/components/career-runner/config";
 import { useCareerActions } from "@/store/career";
 
 const SCROLL_CONFIG = {
-  ioThreshold: [0, 0.2, 0.4, 0.6, 0.8, 1],
-  velocityThreshold: 50,
   idleDebounceMs: 150,
+  ioThreshold: [0, 0.2, 0.4, 0.6, 0.8, 1],
   minActivateRatio: 0.2,
+  velocityThreshold: 50,
 } as const;
 
 interface UseCareerTimelineOptions {
@@ -22,14 +23,14 @@ interface UseCareerTimelineReturn {
   activeIndex: number;
 }
 
-function findMostVisibleSection(
+const findMostVisibleSection = (
   refs: RefObject<HTMLDivElement | null>[],
   ratios: Map<Element, number>
-): number {
+): number => {
   let bestIndex = -1;
   let bestRatio = 0;
 
-  for (let i = 0; i < refs.length; i++) {
+  for (let i = 0; i < refs.length; i += 1) {
     const el = refs[i].current;
     if (!el) {
       continue;
@@ -42,12 +43,12 @@ function findMostVisibleSection(
   }
 
   return bestRatio > SCROLL_CONFIG.minActivateRatio ? bestIndex : -1;
-}
+};
 
-export function useCareerTimeline({
+export const useCareerTimeline = ({
   scrollContainerRef,
   scrollY,
-}: UseCareerTimelineOptions): UseCareerTimelineReturn {
+}: UseCareerTimelineOptions): UseCareerTimelineReturn => {
   const [activeIndex, setActiveIndex] = useState(-1);
   const { setActiveSection, setStatus, reset } = useCareerActions();
   const idleTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -98,7 +99,7 @@ export function useCareerTimeline({
           setActiveSection(CAREER_SECTIONS[best].id);
         }
       },
-      { root: container, threshold: SCROLL_CONFIG.ioThreshold }
+      { root: container, threshold: [...SCROLL_CONFIG.ioThreshold] }
     );
 
     for (const ref of sectionRefs) {
@@ -116,5 +117,5 @@ export function useCareerTimeline({
     };
   }, [scrollContainerRef, sectionRefs, setActiveSection, reset]);
 
-  return { sectionRefs, activeIndex };
-}
+  return { activeIndex, sectionRefs };
+};

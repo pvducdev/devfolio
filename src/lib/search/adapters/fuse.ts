@@ -1,4 +1,5 @@
-import Fuse, { type FuseResultMatch, type IFuseOptions } from "fuse.js";
+import Fuse from "fuse.js";
+import type { FuseResultMatch, IFuseOptions } from "fuse.js";
 
 import type {
   BaseSearchItem,
@@ -22,32 +23,27 @@ export interface FuseIndexKey<TItem> {
   weight: number;
 }
 
-export interface FuseAdapterOptions<TItem extends BaseSearchItem = SearchItem>
-  extends Omit<Partial<IFuseOptions<TItem>>, "keys"> {
+export interface FuseAdapterOptions<
+  TItem extends BaseSearchItem = SearchItem,
+> extends Omit<Partial<IFuseOptions<TItem>>, "keys"> {
   keys: FuseIndexKey<TItem>[];
 }
 
 const DEFAULT_SEARCH_LIMIT = 20;
 
 const DEFAULT_FUSE_OPTIONS: Partial<IFuseOptions<unknown>> = {
-  includeScore: true,
-  includeMatches: true,
-  // Ignore pattern position - match anywhere in the field
-  ignoreLocation: true,
-  // Fuzzy matching sensitivity: 0 = exact, 1 = match anything
-  // 0.4 provides good balance for search UX
-  threshold: 0.4,
-  // Minimum characters to trigger a match (filter out single chars)
-  minMatchCharLength: 2,
-  // Results are sorted by score
-  shouldSort: true,
-  // Don't penalize longer fields - existence matters more than frequency
   ignoreFieldNorm: true,
+  ignoreLocation: true,
+  includeMatches: true,
+  includeScore: true,
+  minMatchCharLength: 2,
+  shouldSort: true,
+  threshold: 0.4,
 };
 
-export class FuseAdapter<TItem extends BaseSearchItem = SearchItem>
-  implements IndexAdapter<TItem>
-{
+export class FuseAdapter<
+  TItem extends BaseSearchItem = SearchItem,
+> implements IndexAdapter<TItem> {
   private readonly items = new Map<string, TItem>();
   private fuse: Fuse<TItem> | null = null;
   private readonly options: FuseAdapterOptions<TItem>;
@@ -106,10 +102,10 @@ export class FuseAdapter<TItem extends BaseSearchItem = SearchItem>
 
     return results.map((result) => ({
       item: result.item,
-      score: result.score ?? 0,
       matches: options?.includeMatches
-        ? this.mapMatches(result.matches)
+        ? FuseAdapter.mapMatches(result.matches)
         : undefined,
+      score: result.score ?? 0,
     }));
   }
 
@@ -149,7 +145,7 @@ export class FuseAdapter<TItem extends BaseSearchItem = SearchItem>
     this.dirty = false;
   }
 
-  private mapMatches(
+  private static mapMatches(
     matches: readonly FuseResultMatch[] | undefined
   ): SearchMatch[] | undefined {
     if (!matches) {
@@ -158,16 +154,14 @@ export class FuseAdapter<TItem extends BaseSearchItem = SearchItem>
 
     return matches.map(
       (m): SearchMatch => ({
+        indices: m.indices as unknown as [number, number][],
         key: m.key ?? "",
         value: m.value ?? "",
-        indices: m.indices as unknown as [number, number][],
       })
     );
   }
 }
 
-export function createFuseAdapter<TItem extends BaseSearchItem = SearchItem>(
+export const createFuseAdapter = <TItem extends BaseSearchItem = SearchItem>(
   options: FuseAdapterOptions<TItem>
-): FuseAdapter<TItem> {
-  return new FuseAdapter(options);
-}
+): FuseAdapter<TItem> => new FuseAdapter(options);

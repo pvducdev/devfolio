@@ -1,5 +1,6 @@
 import { Check, Palette } from "lucide-react";
 import { useBoolean } from "usehooks-ts";
+
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -24,19 +25,21 @@ export default function ThemeSwitcher() {
 
   return (
     <Popover onOpenChange={setOpen} open={open}>
-      <PopoverTrigger asChild>
-        <Button
-          aria-expanded={open}
-          className="h-[22px] px-1.5 py-px text-center text-muted-foreground text-xs"
-          role="combobox"
-          variant="ghost"
-        >
-          <Palette className="size-4" />
-          {theme
-            ? THEMES.find((t) => t.value === theme)?.name
-            : ui_theme_select()}
-        </Button>
-      </PopoverTrigger>
+      <PopoverTrigger
+        render={
+          <Button
+            aria-expanded={open}
+            className="h-[22px] px-1.5 py-px text-center text-muted-foreground text-xs"
+            role="combobox"
+            variant="ghost"
+          >
+            <Palette className="size-4" />
+            {theme
+              ? THEMES.find((t) => t.value === theme)?.name
+              : ui_theme_select()}
+          </Button>
+        }
+      />
       <PopoverContent className="max-w-60 p-0">
         <Command>
           <CommandList>

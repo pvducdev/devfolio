@@ -3,6 +3,7 @@ import type { MotionValue } from "motion/react";
 import { motion, useSpring, useTransform } from "motion/react";
 import type { RefObject } from "react";
 import { useEffect, useRef, useState } from "react";
+
 import { CHARACTER_CONFIG } from "@/components/career-runner/config";
 import { useCharacterAnimationState } from "@/store/career";
 
@@ -19,10 +20,10 @@ interface SectionMapping {
   scrollOffsets: number[];
 }
 
-function getOffsetFromContainer(
+const getOffsetFromContainer = (
   element: HTMLElement,
   container: HTMLElement
-): number {
+): number => {
   let offset = 0;
   let current: HTMLElement | null = element;
   while (current && current !== container) {
@@ -30,12 +31,12 @@ function getOffsetFromContainer(
     current = current.offsetParent as HTMLElement | null;
   }
   return offset;
-}
+};
 
-function useSectionMapping(
+const useSectionMapping = (
   refs: RefObject<HTMLDivElement | null>[],
   scrollRef: RefObject<HTMLDivElement | null>
-): SectionMapping {
+): SectionMapping => {
   const [mapping, setMapping] = useState<SectionMapping>({
     characterYs: [],
     scrollOffsets: [],
@@ -89,13 +90,13 @@ function useSectionMapping(
   }, [refs, scrollRef]);
 
   return mapping;
-}
+};
 
-export default function StairCharacter({
+const StairCharacter = ({
   sectionRefs,
   scrollY,
   scrollRef,
-}: StairCharacterProps) {
+}: StairCharacterProps) => {
   const animationState = useCharacterAnimationState();
   const { characterYs, scrollOffsets } = useSectionMapping(
     sectionRefs,
@@ -119,21 +120,21 @@ export default function StairCharacter({
       container.clientHeight / 2 -
       CHARACTER_SIZE / 2;
 
-    const min = characterYs[0];
+    const [min] = characterYs;
     const max = characterYs[count - 1];
     return Math.min(Math.max(viewportCenter, min), max);
   });
 
   const smoothY = useSpring(rawY, {
-    stiffness: 600,
     damping: 50,
     restDelta: 0.5,
+    stiffness: 600,
   });
 
   const { rive, RiveComponent } = useRive({
+    autoplay: true,
     src: CHARACTER_CONFIG.src,
     stateMachines: CHARACTER_CONFIG.stateMachine,
-    autoplay: true,
   });
 
   const stateInput = useStateMachineInput(
@@ -157,9 +158,11 @@ export default function StairCharacter({
     <motion.div
       aria-hidden="true"
       className="pointer-events-none absolute -left-6 z-10"
-      style={{ top: smoothY, width: CHARACTER_SIZE, height: CHARACTER_SIZE }}
+      style={{ height: CHARACTER_SIZE, top: smoothY, width: CHARACTER_SIZE }}
     >
       <RiveComponent />
     </motion.div>
   );
-}
+};
+
+export default StairCharacter;

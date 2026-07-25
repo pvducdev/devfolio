@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
+
 import { Button } from "@/components/ui/button";
 
 interface ErrorPageProps {
@@ -46,8 +47,13 @@ export default function ErrorPage({
 
         <div className="flex justify-center pt-2">
           {actionHref ? (
-            <Button asChild size="default" variant="outline">
-              <Link to={actionHref}>{actionLabel}</Link>
+            <Button
+              nativeButton={false}
+              render={<Link to={actionHref} />}
+              size="default"
+              variant="outline"
+            >
+              {actionLabel}
             </Button>
           ) : (
             <Button onClick={onAction} size="default" variant="outline">

@@ -1,5 +1,6 @@
 import { delay } from "@/lib/utils";
 
+// oxlint-disable-next-line func-style -- generators cannot be expressed as arrow functions
 export async function* typewriterStream(
   chunks: AsyncIterable<string | undefined>,
   delayMs = 30
@@ -14,12 +15,12 @@ export async function* typewriterStream(
 
     buffer += chunk;
 
-    for (let i = startIndex; i < buffer.length; i++) {
+    for (let i = startIndex; i < buffer.length; i += 1) {
       const char = buffer[i];
       const isWhitespace = char === " " || char === "\n" || char === "\t";
 
       if (isWhitespace) {
-        yield buffer.substring(startIndex, i + 1);
+        yield buffer.slice(startIndex, i + 1);
         startIndex = i + 1;
         await delay(delayMs);
       }
@@ -27,6 +28,6 @@ export async function* typewriterStream(
   }
 
   if (startIndex < buffer.length) {
-    yield buffer.substring(startIndex);
+    yield buffer.slice(startIndex);
   }
 }

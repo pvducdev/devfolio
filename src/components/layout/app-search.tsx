@@ -15,7 +15,8 @@ import {
 } from "@/components/ui/command";
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
 import type { AppSearchItem } from "@/config/search";
-import { type CategoryKey, useAppSearch } from "@/hooks/use-search";
+import { useAppSearch } from "@/hooks/use-search";
+import type { CategoryKey } from "@/hooks/use-search";
 import { getDisplayKeys, getHotkeyCombo } from "@/lib/hotkeys";
 import {
   ui_search_empty,
@@ -31,9 +32,9 @@ import {
 
 const getHeading = (key: CategoryKey): string => {
   const headings = {
+    career: ui_search_group_career(),
     page: ui_search_group_pages(),
     skill: ui_search_group_skills(),
-    career: ui_search_group_career(),
   };
   return headings[key];
 };

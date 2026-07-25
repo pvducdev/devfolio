@@ -1,28 +1,31 @@
-import { motion, useReducedMotion, type Variants } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
+import type { Variants } from "motion/react";
+
 import {
   page_career_label_infra,
   page_career_label_metrics,
   page_career_label_stack,
   page_career_label_tools,
 } from "@/paraglide/messages.js";
+
 import type { ExpandedContent } from "./config";
 import TechStackSection from "./tech-stack-section";
 
 const containerVariants: Variants = {
   hidden: {
-    opacity: 0,
     height: 0,
+    opacity: 0,
     transition: {
-      opacity: { duration: 0.2, ease: "easeIn" },
       height: { duration: 0.4, ease: [0.32, 0.72, 0, 1] },
+      opacity: { duration: 0.2, ease: "easeIn" },
     },
   },
   visible: {
-    opacity: 1,
     height: "auto",
+    opacity: 1,
     transition: {
-      opacity: { duration: 0.25, delay: 0.15, ease: "easeOut" },
       height: { duration: 0.4, ease: [0.32, 0.72, 0, 1] },
+      opacity: { delay: 0.15, duration: 0.25, ease: "easeOut" },
     },
   },
 };

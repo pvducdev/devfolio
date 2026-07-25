@@ -1,8 +1,9 @@
 import { useNavigate } from "@tanstack/react-router";
+
 import { ROUTES } from "@/config/routes";
 import { useActiveTabId, useTabsActions } from "@/store/tabs";
 
-export function useTabActions() {
+export const useTabActions = () => {
   const navigate = useNavigate();
   const activeTabId = useActiveTabId();
   const {
@@ -48,9 +49,9 @@ export function useTabActions() {
 
   return {
     close,
-    closeOthers,
     closeAll,
-    closeToRight,
+    closeOthers,
     closeToLeft,
+    closeToRight,
   };
-}
+};

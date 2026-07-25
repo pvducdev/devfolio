@@ -1,11 +1,7 @@
-import { Slot } from "@radix-ui/react-slot";
-import {
-  type ComponentProps,
-  type MouseEvent,
-  type ReactNode,
-  useMemo,
-  useState,
-} from "react";
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
+import { useMemo, useState } from "react";
+import type { ComponentProps, MouseEvent, ReactNode } from "react";
 
 import { useControllableState } from "@/hooks/use-controllable-state";
 import createCtx from "@/lib/create-ctx";
@@ -40,10 +36,9 @@ const [useContributionGraph, Provider] = createCtx<ContextValue>(
   "useContributionGraph must be used within a ContributionGraph"
 );
 
-function getDefaultLevelThresholds(
-  levels: number
-): (count: number, max: number) => number {
-  return (count: number, max: number) => {
+const getDefaultLevelThresholds =
+  (levels: number): ((count: number, max: number) => number) =>
+  (count: number, max: number) => {
     if (count === 0 || max === 0) {
       return 0;
     }
@@ -51,7 +46,6 @@ function getDefaultLevelThresholds(
     const level = Math.ceil(ratio * (levels - 1));
     return Math.min(level, levels - 1);
   };
-}
 
 type RootProps = ComponentProps<"div"> & {
   data: ContributionData[];
@@ -68,7 +62,7 @@ type RootProps = ComponentProps<"div"> & {
   children: ReactNode;
 };
 
-function Root({
+const Root = ({
   data,
   startDate: startDateProp,
   endDate: endDateProp,
@@ -82,7 +76,7 @@ function Root({
   isToday = defaultIsToday,
   children,
   ...props
-}: RootProps) {
+}: RootProps) => {
   const endDate = useMemo(
     () => endDateProp ?? toISODateString(new Date()),
     [endDateProp]
@@ -100,9 +94,9 @@ function Root({
   }, [startDateProp, endDate]);
 
   const [selectedDate, setSelectedDate] = useControllableState({
-    prop: selectedDateProp,
     defaultProp: defaultSelectedDate ?? null,
     onChange: onSelectedDateChange,
+    prop: selectedDateProp,
   });
 
   const [hoveredDate, setHoveredDate] = useState<string | null>(null);
@@ -137,18 +131,18 @@ function Root({
 
   const contextValue: ContextValue = {
     data: dataMap,
-    startDate,
     endDate,
+    getDataForDate,
+    getLevelForCount,
+    hoveredDate,
+    isToday,
+    isWeekend,
     levels,
     maxCount,
-    getLevelForCount,
-    getDataForDate,
-    selectedDate: selectedDate ?? null,
-    onSelectDate: setSelectedDate,
-    hoveredDate,
     onHoverDate: handleHoverDate,
-    isWeekend,
-    isToday,
+    onSelectDate: setSelectedDate,
+    selectedDate: selectedDate ?? null,
+    startDate,
   };
 
   return (
@@ -158,64 +152,76 @@ function Root({
       </div>
     </Provider>
   );
-}
-
-type GridProps = ComponentProps<"table"> & {
-  asChild?: boolean;
 };
 
-function Grid({ asChild = false, ...props }: GridProps) {
-  const Comp = asChild ? Slot : "table";
+type GridProps = useRender.ComponentProps<"table">;
 
-  return (
-    <Comp
-      aria-label="Contribution graph"
-      data-slot="contribution-graph-grid"
-      role="grid"
-      {...props}
-    />
-  );
-}
+const Grid = ({ render, ...props }: GridProps) =>
+  useRender({
+    defaultTagName: "table",
+    props: mergeProps<"table">(
+      {
+        "aria-label": "Contribution graph",
+        "data-slot": "contribution-graph-grid",
+        role: "grid",
+      } as ComponentProps<"table">,
+      props
+    ),
+    render,
+  });
 
-type HeadProps = ComponentProps<"thead"> & {
-  asChild?: boolean;
-};
+type HeadProps = useRender.ComponentProps<"thead">;
 
-function Head({ asChild = false, ...props }: HeadProps) {
-  const Comp = asChild ? Slot : "thead";
+const Head = ({ render, ...props }: HeadProps) =>
+  useRender({
+    defaultTagName: "thead",
+    props: mergeProps<"thead">(
+      { "data-slot": "contribution-graph-head" } as ComponentProps<"thead">,
+      props
+    ),
+    render,
+  });
 
-  return <Comp data-slot="contribution-graph-head" {...props} />;
-}
+type BodyProps = useRender.ComponentProps<"tbody">;
 
-type BodyProps = ComponentProps<"tbody"> & {
-  asChild?: boolean;
-};
+const Body = ({ render, ...props }: BodyProps) =>
+  useRender({
+    defaultTagName: "tbody",
+    props: mergeProps<"tbody">(
+      { "data-slot": "contribution-graph-body" } as ComponentProps<"tbody">,
+      props
+    ),
+    render,
+  });
 
-function Body({ asChild = false, ...props }: BodyProps) {
-  const Comp = asChild ? Slot : "tbody";
+type RowProps = useRender.ComponentProps<"tr">;
 
-  return <Comp data-slot="contribution-graph-body" {...props} />;
-}
+const Row = ({ render, ...props }: RowProps) =>
+  useRender({
+    defaultTagName: "tr",
+    props: mergeProps<"tr">(
+      {
+        "data-slot": "contribution-graph-row",
+        role: "row",
+      } as ComponentProps<"tr">,
+      props
+    ),
+    render,
+  });
 
-type RowProps = ComponentProps<"tr"> & {
-  asChild?: boolean;
-};
+type HeaderCellProps = useRender.ComponentProps<"th">;
 
-function Row({ asChild = false, ...props }: RowProps) {
-  const Comp = asChild ? Slot : "tr";
-
-  return <Comp data-slot="contribution-graph-row" role="row" {...props} />;
-}
-
-type HeaderCellProps = ComponentProps<"th"> & {
-  asChild?: boolean;
-};
-
-function HeaderCell({ asChild = false, ...props }: HeaderCellProps) {
-  const Comp = asChild ? Slot : "th";
-
-  return <Comp data-slot="contribution-graph-header-cell" {...props} />;
-}
+const HeaderCell = ({ render, ...props }: HeaderCellProps) =>
+  useRender({
+    defaultTagName: "th",
+    props: mergeProps<"th">(
+      {
+        "data-slot": "contribution-graph-header-cell",
+      } as ComponentProps<"th">,
+      props
+    ),
+    render,
+  });
 
 interface CellState {
   date: string;
@@ -228,10 +234,9 @@ interface CellState {
 }
 
 type CellProps = Omit<
-  ComponentProps<"button">,
+  useRender.ComponentProps<"button">,
   "onClick" | "onMouseEnter" | "onMouseLeave"
 > & {
-  asChild?: boolean;
   date: string;
   onClick?: (state: CellState, event: MouseEvent<HTMLButtonElement>) => void;
   onMouseEnter?: (
@@ -244,14 +249,14 @@ type CellProps = Omit<
   ) => void;
 };
 
-function Cell({
-  asChild = false,
+const Cell = ({
+  render,
   date,
   onClick,
   onMouseEnter,
   onMouseLeave,
   ...props
-}: CellProps) {
+}: CellProps) => {
   const ctx = useContributionGraph();
 
   if (!date) {
@@ -266,16 +271,14 @@ function Cell({
   const isEmpty = !cellData;
   const isWeekendDay = ctx.isWeekend(date);
 
-  const Comp = asChild ? Slot : "button";
-
   const cellState: CellState = {
-    date,
     count,
-    level,
+    date,
+    isEmpty,
     isSelected,
     isToday: isTodayDay,
     isWeekend: isWeekendDay,
-    isEmpty,
+    level,
   };
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
@@ -293,70 +296,80 @@ function Cell({
     onMouseLeave?.(cellState, event);
   };
 
-  return (
-    <td data-slot="contribution-graph-cell-wrapper">
-      <Comp
-        aria-current={isTodayDay ? "date" : undefined}
-        aria-selected={isSelected}
-        data-count={count}
-        data-date={date}
-        data-empty={isEmpty || undefined}
-        data-level={level}
-        data-selected={isSelected || undefined}
-        data-slot="contribution-graph-cell"
-        data-today={isTodayDay || undefined}
-        data-weekend={isWeekendDay || undefined}
-        onClick={handleClick}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        role="gridcell"
-        type={asChild ? undefined : "button"}
-        {...props}
-      />
-    </td>
-  );
-}
+  const cellElement = useRender({
+    defaultTagName: "button",
+    props: mergeProps<"button">(
+      {
+        "aria-current": isTodayDay ? "date" : undefined,
+        "aria-selected": isSelected,
+        "data-count": count,
+        "data-date": date,
+        "data-empty": isEmpty || undefined,
+        "data-level": level,
+        "data-selected": isSelected || undefined,
+        "data-slot": "contribution-graph-cell",
+        "data-today": isTodayDay || undefined,
+        "data-weekend": isWeekendDay || undefined,
+        onClick: handleClick,
+        onMouseEnter: handleMouseEnter,
+        onMouseLeave: handleMouseLeave,
+        role: "gridcell",
+        type: render ? undefined : "button",
+      } as ComponentProps<"button">,
+      props
+    ),
+    render,
+  });
 
-type LabelProps = ComponentProps<"span"> & {
+  return <td data-slot="contribution-graph-cell-wrapper">{cellElement}</td>;
+};
+
+type LabelProps = useRender.ComponentProps<"span"> & {
   value?: number;
-  asChild?: boolean;
 };
 
-function Label({ value, asChild = false, ...props }: LabelProps) {
-  const Comp = asChild ? Slot : "span";
+const Label = ({ value, render, ...props }: LabelProps) =>
+  useRender({
+    defaultTagName: "span",
+    props: mergeProps<"span">(
+      {
+        "data-slot": "contribution-graph-label",
+        "data-value": value,
+      } as ComponentProps<"span">,
+      props
+    ),
+    render,
+  });
 
-  return (
-    <Comp data-slot="contribution-graph-label" data-value={value} {...props} />
-  );
-}
+type LegendProps = useRender.ComponentProps<"div">;
 
-type LegendProps = ComponentProps<"div"> & {
-  asChild?: boolean;
-};
+const Legend = ({ render, ...props }: LegendProps) =>
+  useRender({
+    defaultTagName: "div",
+    props: mergeProps<"div">(
+      { "data-slot": "contribution-graph-legend" } as ComponentProps<"div">,
+      props
+    ),
+    render,
+  });
 
-function Legend({ asChild = false, ...props }: LegendProps) {
-  const Comp = asChild ? Slot : "div";
-
-  return <Comp data-slot="contribution-graph-legend" {...props} />;
-}
-
-type LegendItemProps = ComponentProps<"span"> & {
+type LegendItemProps = useRender.ComponentProps<"span"> & {
   level: number;
-  asChild?: boolean;
 };
 
-function LegendItem({ level, asChild = false, ...props }: LegendItemProps) {
-  const Comp = asChild ? Slot : "span";
-
-  return (
-    <Comp
-      aria-label={`Level ${level}`}
-      data-level={level}
-      data-slot="contribution-graph-legend-item"
-      {...props}
-    />
-  );
-}
+const LegendItem = ({ level, render, ...props }: LegendItemProps) =>
+  useRender({
+    defaultTagName: "span",
+    props: mergeProps<"span">(
+      {
+        "aria-label": `Level ${level}`,
+        "data-level": level,
+        "data-slot": "contribution-graph-legend-item",
+      } as ComponentProps<"span">,
+      props
+    ),
+    render,
+  });
 
 export {
   Body,

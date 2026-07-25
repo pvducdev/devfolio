@@ -1,4 +1,5 @@
 import { SKILLS } from "@/config/skills";
+
 import ExploringSection from "./exploring-section.tsx";
 import CoreSkillsSection from "./sections/core-skills-section";
 import DevOpsSection from "./sections/devops-section";

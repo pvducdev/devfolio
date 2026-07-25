@@ -12,79 +12,80 @@ import {
   mobile_dock_skills,
 } from "@/paraglide/messages";
 import type { DockConfig } from "@/types/mobile";
+
 import { MOBILE_ROUTES } from "./routes";
 
 export const DOCK_BUTTONS: Record<MobileRouteId, DockConfig> = {
   [MOBILE_ROUTES.HOME]: {
     buttons: [
       {
+        command: "ls projects/",
         id: "projects",
         label: mobile_dock_projects,
-        command: "ls projects/",
-        route: MOBILE_ROUTES.PROJECTS,
         listing: "> projects/",
+        route: MOBILE_ROUTES.PROJECTS,
       },
       {
+        command: "run skills_check.sh",
         id: "skills",
         label: mobile_dock_skills,
-        command: "run skills_check.sh",
-        route: MOBILE_ROUTES.SKILLS,
         listing: ">  skills_check.sh",
+        route: MOBILE_ROUTES.SKILLS,
       },
       {
+        command: "cat about_me.txt",
         id: "about",
         label: mobile_dock_about,
-        command: "cat about_me.txt",
-        route: MOBILE_ROUTES.ABOUT,
         listing: "> about_me.txt",
+        route: MOBILE_ROUTES.ABOUT,
       },
       {
+        command: "./view_career.sh",
         id: "career",
         label: mobile_dock_career,
-        command: "./view_career.sh",
-        route: MOBILE_ROUTES.CAREER,
         listing: "> view_career.sh",
+        route: MOBILE_ROUTES.CAREER,
       },
     ],
   },
 
   [MOBILE_ROUTES.ABOUT]: {
     buttons: [
-      { id: "back", label: mobile_dock_back, command: "cd ..", action: "back" },
+      { action: "back", command: "cd ..", id: "back", label: mobile_dock_back },
       {
+        action: "resume",
+        command: "open resume.pdf",
         id: "resume",
         label: mobile_dock_resume,
-        command: "open resume.pdf",
-        action: "resume",
       },
       {
+        action: "contact",
+        command: "mail pvducc.dev@gmail.com",
         id: "contact",
         label: mobile_dock_contact,
-        command: "mail pvducc.dev@gmail.com",
-        action: "contact",
       },
       {
+        action: "linkedin",
+        command: "open linkedin.com",
         id: "linkedin",
         label: mobile_dock_linkedin,
-        command: "open linkedin.com",
-        action: "linkedin",
       },
     ],
   },
 
   [MOBILE_ROUTES.SKILLS]: {
     buttons: [
-      { id: "back", label: mobile_dock_back, command: "cd ..", action: "back" },
+      { action: "back", command: "cd ..", id: "back", label: mobile_dock_back },
       {
+        command: "ls projects/",
         id: "projects",
         label: mobile_dock_projects,
-        command: "ls projects/",
         route: MOBILE_ROUTES.PROJECTS,
       },
       {
+        command: "cat about_me.txt",
         id: "about",
         label: mobile_dock_about,
-        command: "cat about_me.txt",
         route: MOBILE_ROUTES.ABOUT,
       },
     ],
@@ -92,35 +93,35 @@ export const DOCK_BUTTONS: Record<MobileRouteId, DockConfig> = {
 
   [MOBILE_ROUTES.CAREER]: {
     buttons: [
-      { id: "back", label: mobile_dock_back, command: "cd ..", action: "back" },
+      { action: "back", command: "cd ..", id: "back", label: mobile_dock_back },
       {
+        action: "resume",
+        command: "open resume.pdf",
         id: "resume",
         label: mobile_dock_resume,
-        command: "open resume.pdf",
-        action: "resume",
       },
       {
+        action: "linkedin",
+        command: "open linkedin.com",
         id: "linkedin",
         label: mobile_dock_linkedin,
-        command: "open linkedin.com",
-        action: "linkedin",
       },
     ],
   },
 
   [MOBILE_ROUTES.PROJECTS]: {
     buttons: [
-      { id: "back", label: mobile_dock_back, command: "cd ..", action: "back" },
+      { action: "back", command: "cd ..", id: "back", label: mobile_dock_back },
       {
+        command: "run skills_check.sh",
         id: "skills",
         label: mobile_dock_skills,
-        command: "run skills_check.sh",
         route: MOBILE_ROUTES.SKILLS,
       },
       {
+        command: "./view_career.sh",
         id: "career",
         label: mobile_dock_career,
-        command: "./view_career.sh",
         route: MOBILE_ROUTES.CAREER,
       },
     ],
@@ -128,18 +129,18 @@ export const DOCK_BUTTONS: Record<MobileRouteId, DockConfig> = {
 
   [MOBILE_ROUTES.PROJECT_DETAIL]: {
     buttons: [
-      { id: "back", label: mobile_dock_back, command: "cd ..", action: "back" },
+      { action: "back", command: "cd ..", id: "back", label: mobile_dock_back },
       {
+        action: "live",
+        command: "open --live",
         id: "live",
         label: mobile_dock_live,
-        command: "open --live",
-        action: "live",
       },
       {
+        action: "next",
+        command: "next --project",
         id: "next",
         label: mobile_dock_next,
-        command: "next --project",
-        action: "next",
       },
     ],
   },

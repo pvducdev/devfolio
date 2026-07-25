@@ -6,25 +6,25 @@ export type { CareerSection, ExpandedContent, JobType } from "@/types/career";
 
 export const CAREER_SECTIONS: CareerSection[] = CAREER_TIMELINE.map(
   (entry, index) => ({
-    id: `career-${index}`,
-    year: entry.year,
-    icon: entry.icon,
-    jobType: entry.jobType,
     card: {
-      title: entry.title,
-      subtitle: entry.company,
       details: entry.details,
       expanded: entry.expanded,
+      subtitle: entry.company,
+      title: entry.title,
     },
+    icon: entry.icon,
+    id: `career-${index}`,
+    jobType: entry.jobType,
+    year: entry.year,
   })
 );
 
 export const CHARACTER_CONFIG = {
+  runningInput: "Number 1",
+  size: { height: 128, width: 128 },
   src: "/character.riv",
   stateMachine: "machine",
-  runningInput: "Number 1",
-  size: { width: 128, height: 128 },
-  states: { idle: 0, running: 1, milestone: 4 },
+  states: { idle: 0, milestone: 4, running: 1 },
 } as const;
 
 export const UI_CONFIG = {

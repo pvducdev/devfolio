@@ -1,5 +1,6 @@
 import type { ProjectConfig } from "@/config/projects";
 import { mobile_project_deps_title } from "@/paraglide/messages";
+
 import DependencyList from "./dependency-list.tsx";
 import DetailHeader from "./detail-header.tsx";
 import ScreenshotGallery from "./screenshot-gallery.tsx";

@@ -1,31 +1,63 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "devfolio",
-  "compatibility_date": "2025-09-23",
+  "compatibility_date": "2026-07-25",
   "compatibility_flags": ["nodejs_compat"],
   "main": "./src/server.ts",
 
   "workers_dev": true,
+  "observability": {
+    "enabled": true,
+    "logs": { "head_sampling_rate": 1 },
+    "traces": { "enabled": true, "head_sampling_rate": 1 },
+  },
   "vars": {
-    "ENVIRONMENT": "development"
+    "ENVIRONMENT": "development",
+  },
+  "secrets": {
+    "required": [
+      "LLM_API_KEY",
+      "LOGTAIL_SOURCE_TOKEN",
+      "LOGTAIL_INGESTING_HOST",
+      "GIT_CONTRIBUTION_TOKEN",
+      "GITHUB_TOKEN",
+    ],
   },
 
   "env": {
     "staging": {
       "workers_dev": true,
       "vars": {
-        "ENVIRONMENT": "staging"
-      }
+        "ENVIRONMENT": "staging",
+      },
+      "secrets": {
+        "required": [
+          "LLM_API_KEY",
+          "LOGTAIL_SOURCE_TOKEN",
+          "LOGTAIL_INGESTING_HOST",
+          "GIT_CONTRIBUTION_TOKEN",
+          "GITHUB_TOKEN",
+        ],
+      },
     },
     "production": {
       "workers_dev": false,
       "routes": [
         { "pattern": "pvduc.id.vn/*", "zone_name": "pvduc.id.vn" },
-        { "pattern": "www.pvduc.id.vn/*", "zone_name": "pvduc.id.vn" }
+        { "pattern": "www.pvduc.id.vn/*", "zone_name": "pvduc.id.vn" },
       ],
       "vars": {
-        "ENVIRONMENT": "production"
-      }
-    }
-  }
+        "ENVIRONMENT": "production",
+      },
+      "secrets": {
+        "required": [
+          "LLM_API_KEY",
+          "LOGTAIL_SOURCE_TOKEN",
+          "LOGTAIL_INGESTING_HOST",
+          "GIT_CONTRIBUTION_TOKEN",
+          "GITHUB_TOKEN",
+        ],
+      },
+    },
+  },
 }

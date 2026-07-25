@@ -1,6 +1,7 @@
 import { ChevronDown } from "lucide-react";
 import type { Variants } from "motion/react";
 import { motion, stagger, useReducedMotion } from "motion/react";
+
 import {
   page_career_heading,
   page_career_hint_scroll,
@@ -22,62 +23,60 @@ const itemVariants: Variants = {
   hidden: { opacity: 0, x: -20 },
   visible: {
     opacity: 1,
-    x: 0,
     transition: {
       duration: 0.5,
       ease: [0.25, 1, 0.5, 1],
     },
+    x: 0,
   },
 };
 
-function TitleSection({
+const TitleSection = ({
   prefersReducedMotion,
 }: {
   prefersReducedMotion: boolean;
-}) {
-  return (
-    <div className="mb-12">
-      <motion.h1
-        className="mb-1 text-foreground text-xl uppercase tracking-wide"
-        {...(!prefersReducedMotion && { variants: itemVariants })}
-      >
-        {page_career_heading()}
-        {!prefersReducedMotion && (
-          <motion.span
-            animate={{ opacity: [1, 0] }}
-            transition={{
-              repeat: Number.POSITIVE_INFINITY,
-              repeatType: "reverse",
-              duration: 0.53,
-            }}
-          >
-            _
-          </motion.span>
-        )}
-      </motion.h1>
-      <motion.div
-        className="h-0.5 w-32 bg-linear-to-r from-primary to-transparent"
-        style={{ transformOrigin: "left" }}
-        {...(!prefersReducedMotion && {
-          initial: { scaleX: 0 },
-          animate: { scaleX: 1 },
-          transition: {
-            duration: 0.8,
-            ease: [0.25, 1, 0.5, 1],
-            delay: 0.3,
-          },
-        })}
-      />
-    </div>
-  );
-}
+}) => (
+  <div className="mb-12">
+    <motion.h1
+      className="mb-1 text-foreground text-xl uppercase tracking-wide"
+      {...(!prefersReducedMotion && { variants: itemVariants })}
+    >
+      {page_career_heading()}
+      {!prefersReducedMotion && (
+        <motion.span
+          animate={{ opacity: [1, 0] }}
+          transition={{
+            duration: 0.53,
+            repeat: Number.POSITIVE_INFINITY,
+            repeatType: "reverse",
+          }}
+        >
+          _
+        </motion.span>
+      )}
+    </motion.h1>
+    <motion.div
+      className="h-0.5 w-32 bg-linear-to-r from-primary to-transparent"
+      style={{ transformOrigin: "left" }}
+      {...(!prefersReducedMotion && {
+        animate: { scaleX: 1 },
+        initial: { scaleX: 0 },
+        transition: {
+          delay: 0.3,
+          duration: 0.8,
+          ease: [0.25, 1, 0.5, 1],
+        },
+      })}
+    />
+  </div>
+);
 
-export default function StarterSection() {
+const StarterSection = () => {
   const prefersReducedMotion = useReducedMotion() ?? false;
 
   const animationProps = prefersReducedMotion
-    ? { initial: "visible", animate: "visible" }
-    : { initial: "hidden", animate: "visible", variants: containerVariants };
+    ? { animate: "visible", initial: "visible" }
+    : { animate: "visible", initial: "hidden", variants: containerVariants };
 
   return (
     <motion.div
@@ -114,9 +113,9 @@ export default function StarterSection() {
               y: [0, 4, 0],
             },
             transition: {
-              repeat: Number.POSITIVE_INFINITY,
               duration: 2.5,
               ease: "easeInOut",
+              repeat: Number.POSITIVE_INFINITY,
             },
           })}
         >
@@ -125,4 +124,6 @@ export default function StarterSection() {
       </motion.div>
     </motion.div>
   );
-}
+};
+
+export default StarterSection;

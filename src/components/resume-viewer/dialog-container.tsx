@@ -1,5 +1,6 @@
 import { Eye } from "lucide-react";
 import { lazy, Suspense } from "react";
+
 import DownloadAction from "@/components/resume-viewer/download-action";
 import ResumeViewerSkeleton from "@/components/resume-viewer/skeleton";
 import { Button } from "@/components/ui/button";
@@ -30,14 +31,16 @@ export default function DialogContainer({ className }: ResumeReviewerProps) {
     <div className={className}>
       <p className="text-xs">{ui_resume_title()}</p>
       <Dialog>
-        <DialogTrigger asChild>
-          <Button
-            className="size-6 bg-primary text-center text-primary-foreground hover:bg-primary/90"
-            size="icon"
-          >
-            <Eye className="size-3" />
-          </Button>
-        </DialogTrigger>
+        <DialogTrigger
+          render={
+            <Button
+              className="size-6 bg-primary text-center text-primary-foreground hover:bg-primary/90"
+              size="icon"
+            >
+              <Eye className="size-3" />
+            </Button>
+          }
+        />
         <DialogContent
           className="min-w-160 rounded-xl px-0 sm:max-w-fit"
           showCloseButton={false}
@@ -55,11 +58,13 @@ export default function DialogContainer({ className }: ResumeReviewerProps) {
             />
           </Suspense>
           <DialogFooter className="sm:justify-center">
-            <DialogClose asChild>
-              <Button type="button" variant="ghost">
-                {action_cancel()} <Kbd>Esc</Kbd>
-              </Button>
-            </DialogClose>
+            <DialogClose
+              render={
+                <Button type="button" variant="ghost">
+                  {action_cancel()} <Kbd>Esc</Kbd>
+                </Button>
+              }
+            />
             <DownloadAction
               filename={PERSONAL_INFO.resume.fileName}
               url={PERSONAL_INFO.resume.url}

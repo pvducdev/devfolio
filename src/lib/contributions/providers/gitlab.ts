@@ -1,5 +1,7 @@
 import { number, record, safeParse, string } from "valibot";
+
 import { getLogger } from "@/lib/logger/client";
+
 import type { ContributionProvider } from "../types";
 
 const GitLabCalendarSchema = record(string(), number());
@@ -16,9 +18,9 @@ export const gitlabProvider: ContributionProvider = async (username, token) => {
 
   if (!response.ok) {
     getLogger().error("GitLab calendar API error", {
-      username,
       status: response.status,
       statusText: response.statusText,
+      username,
     });
     return [];
   }
@@ -33,7 +35,7 @@ export const gitlabProvider: ContributionProvider = async (username, token) => {
   const entries = Object.entries(result.output);
 
   return entries.map(([date, count]) => ({
-    date,
     count,
+    date,
   }));
 };

@@ -12,7 +12,11 @@ interface SearchGroupProps {
   onSelect: (item: AppSearchItem) => void;
 }
 
-export function SearchGroup({ heading, results, onSelect }: SearchGroupProps) {
+export const SearchGroup = ({
+  heading,
+  results,
+  onSelect,
+}: SearchGroupProps) => {
   if (results.length === 0) {
     return null;
   }
@@ -46,4 +50,4 @@ export function SearchGroup({ heading, results, onSelect }: SearchGroupProps) {
       })}
     </CommandGroup>
   );
-}
+};

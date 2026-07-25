@@ -6,9 +6,9 @@ import type {
   SearchOptions,
 } from "./types";
 
-export function createSearch<
+export const createSearch = <
   TItem extends BaseSearchItem = SearchItem,
   TGroupKeys extends string = string,
->(options: SearchOptions<TItem, TGroupKeys>): Search<TItem, TGroupKeys> {
-  return new SearchImpl(options);
-}
+>(
+  options: SearchOptions<TItem, TGroupKeys>
+): Search<TItem, TGroupKeys> => new SearchImpl(options);
