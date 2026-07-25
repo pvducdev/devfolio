@@ -1,8 +1,8 @@
 import { Octokit } from "@octokit/rest";
 import { createServerFn } from "@tanstack/react-start";
-import { env } from "std-env";
 
 import { SITE_CONFIG } from "@/config/site";
+import { env } from "@/env/server";
 import { getLogger } from "@/lib/logger/client";
 
 const getRepoStars = createServerFn().handler(async () => {

@@ -13,6 +13,7 @@
     "deploy:staging": "CLOUDFLARE_ENV=staging bun run build && wrangler deploy",
     "deploy:production": "CLOUDFLARE_ENV=production bun run build && wrangler deploy",
     "cf-typegen": "wrangler types",
+    "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "format": "oxfmt format",
     "lint": "oxlint",

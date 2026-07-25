@@ -12,6 +12,9 @@ on:
         type: choice
         options: [staging, production]
 
+permissions:
+  contents: read
+
 concurrency:
   group: deploy-${{ github.ref_name }}
   cancel-in-progress: false
@@ -29,18 +32,12 @@ jobs:
 
       - uses: oven-sh/setup-bun@v2
         with:
-          bun-version: latest
+          bun-version: 1.3.12
 
       - run: bun install --frozen-lockfile
 
       - name: Lint & Format Check
         run: bun run check
-
-      - name: Get version
-        id: version
-        run: |
-          VERSION=$(node -p "require('./package.json').version")
-          echo "version=${VERSION}" >> $GITHUB_OUTPUT
 
       - name: Set environment
         id: env
@@ -57,12 +54,19 @@ jobs:
         run: bun run build
         env:
           CLOUDFLARE_ENV: ${{ steps.env.outputs.cloudflare_env }}
-          VITE_APP_VERSION: v${{ steps.version.outputs.version }}
           VITE_APP_TITLE: ${{ vars.VITE_APP_TITLE }}
           VITE_BASE_URL: ${{ vars.VITE_BASE_URL }}
           VITE_LOGTAIL_SOURCE_TOKEN: ${{ secrets.VITE_LOGTAIL_SOURCE_TOKEN }}
           VITE_LOGTAIL_INGESTING_HOST: ${{ vars.VITE_LOGTAIL_INGESTING_HOST }}
 
+      - name: Typecheck
+        run: bun run typecheck
+
+      - name: Test
+        run: bun run test
+
+      # `--env` on deploy is an assertion, not a selector: wrangler errors if it
+      # disagrees with the environment the build was made for.
       - name: Deploy
         id: deploy
         uses: cloudflare/wrangler-action@v3
