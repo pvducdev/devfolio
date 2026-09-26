@@ -1,16 +1,15 @@
 import type { MotionValue } from "motion/react";
-import { useMotionValueEvent, useTransform, useVelocity } from "motion/react";
 import type { RefObject } from "react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
-import { CAREER_SECTIONS } from "@/components/career-runner/config";
-import { useCareerActions } from "@/store/career";
+import { CAREER_TIMELINE } from "@/config/career";
+
+import { useCareerActions } from "../store";
+import { useScrollStatus } from "../use-scroll-status";
 
 const SCROLL_CONFIG = {
-  idleDebounceMs: 150,
   ioThreshold: [0, 0.2, 0.4, 0.6, 0.8, 1],
   minActivateRatio: 0.2,
-  velocityThreshold: 50,
 } as const;
 
 interface UseCareerTimelineOptions {
@@ -20,7 +19,6 @@ interface UseCareerTimelineOptions {
 
 interface UseCareerTimelineReturn {
   sectionRefs: RefObject<HTMLDivElement | null>[];
-  activeIndex: number;
 }
 
 const findMostVisibleSection = (
@@ -49,37 +47,14 @@ export const useCareerTimeline = ({
   scrollContainerRef,
   scrollY,
 }: UseCareerTimelineOptions): UseCareerTimelineReturn => {
-  const [activeIndex, setActiveIndex] = useState(-1);
-  const { setActiveSection, setStatus, reset } = useCareerActions();
-  const idleTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const { setActiveYear, reset } = useCareerActions();
   const ratioMap = useRef(new Map<Element, number>());
 
   const sectionRefs = useRef<RefObject<HTMLDivElement | null>[]>(
-    CAREER_SECTIONS.map(() => ({ current: null }))
+    CAREER_TIMELINE.map(() => ({ current: null }))
   ).current;
 
-  const scrollVelocity = useVelocity(scrollY);
-  const isScrolling = useTransform(
-    scrollVelocity,
-    (v) => Math.abs(v) > SCROLL_CONFIG.velocityThreshold
-  );
-
-  useMotionValueEvent(isScrolling, "change", (scrolling) => {
-    if (idleTimeoutRef.current) {
-      clearTimeout(idleTimeoutRef.current);
-      idleTimeoutRef.current = null;
-    }
-
-    if (scrolling) {
-      setStatus("scrolling");
-      return;
-    }
-
-    idleTimeoutRef.current = setTimeout(() => {
-      setStatus("idle");
-      idleTimeoutRef.current = null;
-    }, SCROLL_CONFIG.idleDebounceMs);
-  });
+  useScrollStatus(scrollY);
 
   useEffect(() => {
     const container = scrollContainerRef.current;
@@ -95,8 +70,7 @@ export const useCareerTimeline = ({
 
         const best = findMostVisibleSection(sectionRefs, ratioMap.current);
         if (best !== -1) {
-          setActiveIndex(best);
-          setActiveSection(CAREER_SECTIONS[best].id);
+          setActiveYear(CAREER_TIMELINE[best].year);
         }
       },
       { root: container, threshold: [...SCROLL_CONFIG.ioThreshold] }
@@ -110,12 +84,9 @@ export const useCareerTimeline = ({
 
     return () => {
       observer.disconnect();
-      if (idleTimeoutRef.current) {
-        clearTimeout(idleTimeoutRef.current);
-      }
       reset();
     };
-  }, [scrollContainerRef, sectionRefs, setActiveSection, reset]);
+  }, [scrollContainerRef, sectionRefs, setActiveYear, reset]);
 
-  return { activeIndex, sectionRefs };
+  return { sectionRefs };
 };

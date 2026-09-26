@@ -1,47 +1,41 @@
 import { create } from "zustand";
 import { useShallow } from "zustand/shallow";
 
-import {
-  CAREER_SECTIONS,
-  DEFAULT_YEAR,
-} from "@/components/career-runner/config";
+import { DEFAULT_YEAR } from "./config";
 
-const SECTIONS_BY_ID = new Map(CAREER_SECTIONS.map((s) => [s.id, s]));
-
-export type ScrollStatus = "idle" | "scrolling" | "looping";
+type ScrollStatus = "idle" | "scrolling" | "looping";
 export type AnimationState = "idle" | "running" | "milestone";
 
 interface State {
-  activeSectionId: string | null;
-  lastVisitedSectionId: string | null;
+  activeYear: string | null;
+  lastVisitedYear: string | null;
   status: ScrollStatus;
 }
 
 interface Actions {
-  setActiveSection: (sectionId: string | null) => void;
+  setActiveYear: (year: string | null) => void;
   setStatus: (status: ScrollStatus) => void;
   reset: () => void;
 }
 
 const initialState: State = {
-  activeSectionId: null,
-  lastVisitedSectionId: null,
+  activeYear: null,
+  lastVisitedYear: null,
   status: "idle",
 };
 
-export const useCareerStore = create<State & Actions>()((set) => ({
+const useCareerStore = create<State & Actions>()((set) => ({
   ...initialState,
   reset: () => set(initialState),
-  setActiveSection: (sectionId) =>
+  setActiveYear: (year) =>
     set((state) => ({
-      activeSectionId: sectionId,
-      lastVisitedSectionId: sectionId ?? state.lastVisitedSectionId,
+      activeYear: year,
+      lastVisitedYear: year ?? state.lastVisitedYear,
     })),
   setStatus: (status) => set({ status }),
 }));
 
-export const useActiveSectionId = () =>
-  useCareerStore((s) => s.activeSectionId);
+export const useActiveYear = () => useCareerStore((s) => s.activeYear);
 
 export const useCareerLooping = () =>
   useCareerStore((s) => s.status === "looping");
@@ -51,7 +45,7 @@ export const useCharacterAnimationState = (): AnimationState =>
     if (s.status === "looping") {
       return "running";
     }
-    if (s.activeSectionId) {
+    if (s.activeYear) {
       return "milestone";
     }
     if (s.status === "scrolling") {
@@ -66,18 +60,14 @@ export const useDisplayYear = (): string =>
       return DEFAULT_YEAR;
     }
 
-    const section = s.lastVisitedSectionId
-      ? SECTIONS_BY_ID.get(s.lastVisitedSectionId)
-      : null;
-
-    return section?.year ?? DEFAULT_YEAR;
+    return s.lastVisitedYear ?? DEFAULT_YEAR;
   });
 
 export const useCareerActions = () =>
   useCareerStore(
     useShallow((s) => ({
       reset: s.reset,
-      setActiveSection: s.setActiveSection,
+      setActiveYear: s.setActiveYear,
       setStatus: s.setStatus,
     }))
   );

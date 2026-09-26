@@ -1,7 +1,8 @@
 import { AnimatePresence, motion } from "motion/react";
 
 import { page_career_label_year } from "@/paraglide/messages.js";
-import { useDisplayYear } from "@/store/career";
+
+import { useDisplayYear } from "../store";
 
 export default function YearHUD() {
   const year = useDisplayYear();

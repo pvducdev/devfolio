@@ -1,10 +1,10 @@
 import { ChevronDown } from "lucide-react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useRef } from "react";
-import { useBoolean } from "usehooks-ts";
+import { AnimatePresence, motion } from "motion/react";
 
-import type { ExpandedContent, JobType } from "./config";
-import ExpandedSection from "./expanded-section";
+import type { ExpandedContent, JobType } from "@/config/career";
+
+import ExpandedSection from "../expanded-section";
+import { useActiveToggle } from "../use-active-toggle";
 
 const GLOW_COLOR = "oklch(from var(--primary) l c h / 0.15)";
 
@@ -17,22 +17,13 @@ interface JobCardProps {
   isActive?: boolean;
 }
 
-const getAnimationProps = (
-  prefersReducedMotion: boolean,
-  isActive: boolean
-) => {
-  if (prefersReducedMotion) {
-    return { opacity: isActive ? 1 : 0.6 };
-  }
-
-  return {
-    boxShadow: isActive
-      ? `0 0 20px 5px ${GLOW_COLOR}, 0 0 40px 10px ${GLOW_COLOR}`
-      : "0 0 0 0 transparent",
-    opacity: isActive ? 1 : 0.6,
-    scale: isActive ? 1.05 : 0.9,
-  };
-};
+const getAnimationProps = (isActive: boolean) => ({
+  boxShadow: isActive
+    ? `0 0 20px 5px ${GLOW_COLOR}, 0 0 40px 10px ${GLOW_COLOR}`
+    : "0 0 0 0 transparent",
+  opacity: isActive ? 1 : 0.6,
+  scale: isActive ? 1.05 : 0.9,
+});
 
 const JobCard = ({
   title,
@@ -42,21 +33,8 @@ const JobCard = ({
   expanded,
   isActive = false,
 }: JobCardProps) => {
-  const prefersReducedMotion = useReducedMotion() ?? false;
-
-  const {
-    value: manuallyToggled,
-    toggle: toggleManually,
-    setFalse: resetToggle,
-  } = useBoolean(false);
-
-  const prevIsActive = useRef(isActive);
-  if (prevIsActive.current !== isActive) {
-    prevIsActive.current = isActive;
-    if (!isActive) {
-      resetToggle();
-    }
-  }
+  const { isToggled: manuallyToggled, toggle: toggleManually } =
+    useActiveToggle(isActive);
 
   const hasExpandableContent = !!expanded;
   const isExpanded = isActive && hasExpandableContent && !manuallyToggled;
@@ -71,7 +49,7 @@ const JobCard = ({
   return (
     <div className="transition-transform">
       <motion.div
-        animate={getAnimationProps(prefersReducedMotion, isActive)}
+        animate={getAnimationProps(isActive)}
         className="border border-border bg-transparent p-3"
         layout
         onClick={handleClick}

@@ -1,6 +1,7 @@
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import type { Variants } from "motion/react";
 
+import type { ExpandedContent } from "@/config/career";
 import {
   page_career_label_infra,
   page_career_label_metrics,
@@ -8,7 +9,6 @@ import {
   page_career_label_tools,
 } from "@/paraglide/messages.js";
 
-import type { ExpandedContent } from "./config";
 import TechStackSection from "./tech-stack-section";
 
 const containerVariants: Variants = {
@@ -35,7 +35,6 @@ interface ExpandedSectionProps {
 }
 
 export default function ExpandedSection({ expanded }: ExpandedSectionProps) {
-  const prefersReducedMotion = useReducedMotion() ?? false;
   const hasMetrics = !!expanded.metrics && expanded.metrics.length > 0;
 
   return (
@@ -44,7 +43,7 @@ export default function ExpandedSection({ expanded }: ExpandedSectionProps) {
       className="overflow-hidden"
       exit="hidden"
       initial="hidden"
-      {...(prefersReducedMotion ? {} : { variants: containerVariants })}
+      variants={containerVariants}
     >
       <div className="mt-3 border-border border-t pt-3">
         <p className="mb-3 text-foreground text-xs leading-relaxed">

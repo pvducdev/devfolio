@@ -1,12 +1,12 @@
 import { LayoutGroup } from "motion/react";
 
-import RunnerContainer from "@/components/career-runner/runner-container.tsx";
+import { CAREER_TIMELINE } from "@/config/career";
 
 import CareerSection from "./career-section";
 import Character from "./character";
-import { CAREER_SECTIONS } from "./config";
 import EndSection from "./end-section";
 import Ground from "./ground";
+import RunnerContainer from "./runner-container";
 import StarterSection from "./starter-section";
 import YearHUD from "./year-hud";
 
@@ -22,12 +22,11 @@ export default function CareerRunner() {
       <RunnerContainer>
         <StarterSection />
         <LayoutGroup>
-          {CAREER_SECTIONS.map((section) => (
-            <CareerSection key={section.id} section={section} />
+          {CAREER_TIMELINE.map((entry) => (
+            <CareerSection entry={entry} key={entry.year} />
           ))}
         </LayoutGroup>
         <EndSection />
-        <div className="sr-only" />
       </RunnerContainer>
 
       <Ground />

@@ -1,10 +1,9 @@
+import { cn } from "cn";
 import type { PropsWithChildren } from "react";
 
-import { CareerScrollProvider } from "@/context/career-scroll";
-import { useCareerScroll } from "@/hooks/use-career-scroll";
-import { cn } from "@/lib/utils";
-
-import { UI_CONFIG } from "./config";
+import { UI_CONFIG } from "../config";
+import { CareerScrollContext } from "./scroll-context";
+import { useCareerScroll } from "./use-career-scroll";
 
 export default function RunnerContainer({ children }: PropsWithChildren) {
   const { containerRef } = useCareerScroll();
@@ -18,9 +17,7 @@ export default function RunnerContainer({ children }: PropsWithChildren) {
       )}
       ref={containerRef}
     >
-      <CareerScrollProvider containerRef={containerRef}>
-        {children}
-      </CareerScrollProvider>
+      <CareerScrollContext value={containerRef}>{children}</CareerScrollContext>
     </section>
   );
 }

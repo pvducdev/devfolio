@@ -5,42 +5,34 @@ import {
   useMotionValue,
   useMotionValueEvent,
   useSpring,
-  useTransform,
-  useVelocity,
 } from "motion/react";
 import { useEffect, useRef } from "react";
 import type { RefObject } from "react";
 import { useEventListener, useUnmount } from "usehooks-ts";
 
-import { useCareerActions, useCareerLooping } from "@/store/career";
+import { useCareerActions, useCareerLooping } from "../store";
+import { useScrollStatus } from "../use-scroll-status";
 
 interface UseCareerScrollReturn {
   containerRef: RefObject<HTMLDivElement | null>;
 }
 
 const SCROLL_CONFIG = {
-  idleDebounceMs: 150,
   loopDuration: 3,
   loopEase: [0.33, 1, 0.68, 1] as Easing,
   scrollEndThreshold: 2,
   spring: { damping: 20, restDelta: 0.5, stiffness: 120 },
-  velocityThreshold: 50,
 } as const;
 
 export const useCareerScroll = (): UseCareerScrollReturn => {
   const containerRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<AnimationPlaybackControls | null>(null);
-  const idleTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { setStatus, reset } = useCareerActions();
   const isLooping = useCareerLooping();
 
   const targetScrollX = useMotionValue(0);
   const smoothScrollX = useSpring(targetScrollX, SCROLL_CONFIG.spring);
-  const scrollVelocity = useVelocity(smoothScrollX);
-  const isScrolling = useTransform(
-    scrollVelocity,
-    (v) => Math.abs(v) > SCROLL_CONFIG.velocityThreshold
-  );
+  const { clearPendingIdle } = useScrollStatus(smoothScrollX);
 
   useMotionValueEvent(smoothScrollX, "change", (value) => {
     if (isLooping) {
@@ -50,35 +42,6 @@ export const useCareerScroll = (): UseCareerScrollReturn => {
     if (container) {
       container.scrollLeft = value;
     }
-  });
-
-  const clearPendingIdle = () => {
-    if (idleTimeoutRef.current) {
-      clearTimeout(idleTimeoutRef.current);
-      idleTimeoutRef.current = null;
-    }
-  };
-
-  const scheduleIdle = () => {
-    idleTimeoutRef.current = setTimeout(() => {
-      setStatus("idle");
-      idleTimeoutRef.current = null;
-    }, SCROLL_CONFIG.idleDebounceMs);
-  };
-
-  useMotionValueEvent(isScrolling, "change", (scrolling) => {
-    if (isLooping) {
-      return;
-    }
-
-    clearPendingIdle();
-
-    if (scrolling) {
-      setStatus("scrolling");
-      return;
-    }
-
-    scheduleIdle();
   });
 
   const handleWheel = (e: WheelEvent) => {
@@ -136,9 +99,6 @@ export const useCareerScroll = (): UseCareerScrollReturn => {
 
   useUnmount(() => {
     animationRef.current?.stop();
-    if (idleTimeoutRef.current) {
-      clearTimeout(idleTimeoutRef.current);
-    }
     reset();
   });
 
