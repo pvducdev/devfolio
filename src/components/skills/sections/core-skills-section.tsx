@@ -10,7 +10,7 @@ interface CoreSkillsSectionProps {
 export default function CoreSkillsSection({ skills }: CoreSkillsSectionProps) {
   return (
     <section className="group/section col-span-1 flex flex-col gap-2 md:col-span-12 lg:col-span-10">
-      <SectionHeader className="mb-3 max-w-45" number="01" title="The Core" />
+      <SectionHeader className="mb-3 max-w-45" section="core" />
       {skills.map((skill, index) => (
         <CoreSkillItem
           alternates={"alternates" in skill ? skill.alternates : undefined}

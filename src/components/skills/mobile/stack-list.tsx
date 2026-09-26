@@ -1,5 +1,4 @@
 import type { Skills } from "@/config/skills";
-import { mobile_skills_section_stack } from "@/paraglide/messages";
 
 import SectionHeader from "./section-header";
 
@@ -10,7 +9,7 @@ interface StackListProps {
 export default function StackList({ items }: StackListProps) {
   return (
     <section className="[content-visibility:auto]">
-      <SectionHeader number="02" title={mobile_skills_section_stack()} />
+      <SectionHeader section="stack" />
       <div className="mt-5 space-y-4">
         {items.map((item) => (
           <div className="flex items-baseline gap-2" key={item.name}>

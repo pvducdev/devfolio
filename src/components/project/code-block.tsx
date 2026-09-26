@@ -1,8 +1,6 @@
-"use client";
+import { cn } from "cn";
 
-import { cn } from "@/lib/utils";
-
-export interface CodeBlockProps {
+interface CodeBlockProps {
   json: unknown;
   className?: string;
 }

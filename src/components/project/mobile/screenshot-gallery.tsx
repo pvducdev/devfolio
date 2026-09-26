@@ -1,3 +1,4 @@
+import { cn } from "cn";
 import { useEffect, useState } from "react";
 
 import {
@@ -7,7 +8,6 @@ import {
 } from "@/components/ui/carousel";
 import type { CarouselApi } from "@/components/ui/carousel";
 import type { ProjectConfig } from "@/config/projects";
-import { cn } from "@/lib/utils";
 
 interface ScreenshotGalleryProps {
   guides: ProjectConfig["guides"];

@@ -1,11 +1,10 @@
+import { cn } from "cn";
 import { motion } from "motion/react";
 import type { ReactNode } from "react";
 import useMeasure from "react-use-measure";
 
-import { cn } from "@/lib/utils";
-
 interface CardProps {
-  title?: string;
+  title: string;
   className?: string;
   children: ReactNode;
 }
@@ -47,11 +46,9 @@ export default function Card({ title, className, children }: CardProps) {
           <div className="size-2.5 rounded-full bg-muted-foreground/30" />
         </div>
 
-        {!!title && (
-          <span className="ml-2 font-mono text-muted-foreground text-xs">
-            {title}
-          </span>
-        )}
+        <span className="ml-2 font-mono text-muted-foreground text-xs">
+          {title}
+        </span>
       </div>
       <div className="content" ref={ref}>
         {children}

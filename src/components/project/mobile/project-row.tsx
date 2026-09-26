@@ -1,5 +1,5 @@
+import { useShellNavigate } from "@/components/layout/mobile/shell-navigation";
 import type { ProjectConfig } from "@/config/projects";
-import { useMobileShellStore } from "@/store/mobile-shell";
 
 interface ProjectRowProps {
   project: ProjectConfig;
@@ -13,13 +13,13 @@ export default function ProjectRow({ project, index }: ProjectRowProps) {
     ? Object.keys(project.package.dependencies).slice(0, 3).join(", ")
     : "";
 
+  const navigateWithCommand = useShellNavigate();
+
   const handleTap = () => {
-    useMobileShellStore
-      .getState()
-      .requestNavigation(
-        `open projects/${project.id}`,
-        `/m/projects/${project.id}`
-      );
+    navigateWithCommand(
+      `open projects/${project.id}`,
+      `/m/projects/${project.id}`
+    );
   };
 
   return (
