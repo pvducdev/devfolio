@@ -14,7 +14,8 @@ interface AssistantState {
 
 interface AssistantActions {
   setMessage: (content: string) => void;
-  setStatus: (status: AssistantStatus, error?: AssistantState["error"]) => void;
+  setStatus: (status: Exclude<AssistantStatus, "error">) => void;
+  setError: (error: string) => void;
   setChunkMessage: (chunk: string) => void;
   clear: () => void;
 }
@@ -27,7 +28,7 @@ const initialState: AssistantState = {
   status: "idle",
 };
 
-export const useAssistantStore = create<AssistantStore>()(
+const useAssistantStore = create<AssistantStore>()(
   persist(
     (set) => ({
       ...initialState,
@@ -40,10 +41,12 @@ export const useAssistantStore = create<AssistantStore>()(
           status: state.status === "thinking" ? "streaming" : state.status,
         })),
 
+      setError: (error) => set({ error, status: "error" }),
+
       setMessage: (content) =>
         set({ error: null, message: content, status: "idle" }),
 
-      setStatus: (status, error) => set({ error, status }),
+      setStatus: (status) => set({ error: null, status }),
     }),
     {
       name: STORE_KEYS.ASSISTANT,
@@ -69,6 +72,7 @@ export const useAssistantActions = () =>
     useShallow((s) => ({
       clear: s.clear,
       setChunkMessage: s.setChunkMessage,
+      setError: s.setError,
       setMessage: s.setMessage,
       setStatus: s.setStatus,
     }))

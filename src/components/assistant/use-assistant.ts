@@ -2,9 +2,17 @@ import type { LucideIcon } from "lucide-react";
 import { Eraser, HelpCircle, MessageSquare, Palette } from "lucide-react";
 import { useRef } from "react";
 
+import {
+  useAssistantActions,
+  useAssistantError,
+  useAssistantMessage,
+  useAssistantStatus,
+  useHasAssistantMessage,
+} from "@/components/assistant/store";
+import { useSetTheme } from "@/components/theme/store";
 import { THEMES } from "@/config/theme";
 import generateAssistantResponseFn from "@/fn/generate-assistant-response";
-import { getLogger } from "@/lib/logger/client";
+import { getLogger } from "@/lib/logger";
 import {
   cmd_clear_desc,
   cmd_execute_unknown,
@@ -20,14 +28,6 @@ import {
   cmd_theme_unknown,
   ui_error_unexpected,
 } from "@/paraglide/messages.js";
-import {
-  useAssistantActions,
-  useAssistantError,
-  useAssistantMessage,
-  useAssistantStatus,
-  useHasAssistantMessage,
-} from "@/store/assistant";
-import { useThemeStore } from "@/store/theme";
 
 export interface CommandItem {
   name: string;
@@ -42,12 +42,12 @@ export const SLASH_PREFIX = "/";
 const WHITESPACE_PATTERN = /\s+/;
 
 export const useAssistant = () => {
-  const { setTheme } = useThemeStore();
+  const setTheme = useSetTheme();
   const message = useAssistantMessage();
   const status = useAssistantStatus();
   const errorState = useAssistantError();
   const hasMessage = useHasAssistantMessage();
-  const { setMessage, setChunkMessage, setStatus, clear } =
+  const { setMessage, setChunkMessage, setStatus, setError, clear } =
     useAssistantActions();
 
   const abortRef = useRef<AbortController | null>(null);
@@ -83,17 +83,13 @@ ${cmd_help_pro_tip()}`;
         const availableThemes = THEMES.map((t) => t.value).join(", ");
 
         if (!args[0]) {
-          setStatus(
-            "error",
-            cmd_theme_missing_arg({ themes: availableThemes })
-          );
+          setError(cmd_theme_missing_arg({ themes: availableThemes }));
           return;
         }
 
         const theme = THEMES.find((t) => t.value === args[0].toLowerCase());
         if (!theme) {
-          setStatus(
-            "error",
+          setError(
             cmd_theme_unknown({ themeName: args[0], themes: availableThemes })
           );
           return;
@@ -107,22 +103,21 @@ ${cmd_help_pro_tip()}`;
     {
       aliases: ["fb"],
       description: cmd_feedback_desc(),
-      handler: (args) => {
+      handler: async (args) => {
         const feedbackMessage = args.join(" ").trim();
 
         if (!feedbackMessage) {
-          setStatus("error", cmd_feedback_empty());
+          setError(cmd_feedback_empty());
           return;
         }
 
         try {
-          const logger = getLogger();
-          logger.info("User feedback submitted", {
+          await getLogger().info("User feedback submitted", {
             message: feedbackMessage,
             timestamp: new Date().toISOString(),
           });
         } catch {
-          setStatus("error", cmd_feedback_failed());
+          setError(cmd_feedback_failed());
         }
       },
       icon: MessageSquare,
@@ -130,7 +125,7 @@ ${cmd_help_pro_tip()}`;
     },
   ];
 
-  const executeCommand = (input: string): boolean => {
+  const executeCommand = async (input: string): Promise<boolean> => {
     if (!input.startsWith(SLASH_PREFIX)) {
       return false;
     }
@@ -145,11 +140,11 @@ ${cmd_help_pro_tip()}`;
     );
 
     if (!cmd) {
-      setStatus("error", cmd_execute_unknown({ name }));
+      setError(cmd_execute_unknown({ name }));
       return true;
     }
 
-    cmd.handler(args);
+    await cmd.handler(args);
     return true;
   };
 
@@ -173,14 +168,11 @@ ${cmd_help_pro_tip()}`;
       if (!signal.aborted) {
         setStatus("idle");
       }
-    } catch (error) {
+    } catch {
       if (signal.aborted) {
         return;
       }
-      setStatus(
-        "error",
-        error instanceof Error ? error.message : ui_error_unexpected()
-      );
+      setError(ui_error_unexpected());
     }
   };
 
@@ -192,7 +184,7 @@ ${cmd_help_pro_tip()}`;
 
     setStatus("idle");
 
-    if (executeCommand(trimmed)) {
+    if (await executeCommand(trimmed)) {
       return;
     }
 
@@ -200,14 +192,7 @@ ${cmd_help_pro_tip()}`;
     await streamResponse(trimmed);
   };
 
-  const cancel = () => {
-    abortRef.current?.abort();
-    setStatus("idle");
-  };
-
   return {
-    cancel,
-    clear,
     commands,
     error: errorState,
     hasMessage,

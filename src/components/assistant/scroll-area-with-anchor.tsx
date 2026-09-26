@@ -1,11 +1,13 @@
+import { cn } from "cn";
 import { ArrowDown } from "lucide-react";
+import { useMotionValueEvent, useScroll } from "motion/react";
 import type { ComponentProps } from "react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useScrollEdges } from "@/hooks/use-scroll";
-import { cn } from "@/lib/utils";
+
+const BOTTOM_THRESHOLD = 0.95;
 
 type ScrollAreaWithAnchorProps = ComponentProps<typeof ScrollArea>;
 
@@ -14,10 +16,13 @@ export default function ScrollAreaWithAnchor({
   children,
   ...props
 }: ScrollAreaWithAnchorProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
   const viewportRef = useRef<HTMLDivElement | null>(null);
+  const [isAtBottom, setIsAtBottom] = useState(true);
 
-  const { isAtBottom } = useScrollEdges({ container: viewportRef });
+  const { scrollYProgress } = useScroll({ container: viewportRef });
+  useMotionValueEvent(scrollYProgress, "change", (progress) => {
+    setIsAtBottom(progress > BOTTOM_THRESHOLD);
+  });
 
   const scrollToBottom = () => {
     viewportRef.current?.scrollTo({
@@ -29,7 +34,6 @@ export default function ScrollAreaWithAnchor({
   return (
     <ScrollArea
       className={cn("overflow-hidden", className)}
-      ref={containerRef}
       viewportRef={viewportRef}
       {...props}
     >

@@ -1,24 +1,20 @@
+import ScrollAreaWithAnchor from "@/components/assistant/scroll-area-with-anchor";
+import type { AssistantStatus } from "@/components/assistant/store";
 import AssistantSuggestions from "@/components/assistant/suggestions";
-import ScrollAreaWithAnchor from "@/components/common/scroll-area-with-anchor";
 import { Response } from "@/components/ui/ai-elements/response";
 import { TextShimmer } from "@/components/ui/text-shimmer";
 import { SITE_CONFIG } from "@/config/site";
 import { assistant_thinking, assistant_welcome } from "@/paraglide/messages.js";
-import type { AssistantStatus } from "@/store/assistant";
 
 interface MobileAssistantContentProps {
   message: string | null;
   status: AssistantStatus;
-  hasMessage: boolean;
-  suggestions: readonly string[];
   onSuggestionClick: (suggestion: string) => Promise<void>;
 }
 
 export default function MobileAssistantContent({
   message,
   status,
-  hasMessage,
-  suggestions,
   onSuggestionClick,
 }: MobileAssistantContentProps) {
   if (status === "thinking") {
@@ -50,12 +46,7 @@ export default function MobileAssistantContent({
         <div className="space-y-1 font-mono">
           <p className="text-muted-foreground text-xs">{assistant_welcome()}</p>
         </div>
-        {!hasMessage && (
-          <AssistantSuggestions
-            onClick={onSuggestionClick}
-            suggestions={suggestions}
-          />
-        )}
+        <AssistantSuggestions onClick={onSuggestionClick} />
       </div>
     </div>
   );

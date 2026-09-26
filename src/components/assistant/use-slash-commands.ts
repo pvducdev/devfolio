@@ -11,9 +11,7 @@ export const useSlashCommands = (options: UseSlashCommandsOptions = {}) => {
   const [inputValue, setInputValue] = useState("");
   const [showCommands, setShowCommands] = useState(false);
 
-  const formattedInput = inputValue
-    ? inputValue.replace(SLASH_PREFIX, "")
-    : inputValue;
+  const formattedInput = inputValue.replace(SLASH_PREFIX, "");
 
   const shouldShowCommands = (value: string): boolean =>
     value.startsWith(SLASH_PREFIX) && !value.includes(" ");

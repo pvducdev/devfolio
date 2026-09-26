@@ -2,24 +2,25 @@ import { useRef } from "react";
 import type { ChangeEvent } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
-import SlashCommandPopover from "@/components/assistant/slash-command-popover";
-import { selectHighlightedCommand } from "@/components/assistant/utils";
 import { Textarea } from "@/components/ui/textarea";
-import type { CommandItem } from "@/hooks/use-assistant";
-import { useCmdNav } from "@/hooks/use-cmd-nav";
-import { useSlashCommands } from "@/hooks/use-slash-commands";
+
+import SlashCommandPopover, {
+  forwardKeyToCommandList,
+} from "./slash-command-popover";
+import type { CommandItem } from "./use-assistant";
+import { useSlashCommands } from "./use-slash-commands";
 
 interface AssistantInputProps {
   commands: CommandItem[];
-  placeholder?: string;
-  disabled?: boolean;
+  placeholder: string;
+  disabled: boolean;
   onSubmit: (message: string) => void;
 }
 
 export default function AssistantInput({
   commands,
-  placeholder = "Type something...",
-  disabled = false,
+  placeholder,
+  disabled,
   onSubmit,
 }: AssistantInputProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -35,12 +36,6 @@ export default function AssistantInput({
     clearInput,
   } = useSlashCommands({
     onCommandSelect: () => textareaRef.current?.focus(),
-  });
-
-  const forwardKeyToCommandPopover = useCmdNav({
-    commandRef,
-    onTabSelect: () => selectHighlightedCommand(commandRef.current),
-    showCommands,
   });
 
   const submitForm = () => {
@@ -84,23 +79,27 @@ export default function AssistantInput({
   return (
     <div className="space-y-1 p-1">
       <SlashCommandPopover
+        anchorRef={textareaRef}
         commandRef={commandRef}
         commands={commands}
         inputValue={formattedInput}
         onCommandSelect={selectSlashCommand}
         onOpenChange={setShowCommands}
         open={showCommands}
-      >
-        <Textarea
-          className="resize-none"
-          disabled={disabled}
-          onChange={handleInputChange}
-          onKeyDown={forwardKeyToCommandPopover}
-          placeholder={placeholder}
-          ref={mergedRef}
-          value={inputValue}
-        />
-      </SlashCommandPopover>
+      />
+      <Textarea
+        className="resize-none"
+        disabled={disabled}
+        onChange={handleInputChange}
+        onKeyDown={(event) => {
+          if (showCommands) {
+            forwardKeyToCommandList(event, commandRef.current);
+          }
+        }}
+        placeholder={placeholder}
+        ref={mergedRef}
+        value={inputValue}
+      />
     </div>
   );
 }

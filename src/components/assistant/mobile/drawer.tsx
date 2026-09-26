@@ -1,26 +1,23 @@
 import MobileAssistantContent from "@/components/assistant/mobile/content";
 import MobileAssistantFooter from "@/components/assistant/mobile/footer";
 import MobileAssistantHeader from "@/components/assistant/mobile/header";
+import { useAssistant } from "@/components/assistant/use-assistant";
+import {
+  useIsAssistantOpen,
+  useMobileShellActions,
+} from "@/components/layout/mobile/store";
 import {
   Drawer,
   DrawerContent,
   DrawerDescription,
   DrawerTitle,
 } from "@/components/ui/drawer";
-import { useAssistant } from "@/hooks/use-assistant";
-import {
-  assistant_header,
-  assistant_suggest1,
-  assistant_suggest2,
-  assistant_suggest3,
-} from "@/paraglide/messages.js";
-import { useIsAssistantOpen, useMobileShellStore } from "@/store/mobile-shell";
+import { assistant_header } from "@/paraglide/messages.js";
 
 export default function MobileAssistantDrawer() {
   const isOpen = useIsAssistantOpen();
-  const closeAssistant = useMobileShellStore((s) => s.closeAssistant);
-  const { commands, message, hasMessage, status, error, sendMessage } =
-    useAssistant();
+  const { closeAssistant } = useMobileShellActions();
+  const { message, status, error, sendMessage } = useAssistant();
 
   return (
     <Drawer
@@ -31,7 +28,7 @@ export default function MobileAssistantDrawer() {
       }}
       open={isOpen}
     >
-      <DrawerContent className="h-dvh max-h-dvh rounded-none border-t border-dashed bg-background">
+      <DrawerContent className="h-dvh max-h-dvh rounded-none border-t data-[swipe-direction=down]:rounded-none border-dashed bg-background">
         <DrawerTitle className="sr-only">{assistant_header()}</DrawerTitle>
         <DrawerDescription className="sr-only">
           {assistant_header()}
@@ -40,18 +37,11 @@ export default function MobileAssistantDrawer() {
         <div className="grid h-full grid-rows-[auto_1fr_auto]">
           <MobileAssistantHeader onClose={closeAssistant} />
           <MobileAssistantContent
-            hasMessage={hasMessage}
             message={message}
             onSuggestionClick={sendMessage}
             status={status}
-            suggestions={[
-              assistant_suggest1(),
-              assistant_suggest2(),
-              assistant_suggest3(),
-            ]}
           />
           <MobileAssistantFooter
-            commands={commands}
             disabled={status === "thinking"}
             error={error}
             onSubmit={sendMessage}
