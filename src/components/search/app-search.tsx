@@ -5,7 +5,6 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { useBoolean } from "usehooks-ts";
 
 import ButtonWithTooltip from "@/components/common/button-with-tooltip";
-import { SearchGroup } from "@/components/search/search-group";
 import {
   CommandDialog,
   CommandEmpty,
@@ -14,9 +13,6 @@ import {
   CommandSeparator,
 } from "@/components/ui/command";
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
-import type { AppSearchItem } from "@/config/search";
-import { useAppSearch } from "@/hooks/use-search";
-import type { CategoryKey } from "@/hooks/use-search";
 import { getDisplayKeys, getHotkeyCombo } from "@/lib/hotkeys";
 import {
   ui_search_empty,
@@ -30,18 +26,19 @@ import {
   ui_search_title,
 } from "@/paraglide/messages.js";
 
-const getHeading = (key: CategoryKey): string => {
-  const headings = {
-    career: ui_search_group_career(),
-    page: ui_search_group_pages(),
-    skill: ui_search_group_skills(),
-  };
-  return headings[key];
+import type { SearchCategory, SearchItem } from "./items";
+import { SearchGroup } from "./search-group";
+import { useSearch } from "./use-search";
+
+const HEADINGS: Record<SearchCategory, () => string> = {
+  career: ui_search_group_career,
+  page: ui_search_group_pages,
+  skill: ui_search_group_skills,
 };
 
 export default function AppSearch() {
   const { value: open, toggle, setFalse: close } = useBoolean(false);
-  const { query, setQuery, groups, hasResults } = useAppSearch();
+  const { query, setQuery, groups } = useSearch();
   const navigate = useNavigate();
 
   useHotkeys(getHotkeyCombo("search"), toggle);
@@ -53,16 +50,8 @@ export default function AppSearch() {
     }
   };
 
-  const handleSelect = (item: AppSearchItem) => {
-    const action = item.meta?.action;
-    if (!action) {
-      return;
-    }
-
-    if (action.type === "navigate") {
-      navigate({ to: action.path });
-    }
-
+  const handleSelect = (item: SearchItem) => {
+    navigate({ to: item.path });
     setQuery("");
     close();
   };
@@ -88,9 +77,11 @@ export default function AppSearch() {
         <Search className="size-4" />
       </ButtonWithTooltip>
       <CommandDialog
+        description={ui_search_placeholder()}
         onOpenChange={handleOpenChange}
         open={open}
         shouldFilter={false}
+        title={ui_search_title()}
       >
         <CommandInput
           onValueChange={setQuery}
@@ -98,15 +89,17 @@ export default function AppSearch() {
           value={query}
         />
         <CommandList>
-          {!hasResults && <CommandEmpty>{ui_search_empty()}</CommandEmpty>}
+          {groups.length === 0 && (
+            <CommandEmpty>{ui_search_empty()}</CommandEmpty>
+          )}
 
           {groups.map((group, index) => (
-            <Fragment key={group.key}>
+            <Fragment key={group.category}>
               {index > 0 && <CommandSeparator />}
               <SearchGroup
-                heading={getHeading(group.key)}
+                heading={HEADINGS[group.category]()}
+                items={group.items}
                 onSelect={handleSelect}
-                results={group.results}
               />
             </Fragment>
           ))}
