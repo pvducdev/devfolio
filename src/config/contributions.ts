@@ -1,18 +1,11 @@
-import type { ContributionSource } from "@/lib/contributions";
-
 import { PERSONAL_INFO } from "./personal-info";
 
-const SOURCE: ContributionSource = "GitLab";
-const TRAILING_SLASH = /\/$/;
-
-const extractUsername = (url: string): string =>
-  url.replace(TRAILING_SLASH, "").split("/").at(-1) ?? "";
-
-const USERNAME = extractUsername(PERSONAL_INFO.contact.gitlab);
+const extractUsername = (profileUrl: string): string => {
+  const path = new URL(profileUrl).pathname;
+  return path.slice(path.lastIndexOf("/") + 1);
+};
 
 export const CONTRIBUTIONS_CONFIG = {
-  source: SOURCE,
-  username: USERNAME,
+  source: "GitLab",
+  username: extractUsername(PERSONAL_INFO.contact.gitlab),
 } as const;
-
-export type ContributionsConfig = typeof CONTRIBUTIONS_CONFIG;

@@ -1,14 +1,12 @@
-import { useState } from "react";
-
-import type { CellState } from "@/components/common/contribution-graph";
-import * as ContributionGraph from "@/components/common/contribution-graph";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { formatDateShort } from "@/lib/date";
 import { page_about_contribution_tooltip } from "@/paraglide/messages.js";
+
+import * as ContributionGraph from "./contribution-graph";
+import { formatDateShort } from "./format";
 
 interface ContributionCellProps {
   date: string;
@@ -19,22 +17,14 @@ export default function ContributionCell({
   date,
   locale,
 }: ContributionCellProps) {
-  const [cellState, setCellState] = useState<CellState | null>(null);
+  const count = ContributionGraph.useContributionCount(date);
 
   return (
     <Tooltip>
-      <TooltipTrigger
-        render={
-          <ContributionGraph.Cell
-            date={date}
-            onMouseEnter={setCellState}
-            onMouseLeave={() => setCellState(null)}
-          />
-        }
-      />
+      <TooltipTrigger render={<ContributionGraph.Cell date={date} />} />
       <TooltipContent>
         {page_about_contribution_tooltip({
-          count: cellState?.count ?? 0,
+          count,
           date: formatDateShort(date, locale),
         })}
       </TooltipContent>
