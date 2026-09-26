@@ -6,38 +6,27 @@ export const getRouteLabel = (path: string): string => `${path.slice(1)}.tsx`;
 export const isValidTabRoute = (path: string): boolean =>
   path !== ROUTES.ROOT && path !== ROUTES.HOME;
 
+const STATIC_MOBILE_ROUTES = new Set<string>(
+  Object.values(MOBILE_ROUTES).filter(
+    (route) => route !== MOBILE_ROUTES.PROJECT_DETAIL
+  )
+);
+
+const isStaticMobileRoute = (pathname: string): pathname is MobileRouteId =>
+  STATIC_MOBILE_ROUTES.has(pathname);
+
 export const resolveRouteId = (pathname: string): MobileRouteId => {
-  if (
-    pathname.startsWith("/m/projects/") &&
-    pathname !== MOBILE_ROUTES.PROJECTS
-  ) {
+  if (isStaticMobileRoute(pathname)) {
+    return pathname;
+  }
+  if (pathname.startsWith(`${MOBILE_ROUTES.PROJECTS}/`)) {
     return MOBILE_ROUTES.PROJECT_DETAIL;
   }
-
-  switch (pathname) {
-    case MOBILE_ROUTES.HOME: {
-      return MOBILE_ROUTES.HOME;
-    }
-    case MOBILE_ROUTES.ABOUT: {
-      return MOBILE_ROUTES.ABOUT;
-    }
-    case MOBILE_ROUTES.SKILLS: {
-      return MOBILE_ROUTES.SKILLS;
-    }
-    case MOBILE_ROUTES.CAREER: {
-      return MOBILE_ROUTES.CAREER;
-    }
-    case MOBILE_ROUTES.PROJECTS: {
-      return MOBILE_ROUTES.PROJECTS;
-    }
-    default: {
-      return MOBILE_ROUTES.HOME;
-    }
-  }
+  return MOBILE_ROUTES.HOME;
 };
 
 export const desktopToMobilePath = (pathname: string): string => {
-  if (pathname === "/" || pathname === "/home") {
+  if (pathname === ROUTES.ROOT || pathname === ROUTES.HOME) {
     return MOBILE_ROUTES.HOME;
   }
   return `${MOBILE_PREFIX}${pathname}`;
@@ -45,7 +34,7 @@ export const desktopToMobilePath = (pathname: string): string => {
 
 export const mobileToDesktopPath = (pathname: string): string => {
   if (pathname === MOBILE_ROUTES.HOME) {
-    return "/home";
+    return ROUTES.HOME;
   }
   return pathname.replace(MOBILE_PREFIX, "");
 };

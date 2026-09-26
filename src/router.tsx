@@ -1,9 +1,9 @@
 import { createRouter } from "@tanstack/react-router";
 
-import ErrorPage from "@/components/common/error-page";
+import ErrorPage from "@/components/layout/error-page";
 import { Error as ErrorIcon } from "@/components/ui/svgs/error";
 import { NotFound } from "@/components/ui/svgs/not-found";
-import { getLogger } from "@/lib/logger/client";
+import { getLogger } from "@/lib/logger";
 import {
   page_error_404_description,
   page_error_404_title,
@@ -13,7 +13,7 @@ import {
   page_error_generic_title,
 } from "@/paraglide/messages.js";
 
-import { routeTree } from "./routeTree.gen.ts";
+import { routeTree } from "./routeTree.gen";
 
 export const getRouter = () =>
   createRouter({

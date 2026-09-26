@@ -3,7 +3,7 @@ import { minLength, optional, pipe, string } from "valibot";
 
 export const env = createEnv({
   client: {
-    VITE_APP_TITLE: optional(pipe(string(), minLength(1))),
+    VITE_APP_TITLE: optional(pipe(string(), minLength(1)), "PVD Portfolio"),
     VITE_BASE_URL: optional(
       pipe(string(), minLength(1)),
       "http://localhost:3000"

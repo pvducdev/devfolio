@@ -6,6 +6,8 @@ import { getStartContext } from "@tanstack/start-storage-context";
 import { env as clientEnv } from "@/env/client";
 import { env as serverEnv } from "@/env/server";
 
+let browserLogger: BrowserLogtail | null = null;
+
 export const getLogger = createIsomorphicFn()
   .server(() => {
     const logger = new EdgeLogtail(serverEnv.LOGTAIL_SOURCE_TOKEN, {
@@ -17,9 +19,9 @@ export const getLogger = createIsomorphicFn()
 
     return ctx ? logger.withExecutionContext(ctx) : logger;
   })
-  .client(
-    () =>
-      new BrowserLogtail(clientEnv.VITE_LOGTAIL_SOURCE_TOKEN, {
-        endpoint: `https://${clientEnv.VITE_LOGTAIL_INGESTING_HOST}`,
-      })
-  );
+  .client(() => {
+    browserLogger ??= new BrowserLogtail(clientEnv.VITE_LOGTAIL_SOURCE_TOKEN, {
+      endpoint: `https://${clientEnv.VITE_LOGTAIL_INGESTING_HOST}`,
+    });
+    return browserLogger;
+  });
