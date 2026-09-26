@@ -1,4 +1,4 @@
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs.tsx";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ui_lang_en, ui_lang_vi } from "@/paraglide/messages.js";
 import { getLocale, locales, setLocale } from "@/paraglide/runtime.js";
 

@@ -6,11 +6,10 @@ import Header from "@/components/layout/header";
 import { HydrationGate } from "@/components/layout/hydration-gate";
 import RootLayout from "@/components/layout/root-layout";
 import StatusFooter from "@/components/layout/status-footer";
-import ThemeScript from "@/components/theme/theme-script";
-import { useRouteTabSync } from "@/hooks/use-route-tab-sync";
-import { isMobile, isSupportedBrowser } from "@/lib/browser";
+import { useRouteTabSync } from "@/components/tabs/use-route-tab-sync";
+import ThemeAttributeSync from "@/components/theme/theme-attribute-sync";
+import { isMobile, isServer, isSupportedBrowser } from "@/lib/browser";
 import { desktopToMobilePath } from "@/lib/routes";
-import { isServer } from "@/lib/utils";
 import { msg_error_unsupported_browser } from "@/paraglide/messages";
 
 const RouteComponent = () => {
@@ -18,7 +17,7 @@ const RouteComponent = () => {
 
   return (
     <RootLayout>
-      <ThemeScript />
+      <ThemeAttributeSync />
       <HydrationGate fallback={<AppSkeleton />}>
         <Header />
         <AppContent />

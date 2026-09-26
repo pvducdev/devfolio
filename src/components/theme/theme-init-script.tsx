@@ -1,26 +1,46 @@
 import {
   DEFAULT_THEME,
   THEME_ATTRIBUTE,
+  THEME_FONT_URLS,
   THEME_STORAGE_KEY,
 } from "@/config/theme";
 
-export const ThemeInitScript = () => {
-  const scriptContent = `
-    (function() {
-      try {
-        const stored = localStorage.getItem('${THEME_STORAGE_KEY}');
-        if (stored) {
-          const parsed = JSON.parse(stored);
-          const theme = parsed?.state?.theme || '${DEFAULT_THEME}';
-          document.documentElement.setAttribute('${THEME_ATTRIBUTE}', theme);
-        } else {
-          document.documentElement.setAttribute('${THEME_ATTRIBUTE}', '${DEFAULT_THEME}');
-        }
-      } catch (e) {
-        document.documentElement.setAttribute('${THEME_ATTRIBUTE}', '${DEFAULT_THEME}');
-      }
-    })();
-  `;
+const SCRIPT = `
+  (function() {
+    var FONT_URLS = ${JSON.stringify(THEME_FONT_URLS)};
+    var currentFontLink = null;
 
-  return <script dangerouslySetInnerHTML={{ __html: scriptContent }} />;
-};
+    function loadFonts(theme) {
+      var url = FONT_URLS[theme];
+      if (!url) return;
+      if (currentFontLink && currentFontLink.dataset.fontTheme === theme) return;
+
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = url;
+      link.dataset.fontTheme = theme;
+      link.onload = function() {
+        if (currentFontLink) currentFontLink.remove();
+        currentFontLink = link;
+      };
+      document.head.appendChild(link);
+    }
+
+    window.__loadThemeFonts = loadFonts;
+
+    var theme = '${DEFAULT_THEME}';
+    try {
+      var stored = localStorage.getItem('${THEME_STORAGE_KEY}');
+      theme = (stored && JSON.parse(stored)?.state?.theme) || '${DEFAULT_THEME}';
+    } catch (e) {
+      theme = '${DEFAULT_THEME}';
+    }
+
+    document.documentElement.setAttribute('${THEME_ATTRIBUTE}', theme);
+    loadFonts(theme);
+  })();
+`;
+
+export const ThemeInitScript = () => (
+  <script dangerouslySetInnerHTML={{ __html: SCRIPT }} />
+);

@@ -1,8 +1,8 @@
 import { Outlet } from "@tanstack/react-router";
 
-import TabsContainer from "@/components/tabs/container.tsx";
-import PortfolioWelcome from "@/components/welcome/container.tsx";
-import { useHasOpenTabs } from "@/store/tabs";
+import TabsContainer from "@/components/tabs/container";
+import { useHasOpenTabs } from "@/components/tabs/store";
+import PortfolioWelcome from "@/components/welcome/container";
 
 export default function CodeEditorContainer() {
   const hasOpenTabs = useHasOpenTabs();

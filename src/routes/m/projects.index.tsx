@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import ProjectList from "@/components/project/mobile/project-list.tsx";
+import ProjectList from "@/components/project/mobile/project-list";
 import { PROJECTS } from "@/config/projects";
 
 const MobileProjects = () => (

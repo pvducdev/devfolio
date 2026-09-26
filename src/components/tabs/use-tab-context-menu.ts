@@ -1,6 +1,11 @@
-import { useTabActions } from "@/hooks/use-tab-actions";
-import { isMac } from "@/lib/browser";
-import { useIsFirstTab, useIsLastTab, useTabCount } from "@/store/tabs";
+import {
+  useIsFirstTab,
+  useIsLastTab,
+  useTabCount,
+} from "@/components/tabs/store";
+import { useTabActions } from "@/components/tabs/use-tab-actions";
+import { getDisplayKeys } from "@/lib/hotkeys";
+import { getLogger } from "@/lib/logger";
 
 export const useTabContextMenu = (tabId: string) => {
   const tabCount = useTabCount();
@@ -9,8 +14,14 @@ export const useTabContextMenu = (tabId: string) => {
   const { close, closeOthers, closeAll, closeToRight, closeToLeft } =
     useTabActions();
 
-  const handleCopyPath = () => {
-    navigator.clipboard.writeText(tabId);
+  const handleCopyPath = async () => {
+    try {
+      await navigator.clipboard.writeText(tabId);
+    } catch (error) {
+      await getLogger().error("Failed to copy tab path", {
+        error: error instanceof Error ? error.message : String(error),
+      });
+    }
   };
 
   return {
@@ -23,8 +34,8 @@ export const useTabContextMenu = (tabId: string) => {
       copyPath: handleCopyPath,
     },
     shortcuts: {
-      close: isMac() ? "⌥W" : "Alt+W",
-      closeAll: isMac() ? "⌥⇧W" : "Alt+Shift+W",
+      close: getDisplayKeys("closeTab").join(""),
+      closeAll: getDisplayKeys("closeAllTabs").join(""),
     },
     visibility: {
       closeOthers: tabCount > 1,

@@ -5,7 +5,7 @@ import { useShallow } from "zustand/shallow";
 import { STORE_KEYS } from "@/config/store-keys";
 import { getRouteLabel } from "@/lib/routes";
 
-export interface Tab {
+interface Tab {
   id: string;
   label: string;
 }
@@ -27,7 +27,7 @@ interface TabsActions {
 
 const DEFAULT_STATE: TabsState = { activeTabId: null, tabs: [] };
 
-export const useTabsStore = create<TabsState & TabsActions>()(
+const useTabsStore = create<TabsState & TabsActions>()(
   persist(
     (set, get) => ({
       ...DEFAULT_STATE,

@@ -1,8 +1,8 @@
 import { useHotkeys } from "react-hotkeys-hook";
 
-import { useTabActions } from "@/hooks/use-tab-actions";
+import { useActiveTabId } from "@/components/tabs/store";
+import { useTabActions } from "@/components/tabs/use-tab-actions";
 import { getHotkeyCombo } from "@/lib/hotkeys";
-import { useActiveTabId } from "@/store/tabs";
 
 export const useTabShortcuts = () => {
   const activeTabId = useActiveTabId();

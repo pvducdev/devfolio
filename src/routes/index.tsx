@@ -5,9 +5,9 @@ import {
 } from "@tanstack/react-router";
 import { useEffect } from "react";
 
+import { useActiveTabId } from "@/components/tabs/store";
 import { MOBILE_ROUTES, ROUTES } from "@/config/routes";
 import { isMobile } from "@/lib/browser";
-import { useActiveTabId } from "@/store/tabs";
 
 const IndexRedirect = () => {
   const navigate = useNavigate();

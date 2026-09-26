@@ -1,8 +1,8 @@
 import { useHydrated, useLocation } from "@tanstack/react-router";
 import { useEffect } from "react";
 
+import { useTabsActions } from "@/components/tabs/store";
 import { isValidTabRoute } from "@/lib/routes";
-import { useTabsActions } from "@/store/tabs";
 
 export const useRouteTabSync = () => {
   const location = useLocation();

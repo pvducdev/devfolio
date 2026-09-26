@@ -3,15 +3,14 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 import { HydrationGate } from "@/components/layout/hydration-gate";
 import MobileSkeleton from "@/components/layout/mobile/mobile-skeleton";
 import Shell from "@/components/layout/mobile/shell";
-import ThemeScript from "@/components/theme/theme-script";
-import { isMobile } from "@/lib/browser";
+import ThemeAttributeSync from "@/components/theme/theme-attribute-sync";
+import { isMobile, isServer } from "@/lib/browser";
 import { mobileToDesktopPath } from "@/lib/routes";
-import { isServer } from "@/lib/utils";
 
 const MobileLayout = () => (
   <div className="h-dvh w-screen overflow-hidden bg-accent-foreground">
     <div className="h-full bg-sidebar">
-      <ThemeScript />
+      <ThemeAttributeSync />
       <HydrationGate fallback={<MobileSkeleton />}>
         <Shell />
       </HydrationGate>

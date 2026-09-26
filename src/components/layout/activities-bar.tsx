@@ -1,5 +1,5 @@
 import Activity from "@/components/layout/activity";
-import { activities } from "@/config/routes";
+import { activities } from "@/components/sidebar/activities";
 
 interface ActivitiesBarProps {
   active: string | null;
@@ -14,9 +14,7 @@ export default function ActivitiesBar({ active, onClick }: ActivitiesBarProps) {
           active={act.key === active}
           data={act}
           key={act.key}
-          onClick={(values) => {
-            onClick(values.key);
-          }}
+          onClick={() => onClick(act.key)}
         />
       ))}
     </aside>

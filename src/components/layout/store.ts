@@ -29,7 +29,7 @@ const DEFAULT_APP_LAYOUT: AppLayoutState = {
   sidebarSize: LAYOUT_CONFIG.sidebar.defaultSize,
 };
 
-export const useAppLayoutStore = create<AppLayoutState & AppLayoutActions>()(
+const useAppLayoutStore = create<AppLayoutState & AppLayoutActions>()(
   persist(
     (set) => ({
       ...DEFAULT_APP_LAYOUT,
@@ -56,11 +56,6 @@ export const useAppLayoutStore = create<AppLayoutState & AppLayoutActions>()(
     }
   )
 );
-
-export const useIsSidebarOpen = () =>
-  useAppLayoutStore((s) => s.sidebar !== null);
-
-export const useIsPanelOpen = () => useAppLayoutStore((s) => s.panel !== null);
 
 export const useIsStretchLayout = () =>
   useAppLayoutStore((s) => s.isStretchLayout);

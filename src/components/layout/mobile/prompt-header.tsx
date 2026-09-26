@@ -1,5 +1,6 @@
-import { cn } from "@/lib/utils";
-import { useCurrentCommand } from "@/store/mobile-shell";
+import { cn } from "cn";
+
+import { useCurrentCommand } from "@/components/layout/mobile/store";
 
 interface PromptHeaderProps {
   typingText: string;

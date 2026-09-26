@@ -1,7 +1,4 @@
 export const LAYOUT_CONFIG = {
-  editor: {
-    defaultSize: undefined,
-  },
   panel: {
     defaultSection: "assistant",
     defaultSize: 25,
