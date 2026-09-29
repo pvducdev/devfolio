@@ -9,75 +9,40 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as MRouteImport } from './routes/m'
-import { Route as RootLayoutRouteImport } from './routes/_root-layout'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as MSkillsRouteImport } from './routes/m/skills'
-import { Route as MProjectsRouteImport } from './routes/m/projects'
-import { Route as MHomeRouteImport } from './routes/m/home'
-import { Route as MCareerRouteImport } from './routes/m/career'
-import { Route as MAboutRouteImport } from './routes/m/about'
-import { Route as ApiContributionsRouteImport } from './routes/api/contributions'
-import { Route as RootLayoutSkillsRouteImport } from './routes/_root-layout/skills'
-import { Route as RootLayoutHomeRouteImport } from './routes/_root-layout/home'
-import { Route as RootLayoutCareerRouteImport } from './routes/_root-layout/career'
+import { Route as RootLayoutRouteImport } from './routes/_root-layout'
+import { Route as MRouteImport } from './routes/m'
 import { Route as RootLayoutAboutRouteImport } from './routes/_root-layout/about'
+import { Route as RootLayoutCareerRouteImport } from './routes/_root-layout/career'
+import { Route as RootLayoutHomeRouteImport } from './routes/_root-layout/home'
+import { Route as RootLayoutSkillsRouteImport } from './routes/_root-layout/skills'
+import { Route as ApiContributionsRouteImport } from './routes/api/contributions'
+import { Route as MAboutRouteImport } from './routes/m/about'
+import { Route as MCareerRouteImport } from './routes/m/career'
+import { Route as MHomeRouteImport } from './routes/m/home'
+import { Route as MProjectsRouteImport } from './routes/m/projects'
+import { Route as MSkillsRouteImport } from './routes/m/skills'
+import { Route as RootLayoutProjectsIdRouteImport } from './routes/_root-layout/projects.$id'
 import { Route as MProjectsIndexRouteImport } from './routes/m/projects.index'
 import { Route as MProjectsIdRouteImport } from './routes/m/projects.$id'
-import { Route as RootLayoutProjectsIdRouteImport } from './routes/_root-layout/projects.$id'
 
-const MRoute = MRouteImport.update({
-  id: '/m',
-  path: '/m',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RootLayoutRoute = RootLayoutRouteImport.update({
   id: '/_root-layout',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const MRoute = MRouteImport.update({
+  id: '/m',
+  path: '/m',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MSkillsRoute = MSkillsRouteImport.update({
-  id: '/skills',
-  path: '/skills',
-  getParentRoute: () => MRoute,
-} as any)
-const MProjectsRoute = MProjectsRouteImport.update({
-  id: '/projects',
-  path: '/projects',
-  getParentRoute: () => MRoute,
-} as any)
-const MHomeRoute = MHomeRouteImport.update({
-  id: '/home',
-  path: '/home',
-  getParentRoute: () => MRoute,
-} as any)
-const MCareerRoute = MCareerRouteImport.update({
-  id: '/career',
-  path: '/career',
-  getParentRoute: () => MRoute,
-} as any)
-const MAboutRoute = MAboutRouteImport.update({
+const RootLayoutAboutRoute = RootLayoutAboutRouteImport.update({
   id: '/about',
   path: '/about',
-  getParentRoute: () => MRoute,
-} as any)
-const ApiContributionsRoute = ApiContributionsRouteImport.update({
-  id: '/api/contributions',
-  path: '/api/contributions',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RootLayoutSkillsRoute = RootLayoutSkillsRouteImport.update({
-  id: '/skills',
-  path: '/skills',
-  getParentRoute: () => RootLayoutRoute,
-} as any)
-const RootLayoutHomeRoute = RootLayoutHomeRouteImport.update({
-  id: '/home',
-  path: '/home',
   getParentRoute: () => RootLayoutRoute,
 } as any)
 const RootLayoutCareerRoute = RootLayoutCareerRouteImport.update({
@@ -85,9 +50,49 @@ const RootLayoutCareerRoute = RootLayoutCareerRouteImport.update({
   path: '/career',
   getParentRoute: () => RootLayoutRoute,
 } as any)
-const RootLayoutAboutRoute = RootLayoutAboutRouteImport.update({
+const RootLayoutHomeRoute = RootLayoutHomeRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => RootLayoutRoute,
+} as any)
+const RootLayoutSkillsRoute = RootLayoutSkillsRouteImport.update({
+  id: '/skills',
+  path: '/skills',
+  getParentRoute: () => RootLayoutRoute,
+} as any)
+const ApiContributionsRoute = ApiContributionsRouteImport.update({
+  id: '/api/contributions',
+  path: '/api/contributions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MAboutRoute = MAboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => MRoute,
+} as any)
+const MCareerRoute = MCareerRouteImport.update({
+  id: '/career',
+  path: '/career',
+  getParentRoute: () => MRoute,
+} as any)
+const MHomeRoute = MHomeRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => MRoute,
+} as any)
+const MProjectsRoute = MProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => MRoute,
+} as any)
+const MSkillsRoute = MSkillsRouteImport.update({
+  id: '/skills',
+  path: '/skills',
+  getParentRoute: () => MRoute,
+} as any)
+const RootLayoutProjectsIdRoute = RootLayoutProjectsIdRouteImport.update({
+  id: '/projects/$id',
+  path: '/projects/$id',
   getParentRoute: () => RootLayoutRoute,
 } as any)
 const MProjectsIndexRoute = MProjectsIndexRouteImport.update({
@@ -99,11 +104,6 @@ const MProjectsIdRoute = MProjectsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => MProjectsRoute,
-} as any)
-const RootLayoutProjectsIdRoute = RootLayoutProjectsIdRouteImport.update({
-  id: '/projects/$id',
-  path: '/projects/$id',
-  getParentRoute: () => RootLayoutRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -221,11 +221,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/m': {
-      id: '/m'
-      path: '/m'
-      fullPath: '/m'
-      preLoaderRoute: typeof MRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_root-layout': {
@@ -235,67 +235,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RootLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/m': {
+      id: '/m'
+      path: '/m'
+      fullPath: '/m'
+      preLoaderRoute: typeof MRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/m/skills': {
-      id: '/m/skills'
-      path: '/skills'
-      fullPath: '/m/skills'
-      preLoaderRoute: typeof MSkillsRouteImport
-      parentRoute: typeof MRoute
-    }
-    '/m/projects': {
-      id: '/m/projects'
-      path: '/projects'
-      fullPath: '/m/projects'
-      preLoaderRoute: typeof MProjectsRouteImport
-      parentRoute: typeof MRoute
-    }
-    '/m/home': {
-      id: '/m/home'
-      path: '/home'
-      fullPath: '/m/home'
-      preLoaderRoute: typeof MHomeRouteImport
-      parentRoute: typeof MRoute
-    }
-    '/m/career': {
-      id: '/m/career'
-      path: '/career'
-      fullPath: '/m/career'
-      preLoaderRoute: typeof MCareerRouteImport
-      parentRoute: typeof MRoute
-    }
-    '/m/about': {
-      id: '/m/about'
+    '/_root-layout/about': {
+      id: '/_root-layout/about'
       path: '/about'
-      fullPath: '/m/about'
-      preLoaderRoute: typeof MAboutRouteImport
-      parentRoute: typeof MRoute
-    }
-    '/api/contributions': {
-      id: '/api/contributions'
-      path: '/api/contributions'
-      fullPath: '/api/contributions'
-      preLoaderRoute: typeof ApiContributionsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_root-layout/skills': {
-      id: '/_root-layout/skills'
-      path: '/skills'
-      fullPath: '/skills'
-      preLoaderRoute: typeof RootLayoutSkillsRouteImport
-      parentRoute: typeof RootLayoutRoute
-    }
-    '/_root-layout/home': {
-      id: '/_root-layout/home'
-      path: '/home'
-      fullPath: '/home'
-      preLoaderRoute: typeof RootLayoutHomeRouteImport
+      fullPath: '/about'
+      preLoaderRoute: typeof RootLayoutAboutRouteImport
       parentRoute: typeof RootLayoutRoute
     }
     '/_root-layout/career': {
@@ -305,11 +256,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RootLayoutCareerRouteImport
       parentRoute: typeof RootLayoutRoute
     }
-    '/_root-layout/about': {
-      id: '/_root-layout/about'
+    '/_root-layout/home': {
+      id: '/_root-layout/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof RootLayoutHomeRouteImport
+      parentRoute: typeof RootLayoutRoute
+    }
+    '/_root-layout/skills': {
+      id: '/_root-layout/skills'
+      path: '/skills'
+      fullPath: '/skills'
+      preLoaderRoute: typeof RootLayoutSkillsRouteImport
+      parentRoute: typeof RootLayoutRoute
+    }
+    '/api/contributions': {
+      id: '/api/contributions'
+      path: '/api/contributions'
+      fullPath: '/api/contributions'
+      preLoaderRoute: typeof ApiContributionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/m/about': {
+      id: '/m/about'
       path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof RootLayoutAboutRouteImport
+      fullPath: '/m/about'
+      preLoaderRoute: typeof MAboutRouteImport
+      parentRoute: typeof MRoute
+    }
+    '/m/career': {
+      id: '/m/career'
+      path: '/career'
+      fullPath: '/m/career'
+      preLoaderRoute: typeof MCareerRouteImport
+      parentRoute: typeof MRoute
+    }
+    '/m/home': {
+      id: '/m/home'
+      path: '/home'
+      fullPath: '/m/home'
+      preLoaderRoute: typeof MHomeRouteImport
+      parentRoute: typeof MRoute
+    }
+    '/m/projects': {
+      id: '/m/projects'
+      path: '/projects'
+      fullPath: '/m/projects'
+      preLoaderRoute: typeof MProjectsRouteImport
+      parentRoute: typeof MRoute
+    }
+    '/m/skills': {
+      id: '/m/skills'
+      path: '/skills'
+      fullPath: '/m/skills'
+      preLoaderRoute: typeof MSkillsRouteImport
+      parentRoute: typeof MRoute
+    }
+    '/_root-layout/projects/$id': {
+      id: '/_root-layout/projects/$id'
+      path: '/projects/$id'
+      fullPath: '/projects/$id'
+      preLoaderRoute: typeof RootLayoutProjectsIdRouteImport
       parentRoute: typeof RootLayoutRoute
     }
     '/m/projects/': {
@@ -325,13 +332,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/m/projects/$id'
       preLoaderRoute: typeof MProjectsIdRouteImport
       parentRoute: typeof MProjectsRoute
-    }
-    '/_root-layout/projects/$id': {
-      id: '/_root-layout/projects/$id'
-      path: '/projects/$id'
-      fullPath: '/projects/$id'
-      preLoaderRoute: typeof RootLayoutProjectsIdRouteImport
-      parentRoute: typeof RootLayoutRoute
     }
   }
 }
