@@ -9,9 +9,9 @@
     "dev": "vite dev --port 3000",
     "build": "vite build",
     "preview": "vite preview",
-    "deploy": "bun run build && wrangler deploy",
-    "deploy:staging": "CLOUDFLARE_ENV=staging bun run build && wrangler deploy",
-    "deploy:production": "CLOUDFLARE_ENV=production bun run build && wrangler deploy",
+    "deploy": "pnpm build && wrangler deploy",
+    "deploy:staging": "CLOUDFLARE_ENV=staging pnpm build && wrangler deploy",
+    "deploy:production": "CLOUDFLARE_ENV=production pnpm build && wrangler deploy",
     "cf-typegen": "wrangler types",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
@@ -87,5 +87,6 @@
     "vite": "^8.0.16",
     "vitest": "^4.1.9",
     "wrangler": "^4.101.0"
-  }
+  },
+  "packageManager": "pnpm@12.5.1"
 }

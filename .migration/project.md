@@ -5,11 +5,11 @@ in-place). All 13 Radix-backed components migrated to `@base-ui/react@1.6.0`.
 
 ## Dependency swap
 
-- Added `@base-ui/react@^1.6.0`; removed `radix-ui`. Package manager: **bun** (`bun.lock`).
+- Added `@base-ui/react@^1.6.0`; removed `radix-ui`. Package manager: **pnpm** (`pnpm-lock.yaml`).
 - Baseline (captured before any change, after generating `src/paraglide`): `tsc --noEmit`
   **0 errors**.
-- Final: `tsc --noEmit` **0 errors** · `bun run build` **✓ built** · `bun run lint` (oxlint)
-  **0 warnings/0 errors** · `bun run check` (ultracite) **0 warnings/0 errors**.
+- Final: `tsc --noEmit` **0 errors** · `pnpm build` **✓ built** · `pnpm lint` (oxlint)
+  **0 warnings/0 errors** · `pnpm check` (ultracite) **0 warnings/0 errors**.
 
 ## Components migrated (13)
 

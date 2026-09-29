@@ -9,23 +9,23 @@ Fork, clone, and set up the project:
 ```bash
 git clone https://github.com/YOUR_USERNAME/devfolio.git
 cd devfolio
-bun install
+pnpm install
 # Configure .env with required keys
-bun run dev
+pnpm dev
 ```
 
 ## Workflow
 
 1. Create a feature branch from `develop`
 2. Make changes following code guidelines below
-3. Run `bun run check && bun run test`
+3. Run `pnpm check && pnpm test`
 4. Commit using [Conventional Commits](https://www.conventionalcommits.org/) format
 5. Open a PR against `develop`
 
 ## Code Guidelines
 
-- **Linting**: Biome + ultracite preset (run `bun run fix`)
-- **Testing**: Write tests for new features (`bun run test`)
+- **Linting**: Biome + ultracite preset (run `pnpm fix`)
+- **Testing**: Write tests for new features (`pnpm test`)
 - **Style**: Follow existing patterns, use Tailwind utilities
 - **Validation**: Use Valibot
 - **i18n**: Add translations to `messages/en/*.json` and `messages/vi/*.json`
