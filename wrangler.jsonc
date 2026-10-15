@@ -27,7 +27,6 @@
       "LOGTAIL_SOURCE_TOKEN",
       "LOGTAIL_INGESTING_HOST",
       "GIT_CONTRIBUTION_TOKEN",
-      "GITHUB_TOKEN",
     ],
   },
 
@@ -37,7 +36,7 @@
       "ratelimits": [
         {
           "name": "RATE_LIMITER",
-          "namespace_id": "1001",
+          "namespace_id": "1002",
           "simple": { "limit": 100, "period": 60 },
         },
       ],
@@ -50,7 +49,6 @@
           "LOGTAIL_SOURCE_TOKEN",
           "LOGTAIL_INGESTING_HOST",
           "GIT_CONTRIBUTION_TOKEN",
-          "GITHUB_TOKEN",
         ],
       },
     },
@@ -76,7 +74,6 @@
           "LOGTAIL_SOURCE_TOKEN",
           "LOGTAIL_INGESTING_HOST",
           "GIT_CONTRIBUTION_TOKEN",
-          "GITHUB_TOKEN",
         ],
       },
     },
