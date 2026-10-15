@@ -1,8 +1,27 @@
+import type { LucideIcon } from "lucide-react";
 import { Building2, GraduationCap, Users } from "lucide-react";
 
-import type { CareerEntry } from "@/types/career";
+export type JobType = "fulltime" | "parttime" | "freelance" | "education";
 
-export type { CareerEntry, JobType } from "@/types/career";
+export interface ExpandedContent {
+  description: string;
+  techStack: {
+    primary: string[];
+    tools?: string[];
+    infrastructure?: string[];
+  };
+  metrics?: string[];
+}
+
+export interface CareerEntry {
+  year: string;
+  jobType: JobType;
+  icon: LucideIcon;
+  title: string;
+  company: string;
+  details: string[];
+  expanded?: ExpandedContent;
+}
 
 export const CAREER_TIMELINE: CareerEntry[] = [
   {

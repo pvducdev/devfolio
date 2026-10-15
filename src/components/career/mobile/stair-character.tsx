@@ -1,11 +1,9 @@
-import { useRive, useStateMachineInput } from "@rive-app/react-canvas";
 import type { MotionValue } from "motion/react";
 import { motion, useSpring, useTransform } from "motion/react";
 import type { RefObject } from "react";
 import { useEffect, useRef, useState } from "react";
 
-import { CHARACTER_CONFIG } from "@/components/career-runner/config";
-import { useCharacterAnimationState } from "@/store/career";
+import { useCharacterRive } from "../use-character-rive";
 
 const CHARACTER_SIZE = 48;
 
@@ -97,7 +95,6 @@ const StairCharacter = ({
   scrollY,
   scrollRef,
 }: StairCharacterProps) => {
-  const animationState = useCharacterAnimationState();
   const { characterYs, scrollOffsets } = useSectionMapping(
     sectionRefs,
     scrollRef
@@ -131,24 +128,7 @@ const StairCharacter = ({
     stiffness: 600,
   });
 
-  const { rive, RiveComponent } = useRive({
-    autoplay: true,
-    src: CHARACTER_CONFIG.src,
-    stateMachines: CHARACTER_CONFIG.stateMachine,
-  });
-
-  const stateInput = useStateMachineInput(
-    rive,
-    CHARACTER_CONFIG.stateMachine,
-    CHARACTER_CONFIG.runningInput
-  );
-
-  useEffect(() => {
-    if (!stateInput) {
-      return;
-    }
-    stateInput.value = CHARACTER_CONFIG.states[animationState];
-  }, [animationState, stateInput]);
+  const RiveComponent = useCharacterRive();
 
   if (count === 0) {
     return null;

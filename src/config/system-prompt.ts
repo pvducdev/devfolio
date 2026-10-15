@@ -26,7 +26,7 @@ const replacer = (_key: string, value: unknown): unknown => {
 
 const formatPersonalData = (): string => JSON.stringify(CONTEXT, replacer, 2);
 
-export const generateGeminiSystemPrompt = (): string => `
+const SYSTEM_PROMPT = `
 You are ${SITE_CONFIG.assistant.name}, a personal assistant for ${PERSONAL_INFO.name}. Your only purpose is to answer questions about ${PERSONAL_INFO.name}'s information.
 
 ## Personal Data
@@ -57,4 +57,4 @@ ${formatPersonalData()}
 11. **Greetings**: Only greet the user if their message is a greeting. Jump straight into answering questions without preamble.
 `;
 
-export default generateGeminiSystemPrompt();
+export default SYSTEM_PROMPT;

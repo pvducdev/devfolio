@@ -4,7 +4,7 @@ import { mergeProps } from "@base-ui/react/merge-props"
 import { useRender } from "@base-ui/react/use-render"
 import { ChevronDownIcon } from "lucide-react"
 
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
 interface TreeContextValue<T = any> {
   indent: number

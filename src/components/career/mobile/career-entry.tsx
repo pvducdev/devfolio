@@ -1,25 +1,25 @@
+import { cn } from "cn";
 import { ChevronDown } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect } from "react";
 import type { Ref, RefObject } from "react";
-import { useBoolean } from "usehooks-ts";
 
-import type { CareerSection } from "@/components/career-runner/config";
-import ExpandedSection from "@/components/career-runner/expanded-section";
-import { cn } from "@/lib/utils";
+import type { CareerEntry as TCareerEntry } from "@/config/career";
+
+import ExpandedSection from "../expanded-section";
+import { useActiveToggle } from "../use-active-toggle";
 
 interface CareerEntryProps {
   ref: Ref<HTMLDivElement>;
-  section: CareerSection;
+  entry: TCareerEntry;
   isActive: boolean;
   scrollRef: RefObject<HTMLDivElement | null>;
 }
 
 const YearMarker = ({
-  section,
+  entry,
   isActive,
 }: {
-  section: CareerSection;
+  entry: TCareerEntry;
   isActive: boolean;
 }) => (
   <div className="absolute top-0 -left-14 w-14 pr-3 text-right">
@@ -30,9 +30,9 @@ const YearMarker = ({
       className="font-mono text-[10px] tabular-nums tracking-wider"
       transition={{ damping: 25, stiffness: 300, type: "spring" }}
     >
-      {section.year}
+      {entry.year}
     </motion.span>
-    <section.icon className="mt-1 ml-auto size-3 text-muted-foreground" />
+    <entry.icon className="mt-1 ml-auto size-3 text-muted-foreground" />
   </div>
 );
 
@@ -47,32 +47,18 @@ const TimelineDot = ({ isActive }: { isActive: boolean }) => (
   />
 );
 
-const CareerEntry = ({
-  ref,
-  section,
-  isActive,
-  scrollRef,
-}: CareerEntryProps) => {
-  const {
-    value: manuallyToggled,
-    toggle: toggleManually,
-    setFalse: resetToggle,
-  } = useBoolean(false);
+const CareerEntry = ({ ref, entry, isActive, scrollRef }: CareerEntryProps) => {
+  const { isToggled: manuallyToggled, toggle: toggleManually } =
+    useActiveToggle(isActive);
 
-  useEffect(() => {
-    if (!isActive) {
-      resetToggle();
-    }
-  }, [isActive, resetToggle]);
-
-  const hasExpandableContent = !!section.card.expanded;
+  const hasExpandableContent = !!entry.expanded;
   const isExpanded = hasExpandableContent && !manuallyToggled;
   return (
     <div
       className="relative pb-36 [contain-intrinsic-size:auto_400px] [content-visibility:auto]"
       ref={ref}
     >
-      <YearMarker isActive={isActive} section={section} />
+      <YearMarker isActive={isActive} entry={entry} />
       <TimelineDot isActive={isActive} />
 
       <div
@@ -99,10 +85,10 @@ const CareerEntry = ({
           <div className="mb-2 flex items-start justify-between border-border border-b pb-2">
             <div>
               <h3 className="font-mono text-xs uppercase tracking-wide">
-                ▸ {section.card.title}
+                ▸ {entry.title}
               </h3>
               <p className="font-mono text-[11px] text-muted-foreground">
-                {section.card.subtitle} ({section.jobType})
+                {entry.company} ({entry.jobType})
               </p>
             </div>
             {hasExpandableContent ? (
@@ -123,7 +109,7 @@ const CareerEntry = ({
           </div>
 
           <ul className="space-y-1">
-            {section.card.details.map((d) => (
+            {entry.details.map((d) => (
               <li className="flex gap-2 font-mono text-xs" key={d}>
                 <span className="text-muted-foreground">{">"}</span>
                 <span>{d}</span>
@@ -132,8 +118,8 @@ const CareerEntry = ({
           </ul>
 
           <AnimatePresence mode="wait">
-            {isExpanded && section.card.expanded ? (
-              <ExpandedSection expanded={section.card.expanded} />
+            {isExpanded && entry.expanded ? (
+              <ExpandedSection expanded={entry.expanded} />
             ) : null}
           </AnimatePresence>
         </div>

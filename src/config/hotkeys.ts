@@ -14,7 +14,5 @@ const HOTKEY_GROUPS = {
   tabs: ["closeTab", "closeAllTabs"],
 } as const satisfies Record<string, readonly HotkeyId[]>;
 
-type HotkeyGroupId = keyof typeof HOTKEY_GROUPS;
-
 export { HOTKEYS, HOTKEY_GROUPS };
-export type { HotkeyId, HotkeyGroupId };
+export type { HotkeyId };

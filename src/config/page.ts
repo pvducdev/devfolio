@@ -4,7 +4,7 @@ export interface PageTreeItem {
   path?: string;
 }
 
-export const ABOUT_TREE: Record<string, PageTreeItem> = {
+export const ABOUT_TREE = {
   about: {
     name: "about.tsx",
     path: "/about",
@@ -21,7 +21,7 @@ export const ABOUT_TREE: Record<string, PageTreeItem> = {
     name: "skills.tsx",
     path: "/skills",
   },
-} as const;
+} as const satisfies Record<string, PageTreeItem>;
 
 export const ABOUT_TREE_CONFIG = {
   defaultExpanded: ["root", "profile"],
@@ -29,7 +29,7 @@ export const ABOUT_TREE_CONFIG = {
   rootItemId: "root",
 } as const;
 
-export const PROJECT_TREE: Record<string, PageTreeItem> = {
+export const PROJECT_TREE = {
   backend: {
     children: ["ieltsy-bot", "daily-tech-bot"],
     name: "Backend",
@@ -54,7 +54,7 @@ export const PROJECT_TREE: Record<string, PageTreeItem> = {
     name: "portfolio.tsx",
     path: "/projects/portfolio",
   },
-} as const;
+} as const satisfies Record<string, PageTreeItem>;
 
 export const PROJECT_TREE_CONFIG = {
   defaultExpanded: ["engineering", "frontend"],

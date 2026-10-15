@@ -1,20 +1,18 @@
 import RouteBreadcrumb from "@/components/layout/route-breadcrumb";
 import ThemeSwitcher from "@/components/theme/theme-switcher";
+import { Badge } from "@/components/ui/badge";
 import { GithubLight } from "@/components/ui/svgs/githubLight";
 import { Gitlab } from "@/components/ui/svgs/gitlab";
 import { Linkedin } from "@/components/ui/svgs/linkedin";
 import { PERSONAL_INFO } from "@/config/personal-info";
-import { SITE_CONFIG } from "@/config/site";
 import { ui_state_hired, ui_state_opentowork } from "@/paraglide/messages.js";
-
-import { Badge } from "../ui/badge";
 
 export default function StatusFooter() {
   return (
     <footer className="flex h-6 w-full items-center justify-between bg-sidebar px-3">
       <RouteBreadcrumb />
       <div className="flex items-center space-x-4">
-        {!!SITE_CONFIG.features.showThemeSwitcher && <ThemeSwitcher />}
+        <ThemeSwitcher />
         <div className="flex items-center space-x-2">
           <a
             href={PERSONAL_INFO.contact.github}

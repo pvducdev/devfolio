@@ -1,5 +1,6 @@
 import type { ReactElement } from "react";
 
+import { useTabContextMenu } from "@/components/tabs/use-tab-context-menu";
 import {
   ContextMenu,
   ContextMenuContent,
@@ -8,7 +9,6 @@ import {
   ContextMenuShortcut,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
-import { useTabContextMenu } from "@/hooks/use-tab-context-menu";
 import {
   ui_tab_close,
   ui_tab_close_all,
@@ -18,8 +18,9 @@ import {
   ui_tab_copy_path,
 } from "@/paraglide/messages.js";
 
-type TabContextMenuProps = ContextMenuTriggerProps & {
+type TabContextMenuProps = Omit<ContextMenuTriggerProps, "children"> & {
   tabId: string;
+  children?: ReactElement;
 };
 
 type ContextMenuTriggerProps = Parameters<typeof ContextMenuTrigger>[0];
@@ -33,7 +34,7 @@ export const TabContextMenu = ({
 
   return (
     <ContextMenu>
-      <ContextMenuTrigger render={children as ReactElement} {...triggerProps} />
+      <ContextMenuTrigger render={children} {...triggerProps} />
       <ContextMenuContent className="min-w-52 rounded-lg">
         <ContextMenuItem onClick={actions.close}>
           {ui_tab_close()}

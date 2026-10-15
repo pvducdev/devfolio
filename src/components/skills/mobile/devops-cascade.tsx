@@ -1,5 +1,4 @@
 import type { Skills } from "@/config/skills";
-import { mobile_skills_section_devops } from "@/paraglide/messages";
 
 import SectionHeader from "./section-header";
 
@@ -10,7 +9,7 @@ interface DevopsCascadeProps {
 export default function DevopsCascade({ items }: DevopsCascadeProps) {
   return (
     <section className="[content-visibility:auto]">
-      <SectionHeader number="03" title={mobile_skills_section_devops()} />
+      <SectionHeader section="devops" />
       <div className="mt-5 space-y-3 text-right">
         {items.map((item) => (
           <p

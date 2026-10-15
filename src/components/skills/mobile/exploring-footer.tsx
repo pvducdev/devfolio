@@ -1,7 +1,4 @@
-import {
-  mobile_skills_eof,
-  mobile_skills_section_exploring,
-} from "@/paraglide/messages";
+import { mobile_skills_eof } from "@/paraglide/messages";
 
 import SectionHeader from "./section-header";
 
@@ -12,7 +9,7 @@ interface ExploringFooterProps {
 export default function ExploringFooter({ items }: ExploringFooterProps) {
   return (
     <section className="[content-visibility:auto]">
-      <SectionHeader number="06" title={mobile_skills_section_exploring()} />
+      <SectionHeader section="exploring" />
       <div className="mt-5 flex items-center gap-2">
         <span className="size-1.5 animate-pulse rounded-full bg-chart-3" />
         <span className="font-mono text-foreground text-xs">

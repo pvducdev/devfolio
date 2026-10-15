@@ -1,10 +1,11 @@
-import { Button } from "@/components/ui/button.tsx";
-import { SITE_CONFIG } from "@/config/site.ts";
-import { THEMES } from "@/config/theme.ts";
-import { cn } from "@/lib/utils.ts";
+import { cn } from "cn";
+
+import { useMobileShellActions } from "@/components/layout/mobile/store";
+import { useCurrentTheme, useSetTheme } from "@/components/theme/store";
+import { Button } from "@/components/ui/button";
+import { SITE_CONFIG } from "@/config/site";
+import { THEMES } from "@/config/theme";
 import { getLocale, locales, setLocale } from "@/paraglide/runtime";
-import { useMobileShellStore } from "@/store/mobile-shell.ts";
-import { useCurrentTheme, useSetTheme } from "@/store/theme.ts";
 
 export const UtilityRow = ({
   onSettingsTap,
@@ -14,7 +15,7 @@ export const UtilityRow = ({
   const theme = useCurrentTheme();
   const setTheme = useSetTheme();
   const currentLocale = getLocale();
-  const openAssistant = useMobileShellStore((s) => s.openAssistant);
+  const { openAssistant } = useMobileShellActions();
 
   return (
     <div className="flex items-center gap-1.5 border-b border-dashed px-3 py-2">
@@ -38,7 +39,7 @@ export const UtilityRow = ({
             currentLocale === locale && "bg-foreground text-background"
           )}
           key={locale}
-          onClick={() => setLocale(locale as (typeof locales)[number])}
+          onClick={() => setLocale(locale)}
           size="utility"
           variant="utility"
         >
@@ -50,12 +51,13 @@ export const UtilityRow = ({
 
       <Button
         className="ml-auto"
-        onClick={() =>
-          window.open(
-            SITE_CONFIG.repository.url,
-            "_blank",
-            "noopener,noreferrer"
-          )
+        nativeButton={false}
+        render={
+          <a
+            href={SITE_CONFIG.repository.url}
+            rel="noopener noreferrer"
+            target="_blank"
+          />
         }
         size="utility"
         variant="utility"

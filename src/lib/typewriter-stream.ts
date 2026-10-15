@@ -1,4 +1,8 @@
-import { delay } from "@/lib/utils";
+const delay = (ms: number): Promise<void> =>
+  // oxlint-disable-next-line avoid-new -- setTimeout has no native Promise wrapper in browsers
+  new Promise((resolve) => {
+    setTimeout(() => resolve(), ms);
+  });
 
 // oxlint-disable-next-line func-style -- generators cannot be expressed as arrow functions
 export async function* typewriterStream(

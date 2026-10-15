@@ -8,8 +8,8 @@ A developer portfolio with IDE-inspired design, built with React 19 and TanStack
 ## Quick Start
 
 ```bash
-bun install
-bun --bun run dev
+pnpm install
+pnpm dev
 ```
 
 Open http://localhost:3000
@@ -18,12 +18,12 @@ Open http://localhost:3000
 
 | Command               | Description                 |
 | --------------------- | --------------------------- |
-| `bun --bun run dev`   | Start dev server            |
-| `bun --bun run build` | Build for production        |
-| `bun --bun run start` | Run production server       |
-| `bun --bun run test`  | Run tests                   |
-| `bun --bun run check` | Lint and format check       |
-| `bun --bun run fix`   | Auto-fix lint/format issues |
+| `pnpm dev`   | Start dev server            |
+| `pnpm build` | Build for production        |
+| `pnpm start` | Run production server       |
+| `pnpm test`  | Run tests                   |
+| `pnpm check` | Lint and format check       |
+| `pnpm fix`   | Auto-fix lint/format issues |
 
 ## Environment Variables
 
@@ -76,7 +76,7 @@ messages/         # Translation files (en, vi)
 ## Adding UI Components
 
 ```bash
-bunx --bun shadcn@latest add <component>
+pnpm dlx shadcn@latest add <component>
 ```
 
 ## Notes

@@ -25,6 +25,7 @@
 
   "page_about_contribution_tooltip": "{count} đóng góp vào {date}",
   "page_about_contribution_summary": "{count} đóng góp trong năm qua trên {platform}",
+  "page_about_contribution_error": "Không tải được đóng góp từ {platform}",
   "page_about_contribution_level_none": "Chưa push gì",
   "page_about_contribution_level_range": "{min}-{max} đóng góp",
   "page_about_contribution_level_more": "{min}+ đóng góp",

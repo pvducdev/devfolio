@@ -1,19 +1,18 @@
 import { createServerFn } from "@tanstack/react-start";
 import { minLength, object, parse, pipe, string, transform } from "valibot";
 
+import { SITE_CONFIG } from "@/config/site";
 import { generateMessage } from "@/lib/llm";
-import { getLogger } from "@/lib/logger/client";
+import { getLogger } from "@/lib/logger";
 import { typewriterStream } from "@/lib/typewriter-stream";
 
-const InputSchema = pipe(
-  object({
-    prompt: pipe(
-      string(),
-      transform((val) => val.trim()),
-      minLength(1, "Prompt is required")
-    ),
-  })
-);
+const InputSchema = object({
+  prompt: pipe(
+    string(),
+    transform((val) => val.trim()),
+    minLength(1, "Prompt is required")
+  ),
+});
 
 const generateAssistantResponse = createServerFn()
   .validator((data: unknown) => parse(InputSchema, data))
@@ -35,9 +34,10 @@ const generateAssistantResponse = createServerFn()
 
       await getLogger().error("Failed to stream assistant message", {
         error: message,
+        model: SITE_CONFIG.assistant.model,
         userPrompt: data.prompt,
       });
-      yield "\n\n*An error occurred while generating the response.*";
+      throw error;
     }
   });
 

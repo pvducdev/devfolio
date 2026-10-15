@@ -12,8 +12,7 @@ export default function DevOpsSection({ items }: DevOpsSectionProps) {
       <SectionHeader
         align="right"
         className="mb-6 tracking-[0.2em]"
-        number="03"
-        title="DevOps & Tools"
+        section="devops"
       />
       <ul className="flex flex-col gap-3.5 text-right font-mono text-muted-foreground text-xs md:text-left">
         {items.map((item) => (

@@ -25,6 +25,7 @@
 
   "page_about_contribution_tooltip": "{count} contributions on {date}",
   "page_about_contribution_summary": "{count} contributions in the last year on {platform}",
+  "page_about_contribution_error": "Couldn't load contributions from {platform}",
   "page_about_contribution_level_none": "Nothing pushed yet",
   "page_about_contribution_level_range": "{min}-{max} contributions",
   "page_about_contribution_level_more": "{min}+ contributions",

@@ -4,11 +4,15 @@ import { useBoolean } from "usehooks-ts";
 
 import AssistantTrigger from "@/components/assistant/trigger";
 import ButtonWithTooltip from "@/components/common/button-with-tooltip";
-import LanguageSwitcher from "@/components/common/language-switcher";
 import KeyboardShortcutsModal from "@/components/keyboard-shortcuts/modal";
-import AppSearch from "@/components/layout/app-search";
+import LanguageSwitcher from "@/components/layout/language-switcher";
 import RepoStarLink from "@/components/layout/repo-star-link";
+import {
+  useAppLayoutActions,
+  useIsStretchLayout,
+} from "@/components/layout/store";
 import ResumeViewer from "@/components/resume-viewer/dialog-container";
+import AppSearch from "@/components/search/app-search";
 import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
@@ -22,7 +26,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { SITE_CONFIG } from "@/config/site";
 import { getDisplayKeys, getHotkeyCombo } from "@/lib/hotkeys";
-import { getInitials } from "@/lib/utils";
 import {
   ui_layout_normal,
   ui_layout_stretch,
@@ -30,7 +33,13 @@ import {
   ui_settings_shortcuts,
   ui_settings_title,
 } from "@/paraglide/messages.js";
-import { useAppLayoutActions, useIsStretchLayout } from "@/store/app-layout";
+
+const getInitials = (text: string) =>
+  text
+    .split(" ")
+    .map((word) => word.replaceAll(/[^a-zA-Z0-9]/g, "")[0]?.toUpperCase())
+    .filter(Boolean)
+    .join("");
 
 export default function Header() {
   const isStretchLayout = useIsStretchLayout();
@@ -71,9 +80,7 @@ export default function Header() {
         </div>
       </div>
       <div className="flex items-center space-x-2 pr-1">
-        {!!SITE_CONFIG.features.showResumeViewer && (
-          <ResumeViewer className="mr-32 flex items-center space-x-2" />
-        )}
+        <ResumeViewer className="mr-32 flex items-center space-x-2" />
         <AssistantTrigger />
         <AppSearch />
         <DropdownMenu>
@@ -101,14 +108,10 @@ export default function Header() {
                 </DropdownMenuShortcut>
               </DropdownMenuItem>
             </DropdownMenuGroup>
-            {!!SITE_CONFIG.features.showRepoStars && (
-              <>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                  <RepoStarLink />
-                </DropdownMenuGroup>
-              </>
-            )}
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+              <RepoStarLink />
+            </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
         <KeyboardShortcutsModal

@@ -5,8 +5,10 @@ import { SITE_CONFIG } from "./site";
 
 type MetaTag = JSX.IntrinsicElements["meta"];
 
-const ogTag = (property: string, content: string): MetaTag =>
-  ({ content, property }) as MetaTag;
+const ogTag = (property: string, content: string): MetaTag => ({
+  content,
+  property,
+});
 
 export const buildSeoMeta = (
   locale: string,
@@ -23,7 +25,7 @@ export const buildSeoMeta = (
     title: SITE_CONFIG.title,
   },
   {
-    content: SITE_CONFIG.description,
+    content: PERSONAL_INFO.bio,
     name: "description",
   },
   {
@@ -37,7 +39,7 @@ export const buildSeoMeta = (
   ogTag("og:type", SITE_CONFIG.meta.ogType),
   ogTag("og:url", canonicalUrl),
   ogTag("og:title", SITE_CONFIG.title),
-  ogTag("og:description", SITE_CONFIG.description),
+  ogTag("og:description", PERSONAL_INFO.bio),
   ogTag("og:image", SITE_CONFIG.meta.ogImage),
   ogTag("og:image:width", SITE_CONFIG.meta.ogImageWidth),
   ogTag("og:image:height", SITE_CONFIG.meta.ogImageHeight),
@@ -53,7 +55,7 @@ export const buildSeoMeta = (
     name: "twitter:title",
   },
   {
-    content: SITE_CONFIG.description,
+    content: PERSONAL_INFO.bio,
     name: "twitter:description",
   },
   {
@@ -66,12 +68,17 @@ export const buildSeoMeta = (
   },
 ];
 
-export const buildCanonicalLink = (canonicalUrl: string) => [
+const buildCanonicalLink = (canonicalUrl: string) => [
   {
     href: canonicalUrl,
     rel: "canonical",
   },
 ];
+
+export const buildPageHead = (path: string, title: string | undefined) => ({
+  links: buildCanonicalLink(`${SITE_CONFIG.url}${path}`),
+  meta: [{ title: `${title} | ${SITE_CONFIG.title}` }],
+});
 
 export const buildStructuredData = () => [
   {
@@ -83,7 +90,7 @@ export const buildStructuredData = () => [
         addressLocality: PERSONAL_INFO.location,
       },
       alternateName: PERSONAL_INFO.nickname,
-      description: SITE_CONFIG.description,
+      description: PERSONAL_INFO.bio,
       email: PERSONAL_INFO.contact.email,
       image: PERSONAL_INFO.avatar,
       jobTitle: PERSONAL_INFO.role,
@@ -105,7 +112,7 @@ export const buildStructuredData = () => [
         "@type": "Person",
         name: PERSONAL_INFO.name,
       },
-      description: SITE_CONFIG.description,
+      description: PERSONAL_INFO.bio,
       inLanguage: ["en", "vi"],
       name: SITE_CONFIG.title,
       url: SITE_CONFIG.url,

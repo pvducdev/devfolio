@@ -1,11 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import Activity from "@/components/about/mobile/activity.tsx";
-import Bio from "@/components/about/mobile/bio.tsx";
-import Links from "@/components/about/mobile/links.tsx";
-import Profile from "@/components/about/mobile/profile.tsx";
-import { buildCanonicalLink } from "@/config/seo";
-import { SITE_CONFIG } from "@/config/site";
+import Activity from "@/components/about/mobile/activity";
+import Bio from "@/components/about/mobile/bio";
+import Links from "@/components/about/mobile/links";
+import Profile from "@/components/about/mobile/profile";
+import { buildPageHead } from "@/config/seo";
 import { nav_main_about } from "@/paraglide/messages";
 
 const AboutPage = () => (
@@ -19,8 +18,5 @@ const AboutPage = () => (
 
 export const Route = createFileRoute("/m/about")({
   component: AboutPage,
-  head: () => ({
-    links: buildCanonicalLink(`${SITE_CONFIG.url}/about`),
-    meta: [{ title: `${nav_main_about()} | ${SITE_CONFIG.title}` }],
-  }),
+  head: () => buildPageHead("/about", nav_main_about()),
 });

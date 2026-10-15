@@ -1,0 +1,24 @@
+import { useHydrated, useLocation } from "@tanstack/react-router";
+import { useEffect } from "react";
+
+import { useTabsActions } from "@/components/tabs/store";
+import { isValidTabRoute } from "@/lib/routes";
+
+export const useRouteTabSync = () => {
+  const location = useLocation();
+  const { openTab } = useTabsActions();
+  const isHydrated = useHydrated();
+
+  useEffect(() => {
+    if (!isHydrated) {
+      return;
+    }
+
+    const currentPath = location.pathname;
+    if (!isValidTabRoute(currentPath)) {
+      return;
+    }
+
+    openTab(currentPath);
+  }, [location.pathname, openTab, isHydrated]);
+};

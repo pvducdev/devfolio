@@ -1,29 +1,19 @@
-import { useRef } from "react";
-import type { ChangeEvent, FormEvent } from "react";
-
-import type { CommandItem } from "@/hooks/use-assistant";
-import { useSlashCommands } from "@/hooks/use-slash-commands";
+import { useRef, useState } from "react";
+import type { FormEvent } from "react";
 
 interface MobileAssistantInputProps {
-  commands: CommandItem[];
-  placeholder?: string;
-  disabled?: boolean;
+  placeholder: string;
+  disabled: boolean;
   onSubmit: (message: string) => void;
 }
 
 export default function MobileAssistantInput({
-  commands: _commands,
-  placeholder = "Type a message...",
-  disabled = false,
+  placeholder,
+  disabled,
   onSubmit,
 }: MobileAssistantInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const {
-    inputValue,
-    handleInputChange: updateSlashCommands,
-    clearInput,
-  } = useSlashCommands();
+  const [inputValue, setInputValue] = useState("");
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -33,12 +23,8 @@ export default function MobileAssistantInput({
     }
 
     onSubmit(trimmed);
-    clearInput();
+    setInputValue("");
     inputRef.current?.focus();
-  };
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    updateSlashCommands(e.target.value);
   };
 
   return (
@@ -49,7 +35,7 @@ export default function MobileAssistantInput({
       <input
         className="flex-1 bg-transparent font-mono text-base outline-none placeholder:text-muted-foreground"
         disabled={disabled}
-        onChange={handleChange}
+        onChange={(event) => setInputValue(event.target.value)}
         placeholder={placeholder}
         ref={inputRef}
         type="text"

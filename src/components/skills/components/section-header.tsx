@@ -1,18 +1,21 @@
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
+
+import { SKILL_SECTIONS } from "../sections";
+import type { SkillSectionId } from "../sections";
 
 interface SectionHeaderProps {
-  number: string;
-  title: string;
+  section: SkillSectionId;
   className?: string;
   align?: "left" | "right";
 }
 
 export default function SectionHeader({
-  number,
-  title,
+  section,
   className,
   align = "left",
 }: SectionHeaderProps) {
+  const { number, title } = SKILL_SECTIONS[section];
+
   return (
     <div
       className={cn(
@@ -25,7 +28,7 @@ export default function SectionHeader({
         {number}
       </span>
       <span className="font-bold text-muted-foreground text-xs uppercase tracking-wide">
-        {title}
+        {title()}
       </span>
     </div>
   );

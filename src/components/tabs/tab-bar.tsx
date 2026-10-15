@@ -2,14 +2,14 @@ import { Link } from "@tanstack/react-router";
 import { X } from "lucide-react";
 import { useRef } from "react";
 
+import { useOpenTabs } from "@/components/tabs/store";
 import { TabContextMenu } from "@/components/tabs/tab-context-menu";
+import { useTabActions } from "@/components/tabs/use-tab-actions";
+import { useWheelToHorizontal } from "@/components/tabs/use-wheel-to-horizontal";
 import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { ReactLight } from "@/components/ui/svgs/reactLight.tsx";
+import { ReactLight } from "@/components/ui/svgs/reactLight";
 import { TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useWheelToHorizontal } from "@/hooks/use-scroll";
-import { useTabActions } from "@/hooks/use-tab-actions";
-import { useOpenTabs } from "@/store/tabs";
 
 export default function TabBar() {
   const tabs = useOpenTabs();

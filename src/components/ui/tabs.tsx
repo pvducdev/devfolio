@@ -1,6 +1,6 @@
 import { Tabs as TabsPrimitive } from "@base-ui/react/tabs"
 
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
 function Tabs({ className, ...props }: TabsPrimitive.Root.Props) {
   return (

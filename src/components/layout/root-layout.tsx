@@ -1,7 +1,7 @@
+import { cn } from "cn";
 import type { PropsWithChildren } from "react";
 
-import { cn } from "@/lib/utils";
-import { useIsStretchLayout } from "@/store/app-layout";
+import { useIsStretchLayout } from "@/components/layout/store";
 
 export default function RootLayout({ children }: PropsWithChildren) {
   const isStretchLayout = useIsStretchLayout();

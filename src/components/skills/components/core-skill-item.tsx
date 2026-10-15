@@ -1,5 +1,8 @@
+import { cn } from "cn";
+
 import { TextLoop } from "@/components/ui/text-loop";
-import { cn } from "@/lib/utils";
+
+import { TEXT_LOOP_ANIMATION } from "../sections";
 
 interface CoreSkillItemProps {
   name: string;
@@ -31,32 +34,8 @@ export default function CoreSkillItem({
           <TextLoop
             className="overflow-y-clip"
             pauseOnHover
-            transition={{
-              damping: 80,
-              mass: 10,
-              stiffness: 900,
-              type: "spring",
-            }}
-            variants={{
-              animate: {
-                filter: "blur(0px)",
-                opacity: 1,
-                rotateX: 0,
-                y: 0,
-              },
-              exit: {
-                filter: "blur(4px)",
-                opacity: 0,
-                rotateX: -90,
-                y: -20,
-              },
-              initial: {
-                filter: "blur(4px)",
-                opacity: 0,
-                rotateX: 90,
-                y: 20,
-              },
-            }}
+            transition={TEXT_LOOP_ANIMATION.transition}
+            variants={TEXT_LOOP_ANIMATION.variants}
           >
             {displayNames.map((displayName) => (
               <span key={displayName}>{displayName.toUpperCase()}</span>

@@ -19,7 +19,7 @@ import { PERSONAL_INFO } from "@/config/personal-info";
 import { action_cancel, ui_resume_title } from "@/paraglide/messages.js";
 
 const ResumeViewer = lazy(
-  () => import("@/components/resume-viewer/pdf-viewer.tsx")
+  () => import("@/components/resume-viewer/pdf-viewer")
 );
 
 interface ResumeReviewerProps {

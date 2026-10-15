@@ -1,10 +1,8 @@
-import { PERSONAL_INFO } from "@/config/personal-info";
+import { PERSONAL_INFO, SOCIAL_LINKS } from "@/config/personal-info";
 import { mobile_about_links_label } from "@/paraglide/messages";
 
-const SOCIAL_LINKS = [
-  { href: PERSONAL_INFO.contact.linkedin, label: "LinkedIn" },
-  { href: PERSONAL_INFO.contact.github, label: "GitHub" },
-  { href: PERSONAL_INFO.contact.gitlab, label: "GitLab" },
+const LINKS = [
+  ...SOCIAL_LINKS,
   { href: `mailto:${PERSONAL_INFO.contact.email}`, label: "Email" },
 ];
 
@@ -16,7 +14,7 @@ export default function AboutLinks() {
       </p>
       <p className="text-muted-foreground text-xs">------</p>
       <div className="mt-1 space-y-2">
-        {SOCIAL_LINKS.map((link) => (
+        {LINKS.map((link) => (
           <a
             className="block text-foreground text-sm active:text-muted-foreground"
             href={link.href}

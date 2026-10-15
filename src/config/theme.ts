@@ -2,7 +2,6 @@ import { STORE_KEYS } from "./store-keys";
 
 export const THEME_STORAGE_KEY = STORE_KEYS.THEME;
 export const THEME_ATTRIBUTE = "data-theme";
-export const DEFAULT_THEME = "default";
 
 export const THEMES = [
   {
@@ -26,10 +25,12 @@ export const THEMES = [
     shortName: "NB",
     value: "notebook",
   },
-];
+] as const;
+
+export type ThemeValue = (typeof THEMES)[number]["value"];
+
+export const DEFAULT_THEME: ThemeValue = "default";
 
 export const THEME_FONT_URLS: Record<string, string> = Object.fromEntries(
   THEMES.map((t) => [t.value, t.fontUrl])
 );
-
-export type Theme = (typeof THEMES)[number];

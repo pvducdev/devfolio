@@ -1,3 +1,5 @@
+import { notFound } from "@tanstack/react-router";
+
 import { SITE_CONFIG } from "@/config/site";
 
 interface ProjectPackage {
@@ -143,8 +145,16 @@ export const PROJECTS: ProjectConfig[] = [
   },
 ];
 
-export const getProjectById = (id: string): ProjectConfig =>
-  PROJECTS.find((p) => p.id === id) || ({} as ProjectConfig);
+export const getProjectById = (id: string): ProjectConfig | undefined =>
+  PROJECTS.find((p) => p.id === id);
+
+export const loadProject = ({ params }: { params: { id: string } }) => {
+  const project = getProjectById(params.id);
+  if (!project) {
+    throw notFound();
+  }
+  return project;
+};
 
 export const getNextProjectId = (currentId: string): string => {
   const index = PROJECTS.findIndex((p) => p.id === currentId);

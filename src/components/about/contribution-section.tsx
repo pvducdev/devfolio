@@ -1,98 +1,42 @@
-import ContributionCell from "@/components/about/contribution-cell";
-import { ContributionSectionSkeleton } from "@/components/about/contribution-section-skeleton";
-import * as ContributionGraph from "@/components/common/contribution-graph";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { CONTRIBUTIONS_CONFIG } from "@/config/contributions";
-import { useContributions } from "@/hooks/use-contributions";
-import { useContributionGraph } from "@/hooks/use-contributions-graph";
-import type { ContributionData } from "@/lib/contributions/types";
-import { formatMonth, formatWeekday } from "@/lib/date";
-import {
-  page_about_contribution_level_more,
-  page_about_contribution_level_none,
-  page_about_contribution_level_range,
-  page_about_contribution_summary,
-} from "@/paraglide/messages.js";
+import { page_about_contribution_error } from "@/paraglide/messages.js";
 import { getLocale } from "@/paraglide/runtime.js";
 
-interface LevelThreshold {
-  min: number;
-  max?: number;
-}
+import { buildContributionCalendar } from "./contribution-calendar";
+import ContributionCell from "./contribution-cell";
+import * as ContributionGraph from "./contribution-graph";
+import { CONTRIBUTION_LEVELS } from "./contribution-levels";
+import { ContributionSectionSkeleton } from "./contribution-section-skeleton";
+import {
+  formatContributionSummary,
+  formatLevelLabel,
+  formatMonth,
+  formatWeekday,
+} from "./format";
+import { useContributions } from "./use-contributions";
 
-const DEFAULT_THRESHOLDS: LevelThreshold[] = [
-  { max: 0, min: 0 },
-  { max: 2, min: 1 },
-  { max: 5, min: 3 },
-  { max: 9, min: 6 },
-  { min: 10 },
-];
-
-const formatLevelLabel = (threshold: LevelThreshold): string => {
-  if (threshold.min === 0 && threshold.max === 0) {
-    return page_about_contribution_level_none();
-  }
-
-  if (threshold.max === undefined) {
-    return page_about_contribution_level_more({ min: threshold.min });
-  }
-
-  return page_about_contribution_level_range({
-    max: threshold.max,
-    min: threshold.min,
-  });
-};
-
-const formatSummary = (count: number): string =>
-  page_about_contribution_summary({
-    count,
-    platform: CONTRIBUTIONS_CONFIG.source,
-  });
-
-const getLevelForCount = (count: number): number => {
-  if (count === 0) {
-    return 0;
-  }
-  if (count <= 2) {
-    return 1;
-  }
-  if (count <= 5) {
-    return 2;
-  }
-  if (count <= 9) {
-    return 3;
-  }
-  return 4;
-};
+const VISIBLE_WEEKDAYS = new Set([1, 3, 5]);
 
 const ContributionSection = () => {
-  const { data, isLoading, status } = useContributions();
+  const contributions = useContributions();
 
-  const { weeks, months, weekdays, startDate, endDate } = useContributionGraph({
-    weekStartDay: 0,
-  });
+  const { weeks, months, weekdays } = buildContributionCalendar();
   const locale = getLocale();
-  const visibleWeekdays = new Set([1, 3, 5]);
 
-  const totalContributions = data.reduce(
-    (sum, item: ContributionData) => sum + item.count,
-    0
-  );
-
-  if (isLoading) {
+  if (contributions.status === "loading") {
     return <ContributionSectionSkeleton />;
   }
 
-  if (status === "error") {
+  if (contributions.status === "error") {
     return (
       <section aria-label="contributions" className="mx-auto w-full p-4">
         <p className="text-center text-muted-foreground text-sm">
-          {page_about_contribution_summary({
-            count: 0,
+          {page_about_contribution_error({
             platform: CONTRIBUTIONS_CONFIG.source,
           })}
         </p>
@@ -102,15 +46,10 @@ const ContributionSection = () => {
 
   return (
     <section aria-label="contributions" className="mx-auto w-full p-4">
-      <ContributionGraph.Root
-        data={data}
-        endDate={endDate}
-        levelThresholds={getLevelForCount}
-        startDate={startDate}
-      >
+      <ContributionGraph.Root data={contributions.data}>
         <ContributionGraph.Grid>
-          <ContributionGraph.Head>
-            <ContributionGraph.Row>
+          <thead>
+            <tr>
               <ContributionGraph.HeaderCell className="pr-2" />
               {months.map((month) => (
                 <ContributionGraph.HeaderCell
@@ -122,13 +61,13 @@ const ContributionSection = () => {
                   </ContributionGraph.Label>
                 </ContributionGraph.HeaderCell>
               ))}
-            </ContributionGraph.Row>
-          </ContributionGraph.Head>
-          <ContributionGraph.Body>
+            </tr>
+          </thead>
+          <tbody>
             {weekdays.map((day, rowIndex) => (
-              <ContributionGraph.Row key={day}>
+              <tr key={day}>
                 <ContributionGraph.HeaderCell className="pr-2 text-right">
-                  {visibleWeekdays.has(day) && (
+                  {VISIBLE_WEEKDAYS.has(day) && (
                     <ContributionGraph.Label>
                       {formatWeekday(day, locale)}
                     </ContributionGraph.Label>
@@ -136,37 +75,27 @@ const ContributionSection = () => {
                 </ContributionGraph.HeaderCell>
                 {weeks.map((week, weekIndex) => {
                   const date = week[rowIndex];
-                  if (!date) {
-                    return (
-                      <ContributionGraph.Cell
-                        date={date}
-                        key={`empty-${weekIndex}-${day}`}
-                      />
-                    );
-                  }
-                  return (
+                  return date ? (
                     <ContributionCell date={date} key={date} locale={locale} />
+                  ) : (
+                    <td key={`empty-${weekIndex}-${day}`} />
                   );
                 })}
-              </ContributionGraph.Row>
+              </tr>
             ))}
-          </ContributionGraph.Body>
+          </tbody>
         </ContributionGraph.Grid>
         <ContributionGraph.Legend className="justify-between">
           <p className="text-left text-sm">
-            {formatSummary(totalContributions)}
+            {formatContributionSummary(contributions.data)}
           </p>
           <div className="flex items-center space-x-0.5">
-            {DEFAULT_THRESHOLDS.map((threshold, idx) => (
-              <Tooltip key={threshold.min}>
+            {CONTRIBUTION_LEVELS.map((level, index) => (
+              <Tooltip key={level.min}>
                 <TooltipTrigger
-                  render={
-                    <ContributionGraph.LegendItem
-                      level={idx as 0 | 1 | 2 | 3 | 4}
-                    />
-                  }
+                  render={<ContributionGraph.LegendItem level={index} />}
                 />
-                <TooltipContent>{formatLevelLabel(threshold)}</TooltipContent>
+                <TooltipContent>{formatLevelLabel(level)}</TooltipContent>
               </Tooltip>
             ))}
           </div>

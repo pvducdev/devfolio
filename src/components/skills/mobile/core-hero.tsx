@@ -1,40 +1,12 @@
 import { TextLoop } from "@/components/ui/text-loop";
 import type { Skills } from "@/config/skills";
-import { mobile_skills_section_core } from "@/paraglide/messages";
 
+import { TEXT_LOOP_ANIMATION } from "../sections";
 import SectionHeader from "./section-header";
 
 interface CoreHeroProps {
   skills: Skills["core"];
 }
-
-const textLoopTransition = {
-  damping: 80,
-  mass: 10,
-  stiffness: 900,
-  type: "spring" as const,
-};
-
-const textLoopVariants = {
-  animate: {
-    filter: "blur(0px)",
-    opacity: 1,
-    rotateX: 0,
-    y: 0,
-  },
-  exit: {
-    filter: "blur(4px)",
-    opacity: 0,
-    rotateX: -90,
-    y: -20,
-  },
-  initial: {
-    filter: "blur(4px)",
-    opacity: 0,
-    rotateX: 90,
-    y: 20,
-  },
-};
 
 export default function CoreHero({ skills }: CoreHeroProps) {
   const [primary, secondary] = skills;
@@ -46,15 +18,15 @@ export default function CoreHero({ skills }: CoreHeroProps) {
 
   return (
     <section>
-      <SectionHeader number="01" title={mobile_skills_section_core()} />
+      <SectionHeader section="core" />
       <div className="mt-6">
         <div>
           <h1 className="font-bold text-5xl leading-none tracking-tighter">
             {hasAlternates ? (
               <TextLoop
                 className="overflow-y-clip"
-                transition={textLoopTransition}
-                variants={textLoopVariants}
+                transition={TEXT_LOOP_ANIMATION.transition}
+                variants={TEXT_LOOP_ANIMATION.variants}
               >
                 {displayNames.map((name) => (
                   <span key={name}>{name.toUpperCase()}</span>

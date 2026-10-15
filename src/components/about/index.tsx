@@ -1,4 +1,6 @@
-import { PERSONAL_INFO } from "@/config/personal-info";
+import { Fragment } from "react";
+
+import { PERSONAL_INFO, SOCIAL_LINKS } from "@/config/personal-info";
 
 import ContributionSection from "./contribution-section";
 
@@ -31,32 +33,19 @@ export default function AboutPage() {
             aria-label="Social media links"
             className="flex justify-center space-x-4 text-sm"
           >
-            <a
-              className="hover:underline"
-              href={PERSONAL_INFO.contact.linkedin}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              LinkedIn
-            </a>
-            <span aria-hidden="true">·</span>
-            <a
-              className="hover:underline"
-              href={PERSONAL_INFO.contact.github}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              GitHub
-            </a>
-            <span aria-hidden="true">·</span>
-            <a
-              className="hover:underline"
-              href={PERSONAL_INFO.contact.gitlab}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              GitLab
-            </a>
+            {SOCIAL_LINKS.map((link, index) => (
+              <Fragment key={link.label}>
+                {index > 0 && <span aria-hidden="true">·</span>}
+                <a
+                  className="hover:underline"
+                  href={link.href}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  {link.label}
+                </a>
+              </Fragment>
+            ))}
           </nav>
 
           <div className="text-muted-foreground text-sm">

@@ -13,13 +13,6 @@ export const SITE_CONFIG = {
     maxAge: 86_400,
     staleWhileRevalidate: 604_800,
   },
-  description: PERSONAL_INFO.bio,
-  features: {
-    showAssistant: true,
-    showRepoStars: true,
-    showResumeViewer: true,
-    showThemeSwitcher: true,
-  },
 
   meta: {
     author: PERSONAL_INFO.name,
@@ -37,22 +30,15 @@ export const SITE_CONFIG = {
     twitterCard: "summary_large_image",
   },
 
-  rateLimit: {
-    maxRequests: 100,
-    windowMs: 60_000,
-  },
-
   repository: {
     name: "devfolio",
     owner: "pvducdev",
     url: "https://github.com/pvducdev/devfolio",
   },
 
-  title: env.VITE_APP_TITLE || "PVD Portfolio",
+  title: env.VITE_APP_TITLE,
 
-  url: env.VITE_BASE_URL || "",
+  url: env.VITE_BASE_URL,
 
   version: __APP_VERSION__,
 } as const;
-
-export type SiteConfig = typeof SITE_CONFIG;

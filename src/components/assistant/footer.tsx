@@ -1,5 +1,5 @@
-import Input from "@/components/assistant/input.tsx";
-import type { CommandItem } from "@/hooks/use-assistant";
+import Input from "@/components/assistant/input";
+import type { CommandItem } from "@/components/assistant/use-assistant";
 import { assistant_placeholder } from "@/paraglide/messages.js";
 
 interface AssistantFooterProps {

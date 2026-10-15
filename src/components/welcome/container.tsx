@@ -1,8 +1,8 @@
+import { activities } from "@/components/sidebar/activities";
 import { Gitlab } from "@/components/ui/svgs/gitlab";
 import { Linkedin } from "@/components/ui/svgs/linkedin";
 import WelcomeActivity from "@/components/welcome/activity";
 import { PERSONAL_INFO } from "@/config/personal-info";
-import { activities } from "@/config/routes";
 import { SITE_CONFIG } from "@/config/site";
 import { page_welcome_desc, page_welcome_title } from "@/paraglide/messages.js";
 
