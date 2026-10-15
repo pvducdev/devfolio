@@ -6,7 +6,7 @@ import type { ComponentProps } from "react";
 import type { ContributionData } from "@/lib/contributions";
 
 import { getLevelForCount } from "./contribution-levels";
-import { toISODateString } from "./format";
+import { formatISODate } from "./format";
 
 interface GraphContextValue {
   counts: Map<string, number>;
@@ -80,7 +80,7 @@ type DateCellProps = ComponentProps<"button"> & { date: string };
 const DateCell = ({ date, className, ...props }: DateCellProps) => {
   const { counts, selectedDate, toggleSelectedDate } = useGraphContext();
   const isSelected = selectedDate === date;
-  const isToday = date === toISODateString(new Date());
+  const isToday = date === formatISODate(new Date());
 
   return (
     <td>

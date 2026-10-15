@@ -25,8 +25,8 @@ type Skill =
   | Skills["stack"][number]
   | Skills["devops"][number];
 
-const toSlug = (value: string): string =>
-  value.replaceAll(/\s+/g, "-").toLowerCase();
+const buildSlug = (value: string): string =>
+  value.replaceAll(/\s+/gu, "-").toLowerCase();
 
 const buildActivityItems = (): SearchItem[] =>
   activities.map((activity) => ({
@@ -64,7 +64,7 @@ const buildSkillItems = (
     category: "skill",
     description: skill.tag,
     icon: Code,
-    id: `skill:${group}:${toSlug(skill.name)}`,
+    id: `skill:${group}:${buildSlug(skill.name)}`,
     keywords: "details" in skill ? [...skill.details] : undefined,
     path: "/skills",
     title: skill.name,
@@ -75,7 +75,7 @@ const buildCareerItems = (): SearchItem[] =>
     category: "career",
     description: `${entry.company} (${entry.year})`,
     icon: entry.icon,
-    id: `career:${toSlug(entry.year)}`,
+    id: `career:${buildSlug(entry.year)}`,
     keywords: [
       entry.company,
       entry.jobType,

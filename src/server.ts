@@ -4,7 +4,7 @@ import handler from "@tanstack/react-start/server-entry";
 
 import { paraglideMiddleware } from "./paraglide/server.js";
 
-const withMutableHeaders = (request: Request): Request =>
+const buildMutableRequest = (request: Request): Request =>
   new Request(request, { headers: new Headers(request.headers) });
 
 export default {
@@ -14,7 +14,7 @@ export default {
     ctx: ExecutionContext
   ): Response | Promise<Response> {
     return paraglideMiddleware(
-      withMutableHeaders(request),
+      buildMutableRequest(request),
       ({ request: localizedRequest }) =>
         handler.fetch(localizedRequest, { context: { ctx, env } })
     );

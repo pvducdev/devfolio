@@ -1,4 +1,4 @@
-import { toISODateString } from "./format";
+import { formatISODate } from "./format";
 
 interface MonthInfo {
   month: number;
@@ -26,9 +26,7 @@ const buildWeeks = (startDate: Date, endDate: Date): string[][] => {
     weeks.push(
       WEEKDAYS.map((day) => {
         const date = addDays(weekStart, day);
-        return date >= startDate && date <= endDate
-          ? toISODateString(date)
-          : "";
+        return date >= startDate && date <= endDate ? formatISODate(date) : "";
       })
     );
   }

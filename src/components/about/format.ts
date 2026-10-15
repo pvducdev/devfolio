@@ -9,7 +9,7 @@ import {
 
 import type { ContributionLevel } from "./contribution-levels";
 
-export const toISODateString = (date: Date): string => {
+export const formatISODate = (date: Date): string => {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
@@ -22,10 +22,10 @@ export const formatMonth = (month: number, locale: string): string =>
     month: "short",
   });
 
-const dateOfWeekday = (day: number): Date => new Date(2023, 0, 1 + day);
+const getWeekdayDate = (day: number): Date => new Date(2023, 0, 1 + day);
 
 export const formatWeekday = (day: number, locale: string): string =>
-  dateOfWeekday(day).toLocaleDateString(locale, { weekday: "narrow" });
+  getWeekdayDate(day).toLocaleDateString(locale, { weekday: "narrow" });
 
 export const formatDateShort = (dateStr: string, locale: string): string =>
   new Date(dateStr).toLocaleDateString(locale, {

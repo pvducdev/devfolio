@@ -33,7 +33,7 @@ import { getLocale, locales, setLocale } from "@/paraglide/runtime.js";
 
 type Locale = (typeof locales)[number];
 
-const choiceClassName = (isSelected: boolean) =>
+const buildChoiceClassName = (isSelected: boolean) =>
   cn(
     "flex-1 border border-dashed px-2 py-1.5 font-mono text-xs uppercase",
     isSelected ? "bg-foreground text-background" : "text-muted-foreground"
@@ -99,7 +99,7 @@ const SettingsDrawer = () => {
               <div className="flex gap-1">
                 {THEMES.map((t) => (
                   <button
-                    className={choiceClassName(theme === t.value)}
+                    className={buildChoiceClassName(theme === t.value)}
                     key={t.value}
                     onClick={() => handleThemeChange(t.value)}
                     type="button"
@@ -114,7 +114,7 @@ const SettingsDrawer = () => {
               <div className="flex gap-1">
                 {locales.map((locale) => (
                   <button
-                    className={choiceClassName(currentLocale === locale)}
+                    className={buildChoiceClassName(currentLocale === locale)}
                     key={locale}
                     onClick={() => handleLocaleChange(locale)}
                     type="button"
