@@ -1,8 +1,8 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-import { DEFAULT_THEME, THEME_STORAGE_KEY } from "@/config/theme";
-import type { ThemeValue } from "@/config/theme";
+import { DEFAULT_THEME, THEME_STORAGE_KEY } from "@/components/theme/themes";
+import type { ThemeValue } from "@/components/theme/themes";
 
 interface State {
   theme: ThemeValue;

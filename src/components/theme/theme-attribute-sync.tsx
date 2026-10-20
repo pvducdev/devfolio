@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 import { useCurrentTheme } from "@/components/theme/store";
-import { THEME_ATTRIBUTE } from "@/config/theme";
+import { THEME_ATTRIBUTE } from "@/components/theme/themes";
 
 import { startViewTransition } from "./view-transition";
 

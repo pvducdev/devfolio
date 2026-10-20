@@ -1,5 +1,5 @@
-import { CONTRIBUTIONS_CONFIG } from "@/config/contributions";
-import type { ContributionData } from "@/lib/contributions";
+import { CONTRIBUTIONS_CONFIG } from "@/components/about/contribution-source";
+import type { ContributionData } from "@/components/about/fetch-contributions";
 import {
   page_about_contribution_level_more,
   page_about_contribution_level_none,

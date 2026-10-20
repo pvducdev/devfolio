@@ -2,8 +2,6 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { useShallow } from "zustand/shallow";
 
-import { STORE_KEYS } from "@/config/store-keys";
-
 export type AssistantStatus = "idle" | "thinking" | "streaming" | "error";
 
 interface AssistantState {
@@ -49,7 +47,7 @@ const useAssistantStore = create<AssistantStore>()(
       setStatus: (status) => set({ error: null, status }),
     }),
     {
-      name: STORE_KEYS.ASSISTANT,
+      name: "assistant",
       partialize: (state) =>
         state.status === "idle" || state.status === "error"
           ? { message: state.message }

@@ -10,8 +10,7 @@ import {
   transform,
 } from "valibot";
 
-import { SITE_CONFIG } from "@/config/site";
-import { generateMessage } from "@/lib/llm";
+import { generateMessage, LLM_MODEL } from "@/components/assistant/llm";
 import { getLogger } from "@/lib/logger";
 import { typewriterStream } from "@/lib/typewriter-stream";
 import { rateLimitMiddleware } from "@/middleware/rate-limit";
@@ -48,7 +47,7 @@ const generateAssistantResponse = createServerFn()
 
       await getLogger().error("Failed to stream assistant message", {
         error: message,
-        model: SITE_CONFIG.assistant.model,
+        model: LLM_MODEL,
         userPrompt: data.prompt,
       });
       throw error;

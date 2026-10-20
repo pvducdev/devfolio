@@ -3,11 +3,11 @@ import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { MotionConfig } from "motion/react";
 
+import { buildSeoMeta, buildStructuredData } from "@/components/seo/head";
 import { ThemeInitScript } from "@/components/theme/theme-init-script";
+import { DEFAULT_THEME, THEME_FONT_URLS } from "@/components/theme/themes";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { buildSeoMeta, buildStructuredData } from "@/config/seo";
 import { SITE_CONFIG } from "@/config/site";
-import { DEFAULT_THEME, THEME_FONT_URLS } from "@/config/theme";
 import { getLocale } from "@/paraglide/runtime.js";
 
 import appCss from "../styles.css?url";

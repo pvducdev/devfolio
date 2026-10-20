@@ -1,7 +1,7 @@
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 
-import getRepoStarsFn from "@/fn/get-repo-stars";
+import getRepoStarsFn from "@/components/layout/get-repo-stars";
 import { getLogger } from "@/lib/logger";
 
 export const useRepoStars = (): number | null => {

@@ -1,7 +1,10 @@
 import { Outlet, useLocation, useRouter } from "@tanstack/react-router";
 import { lazy, Suspense, useState, useTransition } from "react";
 
-import type { DockAction, DockButton } from "@/config/mobile-dock";
+import type {
+  DockAction,
+  DockButton,
+} from "@/components/layout/mobile/dock-buttons";
 import { PERSONAL_INFO } from "@/config/personal-info";
 import { getNextProjectId, getProjectById } from "@/config/projects";
 import { resolveRouteId } from "@/lib/routes";

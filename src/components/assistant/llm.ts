@@ -1,9 +1,12 @@
 import { createServerOnlyFn } from "@tanstack/react-start";
 import { Groq } from "groq-sdk";
 
-import { SITE_CONFIG } from "@/config/site";
-import systemInstruction from "@/config/system-prompt";
+import systemInstruction from "@/components/assistant/system-prompt";
 import { env } from "@/env/server";
+
+export const LLM_MODEL = "openai/gpt-oss-120b";
+
+const LLM_TEMPERATURE = 0.7;
 
 export const generateMessage = createServerOnlyFn(
   (prompt: string, signal: AbortSignal) => {
@@ -17,9 +20,9 @@ export const generateMessage = createServerOnlyFn(
           { content: systemInstruction, role: "system" },
           { content: prompt, role: "user" },
         ],
-        model: SITE_CONFIG.assistant.model,
+        model: LLM_MODEL,
         stream: true,
-        temperature: SITE_CONFIG.assistant.temperature,
+        temperature: LLM_TEMPERATURE,
       },
       { signal }
     );

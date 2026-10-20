@@ -1,4 +1,4 @@
-import { ABOUT_TREE, ABOUT_TREE_CONFIG } from "@/config/page";
+import { ABOUT_TREE, ABOUT_TREE_CONFIG } from "@/components/sidebar/page-trees";
 
 import PageTree from "./page-tree";
 

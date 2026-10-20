@@ -2,9 +2,9 @@ import { cn } from "cn";
 
 import { useMobileShellActions } from "@/components/layout/mobile/store";
 import { useCurrentTheme, useSetTheme } from "@/components/theme/store";
+import { THEMES } from "@/components/theme/themes";
 import { Button } from "@/components/ui/button";
 import { SITE_CONFIG } from "@/config/site";
-import { THEMES } from "@/config/theme";
 import { getLocale, locales, setLocale } from "@/paraglide/runtime";
 
 export const UtilityRow = ({

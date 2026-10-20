@@ -1,10 +1,10 @@
+import { getDisplayKeys } from "@/components/keyboard-shortcuts/hotkeys";
 import {
   useIsFirstTab,
   useIsLastTab,
   useTabCount,
 } from "@/components/tabs/store";
 import { useTabActions } from "@/components/tabs/use-tab-actions";
-import { getDisplayKeys } from "@/lib/hotkeys";
 import { getLogger } from "@/lib/logger";
 
 export const useTabContextMenu = (tabId: string) => {

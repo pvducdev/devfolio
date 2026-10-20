@@ -3,7 +3,7 @@ import {
   THEME_ATTRIBUTE,
   THEME_FONT_URLS,
   THEME_STORAGE_KEY,
-} from "@/config/theme";
+} from "@/components/theme/themes";
 
 const SCRIPT = `
   (function() {

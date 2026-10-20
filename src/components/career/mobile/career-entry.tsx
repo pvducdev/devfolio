@@ -5,6 +5,7 @@ import type { Ref, RefObject } from "react";
 
 import type { CareerEntry as TCareerEntry } from "@/config/career";
 
+import { JOB_TYPE_ICONS } from "../config";
 import ExpandedSection from "../expanded-section";
 import { useCollapsed } from "../use-collapsed";
 
@@ -21,20 +22,24 @@ const YearMarker = ({
 }: {
   entry: TCareerEntry;
   isActive: boolean;
-}) => (
-  <div className="absolute top-0 -left-14 w-14 pr-3 text-right">
-    <motion.span
-      animate={{
-        color: isActive ? "var(--foreground)" : "var(--muted-foreground)",
-      }}
-      className="font-mono text-[10px] tabular-nums tracking-wider"
-      transition={{ damping: 25, stiffness: 300, type: "spring" }}
-    >
-      {entry.year}
-    </motion.span>
-    <entry.icon className="mt-1 ml-auto size-3 text-muted-foreground" />
-  </div>
-);
+}) => {
+  const JobTypeIcon = JOB_TYPE_ICONS[entry.jobType];
+
+  return (
+    <div className="absolute top-0 -left-14 w-14 pr-3 text-right">
+      <motion.span
+        animate={{
+          color: isActive ? "var(--foreground)" : "var(--muted-foreground)",
+        }}
+        className="font-mono text-[10px] tabular-nums tracking-wider"
+        transition={{ damping: 25, stiffness: 300, type: "spring" }}
+      >
+        {entry.year}
+      </motion.span>
+      <JobTypeIcon className="mt-1 ml-auto size-3 text-muted-foreground" />
+    </div>
+  );
+};
 
 const TimelineDot = ({ isActive }: { isActive: boolean }) => (
   <motion.div

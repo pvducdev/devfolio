@@ -1,7 +1,7 @@
 import { createServerOnlyFn } from "@tanstack/react-start";
 import { number, parse, record, string } from "valibot";
 
-import { CONTRIBUTIONS_CONFIG } from "@/config/contributions";
+import { CONTRIBUTIONS_CONFIG } from "@/components/about/contribution-source";
 import { env } from "@/env/server";
 
 export interface ContributionData {

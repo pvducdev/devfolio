@@ -1,4 +1,4 @@
-import { PERSONAL_INFO } from "./personal-info";
+import { PERSONAL_INFO } from "@/config/personal-info";
 
 const extractUsername = (profileUrl: string): string => {
   const path = new URL(profileUrl).pathname;

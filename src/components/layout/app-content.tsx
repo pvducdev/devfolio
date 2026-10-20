@@ -2,6 +2,7 @@ import { useDebounceCallback } from "usehooks-ts";
 
 import CodeEditorContainer from "@/components/code-editor/container";
 import ActivitiesBar from "@/components/layout/activities-bar";
+import { LAYOUT_CONFIG } from "@/components/layout/layout-config";
 import Panel from "@/components/layout/panel";
 import Sidebar from "@/components/layout/sidebar";
 import {
@@ -16,7 +17,6 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { LAYOUT_CONFIG } from "@/config/ui";
 
 export default function AppContent() {
   const sidebar = useSidebarSection();

@@ -6,6 +6,10 @@ import { useBoolean } from "usehooks-ts";
 
 import ButtonWithTooltip from "@/components/common/button-with-tooltip";
 import {
+  getDisplayKeys,
+  getHotkeyCombo,
+} from "@/components/keyboard-shortcuts/hotkeys";
+import {
   CommandDialog,
   CommandEmpty,
   CommandInput,
@@ -13,7 +17,6 @@ import {
   CommandSeparator,
 } from "@/components/ui/command";
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
-import { getDisplayKeys, getHotkeyCombo } from "@/lib/hotkeys";
 import {
   ui_search_empty,
   ui_search_group_career,

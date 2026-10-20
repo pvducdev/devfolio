@@ -1,10 +1,11 @@
 import { Code, File } from "lucide-react";
 import type { ComponentType } from "react";
 
+import { JOB_TYPE_ICONS } from "@/components/career/config";
 import { activities } from "@/components/sidebar/activities";
+import type { PageTreeItem } from "@/components/sidebar/page-trees";
+import { ABOUT_TREE, PROJECT_TREE } from "@/components/sidebar/page-trees";
 import { CAREER_TIMELINE } from "@/config/career";
-import type { PageTreeItem } from "@/config/page";
-import { ABOUT_TREE, PROJECT_TREE } from "@/config/page";
 import type { Skills } from "@/config/skills";
 import { SKILLS } from "@/config/skills";
 
@@ -74,7 +75,7 @@ const buildCareerItems = (): SearchItem[] =>
   CAREER_TIMELINE.map((entry) => ({
     category: "career",
     description: `${entry.company} (${entry.year})`,
-    icon: entry.icon,
+    icon: JOB_TYPE_ICONS[entry.jobType],
     id: `career:${buildSlug(entry.year)}`,
     keywords: [
       entry.company,

@@ -1,7 +1,7 @@
 import { useNavigate } from "@tanstack/react-router";
 
 import { useActiveTabId, useTabsActions } from "@/components/tabs/store";
-import { ROUTES } from "@/config/routes";
+import { ROUTES } from "@/lib/routes";
 
 export const useTabActions = () => {
   const navigate = useNavigate();

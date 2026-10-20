@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { DOCK_BUTTONS } from "@/config/mobile-dock";
+import { DOCK_BUTTONS } from "@/components/layout/mobile/dock-buttons";
+import { buildPageHead } from "@/components/seo/head";
 import { PERSONAL_INFO } from "@/config/personal-info";
-import { MOBILE_ROUTES } from "@/config/routes";
-import { buildPageHead } from "@/config/seo";
+import { MOBILE_ROUTES } from "@/lib/routes";
 import {
   mobile_home_current_dir,
   mobile_home_greeting,

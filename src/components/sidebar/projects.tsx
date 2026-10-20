@@ -1,4 +1,7 @@
-import { PROJECT_TREE, PROJECT_TREE_CONFIG } from "@/config/page";
+import {
+  PROJECT_TREE,
+  PROJECT_TREE_CONFIG,
+} from "@/components/sidebar/page-trees";
 
 import PageTree from "./page-tree";
 

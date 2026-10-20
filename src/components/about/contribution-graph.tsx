@@ -3,7 +3,7 @@ import { cn } from "cn";
 import { createContext, use, useState } from "react";
 import type { ComponentProps } from "react";
 
-import type { ContributionData } from "@/lib/contributions";
+import type { ContributionData } from "@/components/about/fetch-contributions";
 import {
   page_about_aria_contributions,
   page_about_aria_level,

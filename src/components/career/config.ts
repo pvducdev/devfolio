@@ -1,4 +1,14 @@
+import type { LucideIcon } from "lucide-react";
+import { Building2, GraduationCap, Users } from "lucide-react";
+
+import type { JobType } from "@/config/career";
 import { PERSONAL_INFO } from "@/config/personal-info";
+
+export const JOB_TYPE_ICONS: Record<JobType, LucideIcon> = {
+  education: GraduationCap,
+  fulltime: Building2,
+  parttime: Users,
+};
 
 export const CHARACTER_CONFIG = {
   runningInput: "Number 1",

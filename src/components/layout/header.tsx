@@ -4,6 +4,10 @@ import { useBoolean } from "usehooks-ts";
 
 import AssistantTrigger from "@/components/assistant/trigger";
 import ButtonWithTooltip from "@/components/common/button-with-tooltip";
+import {
+  getDisplayKeys,
+  getHotkeyCombo,
+} from "@/components/keyboard-shortcuts/hotkeys";
 import KeyboardShortcutsModal from "@/components/keyboard-shortcuts/modal";
 import LanguageSwitcher from "@/components/layout/language-switcher";
 import RepoStarLink from "@/components/layout/repo-star-link";
@@ -25,7 +29,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SITE_CONFIG } from "@/config/site";
-import { getDisplayKeys, getHotkeyCombo } from "@/lib/hotkeys";
 import {
   ui_layout_normal,
   ui_layout_stretch,

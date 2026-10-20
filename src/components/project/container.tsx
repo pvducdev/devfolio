@@ -100,7 +100,13 @@ export const Container = ({ project: config }: ContainerProps) => {
               className="flex-1 overflow-y-auto"
               value="dependencies"
             >
-              <CodeBlock json={config.package} />
+              <CodeBlock
+                json={{
+                  name: config.id,
+                  description: config.description,
+                  ...config.package,
+                }}
+              />
             </TabsContent>
           </Tabs>
         </WindowFrame>

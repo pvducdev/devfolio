@@ -3,6 +3,7 @@ import { Check, Palette } from "lucide-react";
 import { useBoolean } from "usehooks-ts";
 
 import { useCurrentTheme, useSetTheme } from "@/components/theme/store";
+import { THEMES } from "@/components/theme/themes";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -15,7 +16,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { THEMES } from "@/config/theme";
 
 export default function ThemeSwitcher() {
   const { value: isOpen, setValue: setIsOpen } = useBoolean(false);

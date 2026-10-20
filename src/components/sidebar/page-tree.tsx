@@ -4,8 +4,8 @@ import { useTree } from "@headless-tree/react";
 import { useNavigate } from "@tanstack/react-router";
 import { FileIcon, FolderIcon, FolderOpenIcon } from "lucide-react";
 
+import type { PageTreeItem } from "@/components/sidebar/page-trees";
 import { Tree, TreeItem, TreeItemLabel } from "@/components/ui/tree";
-import type { PageTreeItem } from "@/config/page";
 
 interface TreeConfig {
   rootItemId: string;

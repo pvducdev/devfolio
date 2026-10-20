@@ -1,5 +1,5 @@
+import { CONTRIBUTIONS_CONFIG } from "@/components/about/contribution-source";
 import { Skeleton } from "@/components/ui/skeleton";
-import { CONTRIBUTIONS_CONFIG } from "@/config/contributions";
 import {
   mobile_about_activity_label,
   mobile_about_activity_loading,

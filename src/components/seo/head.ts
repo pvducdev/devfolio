@@ -1,7 +1,7 @@
 import type { JSX } from "react";
 
-import { PERSONAL_INFO } from "./personal-info";
-import { SITE_CONFIG } from "./site";
+import { PERSONAL_INFO } from "@/config/personal-info";
+import { SITE_CONFIG } from "@/config/site";
 
 type MetaTag = JSX.IntrinsicElements["meta"];
 

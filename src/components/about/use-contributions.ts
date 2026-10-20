@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import type { ContributionData } from "@/lib/contributions";
+import type { ContributionData } from "@/components/about/fetch-contributions";
 import { getLogger } from "@/lib/logger";
 
 type ContributionsState =

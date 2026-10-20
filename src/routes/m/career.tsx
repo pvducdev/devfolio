@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import CareerTimeline from "@/components/career/mobile/career-timeline";
-import { buildPageHead } from "@/config/seo";
+import { buildPageHead } from "@/components/seo/head";
 import { nav_main_career } from "@/paraglide/messages";
 
 export const Route = createFileRoute("/m/career")({

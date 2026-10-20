@@ -1,4 +1,6 @@
-import type { MobileRouteId } from "@/config/routes";
+import { PERSONAL_INFO } from "@/config/personal-info";
+import type { MobileRouteId } from "@/lib/routes";
+import { MOBILE_ROUTES } from "@/lib/routes";
 import {
   mobile_dock_about,
   mobile_dock_back,
@@ -11,9 +13,6 @@ import {
   mobile_dock_resume,
   mobile_dock_skills,
 } from "@/paraglide/messages";
-
-import { PERSONAL_INFO } from "./personal-info";
-import { MOBILE_ROUTES } from "./routes";
 
 export type DockAction =
   | "back"

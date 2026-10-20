@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 
+import { loadProject } from "@/components/project/load-project";
 import ProjectDetail from "@/components/project/mobile/project-detail";
-import { getProjectIndex, loadProject } from "@/config/projects";
-import { buildPageHead } from "@/config/seo";
+import { buildPageHead } from "@/components/seo/head";
+import { getProjectIndex } from "@/config/projects";
 
 const MobileProjectDetail = () => {
   // oxlint-disable-next-line no-use-before-define -- Route is defined below but referenced lazily at render time

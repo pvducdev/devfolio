@@ -1,13 +1,13 @@
 import { cn } from "cn";
 
+import type { DockButton } from "@/components/layout/mobile/dock-buttons";
+import { DOCK_BUTTONS } from "@/components/layout/mobile/dock-buttons";
 import {
   useIsDockExpanded,
   useMobileShellActions,
 } from "@/components/layout/mobile/store";
 import { Button } from "@/components/ui/button";
-import type { DockButton } from "@/config/mobile-dock";
-import { DOCK_BUTTONS } from "@/config/mobile-dock";
-import type { MobileRouteId } from "@/config/routes";
+import type { MobileRouteId } from "@/lib/routes";
 
 import { UtilityRow } from "./utility-row";
 

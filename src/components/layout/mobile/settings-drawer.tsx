@@ -7,6 +7,8 @@ import {
 import { useGhostTyping } from "@/components/layout/mobile/use-ghost-typing";
 import { useRepoStars } from "@/components/layout/use-repo-stars";
 import { useCurrentTheme, useSetTheme } from "@/components/theme/store";
+import { THEMES } from "@/components/theme/themes";
+import type { ThemeValue } from "@/components/theme/themes";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
@@ -16,8 +18,6 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 import { SITE_CONFIG } from "@/config/site";
-import { THEMES } from "@/config/theme";
-import type { ThemeValue } from "@/config/theme";
 import {
   mobile_settings_assistant,
   mobile_settings_assistant_hint,

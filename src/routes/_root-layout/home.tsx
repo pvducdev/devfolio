@@ -1,8 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 
+import { buildPageHead } from "@/components/seo/head";
 import { useActiveTabId } from "@/components/tabs/store";
-import { buildPageHead } from "@/config/seo";
 import { ui_nav_home } from "@/paraglide/messages";
 
 const HomeRedirect = () => {

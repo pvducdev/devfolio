@@ -4,7 +4,7 @@ import Activity from "@/components/about/mobile/activity";
 import Bio from "@/components/about/mobile/bio";
 import Links from "@/components/about/mobile/links";
 import Profile from "@/components/about/mobile/profile";
-import { buildPageHead } from "@/config/seo";
+import { buildPageHead } from "@/components/seo/head";
 import { nav_main_about } from "@/paraglide/messages";
 
 const AboutPage = () => (

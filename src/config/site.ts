@@ -5,13 +5,7 @@ import { SKILLS } from "./skills";
 
 export const SITE_CONFIG = {
   assistant: {
-    model: "openai/gpt-oss-120b",
     name: "HeyD",
-    temperature: 0.7,
-  },
-  cache: {
-    maxAge: 86_400,
-    staleWhileRevalidate: 604_800,
   },
 
   meta: {

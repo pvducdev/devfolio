@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import { MOBILE_ROUTES, ROUTES } from "@/config/routes";
 import {
+  MOBILE_ROUTES,
+  ROUTES,
   desktopToMobilePath,
   getRouteLabel,
   isValidTabRoute,

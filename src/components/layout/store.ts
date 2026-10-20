@@ -2,8 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { useShallow } from "zustand/shallow";
 
-import { STORE_KEYS } from "@/config/store-keys";
-import { LAYOUT_CONFIG } from "@/config/ui";
+import { LAYOUT_CONFIG } from "@/components/layout/layout-config";
 
 export interface AppLayoutState {
   sidebar: string | null;
@@ -52,7 +51,7 @@ const useAppLayoutStore = create<AppLayoutState & AppLayoutActions>()(
       },
     }),
     {
-      name: STORE_KEYS.APP_LAYOUT,
+      name: "app-layout",
     }
   )
 );

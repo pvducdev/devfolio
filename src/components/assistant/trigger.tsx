@@ -2,10 +2,13 @@ import { Dog } from "lucide-react";
 import { useHotkeys } from "react-hotkeys-hook";
 
 import ButtonWithTooltip from "@/components/common/button-with-tooltip";
+import {
+  getDisplayKeys,
+  getHotkeyCombo,
+} from "@/components/keyboard-shortcuts/hotkeys";
 import { useAppLayoutActions } from "@/components/layout/store";
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
 import { SITE_CONFIG } from "@/config/site";
-import { getDisplayKeys, getHotkeyCombo } from "@/lib/hotkeys";
 import { assistant_tooltip } from "@/paraglide/messages.js";
 
 export default function AssistantTrigger() {

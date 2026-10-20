@@ -2,7 +2,6 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { useShallow } from "zustand/shallow";
 
-import { STORE_KEYS } from "@/config/store-keys";
 import { getRouteLabel } from "@/lib/routes";
 
 interface Tab {
@@ -125,7 +124,7 @@ const useTabsStore = create<TabsState & TabsActions>()(
       },
     }),
     {
-      name: STORE_KEYS.TABS,
+      name: "tabs",
       partialize: (state) => ({
         activeTabId: state.activeTabId,
         tabs: state.tabs,

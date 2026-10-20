@@ -6,8 +6,8 @@ import {
 import { useEffect } from "react";
 
 import { useActiveTabId } from "@/components/tabs/store";
-import { MOBILE_ROUTES, ROUTES } from "@/config/routes";
 import { isMobile } from "@/lib/browser";
+import { MOBILE_ROUTES, ROUTES } from "@/lib/routes";
 
 const IndexRedirect = () => {
   const navigate = useNavigate();

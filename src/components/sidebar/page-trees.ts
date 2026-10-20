@@ -1,3 +1,6 @@
+import type { ProjectCategory } from "@/config/projects";
+import { PROJECTS } from "@/config/projects";
+
 export interface PageTreeItem {
   name: string;
   children?: string[];
@@ -29,32 +32,33 @@ export const ABOUT_TREE_CONFIG = {
   rootItemId: "root",
 } as const;
 
-export const PROJECT_TREE = {
-  backend: {
-    children: ["ieltsy-bot", "daily-tech-bot"],
-    name: "Backend",
-  },
-  "daily-tech-bot": {
-    name: "daily-tech-bot.tsx",
-    path: "/projects/daily-tech-bot",
-  },
+const buildCategoryFolder = (
+  category: ProjectCategory,
+  name: string
+): PageTreeItem => ({
+  children: PROJECTS.filter((project) => project.category === category).map(
+    (project) => project.id
+  ),
+  name,
+});
+
+const buildProjectFiles = (): Record<string, PageTreeItem> =>
+  Object.fromEntries(
+    PROJECTS.map((project) => [
+      project.id,
+      { name: `${project.id}.tsx`, path: `/projects/${project.id}` },
+    ])
+  );
+
+export const PROJECT_TREE: Record<string, PageTreeItem> = {
+  backend: buildCategoryFolder("backend", "Backend"),
   engineering: {
     children: ["frontend", "backend"],
     name: "Engineering",
   },
-  frontend: {
-    children: ["portfolio"],
-    name: "Frontend",
-  },
-  "ieltsy-bot": {
-    name: "ieltsy-bot.tsx",
-    path: "/projects/ieltsy-bot",
-  },
-  portfolio: {
-    name: "portfolio.tsx",
-    path: "/projects/portfolio",
-  },
-} as const satisfies Record<string, PageTreeItem>;
+  frontend: buildCategoryFolder("frontend", "Frontend"),
+  ...buildProjectFiles(),
+};
 
 export const PROJECT_TREE_CONFIG = {
   defaultExpanded: ["engineering", "frontend"],

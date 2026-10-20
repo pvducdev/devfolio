@@ -1,9 +1,9 @@
+import { CONTRIBUTIONS_CONFIG } from "@/components/about/contribution-source";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { CONTRIBUTIONS_CONFIG } from "@/config/contributions";
 import { page_about_contribution_error } from "@/paraglide/messages.js";
 import { getLocale } from "@/paraglide/runtime.js";
 

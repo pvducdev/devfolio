@@ -2,6 +2,7 @@ import type { LucideIcon } from "lucide-react";
 import { Eraser, HelpCircle, MessageSquare, Palette } from "lucide-react";
 import { useEffect, useRef } from "react";
 
+import generateAssistantResponseFn from "@/components/assistant/generate-assistant-response";
 import {
   useAssistantActions,
   useAssistantError,
@@ -10,8 +11,7 @@ import {
   useHasAssistantMessage,
 } from "@/components/assistant/store";
 import { useSetTheme } from "@/components/theme/store";
-import { THEMES } from "@/config/theme";
-import generateAssistantResponseFn from "@/fn/generate-assistant-response";
+import { THEMES } from "@/components/theme/themes";
 import { getLogger } from "@/lib/logger";
 import {
   cmd_clear_desc,

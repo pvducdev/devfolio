@@ -1,12 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 
+import { buildPageHead } from "@/components/seo/head";
 import CoreHero from "@/components/skills/mobile/core-hero";
 import DevopsCascade from "@/components/skills/mobile/devops-cascade";
 import ExploringFooter from "@/components/skills/mobile/exploring-footer";
 import StackList from "@/components/skills/mobile/stack-list";
 import StandardsCards from "@/components/skills/mobile/standards-cards";
 import WorkflowWrap from "@/components/skills/mobile/workflow-wrap";
-import { buildPageHead } from "@/config/seo";
 import { SKILLS } from "@/config/skills";
 import { ui_search_group_skills } from "@/paraglide/messages";
 

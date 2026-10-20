@@ -3,7 +3,7 @@ import { useIntersectionObserver } from "usehooks-ts";
 
 import type { CareerEntry } from "@/config/career";
 
-import { UI_CONFIG } from "../config";
+import { JOB_TYPE_ICONS, UI_CONFIG } from "../config";
 import { useActiveYear, useCareerActions, useCareerLooping } from "../store";
 import JobCard from "./job-card";
 import Landmark from "./landmark";
@@ -56,7 +56,7 @@ export default function CareerSection({ entry }: CareerSectionProps) {
       </div>
 
       <div className="absolute bottom-2 left-1/2 -translate-x-1/2">
-        <Landmark icon={entry.icon} />
+        <Landmark icon={JOB_TYPE_ICONS[entry.jobType]} />
       </div>
     </div>
   );
