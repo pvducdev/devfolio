@@ -14,22 +14,21 @@ import {
   Viewport,
   ViewportPluginPackage,
 } from "@embedpdf/plugin-viewport/react";
-import type { HTMLAttributes } from "react";
 
-import ResumeViewerSkeleton from "@/components/resume-viewer/skeleton.tsx";
+import { ui_error_unexpected } from "@/paraglide/messages.js";
 
-interface ResumePDFViewerProps {
+import ResumeViewerSkeleton from "./skeleton";
+
+interface ResumePdfViewerProps {
   className?: string;
   url: string;
-  viewportProps?: HTMLAttributes<HTMLDivElement>;
 }
 
-export default function PdfViewer({
+export default function ResumePdfViewer({
   className,
   url,
-  viewportProps,
-}: ResumePDFViewerProps) {
-  const { engine, isLoading } = usePdfiumEngine();
+}: ResumePdfViewerProps) {
+  const { engine, error } = usePdfiumEngine();
 
   const plugins = [
     createPluginRegistration(DocumentManagerPluginPackage, {
@@ -40,7 +39,15 @@ export default function PdfViewer({
     createPluginRegistration(RenderPluginPackage),
   ];
 
-  if (isLoading || !engine) {
+  if (error) {
+    return (
+      <p className="p-4 text-center text-muted-foreground text-sm">
+        {ui_error_unexpected()}
+      </p>
+    );
+  }
+
+  if (!engine) {
     return <ResumeViewerSkeleton />;
   }
 
@@ -52,7 +59,7 @@ export default function PdfViewer({
             <DocumentContent documentId={activeDocumentId}>
               {({ isLoaded }) =>
                 isLoaded && (
-                  <Viewport {...viewportProps} documentId={activeDocumentId}>
+                  <Viewport documentId={activeDocumentId}>
                     <Scroller
                       documentId={activeDocumentId}
                       renderPage={({ width, height, pageIndex }) => (

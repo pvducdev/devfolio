@@ -1,9 +1,12 @@
+import {
+  useAppLayoutActions,
+  useSidebarSection,
+} from "@/components/layout/store";
+import type { ActivityDefinition } from "@/components/sidebar/activities";
 import { Button } from "@/components/ui/button";
-import type { Activity as TActivity } from "@/config/routes";
-import { useAppLayoutActions, useSidebarSection } from "@/store/app-layout";
 
 interface WelcomeActionProps {
-  data: TActivity;
+  data: ActivityDefinition;
 }
 
 export default function WelcomeActivity({ data }: WelcomeActionProps) {
@@ -14,7 +17,6 @@ export default function WelcomeActivity({ data }: WelcomeActionProps) {
 
   return (
     <Button
-      key={data.key}
       onClick={() => {
         toggleSidebar(data.key);
       }}

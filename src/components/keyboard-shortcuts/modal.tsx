@@ -1,13 +1,15 @@
 import {
+  HOTKEY_GROUPS,
+  getDisplayKeys,
+} from "@/components/keyboard-shortcuts/hotkeys";
+import type { HotkeyId } from "@/components/keyboard-shortcuts/hotkeys";
+import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
-import { HOTKEY_GROUPS } from "@/config/hotkeys";
-import type { HotkeyId } from "@/config/hotkeys";
-import { getDisplayKeys } from "@/lib/hotkeys";
 import {
   ui_settings_shortcuts,
   ui_shortcuts_close_all_tabs,

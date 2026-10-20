@@ -2,7 +2,7 @@ import { lazy, Suspense } from "react";
 
 import { ui_state_loading } from "@/paraglide/messages.js";
 
-const Assistant = lazy(() => import("@/components/assistant/container.tsx"));
+const Assistant = lazy(() => import("@/components/assistant/container"));
 
 interface PanelProps {
   onClose: () => void;

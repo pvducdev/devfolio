@@ -1,10 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { DOCK_BUTTONS } from "@/config/mobile-dock";
+import { DOCK_BUTTONS } from "@/components/layout/mobile/dock-buttons";
+import { buildPageHead } from "@/components/seo/head";
 import { PERSONAL_INFO } from "@/config/personal-info";
-import { MOBILE_ROUTES } from "@/config/routes";
-import { buildCanonicalLink } from "@/config/seo";
-import { SITE_CONFIG } from "@/config/site";
+import { MOBILE_ROUTES } from "@/lib/routes";
 import {
   mobile_home_current_dir,
   mobile_home_greeting,
@@ -13,8 +12,8 @@ import {
 } from "@/paraglide/messages";
 
 const MobileHome = () => {
-  const listings = DOCK_BUTTONS[MOBILE_ROUTES.HOME].buttons.filter(
-    (b) => b.listing
+  const listings = DOCK_BUTTONS[MOBILE_ROUTES.HOME].filter(
+    (button) => button.listing
   );
 
   return (
@@ -44,8 +43,5 @@ const MobileHome = () => {
 
 export const Route = createFileRoute("/m/home")({
   component: MobileHome,
-  head: () => ({
-    links: buildCanonicalLink(SITE_CONFIG.url),
-    meta: [{ title: `${ui_nav_home()} | ${SITE_CONFIG.title}` }],
-  }),
+  head: () => buildPageHead("", ui_nav_home()),
 });

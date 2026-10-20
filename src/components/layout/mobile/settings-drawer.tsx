@@ -1,3 +1,14 @@
+import { cn } from "cn";
+
+import {
+  useIsDrawerOpen,
+  useMobileShellActions,
+} from "@/components/layout/mobile/store";
+import { useGhostTyping } from "@/components/layout/mobile/use-ghost-typing";
+import { useRepoStars } from "@/components/layout/use-repo-stars";
+import { useCurrentTheme, useSetTheme } from "@/components/theme/store";
+import { THEMES } from "@/components/theme/themes";
+import type { ThemeValue } from "@/components/theme/themes";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
@@ -7,10 +18,6 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 import { SITE_CONFIG } from "@/config/site";
-import { THEMES } from "@/config/theme";
-import { useGhostTyping } from "@/hooks/use-ghost-typing";
-import { useRepoStars } from "@/hooks/use-repo-stars";
-import { cn } from "@/lib/utils";
 import {
   mobile_settings_assistant,
   mobile_settings_assistant_hint,
@@ -23,8 +30,14 @@ import {
   mobile_settings_title,
 } from "@/paraglide/messages";
 import { getLocale, locales, setLocale } from "@/paraglide/runtime.js";
-import { useIsDrawerOpen, useMobileShellStore } from "@/store/mobile-shell";
-import { useCurrentTheme, useSetTheme } from "@/store/theme";
+
+type Locale = (typeof locales)[number];
+
+const buildChoiceClassName = (isSelected: boolean) =>
+  cn(
+    "flex-1 border border-dashed px-2 py-1.5 font-mono text-xs uppercase",
+    isSelected ? "bg-foreground text-background" : "text-muted-foreground"
+  );
 
 const SettingsRow = ({
   label,
@@ -43,25 +56,21 @@ const SettingsRow = ({
 
 const SettingsDrawer = () => {
   const isOpen = useIsDrawerOpen();
-  const closeDrawer = useMobileShellStore((s) => s.closeDrawer);
+  const { closeDrawer, openAssistant } = useMobileShellActions();
   const theme = useCurrentTheme();
   const setThemeValue = useSetTheme();
   const stars = useRepoStars();
   const { text, isTyping, type } = useGhostTyping();
   const currentLocale = getLocale();
 
-  const handleThemeChange = (value: string) => {
+  const handleThemeChange = (value: ThemeValue) => {
     type(`> theme --set ${value}`);
     setThemeValue(value);
   };
 
-  const handleLocaleChange = (locale: string) => {
+  const handleLocaleChange = (locale: Locale) => {
     type(`> lang --set ${locale}`);
-    setLocale(locale as (typeof locales)[number]);
-  };
-
-  const handleRepoTap = () => {
-    window.open(SITE_CONFIG.repository.url, "_blank", "noopener,noreferrer");
+    setLocale(locale);
   };
 
   return (
@@ -73,7 +82,7 @@ const SettingsDrawer = () => {
       }}
       open={isOpen}
     >
-      <DrawerContent className="max-h-[50dvh] rounded-none border-t border-dashed bg-sidebar pb-[env(safe-area-inset-bottom)]">
+      <DrawerContent className="max-h-[50dvh] rounded-none border-t data-[swipe-direction=down]:rounded-none border-dashed bg-sidebar pb-[env(safe-area-inset-bottom)]">
         <DrawerTitle className="sr-only">{mobile_settings_title()}</DrawerTitle>
         <DrawerDescription className="sr-only">
           {mobile_settings_title()}
@@ -90,12 +99,7 @@ const SettingsDrawer = () => {
               <div className="flex gap-1">
                 {THEMES.map((t) => (
                   <button
-                    className={cn(
-                      "flex-1 border border-dashed px-2 py-1.5 font-mono text-xs uppercase",
-                      theme === t.value
-                        ? "bg-foreground text-background"
-                        : "text-muted-foreground"
-                    )}
+                    className={buildChoiceClassName(theme === t.value)}
                     key={t.value}
                     onClick={() => handleThemeChange(t.value)}
                     type="button"
@@ -110,12 +114,7 @@ const SettingsDrawer = () => {
               <div className="flex gap-1">
                 {locales.map((locale) => (
                   <button
-                    className={cn(
-                      "flex-1 border border-dashed px-2 py-1.5 font-mono text-xs uppercase",
-                      currentLocale === locale
-                        ? "bg-foreground text-background"
-                        : "text-muted-foreground"
-                    )}
+                    className={buildChoiceClassName(currentLocale === locale)}
                     key={locale}
                     onClick={() => handleLocaleChange(locale)}
                     type="button"
@@ -138,7 +137,7 @@ const SettingsDrawer = () => {
 
             <button
               className="w-full space-y-1.5 text-left"
-              onClick={() => useMobileShellStore.getState().openAssistant()}
+              onClick={openAssistant}
               type="button"
             >
               <span className="text-muted-foreground text-xs">
@@ -151,20 +150,21 @@ const SettingsDrawer = () => {
 
             <div className="border-t border-dashed" />
 
-            <button
+            <a
               className="flex w-full items-center justify-between py-1 text-left"
-              onClick={handleRepoTap}
-              type="button"
+              href={SITE_CONFIG.repository.url}
+              rel="noopener noreferrer"
+              target="_blank"
             >
               <span className="text-foreground text-xs">
                 {">"} {mobile_settings_repo()}
               </span>
-              {stars > 0 && (
+              {stars !== null && (
                 <span className="text-muted-foreground text-xs">
                   {stars} stars
                 </span>
               )}
-            </button>
+            </a>
 
             <div className="flex items-center justify-between py-1">
               <span className="text-muted-foreground text-xs">
@@ -183,13 +183,15 @@ const SettingsDrawer = () => {
             </div>
 
             <div className="flex justify-end">
-              <DrawerClose asChild>
-                <Button
-                  className="min-h-10 border-dashed font-mono text-xs uppercase transition-colors duration-60 active:bg-foreground active:text-background"
-                  variant="outline"
-                >
-                  {mobile_settings_close()}
-                </Button>
+              <DrawerClose
+                render={
+                  <Button
+                    className="min-h-10 border-dashed font-mono text-xs uppercase transition-colors duration-60 active:bg-foreground active:text-background"
+                    variant="outline"
+                  />
+                }
+              >
+                {mobile_settings_close()}
               </DrawerClose>
             </div>
           </div>

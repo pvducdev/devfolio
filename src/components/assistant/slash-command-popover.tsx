@@ -1,5 +1,6 @@
-import type { ReactElement, ReactNode, RefObject } from "react";
+import type { KeyboardEvent, RefObject } from "react";
 
+import type { CommandItem as TCommandItem } from "@/components/assistant/use-assistant";
 import {
   Command,
   CommandEmpty,
@@ -7,39 +8,62 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command.tsx";
-import {
-  Popover,
-  PopoverAnchor,
-  PopoverContent,
-} from "@/components/ui/popover.tsx";
-import type { CommandItem as TCommandItem } from "@/hooks/use-assistant";
+} from "@/components/ui/command";
+import { Popover, PopoverContent } from "@/components/ui/popover";
 import { assistant_commands, assistant_empty } from "@/paraglide/messages.js";
 
+const FORWARDED_KEYS = new Set(["ArrowUp", "ArrowDown", "Enter", "Escape"]);
+const HIGHLIGHTED_COMMAND = '[cmdk-item=""][aria-selected="true"]';
+
+export const forwardKeyToCommandList = (
+  event: KeyboardEvent<HTMLTextAreaElement>,
+  commandList: HTMLDivElement | null
+) => {
+  if (event.key === "Tab") {
+    event.preventDefault();
+    commandList
+      ?.querySelector(HIGHLIGHTED_COMMAND)
+      ?.dispatchEvent(new Event("cmdk-item-select"));
+    return;
+  }
+
+  if (FORWARDED_KEYS.has(event.key)) {
+    event.preventDefault();
+    commandList?.dispatchEvent(
+      new globalThis.KeyboardEvent("keydown", {
+        bubbles: true,
+        cancelable: true,
+        code: event.code,
+        key: event.key,
+      })
+    );
+  }
+};
+
 interface SlashCommandPopoverProps {
+  anchorRef: RefObject<HTMLElement | null>;
   commandRef: RefObject<HTMLDivElement | null>;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   inputValue: string;
   commands: TCommandItem[];
   onCommandSelect: (command: TCommandItem) => void;
-  children: ReactNode;
 }
 
 export default function SlashCommandPopover({
+  anchorRef,
   commandRef,
   open,
   onOpenChange,
   inputValue,
   commands,
   onCommandSelect,
-  children,
 }: SlashCommandPopoverProps) {
   return (
     <Popover onOpenChange={onOpenChange} open={open}>
-      <PopoverAnchor render={children as ReactElement} />
       <PopoverContent
         align="start"
+        anchor={anchorRef}
         className="max-h-[var(--available-height)] w-[var(--anchor-width)] p-0"
         initialFocus={false}
         side="top"

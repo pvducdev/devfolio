@@ -1,16 +1,10 @@
-import { useNavigate } from "@tanstack/react-router";
+import {
+  PROJECT_TREE,
+  PROJECT_TREE_CONFIG,
+} from "@/components/sidebar/page-trees";
 
-import PageTree from "@/components/sidebar/page-tree.tsx";
-import { PROJECT_TREE, PROJECT_TREE_CONFIG } from "@/config/page";
+import PageTree from "./page-tree";
 
 export default function Projects() {
-  const navigate = useNavigate();
-
-  return (
-    <PageTree
-      config={PROJECT_TREE_CONFIG}
-      onItemSelect={(path) => navigate({ to: path })}
-      treeData={PROJECT_TREE}
-    />
-  );
+  return <PageTree config={PROJECT_TREE_CONFIG} treeData={PROJECT_TREE} />;
 }

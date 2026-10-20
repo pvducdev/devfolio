@@ -1,33 +1,19 @@
 import type { Skills } from "@/config/skills";
-import {
-  mobile_skills_section_standards,
-  mobile_skills_standards_a11y,
-  mobile_skills_standards_best_practices,
-  mobile_skills_standards_desc,
-  mobile_skills_standards_performance,
-} from "@/paraglide/messages";
+import { skills_standards_desc } from "@/paraglide/messages";
 
+import { STANDARD_CARDS } from "../config";
 import SectionHeader from "./section-header";
 
 interface StandardsCardsProps {
   standards: Skills["standards"];
 }
 
-const STANDARD_CARDS = [
-  { key: "performance" as const, label: mobile_skills_standards_performance },
-  { key: "accessibility" as const, label: mobile_skills_standards_a11y },
-  {
-    key: "bestPractices" as const,
-    label: mobile_skills_standards_best_practices,
-  },
-];
-
 export default function StandardsCards({ standards }: StandardsCardsProps) {
   return (
     <section className="[content-visibility:auto]">
-      <SectionHeader number="04" title={mobile_skills_section_standards()} />
+      <SectionHeader section="standards" />
       <p className="mt-3 text-muted-foreground/70 text-xs">
-        {mobile_skills_standards_desc()}
+        {skills_standards_desc()}
       </p>
       <div className="mt-4 space-y-3">
         {STANDARD_CARDS.map((card) => (

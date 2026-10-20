@@ -1,14 +1,10 @@
-import Content from "@/components/assistant/content";
-import Footer from "@/components/assistant/footer";
-import Header from "@/components/assistant/header";
-import Suggestions from "@/components/assistant/suggestions";
-import { useAssistant } from "@/hooks/use-assistant";
-import { cn } from "@/lib/utils";
-import {
-  assistant_suggest1,
-  assistant_suggest2,
-  assistant_suggest3,
-} from "@/paraglide/messages.js";
+import { cn } from "cn";
+
+import Content from "./content";
+import Footer from "./footer";
+import Header from "./header";
+import Suggestions from "./suggestions";
+import { useAssistant } from "./use-assistant";
 
 interface AssistantContainerProps {
   onClose: () => void;
@@ -31,16 +27,7 @@ export default function AssistantContainer({
     >
       <Header onClose={onClose} />
       <Content message={message} status={status} />
-      {!hasMessage && (
-        <Suggestions
-          onClick={sendMessage}
-          suggestions={[
-            assistant_suggest1(),
-            assistant_suggest2(),
-            assistant_suggest3(),
-          ]}
-        />
-      )}
+      {!hasMessage && <Suggestions onClick={sendMessage} />}
       <Footer
         commands={commands}
         disabled={status === "thinking"}

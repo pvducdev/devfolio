@@ -1,34 +1,24 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import ProjectDetail from "@/components/project/mobile/project-detail.tsx";
-import { getProjectById, getProjectIndex } from "@/config/projects";
-import { buildCanonicalLink } from "@/config/seo";
-import { SITE_CONFIG } from "@/config/site";
+import { loadProject } from "@/components/project/load-project";
+import ProjectDetail from "@/components/project/mobile/project-detail";
+import { buildPageHead } from "@/components/seo/head";
+import { getProjectIndex } from "@/config/projects";
 
 const MobileProjectDetail = () => {
   // oxlint-disable-next-line no-use-before-define -- Route is defined below but referenced lazily at render time
-  const { id } = Route.useParams();
-  const project = getProjectById(id);
-  const index = getProjectIndex(id);
+  const project = Route.useLoaderData();
 
   return (
     <div className="py-6">
-      <ProjectDetail project={project} index={index} />
+      <ProjectDetail project={project} index={getProjectIndex(project.id)} />
     </div>
   );
 };
 
 export const Route = createFileRoute("/m/projects/$id")({
   component: MobileProjectDetail,
-  head: ({ params }) => {
-    const project = getProjectById(params.id);
-    return {
-      links: buildCanonicalLink(`${SITE_CONFIG.url}/projects/${params.id}`),
-      meta: [
-        {
-          title: `${project.name || params.id} | ${SITE_CONFIG.title}`,
-        },
-      ],
-    };
-  },
+  head: ({ loaderData, params }) =>
+    buildPageHead(`/projects/${params.id}`, loaderData?.name),
+  loader: loadProject,
 });

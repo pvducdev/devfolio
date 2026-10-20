@@ -8,7 +8,7 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { ROUTES } from "@/config/routes";
+import { ROUTES } from "@/lib/routes";
 
 export default function RouteBreadcrumb() {
   const pathname = useLocation({

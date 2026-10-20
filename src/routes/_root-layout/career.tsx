@@ -1,14 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import CareerRunner from "@/components/career-runner/career-runner";
-import { buildCanonicalLink } from "@/config/seo";
-import { SITE_CONFIG } from "@/config/site";
+import CareerRunner from "@/components/career/runner/career-runner";
+import { buildPageHead } from "@/components/seo/head";
 import { nav_main_career } from "@/paraglide/messages";
 
 export const Route = createFileRoute("/_root-layout/career")({
   component: CareerRunner,
-  head: () => ({
-    links: buildCanonicalLink(`${SITE_CONFIG.url}/career`),
-    meta: [{ title: `${nav_main_career()} | ${SITE_CONFIG.title}` }],
-  }),
+  head: () => buildPageHead("/career", nav_main_career()),
 });

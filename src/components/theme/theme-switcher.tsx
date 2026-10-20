@@ -1,6 +1,9 @@
+import { cn } from "cn";
 import { Check, Palette } from "lucide-react";
 import { useBoolean } from "usehooks-ts";
 
+import { useCurrentTheme, useSetTheme } from "@/components/theme/store";
+import { THEMES } from "@/components/theme/themes";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -13,30 +16,24 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { THEMES } from "@/config/theme";
-import { cn } from "@/lib/utils";
-import { ui_theme_select } from "@/paraglide/messages.js";
-import { useCurrentTheme, useSetTheme } from "@/store/theme";
 
 export default function ThemeSwitcher() {
-  const { value: open, setValue: setOpen } = useBoolean(false);
+  const { value: isOpen, setValue: setIsOpen } = useBoolean(false);
   const theme = useCurrentTheme();
   const setTheme = useSetTheme();
 
   return (
-    <Popover onOpenChange={setOpen} open={open}>
+    <Popover onOpenChange={setIsOpen} open={isOpen}>
       <PopoverTrigger
         render={
           <Button
-            aria-expanded={open}
+            aria-expanded={isOpen}
             className="h-[22px] px-1.5 py-px text-center text-muted-foreground text-xs"
             role="combobox"
             variant="ghost"
           >
             <Palette className="size-4" />
-            {theme
-              ? THEMES.find((t) => t.value === theme)?.name
-              : ui_theme_select()}
+            {THEMES.find((t) => t.value === theme)?.name}
           </Button>
         }
       />
@@ -47,9 +44,9 @@ export default function ThemeSwitcher() {
               {THEMES.map((t) => (
                 <CommandItem
                   key={t.value}
-                  onSelect={(v) => {
-                    setTheme(v);
-                    setOpen(false);
+                  onSelect={() => {
+                    setTheme(t.value);
+                    setIsOpen(false);
                   }}
                   value={t.value}
                 >

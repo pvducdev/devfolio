@@ -2,22 +2,21 @@ import { useDebounceCallback } from "usehooks-ts";
 
 import CodeEditorContainer from "@/components/code-editor/container";
 import ActivitiesBar from "@/components/layout/activities-bar";
+import { LAYOUT_CONFIG } from "@/components/layout/layout-config";
 import Panel from "@/components/layout/panel";
 import Sidebar from "@/components/layout/sidebar";
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "@/components/ui/resizable";
-import { LAYOUT_CONFIG } from "@/config/ui";
-import { percentSize } from "@/lib/size";
 import {
   useAppLayoutActions,
   usePanelSection,
   usePanelSize,
   useSidebarSection,
   useSidebarSize,
-} from "@/store/app-layout";
+} from "@/components/layout/store";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
 
 export default function AppContent() {
   const sidebar = useSidebarSection();
@@ -32,21 +31,16 @@ export default function AppContent() {
 
   return (
     <div className="flex h-full overflow-hidden">
-      <ActivitiesBar
-        active={sidebar}
-        onClick={(key) => {
-          toggleSidebar(key);
-        }}
-      />
+      <ActivitiesBar active={sidebar} onClick={toggleSidebar} />
       <ResizablePanelGroup orientation="horizontal">
         {!!sidebar && (
           <>
             <ResizablePanel
               className="overflow-auto! rounded-xl bg-background"
-              defaultSize={percentSize(sidebarSize)}
+              defaultSize={`${sidebarSize}%`}
               id="sidebar"
-              maxSize={percentSize(LAYOUT_CONFIG.sidebar.maxSize)}
-              minSize={percentSize(LAYOUT_CONFIG.sidebar.minSize)}
+              maxSize={`${LAYOUT_CONFIG.sidebar.maxSize}%`}
+              minSize={`${LAYOUT_CONFIG.sidebar.minSize}%`}
               onResize={(size) => debouncedSetSidebarSize(size.asPercentage)}
             >
               <Sidebar activeView={sidebar} />
@@ -54,11 +48,7 @@ export default function AppContent() {
             <ResizableHandle className="w-1.5 bg-transparent" />
           </>
         )}
-        <ResizablePanel
-          className="rounded-xl bg-background"
-          defaultSize={percentSize(LAYOUT_CONFIG.editor.defaultSize)}
-          id="code-editor"
-        >
+        <ResizablePanel className="rounded-xl bg-background" id="code-editor">
           <CodeEditorContainer />
         </ResizablePanel>
         {!!panel && (
@@ -66,19 +56,13 @@ export default function AppContent() {
             <ResizableHandle className="w-1.5 bg-transparent" />
             <ResizablePanel
               className="rounded-xl bg-background"
-              defaultSize={percentSize(panelSize)}
+              defaultSize={`${panelSize}%`}
               id="panel"
-              maxSize={percentSize(LAYOUT_CONFIG.panel.maxSize)}
-              minSize={percentSize(LAYOUT_CONFIG.panel.minSize)}
+              maxSize={`${LAYOUT_CONFIG.panel.maxSize}%`}
+              minSize={`${LAYOUT_CONFIG.panel.minSize}%`}
               onResize={(size) => debouncedSetPanelSize(size.asPercentage)}
             >
-              <Panel
-                onClose={() => {
-                  if (panel) {
-                    togglePanel(panel);
-                  }
-                }}
-              />
+              <Panel onClose={() => togglePanel(panel)} />
             </ResizablePanel>
           </>
         )}

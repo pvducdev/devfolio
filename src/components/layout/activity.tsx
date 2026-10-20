@@ -1,11 +1,12 @@
+import { cn } from "cn";
+
 import ButtonWithTooltip from "@/components/common/button-with-tooltip";
-import type { Activity as TActivity } from "@/config/routes";
-import { cn } from "@/lib/utils";
+import type { ActivityDefinition } from "@/components/sidebar/activities";
 
 interface ActivityProps {
   active: boolean;
-  data: TActivity;
-  onClick: (data: TActivity) => void;
+  data: ActivityDefinition;
+  onClick: () => void;
 }
 
 export default function Activity({ active, data, onClick }: ActivityProps) {
@@ -17,9 +18,7 @@ export default function Activity({ active, data, onClick }: ActivityProps) {
         "size-7 border-none",
         active ? "bg-accent text-accent-foreground" : ""
       )}
-      onClick={() => {
-        onClick(data);
-      }}
+      onClick={onClick}
       size="icon"
       tooltip={data.name()}
       tooltipProps={{ side: "right" }}

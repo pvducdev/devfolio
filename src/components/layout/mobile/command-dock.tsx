@@ -1,10 +1,15 @@
-import { UtilityRow } from "@/components/layout/mobile/utility-row.tsx";
+import { cn } from "cn";
+
+import type { DockButton } from "@/components/layout/mobile/dock-buttons";
+import { DOCK_BUTTONS } from "@/components/layout/mobile/dock-buttons";
+import {
+  useIsDockExpanded,
+  useMobileShellActions,
+} from "@/components/layout/mobile/store";
 import { Button } from "@/components/ui/button";
-import { DOCK_BUTTONS } from "@/config/mobile-dock";
-import type { MobileRouteId } from "@/config/routes";
-import { cn } from "@/lib/utils";
-import { useMobileShellStore } from "@/store/mobile-shell";
-import type { DockButton } from "@/types/mobile";
+import type { MobileRouteId } from "@/lib/routes";
+
+import { UtilityRow } from "./utility-row";
 
 interface CommandDockProps {
   routeId: MobileRouteId;
@@ -19,10 +24,9 @@ export default function CommandDock({
   onButtonTap,
   onSettingsTap,
 }: CommandDockProps) {
-  const config = DOCK_BUTTONS[routeId];
-  const isExpanded = useMobileShellStore((s) => s.isDockExpanded);
-  const toggleDock = useMobileShellStore((s) => s.toggleDockExpanded);
-  const collapseDock = useMobileShellStore((s) => s.collapseDock);
+  const isExpanded = useIsDockExpanded();
+  const { toggleDockExpanded: toggleDock, collapseDock } =
+    useMobileShellActions();
 
   const handleButtonTap = (button: DockButton) => {
     collapseDock();
@@ -56,7 +60,7 @@ export default function CommandDock({
           </div>
 
           <div className="flex items-center gap-2 px-3 py-2">
-            {config.buttons.map((button) => (
+            {DOCK_BUTTONS[routeId].map((button) => (
               <Button
                 className={cn(
                   "min-h-10 flex-1 border-dashed font-mono text-xs uppercase",

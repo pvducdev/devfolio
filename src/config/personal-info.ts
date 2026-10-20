@@ -44,4 +44,8 @@ export const PERSONAL_INFO = {
   role: "Javascript Developer",
 };
 
-export type PersonalInfo = typeof PERSONAL_INFO;
+export const SOCIAL_LINKS = [
+  { href: PERSONAL_INFO.contact.linkedin, label: "LinkedIn" },
+  { href: PERSONAL_INFO.contact.github, label: "GitHub" },
+  { href: PERSONAL_INFO.contact.gitlab, label: "GitLab" },
+];

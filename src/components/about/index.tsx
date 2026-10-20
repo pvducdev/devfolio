@@ -1,4 +1,10 @@
-import { PERSONAL_INFO } from "@/config/personal-info";
+import { Fragment } from "react";
+
+import { PERSONAL_INFO, SOCIAL_LINKS } from "@/config/personal-info";
+import {
+  page_about_aria_social,
+  page_about_avatar_alt,
+} from "@/paraglide/messages.js";
 
 import ContributionSection from "./contribution-section";
 
@@ -8,7 +14,7 @@ export default function AboutPage() {
       <article className="mx-auto max-w-4xl space-y-10 py-8 text-center">
         <div className="mx-auto size-32 rounded-full border-2 border-border bg-transparent">
           <img
-            alt="Developer profile avatar"
+            alt={page_about_avatar_alt()}
             className="-mt-12 size-42 rounded-full object-cover"
             height={128}
             src={PERSONAL_INFO.avatar}
@@ -28,35 +34,22 @@ export default function AboutPage() {
 
         <section className="mx-auto space-y-2">
           <nav
-            aria-label="Social media links"
+            aria-label={page_about_aria_social()}
             className="flex justify-center space-x-4 text-sm"
           >
-            <a
-              className="hover:underline"
-              href={PERSONAL_INFO.contact.linkedin}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              LinkedIn
-            </a>
-            <span aria-hidden="true">·</span>
-            <a
-              className="hover:underline"
-              href={PERSONAL_INFO.contact.github}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              GitHub
-            </a>
-            <span aria-hidden="true">·</span>
-            <a
-              className="hover:underline"
-              href={PERSONAL_INFO.contact.gitlab}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              GitLab
-            </a>
+            {SOCIAL_LINKS.map((link, index) => (
+              <Fragment key={link.label}>
+                {index > 0 && <span aria-hidden="true">·</span>}
+                <a
+                  className="hover:underline"
+                  href={link.href}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  {link.label}
+                </a>
+              </Fragment>
+            ))}
           </nav>
 
           <div className="text-muted-foreground text-sm">

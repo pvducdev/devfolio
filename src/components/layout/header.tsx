@@ -4,11 +4,19 @@ import { useBoolean } from "usehooks-ts";
 
 import AssistantTrigger from "@/components/assistant/trigger";
 import ButtonWithTooltip from "@/components/common/button-with-tooltip";
-import LanguageSwitcher from "@/components/common/language-switcher";
+import {
+  getDisplayKeys,
+  getHotkeyCombo,
+} from "@/components/keyboard-shortcuts/hotkeys";
 import KeyboardShortcutsModal from "@/components/keyboard-shortcuts/modal";
-import AppSearch from "@/components/layout/app-search";
+import LanguageSwitcher from "@/components/layout/language-switcher";
 import RepoStarLink from "@/components/layout/repo-star-link";
-import ResumeViewer from "@/components/resume-viewer/dialog-container";
+import {
+  useAppLayoutActions,
+  useIsStretchLayout,
+} from "@/components/layout/store";
+import ResumeDialog from "@/components/resume-viewer/resume-dialog";
+import AppSearch from "@/components/search/app-search";
 import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
@@ -21,8 +29,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SITE_CONFIG } from "@/config/site";
-import { getDisplayKeys, getHotkeyCombo } from "@/lib/hotkeys";
-import { getInitials } from "@/lib/utils";
 import {
   ui_layout_normal,
   ui_layout_stretch,
@@ -30,15 +36,21 @@ import {
   ui_settings_shortcuts,
   ui_settings_title,
 } from "@/paraglide/messages.js";
-import { useAppLayoutActions, useIsStretchLayout } from "@/store/app-layout";
+
+const getInitials = (text: string) =>
+  text
+    .split(" ")
+    .map((word) => word.replaceAll(/[^a-zA-Z0-9]/gu, "")[0]?.toUpperCase())
+    .filter(Boolean)
+    .join("");
 
 export default function Header() {
   const isStretchLayout = useIsStretchLayout();
   const { toggleStretchLayout } = useAppLayoutActions();
   const {
-    value: shortcutsOpen,
+    value: isShortcutsOpen,
     toggle: toggleShortcuts,
-    setValue: setShortcutsOpen,
+    setValue: setIsShortcutsOpen,
   } = useBoolean(false);
 
   useHotkeys(getHotkeyCombo("toggleLayout"), toggleStretchLayout);
@@ -71,9 +83,7 @@ export default function Header() {
         </div>
       </div>
       <div className="flex items-center space-x-2 pr-1">
-        {!!SITE_CONFIG.features.showResumeViewer && (
-          <ResumeViewer className="mr-32 flex items-center space-x-2" />
-        )}
+        <ResumeDialog className="mr-32 flex items-center space-x-2" />
         <AssistantTrigger />
         <AppSearch />
         <DropdownMenu>
@@ -101,19 +111,15 @@ export default function Header() {
                 </DropdownMenuShortcut>
               </DropdownMenuItem>
             </DropdownMenuGroup>
-            {!!SITE_CONFIG.features.showRepoStars && (
-              <>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                  <RepoStarLink />
-                </DropdownMenuGroup>
-              </>
-            )}
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+              <RepoStarLink />
+            </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
         <KeyboardShortcutsModal
-          onOpenChange={setShortcutsOpen}
-          open={shortcutsOpen}
+          onOpenChange={setIsShortcutsOpen}
+          open={isShortcutsOpen}
         />
       </div>
     </header>

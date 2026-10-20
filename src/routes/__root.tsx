@@ -1,12 +1,13 @@
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
+import { MotionConfig } from "motion/react";
 
-import { FontLoaderScript } from "@/components/theme/font-loader-script";
+import { buildSeoMeta, buildStructuredData } from "@/components/seo/head";
 import { ThemeInitScript } from "@/components/theme/theme-init-script";
-import { buildSeoMeta, buildStructuredData } from "@/config/seo";
+import { DEFAULT_THEME, THEME_FONT_URLS } from "@/components/theme/themes";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { SITE_CONFIG } from "@/config/site";
-import { DEFAULT_THEME, THEME_FONT_URLS } from "@/config/theme";
 import { getLocale } from "@/paraglide/runtime.js";
 
 import appCss from "../styles.css?url";
@@ -15,12 +16,13 @@ const RootDocument = ({ children }: { children: React.ReactNode }) => (
   <html lang={getLocale()} suppressHydrationWarning>
     <head>
       <ThemeInitScript />
-      <FontLoaderScript />
       <HeadContent />
       <title />
     </head>
     <body>
-      {children}
+      <MotionConfig reducedMotion="user">
+        <TooltipProvider delay={300}>{children}</TooltipProvider>
+      </MotionConfig>
       <TanStackDevtools
         config={{
           position: "bottom-left",

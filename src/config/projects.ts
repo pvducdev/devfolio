@@ -1,14 +1,15 @@
 import { SITE_CONFIG } from "@/config/site";
 
 interface ProjectPackage {
-  name: string;
-  description: string;
   dependencies?: Record<string, string>;
   devDependencies?: Record<string, string>;
 }
 
+export type ProjectCategory = "frontend" | "backend";
+
 export interface ProjectConfig {
   id: string;
+  category: ProjectCategory;
   name: string;
   description: string;
   url: string;
@@ -42,6 +43,7 @@ export const PROJECTS: ProjectConfig[] = [
         type: "screenshot",
       },
     ],
+    category: "frontend",
     id: "portfolio",
     name: "Portfolio Site",
     package: {
@@ -57,14 +59,12 @@ export const PROJECTS: ProjectConfig[] = [
         valibot: "^1.x.x",
         zustand: "^5.x.x",
       },
-      description: "Personal portfolio built with TanStack Start",
       devDependencies: {
         "@biomejs/biome": "^2.x.x",
         typescript: "^5.x.x",
         vite: "^7.x.x",
         vitest: "^4.x.x",
       },
-      name: "devfolio",
     },
     type: "desktop",
     url: SITE_CONFIG.url,
@@ -93,6 +93,7 @@ export const PROJECTS: ProjectConfig[] = [
         type: "screenshot",
       },
     ],
+    category: "backend",
     id: "ieltsy-bot",
     name: "Ieltsy Bot",
     package: {
@@ -102,13 +103,11 @@ export const PROJECTS: ProjectConfig[] = [
         "groq-sdk": "^0.x.x",
         telegraf: "^4.x.x",
       },
-      description: "Learning english by games using Telegram bot",
       devDependencies: {
         eslint: "^9.x.x",
         jest: "^29.x.x",
         typescript: "^5.x.x",
       },
-      name: "ieltsy-bot",
     },
     type: "mobile",
     url: "https://t.me/pvd_stuff_bot",
@@ -123,6 +122,7 @@ export const PROJECTS: ProjectConfig[] = [
         type: "screenshot",
       },
     ],
+    category: "backend",
     id: "daily-tech-bot",
     name: "Daily Telegram Bot for Tech News & Package Release",
     package: {
@@ -130,21 +130,18 @@ export const PROJECTS: ProjectConfig[] = [
         "node-telegram-bot-api": "^0.x.x",
         redis: "^5.x.x",
       },
-      description:
-        "Daily notification favorite package release and tech news using Vercel Cronjob",
       devDependencies: {
         typescript: "^5.x.x",
         vercel: "^48.x.x",
       },
-      name: "daily-tech-bot",
     },
     type: "mobile",
     url: "https://t.me/d_stupid_bot",
   },
 ];
 
-export const getProjectById = (id: string): ProjectConfig =>
-  PROJECTS.find((p) => p.id === id) || ({} as ProjectConfig);
+export const getProjectById = (id: string): ProjectConfig | undefined =>
+  PROJECTS.find((p) => p.id === id);
 
 export const getNextProjectId = (currentId: string): string => {
   const index = PROJECTS.findIndex((p) => p.id === currentId);

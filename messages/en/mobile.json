@@ -27,16 +27,16 @@
   "mobile_about_activity_status_none": "Status: No Recent Activity",
   "mobile_about_activity_loading": "Loading contributions...",
 
-  "mobile_skills_section_core": "THE CORE",
-  "mobile_skills_section_stack": "STACK",
-  "mobile_skills_section_devops": "DEVOPS & TOOLS",
-  "mobile_skills_section_standards": "STANDARDS",
-  "mobile_skills_section_workflow": "WORKFLOW",
-  "mobile_skills_section_exploring": "EXPLORING",
-  "mobile_skills_standards_performance": "Web Performance",
-  "mobile_skills_standards_a11y": "Accessibility",
-  "mobile_skills_standards_best_practices": "Best Practices",
-  "mobile_skills_standards_desc": "Philosophy on perf, a11y & quality.",
+  "skills_section_core": "THE CORE",
+  "skills_section_stack": "STACK",
+  "skills_section_devops": "DEVOPS & TOOLS",
+  "skills_section_standards": "STANDARDS",
+  "skills_section_workflow": "WORKFLOW",
+  "skills_section_exploring": "EXPLORING",
+  "skills_standards_performance": "Web Performance",
+  "skills_standards_a11y": "Accessibility",
+  "skills_standards_best_practices": "Best Practices",
+  "skills_standards_desc": "Philosophy on perf, a11y & quality.",
   "mobile_skills_loading": "> ANALYZING STACK... [OK]",
   "mobile_skills_eof": "> EOF",
 
@@ -56,5 +56,7 @@
 
   "mobile_assistant_prompt": "$ ./heyd --interactive",
   "mobile_assistant_placeholder": "Type a message...",
-  "mobile_assistant_close": "EXIT"
+  "mobile_assistant_close": "EXIT",
+  "mobile_about_email_label": "Email",
+  "mobile_about_location_label": "Loc:"
 }

@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 
-import { activities } from "@/config/routes";
+import { activities } from "@/components/sidebar/activities";
 import { ui_state_loading } from "@/paraglide/messages.js";
 
 interface SidebarProps {

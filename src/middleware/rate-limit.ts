@@ -1,24 +1,12 @@
 import { createMiddleware } from "@tanstack/react-start";
 
-import { SITE_CONFIG } from "@/config/site";
-import {
-  checkRateLimit,
-  createRateLimitResponse,
-  getClientIP,
-} from "@/lib/rate-limit";
-
 export const rateLimitMiddleware = createMiddleware().server(
-  ({ next, request }) => {
-    const { maxRequests, windowMs } = SITE_CONFIG.rateLimit;
-    const clientIP = getClientIP(request);
-    const { allowed, retryAfterMs } = checkRateLimit(
-      clientIP,
-      maxRequests,
-      windowMs
-    );
+  async ({ context, next, request }) => {
+    const clientIP = request.headers.get("cf-connecting-ip") ?? "anonymous";
+    const { success } = await context.env.RATE_LIMITER.limit({ key: clientIP });
 
-    if (!allowed) {
-      return createRateLimitResponse(retryAfterMs);
+    if (!success) {
+      return Response.json({ error: "Too Many Requests" }, { status: 429 });
     }
 
     return next();

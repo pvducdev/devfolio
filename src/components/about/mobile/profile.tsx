@@ -1,4 +1,5 @@
 import { PERSONAL_INFO } from "@/config/personal-info";
+import { mobile_about_location_label } from "@/paraglide/messages.js";
 
 export default function AboutProfile() {
   return (
@@ -15,7 +16,7 @@ export default function AboutProfile() {
           {PERSONAL_INFO.name}
         </p>
         <p className="text-muted-foreground text-xs">
-          Loc: {PERSONAL_INFO.location}
+          {mobile_about_location_label()} {PERSONAL_INFO.location}
         </p>
       </div>
     </div>

@@ -1,14 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 
+import { buildPageHead } from "@/components/seo/head";
 import SkillsPage from "@/components/skills";
-import { buildCanonicalLink } from "@/config/seo";
-import { SITE_CONFIG } from "@/config/site";
 import { ui_search_group_skills } from "@/paraglide/messages";
 
 export const Route = createFileRoute("/_root-layout/skills")({
   component: SkillsPage,
-  head: () => ({
-    links: buildCanonicalLink(`${SITE_CONFIG.url}/skills`),
-    meta: [{ title: `${ui_search_group_skills()} | ${SITE_CONFIG.title}` }],
-  }),
+  head: () => buildPageHead("/skills", ui_search_group_skills()),
 });

@@ -1,62 +1,55 @@
-import { useEffect, useState } from "react";
+import { cn } from "cn";
 
-import DeviceMock from "@/components/common/device-mock";
+import { Iphone } from "@/components/ui/iphone";
+import { Safari } from "@/components/ui/safari";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getProjectById } from "@/config/projects";
-import { useAutoStep } from "@/hooks/use-auto-step";
-import { cn } from "@/lib/utils";
+import type { ProjectConfig } from "@/config/projects";
 import {
   ui_project_loading,
   ui_project_tab_dependencies,
   ui_project_tab_guide,
 } from "@/paraglide/messages.js";
 
-import Card from "./card";
 import { CodeBlock } from "./code-block";
 import Terminal from "./terminal";
 import TerminalItem from "./terminal-item";
+import { useAutoStep } from "./use-auto-step";
+import WindowFrame from "./window-frame";
 
-export interface ContainerProps {
-  projectId: string;
+const DEVICE_CLASS_NAME = "relative z-10 shrink-0 object-fill drop-shadow-xl";
+
+type ProjectTab = "getting-started" | "dependencies";
+
+interface ContainerProps {
+  project: ProjectConfig;
 }
 
-export const Container = ({ projectId }: ContainerProps) => {
-  const config = getProjectById(projectId);
-  const [activeTab, setActiveTab] = useState("getting-started");
+export const Container = ({ project: config }: ContainerProps) => {
+  const { guides } = config;
+  const dependenciesStep = guides.length + 1;
 
-  const guides = config.guides ?? [];
-
-  const { currentStep, start, reset } = useAutoStep({
-    autoAdvance: true,
+  const { currentStep, restart, stopAt } = useAutoStep({
     delay: 3000,
-    loop: true,
-    maxStep: guides.length + 1,
-    onLoop: () => {
-      setActiveTab("getting-started");
-    },
-    onStepChange: (step) => {
-      if (step > guides.length) {
-        setActiveTab("dependencies");
-      }
-    },
+    maxStep: dependenciesStep,
   });
 
-  const visitedGuides = guides.slice(0, currentStep);
-  const latestVisitedGuides = visitedGuides.at(-1);
+  const activeTab: ProjectTab =
+    currentStep === dependenciesStep ? "dependencies" : "getting-started";
 
-  const handleTabChange = (value: string) => {
-    setActiveTab(value);
-    if (value === "getting-started") {
-      start();
-    } else {
-      reset();
-    }
+  const visitedGuides = guides.slice(0, currentStep);
+  const latestGuide = visitedGuides.at(-1);
+  const media = {
+    imageSrc: latestGuide?.type === "screenshot" ? latestGuide.src : undefined,
+    videoSrc: latestGuide?.type === "video" ? latestGuide.src : undefined,
   };
 
-  useEffect(() => {
-    reset();
-    setActiveTab("getting-started");
-  }, [projectId, reset]);
+  const handleTabChange = (value: ProjectTab) => {
+    if (value === "getting-started") {
+      restart();
+    } else {
+      stopAt(dependenciesStep);
+    }
+  };
 
   return (
     <div className="m-10 flex size-full items-center justify-center">
@@ -66,8 +59,8 @@ export const Container = ({ projectId }: ContainerProps) => {
           config.type !== "mobile" && "flex-col"
         )}
       >
-        <Card
-          className={cn("", config.type === "mobile" ? "w-lg" : "w-xl")}
+        <WindowFrame
+          className={config.type === "mobile" ? "w-lg" : "w-xl"}
           title={config.name}
         >
           <Tabs
@@ -107,29 +100,29 @@ export const Container = ({ projectId }: ContainerProps) => {
               className="flex-1 overflow-y-auto"
               value="dependencies"
             >
-              <CodeBlock json={config.package} />
+              <CodeBlock
+                json={{
+                  name: config.id,
+                  description: config.description,
+                  ...config.package,
+                }}
+              />
             </TabsContent>
           </Tabs>
-        </Card>
+        </WindowFrame>
 
-        <DeviceMock
-          className={cn(
-            "relative z-10 shrink-0 object-fill drop-shadow-xl",
-            config.type === "mobile"
-              ? "-ml-5 aspect-9/16 w-56"
-              : "-mt-5 aspect-video w-120"
-          )}
-          imageSrc={
-            latestVisitedGuides?.type === "screenshot"
-              ? latestVisitedGuides.src
-              : ""
-          }
-          type={config.type}
-          url={config.url}
-          videoSrc={
-            latestVisitedGuides?.type === "video" ? latestVisitedGuides.src : ""
-          }
-        />
+        {config.type === "mobile" ? (
+          <Iphone
+            className={cn(DEVICE_CLASS_NAME, "-ml-5 aspect-9/16 w-56")}
+            {...media}
+          />
+        ) : (
+          <Safari
+            className={cn(DEVICE_CLASS_NAME, "-mt-5 aspect-video w-120")}
+            url={config.url}
+            {...media}
+          />
+        )}
       </div>
     </div>
   );

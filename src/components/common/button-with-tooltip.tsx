@@ -7,30 +7,21 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-type TooltipProps = ComponentProps<typeof TooltipContent> &
-  Pick<ComponentProps<typeof Tooltip>, "delay">;
-
 type ButtonWithTooltipProps = ComponentProps<typeof Button> & {
-  tooltip?: ReactNode;
-  tooltipProps?: TooltipProps;
+  tooltip: ReactNode;
+  tooltipProps?: ComponentProps<typeof TooltipContent>;
 };
 
 export default function ButtonWithTooltip({
   children,
   tooltip,
-  tooltipProps = {},
+  tooltipProps,
   ...rest
 }: ButtonWithTooltipProps) {
-  const { delay = 300, ...tooltipPropsRest } = tooltipProps;
-
-  if (!tooltip) {
-    return <Button {...rest}>{children}</Button>;
-  }
-
   return (
-    <Tooltip delay={delay}>
+    <Tooltip>
       <TooltipTrigger render={<Button {...rest}>{children}</Button>} />
-      <TooltipContent {...tooltipPropsRest}>{tooltip}</TooltipContent>
+      <TooltipContent {...tooltipProps}>{tooltip}</TooltipContent>
     </Tooltip>
   );
 }

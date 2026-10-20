@@ -1,9 +1,7 @@
 import { cva } from "class-variance-authority";
 import type { VariantProps } from "class-variance-authority";
 import { motion } from "motion/react";
-import type { ComponentPropsWithoutRef, ReactNode } from "react";
-
-import { cn } from "@/lib/utils";
+import type { ReactNode } from "react";
 
 const terminalItemVariants = cva("", {
   defaultVariants: {
@@ -26,21 +24,13 @@ const defaultAnimation = {
 
 type TerminalItemProps = {
   children: ReactNode;
-  className?: string;
-} & VariantProps<typeof terminalItemVariants> &
-  Omit<ComponentPropsWithoutRef<typeof motion.div>, "children">;
+} & VariantProps<typeof terminalItemVariants>;
 
-export default function TerminalItem({
-  variant,
-  children,
-  className,
-  ...props
-}: TerminalItemProps) {
+export default function TerminalItem({ variant, children }: TerminalItemProps) {
   return (
     <motion.div
-      className={cn(terminalItemVariants({ variant }), className)}
+      className={terminalItemVariants({ variant })}
       {...defaultAnimation}
-      {...props}
     >
       {children}
     </motion.div>

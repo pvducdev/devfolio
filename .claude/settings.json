@@ -3,7 +3,7 @@
     "allow": [
       "Bash(find:*)",
       "Bash(tree:*)",
-      "Bash(bun outdated)",
+      "Bash(pnpm outdated)",
       "Bash(npm outdated:*)",
       "WebSearch",
       "WebFetch(domain:motion.dev)",
@@ -21,7 +21,7 @@
       {
         "hooks": [
           {
-            "command": "bun fix",
+            "command": "pnpm fix",
             "type": "command"
           }
         ],

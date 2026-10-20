@@ -1,10 +1,11 @@
 import type { ItemInstance } from "@headless-tree/core";
 import { hotkeysCoreFeature, syncDataLoaderFeature } from "@headless-tree/core";
 import { useTree } from "@headless-tree/react";
+import { useNavigate } from "@tanstack/react-router";
 import { FileIcon, FolderIcon, FolderOpenIcon } from "lucide-react";
 
+import type { PageTreeItem } from "@/components/sidebar/page-trees";
 import { Tree, TreeItem, TreeItemLabel } from "@/components/ui/tree";
-import type { PageTreeItem } from "@/config/page";
 
 interface TreeConfig {
   rootItemId: string;
@@ -15,7 +16,6 @@ interface TreeConfig {
 interface PageTreeProps {
   treeData: Record<string, PageTreeItem>;
   config: TreeConfig;
-  onItemSelect: (path: string) => void;
 }
 
 const getTreeItemIcon = (item: ItemInstance<PageTreeItem>) => {
@@ -29,8 +29,10 @@ const getTreeItemIcon = (item: ItemInstance<PageTreeItem>) => {
   return <FolderIcon className={iconClass} />;
 };
 
-const PageTree = ({ treeData, config, onItemSelect }: PageTreeProps) => {
+const PageTree = ({ treeData, config }: PageTreeProps) => {
+  // headless-tree mutates its tree instance, so compiler memoization would render stale items
   "use no memo";
+  const navigate = useNavigate();
 
   const tree = useTree<PageTreeItem>({
     dataLoader: {
@@ -41,7 +43,7 @@ const PageTree = ({ treeData, config, onItemSelect }: PageTreeProps) => {
     getItemName: (item) => item.getItemData().name,
     indent: config.indent,
     initialState: {
-      expandedItems: config.defaultExpanded as unknown as string[],
+      expandedItems: [...config.defaultExpanded],
     },
     isItemFolder: (item) => (item.getItemData()?.children?.length ?? 0) > 0,
     rootItemId: config.rootItemId,
@@ -50,7 +52,7 @@ const PageTree = ({ treeData, config, onItemSelect }: PageTreeProps) => {
   const handleItemDoubleClick = (item: ItemInstance<PageTreeItem>) => {
     const { path } = item.getItemData();
     if (path) {
-      onItemSelect(path);
+      navigate({ to: path });
     }
   };
 

@@ -1,8 +1,23 @@
-import { Building2, GraduationCap, Users } from "lucide-react";
+export type JobType = "fulltime" | "parttime" | "education";
 
-import type { CareerEntry } from "@/types/career";
+export interface ExpandedContent {
+  description: string;
+  techStack: {
+    primary: string[];
+    tools?: string[];
+    infrastructure?: string[];
+  };
+  metrics?: string[];
+}
 
-export type { CareerEntry, JobType } from "@/types/career";
+export interface CareerEntry {
+  year: string;
+  jobType: JobType;
+  title: string;
+  company: string;
+  details: string[];
+  expanded?: ExpandedContent;
+}
 
 export const CAREER_TIMELINE: CareerEntry[] = [
   {
@@ -22,7 +37,6 @@ export const CAREER_TIMELINE: CareerEntry[] = [
         tools: ["Git", "VS/VS Code", "Eclipse", "IntelliJ IDEA", "Postman"],
       },
     },
-    icon: GraduationCap,
     jobType: "education",
     title: "Software Engineering Degree",
     year: "2019",
@@ -51,7 +65,6 @@ export const CAREER_TIMELINE: CareerEntry[] = [
         tools: ["Figma", "Docker", "ESLint/Prettier", "Vite", "Slack"],
       },
     },
-    icon: Building2,
     jobType: "fulltime",
     title: "Fresher Frontend Developer",
     year: "2022-2024",
@@ -84,7 +97,6 @@ export const CAREER_TIMELINE: CareerEntry[] = [
         tools: ["Expo EAS", "Docker"],
       },
     },
-    icon: Users,
     jobType: "parttime",
     title: "Frontend Collaborator",
     year: "2023",
@@ -115,7 +127,6 @@ export const CAREER_TIMELINE: CareerEntry[] = [
         tools: ["Cypress", "Strapi", "Algolia Search", "New Relic", "Docker"],
       },
     },
-    icon: Building2,
     jobType: "fulltime",
     title: "Frontend Executive",
     year: "2024-Present",
@@ -137,7 +148,6 @@ export const CAREER_TIMELINE: CareerEntry[] = [
         tools: ["Google Analytics", "Strapi", "OpenAI API"],
       },
     },
-    icon: Users,
     jobType: "parttime",
     title: "Frontend Collaborator",
     year: "2025",

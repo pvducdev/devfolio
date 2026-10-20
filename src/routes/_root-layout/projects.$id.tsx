@@ -1,24 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { Container } from "@/components/project/container.tsx";
-import { getProjectById } from "@/config/projects";
-import { buildCanonicalLink } from "@/config/seo";
-import { SITE_CONFIG } from "@/config/site";
-import { nav_main_projects } from "@/paraglide/messages";
+import { Container } from "@/components/project/container";
+import { loadProject } from "@/components/project/load-project";
+import { buildPageHead } from "@/components/seo/head";
+
+const ProjectPage = () => {
+  // oxlint-disable-next-line no-use-before-define -- Route is defined below but referenced lazily at render time
+  const project = Route.useLoaderData();
+  return <Container key={project.id} project={project} />;
+};
 
 export const Route = createFileRoute("/_root-layout/projects/$id")({
-  component: () => <Container projectId={Route.useParams().id} />,
-  head: ({ params }) => {
-    const project = getProjectById(params.id);
-    return {
-      links: buildCanonicalLink(`${SITE_CONFIG.url}/projects/${params.id}`),
-      meta: [
-        {
-          title: project.name
-            ? `${project.name} | ${SITE_CONFIG.title}`
-            : `${nav_main_projects()} | ${SITE_CONFIG.title}`,
-        },
-      ],
-    };
-  },
+  component: ProjectPage,
+  head: ({ loaderData, params }) =>
+    buildPageHead(`/projects/${params.id}`, loaderData?.name),
+  loader: loadProject,
 });

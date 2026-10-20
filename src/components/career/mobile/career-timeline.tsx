@@ -1,12 +1,13 @@
 import { motion, useScroll, useSpring } from "motion/react";
 import { lazy, Suspense, useRef } from "react";
 
-import { CAREER_SECTIONS } from "@/components/career-runner/config";
-import { useCareerTimeline } from "@/hooks/use-career-timeline";
+import { CAREER_TIMELINE } from "@/config/career";
 
+import { useActiveYear } from "../store";
 import CareerEntry from "./career-entry";
 import TimelineIntro from "./timeline-intro";
 import TimelineOutro from "./timeline-outro";
+import { useCareerTimeline } from "./use-career-timeline";
 
 const StairCharacter = lazy(() => import("./stair-character"));
 
@@ -15,7 +16,8 @@ export default function CareerTimeline() {
 
   const { scrollY, scrollYProgress } = useScroll({ container: scrollRef });
 
-  const { sectionRefs, activeIndex } = useCareerTimeline({
+  const activeYear = useActiveYear();
+  const { sectionRefs } = useCareerTimeline({
     scrollContainerRef: scrollRef,
     scrollY,
   });
@@ -42,13 +44,13 @@ export default function CareerTimeline() {
           style={{ height: "100%", scaleY: lineProgress }}
         />
 
-        {CAREER_SECTIONS.map((section, index) => (
+        {CAREER_TIMELINE.map((entry, index) => (
           <CareerEntry
-            isActive={activeIndex === index}
-            key={section.id}
+            entry={entry}
+            isActive={activeYear === entry.year}
+            key={entry.year}
             ref={sectionRefs[index]}
             scrollRef={scrollRef}
-            section={section}
           />
         ))}
 

@@ -1,9 +1,9 @@
 import { createRouter } from "@tanstack/react-router";
 
-import ErrorPage from "@/components/common/error-page";
+import ErrorPage from "@/components/layout/error-page";
 import { Error as ErrorIcon } from "@/components/ui/svgs/error";
 import { NotFound } from "@/components/ui/svgs/not-found";
-import { getLogger } from "@/lib/logger/client";
+import { getLogger } from "@/lib/logger";
 import {
   page_error_404_description,
   page_error_404_title,
@@ -13,14 +13,17 @@ import {
   page_error_generic_title,
 } from "@/paraglide/messages.js";
 
-import { routeTree } from "./routeTree.gen.ts";
+import { routeTree } from "./routeTree.gen";
 
 export const getRouter = () =>
   createRouter({
     defaultErrorComponent: ({ error, reset }) => (
       <ErrorPage
         actionLabel={page_error_action_retry()}
-        description={error.message || page_error_generic_description()}
+        description={
+          (error instanceof Error && error.message) ||
+          page_error_generic_description()
+        }
         illustration={<ErrorIcon className="text-foreground" />}
         onAction={reset}
         title={page_error_generic_title()}
@@ -36,10 +39,13 @@ export const getRouter = () =>
       />
     ),
     defaultOnCatch: async (err, errInfo) => {
-      await getLogger().error(err.message, {
-        componentStack: errInfo.componentStack,
-        stack: err.stack,
-      });
+      await getLogger().error(
+        err instanceof Error ? err.message : String(err),
+        {
+          componentStack: errInfo.componentStack,
+          stack: err instanceof Error ? err.stack : undefined,
+        }
+      );
     },
     defaultPreload: "intent",
     defaultPreloadStaleTime: Number.POSITIVE_INFINITY,

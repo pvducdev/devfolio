@@ -25,6 +25,7 @@
 
   "page_about_contribution_tooltip": "{count} contributions on {date}",
   "page_about_contribution_summary": "{count} contributions in the last year on {platform}",
+  "page_about_contribution_error": "Couldn't load contributions from {platform}",
   "page_about_contribution_level_none": "Nothing pushed yet",
   "page_about_contribution_level_range": "{min}-{max} contributions",
   "page_about_contribution_level_more": "{min}+ contributions",
@@ -36,5 +37,12 @@
   "page_error_generic_title": "Well, that wasn't supposed to happen",
   "page_error_generic_description": "Something broke. Give it another shot?",
   "page_error_action_home": "Take me home",
-  "page_error_action_retry": "Try again"
+  "page_error_action_retry": "Try again",
+  "page_career_aria_timeline": "Career timeline",
+  "page_career_aria_intro": "Career timeline introduction",
+  "page_career_aria_end": "Career timeline end",
+  "page_about_avatar_alt": "Developer profile avatar",
+  "page_about_aria_social": "Social media links",
+  "page_about_aria_contributions": "Contribution graph",
+  "page_about_aria_level": "Level {level}"
 }

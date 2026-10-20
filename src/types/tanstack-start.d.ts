@@ -1,10 +1,12 @@
-import type { ExecutionContext } from "@cloudflare/workers-types";
+import type { ExecutionContext, RateLimit } from "@cloudflare/workers-types";
 
 declare module "@tanstack/react-router" {
   interface Register {
     server: {
       requestContext: {
-        env: unknown;
+        env: {
+          RATE_LIMITER: RateLimit;
+        };
         ctx: ExecutionContext;
       };
     };
