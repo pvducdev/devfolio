@@ -14,13 +14,10 @@
   "ratelimits": [
     {
       "name": "RATE_LIMITER",
-      "namespace_id": "1001",
+      "namespace_id": "1000",
       "simple": { "limit": 100, "period": 60 },
     },
   ],
-  "vars": {
-    "ENVIRONMENT": "development",
-  },
   "secrets": {
     "required": [
       "LLM_API_KEY",
@@ -40,9 +37,6 @@
           "simple": { "limit": 100, "period": 60 },
         },
       ],
-      "vars": {
-        "ENVIRONMENT": "staging",
-      },
       "secrets": {
         "required": [
           "LLM_API_KEY",
@@ -65,9 +59,6 @@
           "simple": { "limit": 100, "period": 60 },
         },
       ],
-      "vars": {
-        "ENVIRONMENT": "production",
-      },
       "secrets": {
         "required": [
           "LLM_API_KEY",

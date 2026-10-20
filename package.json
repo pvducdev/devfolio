@@ -35,7 +35,6 @@
     "@inlang/paraglide-js": "^2.19.0",
     "@logtail/browser": "^0.5.8",
     "@logtail/edge": "^0.5.8",
-    "@octokit/rest": "^22.0.1",
     "@rive-app/react-canvas": "^4.29.1",
     "@t3-oss/env-core": "^0.13.11",
     "@tailwindcss/vite": "^4.3.1",
