@@ -2,6 +2,7 @@ import type { Variants } from "motion/react";
 import { motion, stagger } from "motion/react";
 
 import {
+  page_career_aria_end,
   page_career_complete,
   page_career_eof,
   page_career_thanks,
@@ -55,7 +56,7 @@ const EndSection = () => (
     animate="visible"
     initial="hidden"
     variants={containerVariants}
-    aria-label="Career timeline end"
+    aria-label={page_career_aria_end()}
     className="flex h-full w-96 shrink-0 flex-col items-end justify-center px-8 py-12 font-mono"
     role="region"
   >

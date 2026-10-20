@@ -19,12 +19,15 @@ import { ui_error_unexpected } from "@/paraglide/messages.js";
 
 import ResumeViewerSkeleton from "./skeleton";
 
-interface ResumePDFViewerProps {
+interface ResumePdfViewerProps {
   className?: string;
   url: string;
 }
 
-export default function PdfViewer({ className, url }: ResumePDFViewerProps) {
+export default function ResumePdfViewer({
+  className,
+  url,
+}: ResumePdfViewerProps) {
   const { engine, error } = usePdfiumEngine();
 
   const plugins = [

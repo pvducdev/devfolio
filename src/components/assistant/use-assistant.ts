@@ -1,6 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import { Eraser, HelpCircle, MessageSquare, Palette } from "lucide-react";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import {
   useAssistantActions,
@@ -39,7 +39,7 @@ export interface CommandItem {
 
 export const SLASH_PREFIX = "/";
 
-const WHITESPACE_PATTERN = /\s+/;
+const WHITESPACE_PATTERN = /\s+/u;
 
 export const useAssistant = () => {
   const setTheme = useSetTheme();
@@ -51,6 +51,8 @@ export const useAssistant = () => {
     useAssistantActions();
 
   const abortRef = useRef<AbortController | null>(null);
+
+  useEffect(() => () => abortRef.current?.abort(), []);
 
   const commands: CommandItem[] = [
     {
@@ -156,7 +158,7 @@ ${cmd_help_pro_tip()}`;
     setStatus("thinking");
 
     try {
-      const stream = generateAssistantResponseFn({ data: { prompt } });
+      const stream = generateAssistantResponseFn({ data: { prompt }, signal });
 
       for await (const chunk of await stream) {
         if (signal.aborted) {
@@ -168,10 +170,13 @@ ${cmd_help_pro_tip()}`;
       if (!signal.aborted) {
         setStatus("idle");
       }
-    } catch {
+    } catch (error) {
       if (signal.aborted) {
         return;
       }
+      await getLogger().error("Failed to stream assistant response", {
+        error: error instanceof Error ? error.message : String(error),
+      });
       setError(ui_error_unexpected());
     }
   };

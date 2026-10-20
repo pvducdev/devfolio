@@ -3,6 +3,7 @@ import type { Variants } from "motion/react";
 import { motion, stagger } from "motion/react";
 
 import {
+  page_career_aria_intro,
   page_career_heading,
   page_career_hint_scroll,
   page_career_intro,
@@ -57,7 +58,7 @@ const StarterSection = () => (
     animate="visible"
     initial="hidden"
     variants={containerVariants}
-    aria-label="Career timeline introduction"
+    aria-label={page_career_aria_intro()}
     className="flex h-full w-96 shrink-0 flex-col justify-center px-8 py-12 font-mono"
     role="region"
   >

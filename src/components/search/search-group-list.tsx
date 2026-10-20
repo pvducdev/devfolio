@@ -2,13 +2,17 @@ import { CommandGroup, CommandItem } from "@/components/ui/command";
 
 import type { SearchItem } from "./items";
 
-interface SearchGroupProps {
+interface SearchGroupListProps {
   heading: string;
   items: SearchItem[];
   onSelect: (item: SearchItem) => void;
 }
 
-export const SearchGroup = ({ heading, items, onSelect }: SearchGroupProps) => (
+export const SearchGroupList = ({
+  heading,
+  items,
+  onSelect,
+}: SearchGroupListProps) => (
   <CommandGroup heading={heading}>
     {items.map((item) => (
       <CommandItem

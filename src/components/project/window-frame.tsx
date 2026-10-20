@@ -3,13 +3,17 @@ import { motion } from "motion/react";
 import type { ReactNode } from "react";
 import useMeasure from "react-use-measure";
 
-interface CardProps {
+interface WindowFrameProps {
   title: string;
   className?: string;
   children: ReactNode;
 }
 
-export default function Card({ title, className, children }: CardProps) {
+export default function WindowFrame({
+  title,
+  className,
+  children,
+}: WindowFrameProps) {
   const [ref, bounds] = useMeasure();
 
   return (

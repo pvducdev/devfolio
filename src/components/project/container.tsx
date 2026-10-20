@@ -10,11 +10,11 @@ import {
   ui_project_tab_guide,
 } from "@/paraglide/messages.js";
 
-import Card from "./card";
 import { CodeBlock } from "./code-block";
 import Terminal from "./terminal";
 import TerminalItem from "./terminal-item";
 import { useAutoStep } from "./use-auto-step";
+import WindowFrame from "./window-frame";
 
 const DEVICE_CLASS_NAME = "relative z-10 shrink-0 object-fill drop-shadow-xl";
 
@@ -59,7 +59,7 @@ export const Container = ({ project: config }: ContainerProps) => {
           config.type !== "mobile" && "flex-col"
         )}
       >
-        <Card
+        <WindowFrame
           className={config.type === "mobile" ? "w-lg" : "w-xl"}
           title={config.name}
         >
@@ -103,7 +103,7 @@ export const Container = ({ project: config }: ContainerProps) => {
               <CodeBlock json={config.package} />
             </TabsContent>
           </Tabs>
-        </Card>
+        </WindowFrame>
 
         {config.type === "mobile" ? (
           <Iphone

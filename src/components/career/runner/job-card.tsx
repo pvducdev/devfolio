@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import type { ExpandedContent, JobType } from "@/config/career";
 
 import ExpandedSection from "../expanded-section";
-import { useActiveToggle } from "../use-active-toggle";
+import { useCollapsed } from "../use-collapsed";
 
 const GLOW_COLOR = "oklch(from var(--primary) l c h / 0.15)";
 
@@ -33,16 +33,15 @@ const JobCard = ({
   expanded,
   isActive = false,
 }: JobCardProps) => {
-  const { isToggled: manuallyToggled, toggle: toggleManually } =
-    useActiveToggle(isActive);
+  const { isCollapsed, toggleCollapsed } = useCollapsed(isActive);
 
   const hasExpandableContent = !!expanded;
-  const isExpanded = isActive && hasExpandableContent && !manuallyToggled;
+  const isExpanded = isActive && hasExpandableContent && !isCollapsed;
   const canExpand = isActive && hasExpandableContent;
 
   const handleClick = () => {
     if (canExpand) {
-      toggleManually();
+      toggleCollapsed();
     }
   };
 

@@ -37,5 +37,12 @@
   "page_error_generic_title": "Úi, không nên xảy ra thế này",
   "page_error_generic_description": "Có gì đó hỏng. Thử lại xem?",
   "page_error_action_home": "Đưa tớ về nhà",
-  "page_error_action_retry": "Thử lại"
+  "page_error_action_retry": "Thử lại",
+  "page_career_aria_timeline": "Dòng thời gian sự nghiệp",
+  "page_career_aria_intro": "Phần mở đầu dòng thời gian sự nghiệp",
+  "page_career_aria_end": "Phần kết dòng thời gian sự nghiệp",
+  "page_about_avatar_alt": "Ảnh đại diện lập trình viên",
+  "page_about_aria_social": "Liên kết mạng xã hội",
+  "page_about_aria_contributions": "Biểu đồ đóng góp",
+  "page_about_aria_level": "Mức {level}"
 }

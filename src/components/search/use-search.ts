@@ -5,7 +5,7 @@ import { useState } from "react";
 import { buildSearchItems } from "./items";
 import type { SearchCategory, SearchItem } from "./items";
 
-export interface SearchGroup {
+export interface SearchResultGroup {
   category: SearchCategory;
   items: SearchItem[];
 }
@@ -22,7 +22,7 @@ const FUSE_OPTIONS: IFuseOptions<SearchItem> = {
   threshold: 0.4,
 };
 
-const groupByCategory = (items: SearchItem[]): SearchGroup[] => {
+const groupByCategory = (items: SearchItem[]): SearchResultGroup[] => {
   const groups = new Map<SearchCategory, SearchItem[]>();
   for (const item of items) {
     groups.set(item.category, [...(groups.get(item.category) ?? []), item]);

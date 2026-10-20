@@ -1,10 +1,10 @@
-import SectionHeader from "@/components/skills/components/section-header";
+import SectionHeader from "../components/section-header";
 
-interface ExploringFooterProps {
+interface ExploringSectionProps {
   items: readonly string[];
 }
 
-export default function ExploringSection({ items }: ExploringFooterProps) {
+export default function ExploringSection({ items }: ExploringSectionProps) {
   return (
     <footer className="col-span-1 pt-10 md:col-span-8 md:col-start-3 lg:col-start-4">
       <div className="flex flex-col gap-0.5">

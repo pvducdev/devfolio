@@ -7,12 +7,12 @@ import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { SITE_CONFIG } from "@/config/site";
 import { ui_settings_star_repo } from "@/paraglide/messages.js";
 
+const handleClick = () => {
+  window.open(SITE_CONFIG.repository.url, "_blank", "noopener,noreferrer");
+};
+
 export default function RepoStarLink() {
   const stars = useRepoStars();
-
-  const handleClick = () => {
-    window.open(SITE_CONFIG.repository.url, "_blank", "noopener,noreferrer");
-  };
 
   return (
     <DropdownMenuItem className="group" onClick={handleClick}>

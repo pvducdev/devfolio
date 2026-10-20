@@ -1,9 +1,15 @@
 import { PERSONAL_INFO, SOCIAL_LINKS } from "@/config/personal-info";
-import { mobile_about_links_label } from "@/paraglide/messages";
+import {
+  mobile_about_email_label,
+  mobile_about_links_label,
+} from "@/paraglide/messages";
 
 const LINKS = [
   ...SOCIAL_LINKS,
-  { href: `mailto:${PERSONAL_INFO.contact.email}`, label: "Email" },
+  {
+    href: `mailto:${PERSONAL_INFO.contact.email}`,
+    label: mobile_about_email_label(),
+  },
 ];
 
 export default function AboutLinks() {

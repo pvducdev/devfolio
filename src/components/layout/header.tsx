@@ -11,7 +11,7 @@ import {
   useAppLayoutActions,
   useIsStretchLayout,
 } from "@/components/layout/store";
-import ResumeViewer from "@/components/resume-viewer/dialog-container";
+import ResumeDialog from "@/components/resume-viewer/resume-dialog";
 import AppSearch from "@/components/search/app-search";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -37,7 +37,7 @@ import {
 const getInitials = (text: string) =>
   text
     .split(" ")
-    .map((word) => word.replaceAll(/[^a-zA-Z0-9]/g, "")[0]?.toUpperCase())
+    .map((word) => word.replaceAll(/[^a-zA-Z0-9]/gu, "")[0]?.toUpperCase())
     .filter(Boolean)
     .join("");
 
@@ -45,9 +45,9 @@ export default function Header() {
   const isStretchLayout = useIsStretchLayout();
   const { toggleStretchLayout } = useAppLayoutActions();
   const {
-    value: shortcutsOpen,
+    value: isShortcutsOpen,
     toggle: toggleShortcuts,
-    setValue: setShortcutsOpen,
+    setValue: setIsShortcutsOpen,
   } = useBoolean(false);
 
   useHotkeys(getHotkeyCombo("toggleLayout"), toggleStretchLayout);
@@ -80,7 +80,7 @@ export default function Header() {
         </div>
       </div>
       <div className="flex items-center space-x-2 pr-1">
-        <ResumeViewer className="mr-32 flex items-center space-x-2" />
+        <ResumeDialog className="mr-32 flex items-center space-x-2" />
         <AssistantTrigger />
         <AppSearch />
         <DropdownMenu>
@@ -115,8 +115,8 @@ export default function Header() {
           </DropdownMenuContent>
         </DropdownMenu>
         <KeyboardShortcutsModal
-          onOpenChange={setShortcutsOpen}
-          open={shortcutsOpen}
+          onOpenChange={setIsShortcutsOpen}
+          open={isShortcutsOpen}
         />
       </div>
     </header>

@@ -2,7 +2,7 @@ import { cn } from "cn";
 
 import { TextLoop } from "@/components/ui/text-loop";
 
-import { TEXT_LOOP_ANIMATION } from "../sections";
+import { TEXT_LOOP_ANIMATION } from "../config";
 
 interface CoreSkillItemProps {
   name: string;

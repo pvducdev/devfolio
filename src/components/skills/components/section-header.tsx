@@ -1,7 +1,7 @@
 import { cn } from "cn";
 
-import { SKILL_SECTIONS } from "../sections";
-import type { SkillSectionId } from "../sections";
+import { SKILL_SECTIONS } from "../config";
+import type { SkillSectionId } from "../config";
 
 interface SectionHeaderProps {
   section: SkillSectionId;

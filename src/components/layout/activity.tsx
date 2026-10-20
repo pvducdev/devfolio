@@ -1,11 +1,11 @@
 import { cn } from "cn";
 
 import ButtonWithTooltip from "@/components/common/button-with-tooltip";
-import type { Activity as TActivity } from "@/components/sidebar/activities";
+import type { ActivityDefinition } from "@/components/sidebar/activities";
 
 interface ActivityProps {
   active: boolean;
-  data: TActivity;
+  data: ActivityDefinition;
   onClick: () => void;
 }
 

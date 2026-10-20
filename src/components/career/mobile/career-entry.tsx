@@ -6,7 +6,7 @@ import type { Ref, RefObject } from "react";
 import type { CareerEntry as TCareerEntry } from "@/config/career";
 
 import ExpandedSection from "../expanded-section";
-import { useActiveToggle } from "../use-active-toggle";
+import { useCollapsed } from "../use-collapsed";
 
 interface CareerEntryProps {
   ref: Ref<HTMLDivElement>;
@@ -48,11 +48,10 @@ const TimelineDot = ({ isActive }: { isActive: boolean }) => (
 );
 
 const CareerEntry = ({ ref, entry, isActive, scrollRef }: CareerEntryProps) => {
-  const { isToggled: manuallyToggled, toggle: toggleManually } =
-    useActiveToggle(isActive);
+  const { isCollapsed, toggleCollapsed } = useCollapsed(isActive);
 
   const hasExpandableContent = !!entry.expanded;
-  const isExpanded = hasExpandableContent && !manuallyToggled;
+  const isExpanded = hasExpandableContent && !isCollapsed;
   return (
     <div
       className="relative pb-36 [contain-intrinsic-size:auto_400px] [content-visibility:auto]"
@@ -94,7 +93,7 @@ const CareerEntry = ({ ref, entry, isActive, scrollRef }: CareerEntryProps) => {
             {hasExpandableContent ? (
               <button
                 className="shrink-0 text-muted-foreground"
-                onClick={toggleManually}
+                onClick={toggleCollapsed}
                 type="button"
               >
                 <motion.span

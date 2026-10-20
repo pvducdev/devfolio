@@ -17,12 +17,10 @@ const MobileAssistantDrawer = lazy(
   () => import("@/components/assistant/mobile/drawer")
 );
 
-const PROJECT_DETAIL_PATTERN = /^\/m\/projects\/(.+)$/;
+const PROJECT_DETAIL_PATTERN = /^\/m\/projects\/(?<id>.+)$/u;
 
-const extractProjectId = (pathname: string): string | null => {
-  const match = pathname.match(PROJECT_DETAIL_PATTERN);
-  return match ? match[1] : null;
-};
+const extractProjectId = (pathname: string): string | null =>
+  pathname.match(PROJECT_DETAIL_PATTERN)?.groups?.id ?? null;
 
 interface ActionContext {
   command: string;

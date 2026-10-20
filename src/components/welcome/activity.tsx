@@ -2,11 +2,11 @@ import {
   useAppLayoutActions,
   useSidebarSection,
 } from "@/components/layout/store";
-import type { Activity as TActivity } from "@/components/sidebar/activities";
+import type { ActivityDefinition } from "@/components/sidebar/activities";
 import { Button } from "@/components/ui/button";
 
 interface WelcomeActionProps {
-  data: TActivity;
+  data: ActivityDefinition;
 }
 
 export default function WelcomeActivity({ data }: WelcomeActionProps) {

@@ -4,6 +4,10 @@ import { createContext, use, useState } from "react";
 import type { ComponentProps } from "react";
 
 import type { ContributionData } from "@/lib/contributions";
+import {
+  page_about_aria_contributions,
+  page_about_aria_level,
+} from "@/paraglide/messages.js";
 
 import { getLevelForCount } from "./contribution-levels";
 import { formatISODate } from "./format";
@@ -64,7 +68,7 @@ export const Root = ({ data, className, ...props }: RootProps) => {
 
 export const Grid = ({ className, ...props }: ComponentProps<"table">) => (
   <table
-    aria-label="Contribution graph"
+    aria-label={page_about_aria_contributions()}
     className={cn("border-separate border-spacing-0.5", className)}
     role="grid"
     {...props}
@@ -134,7 +138,7 @@ type LegendItemProps = ComponentProps<"span"> & { level: number };
 
 export const LegendItem = ({ level, className, ...props }: LegendItemProps) => (
   <span
-    aria-label={`Level ${level}`}
+    aria-label={page_about_aria_level({ level })}
     className={cn("size-2.5 rounded-xs", LEVEL_COLORS, className)}
     data-level={level}
     {...props}

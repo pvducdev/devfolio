@@ -1,6 +1,8 @@
 import { cn } from "cn";
 import type { PropsWithChildren } from "react";
 
+import { page_career_aria_timeline } from "@/paraglide/messages.js";
+
 import { UI_CONFIG } from "../config";
 import { CareerScrollContext } from "./scroll-context";
 import { useCareerScroll } from "./use-career-scroll";
@@ -10,7 +12,7 @@ export default function RunnerContainer({ children }: PropsWithChildren) {
 
   return (
     <section
-      aria-label="Career timeline"
+      aria-label={page_career_aria_timeline()}
       className={cn(
         "scrollbar-none flex h-full overflow-x-auto",
         UI_CONFIG.sectionSpace

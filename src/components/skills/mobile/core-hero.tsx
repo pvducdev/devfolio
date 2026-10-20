@@ -1,7 +1,7 @@
 import { TextLoop } from "@/components/ui/text-loop";
 import type { Skills } from "@/config/skills";
 
-import { TEXT_LOOP_ANIMATION } from "../sections";
+import { TEXT_LOOP_ANIMATION } from "../config";
 import SectionHeader from "./section-header";
 
 interface CoreHeroProps {

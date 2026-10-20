@@ -27,7 +27,7 @@ import {
 } from "@/paraglide/messages.js";
 
 import type { SearchCategory, SearchItem } from "./items";
-import { SearchGroup } from "./search-group";
+import { SearchGroupList } from "./search-group-list";
 import { useSearch } from "./use-search";
 
 const HEADINGS: Record<SearchCategory, () => string> = {
@@ -37,14 +37,14 @@ const HEADINGS: Record<SearchCategory, () => string> = {
 };
 
 export default function AppSearch() {
-  const { value: open, toggle, setFalse: close } = useBoolean(false);
+  const { value: isOpen, toggle, setFalse: close } = useBoolean(false);
   const { query, setQuery, groups } = useSearch();
   const navigate = useNavigate();
 
   useHotkeys(getHotkeyCombo("search"), toggle);
 
-  const handleOpenChange = (isOpen: boolean) => {
-    if (!isOpen) {
+  const handleOpenChange = (nextIsOpen: boolean) => {
+    if (!nextIsOpen) {
       close();
       setQuery("");
     }
@@ -79,7 +79,7 @@ export default function AppSearch() {
       <CommandDialog
         description={ui_search_placeholder()}
         onOpenChange={handleOpenChange}
-        open={open}
+        open={isOpen}
         shouldFilter={false}
         title={ui_search_title()}
       >
@@ -96,7 +96,7 @@ export default function AppSearch() {
           {groups.map((group, index) => (
             <Fragment key={group.category}>
               {index > 0 && <CommandSeparator />}
-              <SearchGroup
+              <SearchGroupList
                 heading={HEADINGS[group.category]()}
                 items={group.items}
                 onSelect={handleSelect}

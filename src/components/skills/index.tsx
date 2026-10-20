@@ -1,8 +1,8 @@
 import { SKILLS } from "@/config/skills";
 
-import ExploringSection from "./exploring-section";
 import CoreSkillsSection from "./sections/core-skills-section";
 import DevOpsSection from "./sections/devops-section";
+import ExploringSection from "./sections/exploring-section";
 import StackSection from "./sections/stack-section";
 import StandardsSection from "./sections/standards-section";
 import WorkflowSection from "./sections/workflow-section";

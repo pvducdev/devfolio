@@ -7,14 +7,14 @@ interface UseSlashCommandsOptions {
   onCommandSelect?: (command: CommandItem) => void;
 }
 
+const shouldShowCommands = (value: string): boolean =>
+  value.startsWith(SLASH_PREFIX) && !value.includes(" ");
+
 export const useSlashCommands = (options: UseSlashCommandsOptions = {}) => {
   const [inputValue, setInputValue] = useState("");
   const [showCommands, setShowCommands] = useState(false);
 
   const formattedInput = inputValue.replace(SLASH_PREFIX, "");
-
-  const shouldShowCommands = (value: string): boolean =>
-    value.startsWith(SLASH_PREFIX) && !value.includes(" ");
 
   const handleInputChange = (value: string) => {
     setInputValue(value);

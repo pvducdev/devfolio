@@ -1,7 +1,7 @@
 import type { Skills } from "@/config/skills";
 import { skills_standards_desc } from "@/paraglide/messages";
 
-import { STANDARD_CARDS } from "../sections";
+import { STANDARD_CARDS } from "../config";
 import SectionHeader from "./section-header";
 
 interface StandardsCardsProps {

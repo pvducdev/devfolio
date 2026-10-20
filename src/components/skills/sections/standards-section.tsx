@@ -3,7 +3,7 @@ import { skills_standards_desc } from "@/paraglide/messages";
 
 import SectionHeader from "../components/section-header";
 import StandardCard from "../components/standard-card";
-import { STANDARD_CARDS } from "../sections";
+import { STANDARD_CARDS } from "../config";
 
 interface StandardsSectionProps {
   standards: Skills["standards"];

@@ -18,15 +18,15 @@ import { Kbd } from "@/components/ui/kbd";
 import { PERSONAL_INFO } from "@/config/personal-info";
 import { action_cancel, ui_resume_title } from "@/paraglide/messages.js";
 
-const ResumeViewer = lazy(
+const ResumePdfViewer = lazy(
   () => import("@/components/resume-viewer/pdf-viewer")
 );
 
-interface ResumeReviewerProps {
+interface ResumeDialogProps {
   className?: string;
 }
 
-export default function DialogContainer({ className }: ResumeReviewerProps) {
+export default function ResumeDialog({ className }: ResumeDialogProps) {
   return (
     <div className={className}>
       <p className="text-xs">{ui_resume_title()}</p>
@@ -52,7 +52,7 @@ export default function DialogContainer({ className }: ResumeReviewerProps) {
             <DialogDescription />
           </DialogHeader>
           <Suspense fallback={<ResumeViewerSkeleton />}>
-            <ResumeViewer
+            <ResumePdfViewer
               className="h-[70dvh]"
               url={PERSONAL_INFO.resume.url}
             />
