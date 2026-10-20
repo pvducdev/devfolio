@@ -20,7 +20,10 @@ export const getRouter = () =>
     defaultErrorComponent: ({ error, reset }) => (
       <ErrorPage
         actionLabel={page_error_action_retry()}
-        description={error.message || page_error_generic_description()}
+        description={
+          (error instanceof Error && error.message) ||
+          page_error_generic_description()
+        }
         illustration={<ErrorIcon className="text-foreground" />}
         onAction={reset}
         title={page_error_generic_title()}
@@ -36,10 +39,13 @@ export const getRouter = () =>
       />
     ),
     defaultOnCatch: async (err, errInfo) => {
-      await getLogger().error(err.message, {
-        componentStack: errInfo.componentStack,
-        stack: err.stack,
-      });
+      await getLogger().error(
+        err instanceof Error ? err.message : String(err),
+        {
+          componentStack: errInfo.componentStack,
+          stack: err instanceof Error ? err.stack : undefined,
+        }
+      );
     },
     defaultPreload: "intent",
     defaultPreloadStaleTime: Number.POSITIVE_INFINITY,

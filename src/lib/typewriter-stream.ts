@@ -26,6 +26,7 @@ export async function* typewriterStream(
       if (isWhitespace) {
         yield buffer.slice(startIndex, i + 1);
         startIndex = i + 1;
+        // oxlint-disable-next-line no-await-in-loop -- words must be paced one after another
         await delay(delayMs);
       }
     }

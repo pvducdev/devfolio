@@ -16,8 +16,8 @@ Open http://localhost:3000
 
 ## Scripts
 
-| Command               | Description                 |
-| --------------------- | --------------------------- |
+| Command      | Description                 |
+| ------------ | --------------------------- |
 | `pnpm dev`   | Start dev server            |
 | `pnpm build` | Build for production        |
 | `pnpm start` | Run production server       |
